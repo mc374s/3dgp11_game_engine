@@ -11,7 +11,7 @@ Player::Player()
 	
 	m_pSprData = &m_pAnimeData[0];
 
-	mode = MODE_NORMAL;
+	m_mode = MODE_NORMAL;
 	m_isInit = true;
 	
 }
@@ -109,7 +109,7 @@ void Player::normalMove()
 
 void Player::update()
 {
-	switch (mode)
+	switch (m_mode)
 	{
 	case MODE_NORMAL:
 		normalMove();
@@ -123,6 +123,7 @@ void Player::update()
 
 void Player::draw()
 {
+
 	OBJ2DEX::draw();
 
 #ifdef DEBUG
@@ -136,3 +137,30 @@ void Player::draw()
 #endif // DEBUG
 }
 
+// Player Manager Class
+void PlayerManager::init() {
+	if (!m_pPlayerTsuta)
+	{
+		m_pPlayerTsuta = new Player;
+		pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)] = m_pPlayerTsuta;
+	}
+}
+
+void PlayerManager::transcriptPlayer()
+{
+	if (m_pPlayerTsuta)
+	{
+		OBJ2D *pObj2dTemp = nullptr;
+		pObj2dTemp = pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)];
+		pObj2dTemp->m_isInit = true;
+		pObj2dTemp->m_pos = m_pPlayerTsuta->m_pos;
+		pObj2dTemp->m_pos.z--;
+		pObj2dTemp->m_custom = m_pPlayerTsuta->m_custom;
+		pObj2dTemp->m_pSprData = m_pPlayerTsuta->m_pSprData;
+		pObj2dTemp->m_isOnLeftPage = m_pPlayerTsuta->m_isOnLeftPage;
+		m_pPlayerTsuta->m_isOnLeftPage = !m_pPlayerTsuta->m_isOnLeftPage;
+
+		m_pPlayerTsuta->m_pos.x = PAGE_WIDTH - m_pPlayerTsuta->m_pos.x;
+		m_pPlayerTsuta->m_custom.reflectX = !m_pPlayerTsuta->m_custom.reflectX;
+	}
+}

@@ -34,7 +34,7 @@ void OBJ2DEX::draw()
 void ObjManager::init() {
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (!m_pObj[1])
+		if (!m_pObj[i])
 		{
 			m_pObj[i] = new OBJ2D;
 		}
@@ -42,22 +42,22 @@ void ObjManager::init() {
 	//ZeroMemory(pObj, sizeof(pObj));
 }
 
-void ObjManager::updata() {
+void ObjManager::updata(bool a_isLeftPage) {
 
 
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_pObj[i])
+		if (m_pObj[i] && m_pObj[i]->m_isOnLeftPage == a_isLeftPage)
 		{
 			m_pObj[i]->update();
 		}
 	}
 
+	// •`‰æ‡”Ô‚ğ•À‚Ñ‘Ö‚¦@pos.z : ¬‚³‚¢‡‚©‚ç•`‰æ‚µ‚Ä‚¢‚­ 
 	OBJ2D* temp = nullptr;
 	for (int i = 1; i < OBJ_MAX_NUM; i++)
 	{
-
-		if (m_pObj[i - 1]->m_pos.z < m_pObj[i]->m_pos.z)
+		if (m_pObj[i - 1]->m_pos.z > m_pObj[i]->m_pos.z)
 		{
 			int j = i;
 			do
@@ -71,12 +71,12 @@ void ObjManager::updata() {
 	}
 }
 
-void ObjManager::draw()
+void ObjManager::draw(bool a_isLeftPage)
 {
 	int num = 0;
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_pObj[i] && m_pObj[i]->m_isInit)
+		if (m_pObj[i] && m_pObj[i]->m_isInit && m_pObj[i]->m_isOnLeftPage == a_isLeftPage)
 		{
 			m_pObj[i]->draw();
 			num++;

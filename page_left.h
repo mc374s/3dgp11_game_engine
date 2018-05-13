@@ -5,7 +5,7 @@ class PageLeft :public Scene, public Singleton<PageLeft>
 {
 private:
 	OBJ2D m_bg;
-	bool m_isPlayerActive = false;
+	const bool m_isLeftPage = true;
 
 public:
 	PageLeft();

@@ -1,7 +1,7 @@
 #ifndef _OBJ2D_H_
 #define _OBJ2D_H_
 
-#define OBJ_MAX_NUM	(384)
+#define OBJ_MAX_NUM	(128)
 
 class OBJ2D
 {
@@ -29,6 +29,7 @@ public:
 	int m_type;
 
 	bool m_isInit;
+	bool m_isOnLeftPage = true;
 
 	virtual void clear() {
 		m_pSprData = nullptr;
@@ -38,6 +39,8 @@ public:
 		m_state = 0;
 		m_alpha = 255;
 		m_isInit = false;
+
+		m_isOnLeftPage = true;
 
 		m_type = 0;
 	};
@@ -117,11 +120,11 @@ class ObjManager : public Singleton<ObjManager>, public Manager
 private:
 
 public:
-	OBJ2D* m_pObj[OBJ_MAX_NUM];
+	OBJ2D* m_pObj[OBJ_MAX_NUM] = { nullptr };
 
 	void init();
-	void updata();
-	void draw();
+	void updata(bool a_isLeftPage = true);
+	void draw(bool a_isLeftPage = true);
 
 	ObjManager() {};
 	~ObjManager() {

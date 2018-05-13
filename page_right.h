@@ -5,7 +5,8 @@ class PageRight :public Scene, public Singleton<PageRight>
 {
 private:
 	OBJ2D m_bg;
-	bool m_isPlayerActive = false;
+	const bool m_isLeftPage = false;
+
 public:
 	PageRight();
 	~PageRight() {
@@ -15,7 +16,6 @@ public:
 			m_pNextScene = nullptr;
 		}
 	};
-	bool activePlayer(bool a_doActive = true);
 	void update();
 	void draw();
 

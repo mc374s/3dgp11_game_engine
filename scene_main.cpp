@@ -15,10 +15,7 @@ SceneMain::SceneMain()
 	m_pChildrenScene[0] = PAGE_LEFT;
 	m_pChildrenScene[1] = PAGE_RIGHT;
 
-	PAGE_LEFT->activePlayer(m_isPlayerOnLeftPage);
-	m_isPlayerOnLeftPage = !m_isPlayerOnLeftPage;
-	PAGE_RIGHT->activePlayer(m_isPlayerOnLeftPage);
-	pPlayerManager->player->m_pos.x = PAGE_WIDTH - pPlayerManager->player->m_pos.x;
+	pObjManager->init();
 
 }
 SceneMain::~SceneMain()
@@ -88,11 +85,7 @@ void SceneMain::update()
 			m_bookPostion.z = 450;
 			m_bookPostion.y = 270;
 
-
-			PAGE_LEFT->activePlayer(m_isPlayerOnLeftPage);
-			m_isPlayerOnLeftPage = !m_isPlayerOnLeftPage;
-			PAGE_RIGHT->activePlayer(m_isPlayerOnLeftPage);
-			pPlayerManager->player->m_pos.x = PAGE_WIDTH - pPlayerManager->player->m_pos.x;
+			pPlayerManager->transcriptPlayer();
 		}
 	}
 

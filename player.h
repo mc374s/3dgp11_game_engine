@@ -12,7 +12,6 @@
 enum P_MODE
 {
 	MODE_NORMAL,
-	MODE_POSE,
 };
 
 class Player:public OBJ2DEX
@@ -22,7 +21,7 @@ private:
 public:
 
 	int m_command;
-	int mode;
+	int m_mode;
 
 	Player();
 	~Player();
@@ -38,17 +37,14 @@ class PlayerManager:public Singleton<PlayerManager>, public Manager
 private:
 
 public:
-	Player *player = nullptr;
-
-	void init() {
-		if (!player)
-		{
-			player = new Player;
-			pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)] = player;
-		}
-	};
 	PlayerManager() {};
 	~PlayerManager() {};
+
+	Player *m_pPlayerTsuta = nullptr;
+
+	void init();
+	void transcriptPlayer();
+
 
 };
 
