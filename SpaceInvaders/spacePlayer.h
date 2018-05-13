@@ -1,5 +1,5 @@
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef _SPACE_PLAYER_H_
+#define _SPACE_PLAYER_H_
 
 #define P_SPEED_X (6)
 
@@ -35,4 +35,4 @@ public:
 
 #define pPlayerManager (PlayerManager::getInstance())
 
-#endif // !_PLAYER_H_
+#endif // !_SPACE_PLAYER_H_

@@ -1,8 +1,10 @@
 #include "Game.h"
 
+#include <thread>
+
 void loadTextureProgress()
 {
-	pTextureManager->loadTexture(load_texture);		// 2D画像の一括ロード
+	pTextureManager->loadTexture(e_loadTexture);		// 2D画像の一括ロード
 }
 void loadAudioProgress()
 {
@@ -12,15 +14,15 @@ void loadAudioProgress()
 SceneTitle::SceneTitle()
 {
 	Scene::init();
-	//pTextureManager->loadTexture(load_texture);		// 2D画像の一括ロード
+	//pTextureManager->loadTexture(e_loadTexture);		// 2D画像の一括ロード
 	std::thread loadThread_1(loadTextureProgress);
 	loadThread_1.detach();
 	/*std::thread loadThread_2(loadAudioProgress);
 	loadThread_2.detach();*/
 	// pMFAudioManager->loadAudios(audio_data);
 
-	m_bg.data = &e_sprN64;
-	m_bg.pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
+	m_bg.m_pSprData = &e_sprTitleBG;
+	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	
 }
 
@@ -28,7 +30,7 @@ void SceneTitle::update()
 {
 	if (getInputKey() == PAD_START)
 	{
-		changeScene(SCENE_MAIN);
+		changeScene(SCENE_MAIN); 
 	}
 }
 

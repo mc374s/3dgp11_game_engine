@@ -1,5 +1,7 @@
 #include "../Game.h"
 
+using namespace SPACE_INVADERS;
+
 SpacePlayer::SpacePlayer()
 {
 	clear();

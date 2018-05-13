@@ -1,15 +1,22 @@
 #ifndef _SCENE_MAIN_H_
 #define _SCENE_MAIN_H_
 
+#define CHILDREN_SCENE_MAX (2)
+enum CHILDREN_NO
+{
+	CHILD_LEFT,
+	CHILD_RIGHT,
+};
+
 class SceneMain :public Scene, public Singleton<SceneMain>
 {
 private:
-	SpaceOBJ2D m_bg;
+	OBJ2D m_bg;
 	Book *m_pBook;
 	View *m_pViewLeftPage;
 	View *m_pViewRightPage;
 
-	Scene *m_pIncudeScene;
+	Scene *m_pChildrenScene[2];
 
 	bool m_isPlayerLeft = true;
 
@@ -19,14 +26,11 @@ private:
 public:
 	SceneMain();
 	~SceneMain();
+
+	int m_childrenSceneNO;
+
 	void update();
 	void draw();
-
-	/*void enterScene(Scene* a_pNextScene) {
-		a_pNextScene->m_pNextScene = nullptr;
-		a_pNextScene->init();
-		m_pNextScene = a_pNextScene;
-	};*/
 };
 
 

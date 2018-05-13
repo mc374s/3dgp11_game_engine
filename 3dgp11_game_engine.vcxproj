@@ -136,27 +136,21 @@
     <ClInclude Include="3dgp\primitive3d.h" />
     <ClInclude Include="3dgp\render_target.h" />
     <ClInclude Include="3dgp\resources_manager.h" />
-    <ClInclude Include="3dgp\Scene.h" />
+    <ClInclude Include="3dgp\scene.h" />
     <ClInclude Include="3dgp\sprite.h" />
     <ClInclude Include="3dgp\sprite_string.h" />
-    <ClInclude Include="3dgp\Template.h" />
+    <ClInclude Include="3dgp\template.h" />
     <ClInclude Include="book.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="page_left.h" />
+    <ClInclude Include="obj2d.h" />
+    <ClInclude Include="page_right.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="scene_main.h" />
     <ClInclude Include="scene_title.h" />
-    <ClInclude Include="SoundData.h" />
-    <ClInclude Include="SpaceInvaders\Barrier.h" />
-    <ClInclude Include="SpaceInvaders\barrierData.h" />
-    <ClInclude Include="SpaceInvaders\Effect.h" />
-    <ClInclude Include="SpaceInvaders\Enemy.h" />
-    <ClInclude Include="SpaceInvaders\Judge.h" />
-    <ClInclude Include="SpaceInvaders\spaceOBJ2D.h" />
-    <ClInclude Include="SpaceInvaders\spacePlayer.h" />
-    <ClInclude Include="SpaceInvaders\spaceSceneGame.h" />
-    <ClInclude Include="SpaceInvaders\spaceSceneTitle.h" />
-    <ClInclude Include="SpaceInvaders\Shot.h" />
-    <ClInclude Include="SprData.h" />
-    <ClInclude Include="Tools.h" />
+    <ClInclude Include="sound_data.h" />
+    <ClInclude Include="sprite_data.h" />
+    <ClInclude Include="tools.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp" />
@@ -170,20 +164,15 @@
     <ClCompile Include="3dgp\sprite.cpp" />
     <ClCompile Include="3dgp\sprite_string.cpp" />
     <ClCompile Include="book.cpp" />
+    <ClCompile Include="page_left.cpp" />
+    <ClCompile Include="obj2d.cpp" />
+    <ClCompile Include="page_right.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="scene_main.cpp" />
     <ClCompile Include="scene_title.cpp" />
-    <ClCompile Include="SoundData.cpp" />
-    <ClCompile Include="SpaceInvaders\Barrier.cpp" />
-    <ClCompile Include="SpaceInvaders\BarrierData.cpp" />
-    <ClCompile Include="SpaceInvaders\Effect.cpp" />
-    <ClCompile Include="SpaceInvaders\Enemy.cpp" />
-    <ClCompile Include="SpaceInvaders\Judge.cpp" />
-    <ClCompile Include="SpaceInvaders\spacePlayer.cpp" />
-    <ClCompile Include="SpaceInvaders\spaceSceneGame.cpp" />
-    <ClCompile Include="SpaceInvaders\spaceSceneTitle.cpp" />
-    <ClCompile Include="SpaceInvaders\Shot.cpp" />
-    <ClCompile Include="SprData.cpp" />
-    <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="sound_data.cpp" />
+    <ClCompile Include="sprite_data.cpp" />
+    <ClCompile Include="tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="3dgp\primitive3d.hlsli" />

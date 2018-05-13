@@ -42,12 +42,12 @@ void MFAudiosRelease()
 
 void MFAudioCheckLoops()
 {
-	MFP_MEDIAPLAYER_STATE state = MFP_MEDIAPLAYER_STATE_EMPTY;
+	MFP_MEDIAPLAYER_STATE m_state = MFP_MEDIAPLAYER_STATE_EMPTY;
 	
 	for (int i = 0; i < AUDIO_MAX_NUM; i++) {
 		if (MFAudioManager::pMFPlayer[i]) {
-			MFAudioManager::pMFPlayer[i]->GetState(&state);
-			if (state == MFP_MEDIAPLAYER_STATE_STOPPED && MFAudioManager::doLoop[i]){
+			MFAudioManager::pMFPlayer[i]->GetState(&m_state);
+			if (m_state == MFP_MEDIAPLAYER_STATE_STOPPED && MFAudioManager::doLoop[i]){
 				MFAudioManager::pMFPlayer[i]->Play();
 			}
 		}
@@ -104,9 +104,9 @@ void MFAudioPause(const int a_fileNO)
 bool isMFAudioPlaying(const int a_fileNO)
 {
 	if (MFAudioManager::pMFPlayer[a_fileNO]) {
-		MFP_MEDIAPLAYER_STATE state = MFP_MEDIAPLAYER_STATE_EMPTY;
-		MFAudioManager::pMFPlayer[a_fileNO]->GetState(&state);
-		if (state == MFP_MEDIAPLAYER_STATE_PLAYING)
+		MFP_MEDIAPLAYER_STATE m_state = MFP_MEDIAPLAYER_STATE_EMPTY;
+		MFAudioManager::pMFPlayer[a_fileNO]->GetState(&m_state);
+		if (m_state == MFP_MEDIAPLAYER_STATE_PLAYING)
 		{
 			return true;
 		}

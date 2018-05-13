@@ -5,7 +5,7 @@
 class SceneTitle :public Scene, public Singleton<SceneTitle>
 {
 private:
-	SpaceOBJ2D m_bg;
+	OBJ2D m_bg;
 public:
 	SceneTitle();
 	~SceneTitle() {

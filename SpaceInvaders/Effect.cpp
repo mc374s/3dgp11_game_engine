@@ -1,5 +1,7 @@
 #include "../Game.h"
 
+using namespace SPACE_INVADERS;
+
 void EffectManager::init()
 {
 	for (int i = 0; i < EFFECT_MAX; i++)

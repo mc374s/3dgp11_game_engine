@@ -1,5 +1,5 @@
-#ifndef _SOUNDDATA_H_
-#define _SOUNDDATA_H_
+#ifndef _SOUND_DATA_H_
+#define _SOUND_DATA_H_
 
 #include "3dgp/mf_audio.h"
 
@@ -17,4 +17,4 @@ enum AUDIO_NO
 
 extern RESOURCE_DATA audio_data[];
 
-#endif // !_SOUNDDATA_H_
+#endif // !_SOUND_DATA_H_

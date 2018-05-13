@@ -58,7 +58,7 @@ public:
 	RenderTarget *m_pRenderTargets[20];
 
 	int blendMode = 1;
-	float alpha = 255.0f;
+	float m_alpha = 255.0f;
 	const char strBlendMode[16][16] = {
 		"NONE",
 		"ALPHA",
@@ -105,11 +105,11 @@ public:
 			} else
 			{
 				preTime = timeGetTime();
-				timer.tick();
+				m_timer.tick();
 				calculate_frame_stats();
 
-				update(timer.time_interval());
-				render(timer.time_interval());
+				update(m_timer.time_interval());
+				render(m_timer.time_interval());
 
 				//Sleep(1000.0 / 60.0 - GetCurrentTime() + preTime);
 
@@ -146,12 +146,12 @@ public:
 			break;
 		case WM_ENTERSIZEMOVE:
 			// WM_EXITSIZEMOVE is sent when the user grabs the resize bars.
-			timer.stop();
+			m_timer.stop();
 			break;
 		case WM_EXITSIZEMOVE:
 			// WM_EXITSIZEMOVE is sent when the user releases the resize bars.
 			// Here we reset everything based on the new window dimensions.
-			timer.start();
+			m_timer.start();
 			break;
 		default:
 			return DefWindowProc(hwnd, msg, wparam, lparam);
@@ -167,7 +167,7 @@ private:
 	void release();
 
 private:
-	high_resolution_timer timer;
+	high_resolution_timer m_timer;
 	void calculate_frame_stats()
 	{
 		// Code computes the average frames per second, and also the 
@@ -179,7 +179,7 @@ private:
 		frames++;
 
 		// Compute averages over one second period.
-		if ((timer.time_stamp() - time_tlapsed) >= 1.0f)
+		if ((m_timer.time_stamp() - time_tlapsed) >= 1.0f)
 		{
 			float fps = static_cast<float>(frames); // fps = frameCnt / 1
 			float mspf = 1000.0f / fps;

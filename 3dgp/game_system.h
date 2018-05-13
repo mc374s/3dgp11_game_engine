@@ -112,7 +112,7 @@ const int	COLOR_CYAN		= 0x00FFFFFF;
 const int	COLOR_VIOLET	= 0x800080FF;
 
 
-extern int command;
+extern int m_command;
 
 
 #define TEX_MAX (64)
@@ -170,7 +170,7 @@ struct CUSTOM
 
 struct SPRITE_DATA
 {
-	int texNum;
+	int		texNum = 0;
 	float	left, top;
 	float	width, height;
 	float	ofsX, ofsY;
@@ -237,6 +237,7 @@ int getInputKey();
 void drawString(int _x = 0, int _y = 0, char *_buf = nullptr, D3DCOLOR _color = 0xFFFFFFFF, int _format = STR_LEFT, int _sizeX = 32, int _sizeY = 32, float _angle = .0f);
 
 void drawRectangle(float _x, float _y, float _w, float _h, float _angle = 0.0, UINTCOLOR _color = 0xFFFFFFFF);
+
 
 
 //class View: extend from class RenderTarget

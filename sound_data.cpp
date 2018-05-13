@@ -6,7 +6,7 @@
 //
 //******************************************************************************
 
-#include "SoundData.h"
+#include "sound_data.h"
 
 RESOURCE_DATA audio_data[] = {
 	{ BGM_TITLE,	"./DATA/Sounds/BGM/spaceinvaders1.mp3" },

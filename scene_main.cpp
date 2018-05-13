@@ -4,14 +4,16 @@ SceneMain::SceneMain()
 {
 	Scene::init();
 
-	m_bg.data = &e_sprLogos;
-	m_bg.pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
+	m_bg.m_pSprData = &e_sprMainBG;
+	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	
 	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 40, 8);
-	m_pViewLeftPage = new View(VIEW_WIDTH, VIEW_HEIGHT);
-	m_pViewRightPage = new View(VIEW_WIDTH, VIEW_HEIGHT);
+	m_pViewLeftPage = new View(PAGE_WIDTH, PAGE_HEIGHT);
+	m_pViewRightPage = new View(PAGE_WIDTH, PAGE_HEIGHT);
+	m_childrenSceneNO = 0;
 
-	m_pIncudeScene = SCENE_TITLE_SPACE;
+	m_pChildrenScene[0] = PAGE_LEFT;
+	m_pChildrenScene[1] = PAGE_RIGHT;
 }
 SceneMain::~SceneMain()
 {
@@ -32,14 +34,17 @@ void SceneMain::update()
 		changeScene(SCENE_TITLE);
 	}
 
-	// change page's scene
-	if (m_pIncudeScene)
+	// Update page's scene
+	for (int i = 0; i < CHILDREN_SCENE_MAX; i++)
 	{
-		m_pIncudeScene->update();
-		if (m_pIncudeScene->m_pNextScene)
+		if (m_pChildrenScene[i])
 		{
-			m_pIncudeScene = m_pIncudeScene->m_pNextScene;
-			m_pIncudeScene->update();
+			m_pChildrenScene[i]->update();
+			if (m_pChildrenScene[i]->m_pNextScene)
+			{
+				m_pChildrenScene[i] = m_pChildrenScene[i]->m_pNextScene;
+				m_pChildrenScene[i]->update();
+			}
 		}
 	}
 
@@ -109,19 +114,19 @@ void SceneMain::draw()
 	m_pBook->draw();
 
 	// Draw Left Scene
-	m_pViewLeftPage->set(-PAGE_WIDTH, -PAGE_HEIGHT / 2, PAGE_WIDTH, PAGE_HEIGHT, 0, 0, VIEW_WIDTH, VIEW_HEIGHT);
+	m_pViewLeftPage->set(-PAGE_WIDTH, -PAGE_HEIGHT / 2, PAGE_WIDTH, PAGE_HEIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 	
-	if (m_pIncudeScene){
-		m_pIncudeScene->draw();
+	if (m_pChildrenScene[CHILD_LEFT]){
+		m_pChildrenScene[CHILD_LEFT]->draw();
 	}
 
 	View::clear();
 
 
 	// Draw Right Scene
-	m_pViewRightPage->set(0, -PAGE_HEIGHT / 2, PAGE_WIDTH, PAGE_HEIGHT, 0, 0, VIEW_WIDTH, VIEW_HEIGHT);
-	if (m_pIncudeScene){
-		m_pIncudeScene->draw();
+	m_pViewRightPage->set(0, -PAGE_HEIGHT / 2, PAGE_WIDTH, PAGE_HEIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+	if (m_pChildrenScene[CHILD_RIGHT]){
+		m_pChildrenScene[CHILD_RIGHT]->draw();
 	}
 
 	View::clear();

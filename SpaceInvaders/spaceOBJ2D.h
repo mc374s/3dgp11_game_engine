@@ -1,5 +1,5 @@
-#ifndef _OBJ2D_H_
-#define _OBJ2D_H_
+#ifndef _SPACE_OBJ2D_H_
+#define _SPACE_OBJ2D_H_
 
 
 class SpaceOBJ2D
@@ -70,4 +70,4 @@ public:
 
 };
 
-#endif // !_OBJ2D_H_
+#endif // !_SPACE_OBJ2D_H_

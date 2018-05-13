@@ -8,7 +8,7 @@
 LOAD_TEXTURE *g_load_texture[TEX_MAX] = { nullptr };
 
 void SPRITE_DATA::draw(float _x, float _y, CUSTOM *_custom) {
-	if (g_load_texture[texNum] && g_load_texture[texNum]->img)
+	if (texNum >= 0 && texNum < TEX_MAX && g_load_texture[texNum] && g_load_texture[texNum]->img)
 	{
 		if (_custom) {
 			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, _custom->scaleX*width, _custom->scaleY*height, left, top, width, height, _custom->angle, _custom->argb);
@@ -50,44 +50,44 @@ void TextureManager::releaseTexture()
 	ZeroMemory(g_load_texture, sizeof(LOAD_TEXTURE)*i);
 }
 
-int command = 0x0;
+int m_command = 0x0;
 
 int  getInputKey()
 {
-	int command = 0x0;
+	int m_command = 0x0;
 
 	if (GetAsyncKeyState(VK_UP) & 0xF000) {
-		command |= PAD_UP;
+		m_command |= PAD_UP;
 	}
 	if (GetAsyncKeyState(VK_DOWN) & 0xF000) {
-		command |= PAD_DOWN;
+		m_command |= PAD_DOWN;
 	}
 	if (GetAsyncKeyState(VK_LEFT) & 0xF000){
-		command |= PAD_LEFT;
+		m_command |= PAD_LEFT;
 	}
 	if (GetAsyncKeyState(VK_RIGHT) & 0xF000){
-		command |= PAD_RIGHT;
+		m_command |= PAD_RIGHT;
 	}
 	if (GetAsyncKeyState(VK_SPACE) & 0x0001) {
-		command |= PAD_START;
+		m_command |= PAD_START;
 	}
 	if (GetAsyncKeyState(VK_RETURN) & 0x0001) { 
-		command |= PAD_ENTER;
+		m_command |= PAD_ENTER;
 	}
 	if (GetAsyncKeyState('Z') & 0x0001) {
-		command |= PAD_TRG1;
+		m_command |= PAD_TRG1;
 	}
 	if (GetAsyncKeyState('X') & 0x0001) {
-		command |= PAD_TRG2;
+		m_command |= PAD_TRG2;
 	}
 	if (GetAsyncKeyState('C') & 0x0001) {
-		command |= PAD_TRG3;
+		m_command |= PAD_TRG3;
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
-		command |= PAD_TRG4;
+		m_command |= PAD_TRG4;
 	}
 
-	return command;
+	return m_command;
 }
 
 void drawString(int _x, int _y, char *_buf, D3DCOLOR _color, int _format, int _sizeX, int _sizeY, float _angle)

@@ -21,15 +21,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="SpaceInvaders">
-      <UniqueIdentifier>{8d994ab6-c445-4cd6-892e-1852d9c12338}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SpaceInvaders\Headers">
-      <UniqueIdentifier>{b08db5bd-2cd0-4263-aef5-5f092753d32d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SpaceInvaders\Sources">
-      <UniqueIdentifier>{be104773-d41e-4240-8921-16223c6bee5f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dgp\3dgp_system.h">
@@ -65,21 +56,6 @@
     <ClInclude Include="3dgp\game_system.h">
       <Filter>3dgp</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundData.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SprData.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Tools.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="3dgp\Template.h">
-      <Filter>3dgp\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="3dgp\render_target.h">
       <Filter>3dgp\Headers</Filter>
     </ClInclude>
@@ -89,41 +65,38 @@
     <ClInclude Include="scene_title.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="3dgp\Scene.h">
-      <Filter>3dgp\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceInvaders\Barrier.h">
-      <Filter>SpaceInvaders\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceInvaders\barrierData.h">
-      <Filter>SpaceInvaders\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceInvaders\Effect.h">
-      <Filter>SpaceInvaders\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceInvaders\Enemy.h">
-      <Filter>SpaceInvaders\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceInvaders\Judge.h">
-      <Filter>SpaceInvaders\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceInvaders\Shot.h">
-      <Filter>SpaceInvaders\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="book.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceInvaders\spaceSceneTitle.h">
-      <Filter>SpaceInvaders\Headers</Filter>
+    <ClInclude Include="obj2d.h">
+      <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceInvaders\spaceOBJ2D.h">
-      <Filter>SpaceInvaders\Headers</Filter>
+    <ClInclude Include="player.h">
+      <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceInvaders\spacePlayer.h">
-      <Filter>SpaceInvaders\Headers</Filter>
+    <ClInclude Include="sound_data.h">
+      <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceInvaders\spaceSceneGame.h">
-      <Filter>SpaceInvaders\Headers</Filter>
+    <ClInclude Include="tools.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="3dgp\template.h">
+      <Filter>3dgp\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="3dgp\scene.h">
+      <Filter>3dgp\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_data.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="page_left.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="page_right.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,15 +127,6 @@
     <ClCompile Include="3dgp\game_system.cpp">
       <Filter>3dgp</Filter>
     </ClCompile>
-    <ClCompile Include="SoundData.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SprData.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Tools.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="3dgp\render_target.cpp">
       <Filter>3dgp\Sources</Filter>
     </ClCompile>
@@ -172,35 +136,29 @@
     <ClCompile Include="scene_title.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceInvaders\Barrier.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceInvaders\BarrierData.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceInvaders\Effect.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceInvaders\Enemy.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceInvaders\Judge.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpaceInvaders\Shot.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="book.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceInvaders\spaceSceneGame.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
+    <ClCompile Include="obj2d.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceInvaders\spaceSceneTitle.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
+    <ClCompile Include="player.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceInvaders\spacePlayer.cpp">
-      <Filter>SpaceInvaders\Sources</Filter>
+    <ClCompile Include="sound_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="tools.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="page_left.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="page_right.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
