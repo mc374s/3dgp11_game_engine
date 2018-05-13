@@ -18,7 +18,7 @@ private:
 
 	Scene *m_pChildrenScene[2];
 
-	bool m_isPlayerLeft = true;
+	bool m_isPlayerOnLeftPage = true;
 
 	float m_bookRotateAngle = 0;
 	XMFLOAT3 m_bookPostion = { 0,0,0 };

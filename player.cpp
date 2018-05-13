@@ -7,7 +7,7 @@ Player::Player()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(95, 45, 4);
 	m_command = 0x0;
-	m_pos.y = GROUND_HEIGHT;
+	m_pos = { 200,GROUND_HEIGHT,0 };
 	
 	m_pSprData = &m_pAnimeData[0];
 

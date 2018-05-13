@@ -14,6 +14,12 @@ SceneMain::SceneMain()
 
 	m_pChildrenScene[0] = PAGE_LEFT;
 	m_pChildrenScene[1] = PAGE_RIGHT;
+
+	PAGE_LEFT->activePlayer(m_isPlayerOnLeftPage);
+	m_isPlayerOnLeftPage = !m_isPlayerOnLeftPage;
+	PAGE_RIGHT->activePlayer(m_isPlayerOnLeftPage);
+	pPlayerManager->player->m_pos.x = PAGE_WIDTH - pPlayerManager->player->m_pos.x;
+
 }
 SceneMain::~SceneMain()
 {
@@ -29,11 +35,17 @@ SceneMain::~SceneMain()
 
 void SceneMain::update()
 {
+	if (GetAsyncKeyState('Z') < 0) {
+		PAGE_LEFT->activePlayer(m_isPlayerOnLeftPage);
+		m_isPlayerOnLeftPage = !m_isPlayerOnLeftPage;
+		PAGE_RIGHT->activePlayer(m_isPlayerOnLeftPage);
+		pPlayerManager->player->m_pos.x = PAGE_WIDTH - pPlayerManager->player->m_pos.x;
+	}
+
 	if (GetAsyncKeyState(VK_HOME) & 0xF000)
 	{
 		changeScene(SCENE_TITLE);
 	}
-
 	// Update page's scene
 	for (int i = 0; i < CHILDREN_SCENE_MAX; i++)
 	{
@@ -64,15 +76,23 @@ void SceneMain::update()
 		}
 	}
 	if (GetAsyncKeyState('7') & 0xF000) {
-		m_bookRotateAngle -= 1; 
-		aZY -= 0.01f;
-		m_bookPostion.z += 5;
-		m_bookPostion.y += 3;
-		if (m_bookRotateAngle < -90) {
-			m_bookRotateAngle = -90;
+		if (m_bookRotateAngle > -90) {
+			m_bookRotateAngle -= 1;
+			aZY -= 0.01f;
+			m_bookPostion.z += 5;
+			m_bookPostion.y += 3;
+		}
+		if (m_bookRotateAngle == -90) {
+			m_bookRotateAngle -= 1;
 			aZY = -0.90f;
 			m_bookPostion.z = 450;
 			m_bookPostion.y = 270;
+
+
+			PAGE_LEFT->activePlayer(m_isPlayerOnLeftPage);
+			m_isPlayerOnLeftPage = !m_isPlayerOnLeftPage;
+			PAGE_RIGHT->activePlayer(m_isPlayerOnLeftPage);
+			pPlayerManager->player->m_pos.x = PAGE_WIDTH - pPlayerManager->player->m_pos.x;
 		}
 	}
 
