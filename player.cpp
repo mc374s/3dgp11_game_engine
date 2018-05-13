@@ -31,11 +31,11 @@ void Player::normalMove()
 	{
 	case PAD_LEFT:
 		m_speed.x -= P_SPEED_AX;
-		m_custom.reflectX = true;
+		m_custom.reflectX = false;
 		break;
 	case PAD_RIGHT:
 		m_speed.x += P_SPEED_AX;
-		m_custom.reflectX = false;
+		m_custom.reflectX = true;
 		break;
 	default:
 		if (m_speed.x > 0) {

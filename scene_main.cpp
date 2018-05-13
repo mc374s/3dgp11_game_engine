@@ -35,12 +35,12 @@ SceneMain::~SceneMain()
 
 void SceneMain::update()
 {
-	if (GetAsyncKeyState('Z') < 0) {
+	/*if (GetAsyncKeyState('Z') < 0) {
 		PAGE_LEFT->activePlayer(m_isPlayerOnLeftPage);
 		m_isPlayerOnLeftPage = !m_isPlayerOnLeftPage;
 		PAGE_RIGHT->activePlayer(m_isPlayerOnLeftPage);
 		pPlayerManager->player->m_pos.x = PAGE_WIDTH - pPlayerManager->player->m_pos.x;
-	}
+	}*/
 
 	if (GetAsyncKeyState(VK_HOME) & 0xF000)
 	{
@@ -49,7 +49,7 @@ void SceneMain::update()
 	// Update page's scene
 	for (int i = 0; i < CHILDREN_SCENE_MAX; i++)
 	{
-		if (m_pChildrenScene[i])
+		if (m_pChildrenScene[i] && m_bookRotateAngle == 0)
 		{
 			m_pChildrenScene[i]->update();
 			if (m_pChildrenScene[i]->m_pNextScene)
@@ -139,22 +139,21 @@ void SceneMain::draw()
 	if (m_pChildrenScene[CHILD_LEFT]){
 		m_pChildrenScene[CHILD_LEFT]->draw();
 	}
-
 	View::clear();
-
 
 	// Draw Right Scene
 	m_pViewRightPage->set(0, -PAGE_HEIGHT / 2, PAGE_WIDTH, PAGE_HEIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 	if (m_pChildrenScene[CHILD_RIGHT]){
 		m_pChildrenScene[CHILD_RIGHT]->draw();
 	}
-
 	View::clear();
-	drawString(SCREEN_WIDTH / 2, 100, "M A I N", COLOR_YELLOW, STR_CENTER, 80, 80);
-	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED, STR_LEFT, 32, 32);
-	drawString(0, 40, "Press [1] to Right View", COLOR_GREEN, STR_LEFT, 24, 24);
-	drawString(0, 70, "Press [4] to Slanting View", COLOR_GREEN, STR_LEFT, 24, 24);
-	drawString(0, 110, "Press [7] to CLOSE Book", COLOR_YELLOW, STR_LEFT, 32, 32);
-	drawString(0, 150, "Press [8] to OPEN Book", COLOR_YELLOW, STR_LEFT, 32, 32);
+
+
+	drawString(SCREEN_WIDTH / 2, 100, "M A I N", COLOR_YELLOW | 0x80, STR_CENTER, 80, 80);
+	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED | 0x80, STR_LEFT, 32, 32);
+	drawString(0, 40, "Press [1] to Right View", COLOR_GREEN | 0x80, STR_LEFT, 24, 24);
+	drawString(0, 70, "Press [4] to Slanting View", COLOR_GREEN | 0x80, STR_LEFT, 24, 24);
+	drawString(0, 110, "Press [7] to CLOSE Book", COLOR_YELLOW | 0x80, STR_LEFT, 32, 32);
+	drawString(0, 150, "Press [8] to OPEN Book", COLOR_YELLOW | 0x80, STR_LEFT, 32, 32);
 
 }

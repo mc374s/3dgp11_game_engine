@@ -39,7 +39,7 @@ void drawSprString(ID3D11DeviceContext* a_pDeviceConetxt, int a_drawX, int a_dra
 				j = -1;
 				continue;
 			}
-			a_pSprStringFont->render(a_pDeviceConetxt, a_drawX + j * (a_sizeX + marginX) + adjustX, a_drawY, a_sizeX, a_sizeY, (a_pIn[i] - (a_pIn[i] >> 0x4 << 0x4)) << 0x5, a_pIn[i] >> 0x4 << 0x5, 32.0f, 32.0f, a_rotateAngle, a_blendColor);
+			a_pSprStringFont->render(a_pDeviceConetxt, a_drawX + j * (a_sizeX + marginX) + adjustX, a_drawY, a_sizeX, a_sizeY, (a_pIn[i] - (a_pIn[i] >> 0x4 << 0x4)) << 0x5, a_pIn[i] >> 0x4 << 0x5, 32.0f, 32.0f, a_blendColor, a_rotateAngle);
 		}
 	} else if (a_pIn)
 	{
@@ -52,7 +52,7 @@ void drawSprString(ID3D11DeviceContext* a_pDeviceConetxt, int a_drawX, int a_dra
 				j = -1;
 				continue;
 			}
-			SpriteString::s_pSprString->render(a_pDeviceConetxt, a_drawX + j * (a_sizeX + marginX) + adjustX, a_drawY, a_sizeX, a_sizeY, (a_pIn[i] - (a_pIn[i] >> 0x4 << 0x4)) << 0x5, a_pIn[i] >> 0x4 << 0x5, 32.0f, 32.0f, a_rotateAngle, a_blendColor);
+			SpriteString::s_pSprString->render(a_pDeviceConetxt, a_drawX + j * (a_sizeX + marginX) + adjustX, a_drawY, a_sizeX, a_sizeY, (a_pIn[i] - (a_pIn[i] >> 0x4 << 0x4)) << 0x5, a_pIn[i] >> 0x4 << 0x5, 32.0f, 32.0f, a_blendColor, a_rotateAngle);
 		}
 	}
 }

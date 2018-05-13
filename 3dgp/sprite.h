@@ -5,6 +5,19 @@
 
 #include "3dgp_system.h"
 
+enum SCALE_MODE
+{
+	LEFTTOP,
+	TOPCENTER,
+	RIGHTTOP,
+	RIGHTCENTER,
+	RIGHTBOTTOM,
+	BOTTOMCENTER,
+	LEFTBOTTOM,
+	LEFTCENTER,
+	CENTER,
+};
+
 class Sprite
 {
 private:
@@ -57,7 +70,8 @@ public:
 	void render(ID3D11DeviceContext* a_pDeviceContext);
 	void render(ID3D11DeviceContext* a_pDeviceContext, vertex a_pCoordNDC[]);
 	void render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_rotateAngle = 0.0, UINTCOLOR a_blendColor = 0xFFFFFFFF);
-	void render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF);
+	void render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, float a_rotateAngle = .0f, bool a_doCenterRotation = true, float a_rotatePosX = .0f, float a_rotatePosY = .0f, bool a_doReflection = false, int a_scaleMode = LEFTTOP);
+
 
 };
 

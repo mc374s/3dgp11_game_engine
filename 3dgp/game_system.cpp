@@ -11,10 +11,10 @@ void SPRITE_DATA::draw(float _x, float _y, CUSTOM *_custom) {
 	if (texNum >= 0 && texNum < TEX_MAX && g_load_texture[texNum] && g_load_texture[texNum]->img)
 	{
 		if (_custom) {
-			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, _custom->scaleX*width, _custom->scaleY*height, left, top, width, height, _custom->angle, _custom->argb);
+			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, _custom->scaleX*width, _custom->scaleY*height, left, top, width, height, _custom->argb, _custom->angle, _custom->centRotate, _custom->centX, _custom->centY, _custom->reflectX, _custom->scaleMode);
 		}
 		else {
-			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, width, height, left, top, width, height, 0.0f, 0xFFFFFFFF);
+			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, width, height, left, top, width, height, 0xFFFFFFFF, 0.0f);
 		}
 	}
 }

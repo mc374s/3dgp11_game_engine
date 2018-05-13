@@ -231,7 +231,7 @@ void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float 
 	render(a_pDeviceContext, vertices);
 }
 
-void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor)
+void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, UINTCOLOR a_blendColor, float a_rotateAngle, bool a_doCenterRotation, float a_rotatePosX, float a_rotatePosY, bool a_doReflection, int a_scaleMode)
 {
 	if (a_srcWidth == 0 || a_srcHeight == 0)
 	{
@@ -239,14 +239,42 @@ void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float 
 		a_srcHeight = a_drawHeight;
 	}
 
-	/*ID3D11RenderTargetView* pRenderTargetView;
-	a_pDeviceContext->OMGetRenderTargets(1, &pRenderTargetView, NULL);
-	D3D11_TEXTURE2D_DESC texture2dDesc;
-	ID3D11Texture2D* pTexture2d;
-	pRenderTargetView->QueryInterface(&pTexture2d);
-	pTexture2d->GetDesc(&texture2dDesc);
-	m_renderTargetWidth = texture2dDesc.Width;
-	m_renderTargetHeight = texture2dDesc.Height;*/
+	switch (a_scaleMode)
+	{
+	case CENTER:
+		a_drawX += (a_srcWidth - a_drawWidth) / 2.0f;
+		a_drawY += (a_srcHeight - a_drawHeight) / 2.0f;
+		break;
+	case LEFTTOP:
+		break;
+	case TOPCENTER:
+		a_drawX += (a_srcWidth - a_drawWidth) / 2.0f;
+		break;
+	case RIGHTTOP:
+		a_drawX += (a_srcWidth - a_drawWidth);
+		break;
+	case RIGHTCENTER:
+		a_drawX += (a_srcWidth - a_drawWidth);
+		a_drawY += (a_srcHeight - a_drawHeight) / 2.0f;
+		break;
+	case RIGHTBOTTOM:
+		a_drawX += (a_srcWidth - a_drawWidth);
+		a_drawY += (a_srcHeight - a_drawHeight);
+		break;
+	case BOTTOMCENTER:
+		a_drawX += (a_srcWidth - a_drawWidth) / 2.0f;
+		a_drawY += (a_srcHeight - a_drawHeight);
+		break;
+	case LEFTBOTTOM:
+		a_drawY += (a_srcHeight - a_drawHeight);
+		break;
+	case LEFTCENTER:
+		a_drawY += (a_srcHeight - a_drawHeight) / 2.0f;
+		break;
+	default:
+		break;
+	}
+
 
 	// Caculate 2D texture coordinate and update vertics buffer
 	XMFLOAT4 colorNDC;
@@ -269,8 +297,21 @@ void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float 
 			XMFLOAT2(a_srcX + a_srcWidth, a_srcY + a_srcHeight) 
 		},
 	};
-	XMFLOAT3 center(a_drawX + a_drawWidth / 2, a_drawY + a_drawHeight / 2, 0);
+	if (a_doReflection)
+	{
+		XMFLOAT2 texcoordTemp;
+		texcoordTemp = vertices[0].texcoord;
+		vertices[0].texcoord = vertices[1].texcoord;
+		vertices[1].texcoord = texcoordTemp;
+		texcoordTemp = vertices[2].texcoord;
+		vertices[2].texcoord = vertices[3].texcoord;
+		vertices[3].texcoord = texcoordTemp;
+	}
 
+	XMFLOAT3 center;
+	center.x = a_doCenterRotation ? (a_drawX + a_drawWidth / 2) : a_rotatePosX;
+	center.y = a_doCenterRotation ? (a_drawY + a_drawHeight / 2) : a_rotatePosY;
+	center.z = 0;
 	// Rotation And Change to NDC coordinate
 	float angleRadian = a_rotateAngle * 0.01745/*(M_PI / 180,0f)*/;
 	for (int i = 0; i < m_vertexCount; i++)
