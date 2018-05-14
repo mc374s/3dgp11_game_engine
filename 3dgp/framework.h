@@ -12,7 +12,6 @@
 
 #pragma comment(lib, "winmm")
 
-
 #define N 60
 
 class Scene;
@@ -98,12 +97,16 @@ public:
 		DWORD preTime;
 		while (WM_QUIT != msg.message)
 		{
+			KEY_TRACKER.Reset();
+			KEY_BOARD = e_pKeyboard->GetState();
+			KEY_TRACKER.Update(KEY_BOARD);
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			} else
 			{
+				
 				preTime = timeGetTime();
 				m_timer.tick();
 				calculate_frame_stats();
@@ -136,13 +139,20 @@ public:
 			EndPaint(hwnd, &ps);
 			break;
 		}
+		case WM_ACTIVATEAPP:
+			Keyboard::ProcessMessage(msg, wparam, lparam);
+			break;
+		case WM_KEYDOWN:
+			if (wparam == VK_ESCAPE) PostMessage(hwnd, WM_CLOSE, 0, 0);
+		case WM_SYSKEYDOWN:
+		case WM_KEYUP:
+		case WM_SYSKEYUP:
+			Keyboard::ProcessMessage(msg, wparam, lparam);
+			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
 		case WM_CREATE:
-			break;
-		case WM_KEYDOWN:
-			if (wparam == VK_ESCAPE) PostMessage(hwnd, WM_CLOSE, 0, 0);
 			break;
 		case WM_ENTERSIZEMOVE:
 			// WM_EXITSIZEMOVE is sent when the user grabs the resize bars.

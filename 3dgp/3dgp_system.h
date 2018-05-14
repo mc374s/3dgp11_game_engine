@@ -18,6 +18,7 @@
 
 #include <DirectXMath.h>
 #include "WICTextureLoader.h"
+#include "Keyboard.h"
 
 #include "misc.h"
 #include "high_resolution_timer.h"
@@ -68,7 +69,13 @@ struct CameraData
 		upDirection = { 0, 1, 0, 0 };
 	};
 };
+
 extern CameraData e_camera;
+
+extern std::unique_ptr<DirectX::Keyboard> e_pKeyboard;
+extern DirectX::Keyboard::State KEY_BOARD;
+extern DirectX::Keyboard::KeyboardStateTracker KEY_TRACKER;
+
 
 inline void setCamera(const CameraData &a_cameraData)
 {

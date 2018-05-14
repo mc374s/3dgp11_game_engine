@@ -27,8 +27,10 @@ public:
 	void(Book::*m_pfMoveOld)();
 
 	float m_openAngle = 0;
+	float m_openSpeed = 0;
+	float m_openSpeedAcc = 0;
 	XMFLOAT3 m_postion = { 0,0,0 };
-
+	bool m_isOpening;
 
 	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
 	float m_cameraDistance = 0.65f;

@@ -52,29 +52,21 @@ void SceneMain::update()
 
 	m_pBook->update();
 
-	// Left Size
-	m_pBook->m_pBookLeft->m_custom3d.angleYawPitchRoll.x	= m_pBook->m_openAngle;
-	m_pBook->m_pCoverLeft->m_custom3d.angleYawPitchRoll.x	= m_pBook->m_openAngle;
+	// Left Side
 	m_pViewLeftPage->m_custom3d.angleYawPitchRoll.x			= m_pBook->m_openAngle;
 	// Right Side
-	m_pBook->m_pBookRight->m_custom3d.angleYawPitchRoll.x	= -m_pBook->m_openAngle;
-	m_pBook->m_pCoverRight->m_custom3d.angleYawPitchRoll.x	= -m_pBook->m_openAngle;
 	m_pViewRightPage->m_custom3d.angleYawPitchRoll.x		= -m_pBook->m_openAngle;
 
-	m_pBook->m_pBookLeft->m_custom3d.position= m_pBook->m_postion;
-	m_pBook->m_pCoverLeft->m_custom3d.position = m_pBook->m_postion;
+	// –{‚ÆTargetView‚ÌˆÊ’u‚ð“¯’²‚©‚Ë‚ÄÀ•WŒn‚Ìˆá‚¢‚É‚æ‚é
 	m_pViewLeftPage->m_custom3d.position = m_pBook->m_postion;
 	m_pViewLeftPage->m_custom3d.position.y = -m_pBook->m_postion.y;
-	m_pViewLeftPage->m_custom3d.position.z -= 0.1;
+	//m_pViewLeftPage->m_custom3d.position.z -= 0.1;
 	// Right Side
-	m_pBook->m_pBookRight->m_custom3d.position = m_pBook->m_postion;
-	m_pBook->m_pCoverRight->m_custom3d.position = m_pBook->m_postion;
 	m_pViewRightPage->m_custom3d.position = m_pBook->m_postion;
 	m_pViewRightPage->m_custom3d.position.y = -m_pBook->m_postion.y;
-	m_pViewRightPage->m_custom3d.position.z -= 0.1;
-	
+	//m_pViewRightPage->m_custom3d.position.z -= 0.1;
 	// bucause of the depth test is ON, set a different depth between page surface and view
-	//m_pViewRightPage->m_custom3d.position.z = m_pViewLeftPage->m_custom3d.position.z = -0.1;
+	m_pViewRightPage->m_custom3d.position.z = m_pViewLeftPage->m_custom3d.position.z -= 0.1;
 	
 }
 
@@ -106,7 +98,9 @@ void SceneMain::draw()
 	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
 	drawString(0, 40, "Press [1] to Right View", COLOR_GREEN >> 8 << 8 | 0x80, STR_LEFT, 24, 24);
 	drawString(0, 70, "Press [4] to Slanting View", COLOR_GREEN >> 8 << 8 | 0x80, STR_LEFT, 24, 24);
-	drawString(0, 110, "Press [7] to CLOSE Book", COLOR_YELLOW >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
-	drawString(0, 150, "Press [8] to OPEN Book", COLOR_YELLOW >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
+
+	char buf[256];
+	sprintf_s(buf, "book_openflg: %d", m_pBook->m_isOpening ? 0 : 1);
+	drawString(0, 400, buf);
 
 }

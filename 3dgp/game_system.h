@@ -112,7 +112,7 @@ const int	COLOR_CYAN		= 0x00FFFFFF;
 const int	COLOR_VIOLET	= 0x800080FF;
 
 
-extern int m_command;
+extern int e_command;
 
 
 #define TEX_MAX (64)
@@ -148,9 +148,9 @@ struct CUSTOM
 	float	centX, centY;
 	int		scaleMode;
 
-	D3DCOLOR argb;
+	D3DCOLOR rgba;
 
-	CUSTOM(float _scaleX = 1.0f, float _scaleY = 1.0f, float _angle = .0f, bool _reflectX = false, bool _centRotate = true, float _centX = .0f, float _centY = .0f, int _scaleMode = 0, D3DCOLOR _argb = 0xFFFFFFFF)
+	CUSTOM(float _scaleX = 1.0f, float _scaleY = 1.0f, float _angle = .0f, bool _reflectX = false, bool _centRotate = true, float _centX = .0f, float _centY = .0f, int _scaleMode = 0, D3DCOLOR _rgba = 0xFFFFFFFF)
 	{
 		scaleX = _scaleX;
 		scaleY = _scaleY;
@@ -160,7 +160,7 @@ struct CUSTOM
 		centX = _centX;
 		centY = _centY;
 		scaleMode = _scaleMode;
-		argb = _argb;
+		rgba = _rgba;
 	};
 
 	void clear()
@@ -173,7 +173,7 @@ struct CUSTOM
 		centX = .0f;
 		centY = .0f;
 		scaleMode = 0;
-		argb = 0xFFFFFFFF;
+		rgba = 0xFFFFFFFF;
 	};
 
 };

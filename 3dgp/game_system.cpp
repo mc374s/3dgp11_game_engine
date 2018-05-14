@@ -11,7 +11,7 @@ void SPRITE_DATA::draw(float _x, float _y, CUSTOM *_custom) {
 	if (texNum >= 0 && texNum < TEX_MAX && g_load_texture[texNum] && g_load_texture[texNum]->img)
 	{
 		if (_custom) {
-			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, _custom->scaleX*width, _custom->scaleY*height, left, top, width, height, _custom->argb, _custom->angle, _custom->centRotate, _custom->centX, _custom->centY, _custom->reflectX, _custom->scaleMode);
+			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, _custom->scaleX*width, _custom->scaleY*height, left, top, width, height, _custom->rgba, _custom->angle, _custom->centRotate, _custom->centX, _custom->centY, _custom->reflectX, _custom->scaleMode);
 		}
 		else {
 			g_load_texture[texNum]->img->render(framework::s_pDeviceContext, _x + ofsX, _y + ofsY, width, height, left, top, width, height, 0xFFFFFFFF, 0.0f);
@@ -50,44 +50,44 @@ void TextureManager::releaseTexture()
 	ZeroMemory(g_load_texture, sizeof(LOAD_TEXTURE)*i);
 }
 
-int m_command = 0x0;
+int e_command = 0x0;
 
 int  getInputKey()
 {
-	int m_command = 0x0;
+	int command = 0x0;
 
 	if (GetAsyncKeyState('W') & 0xF000) {
-		m_command |= PAD_UP;
+		command |= PAD_UP;
 	}
 	if (GetAsyncKeyState('S') & 0xF000) {
-		m_command |= PAD_DOWN;
+		command |= PAD_DOWN;
 	}
 	if (GetAsyncKeyState('A') & 0xF000){
-		m_command |= PAD_LEFT;
+		command |= PAD_LEFT;
 	}
 	if (GetAsyncKeyState('D') & 0xF000){
-		m_command |= PAD_RIGHT;
+		command |= PAD_RIGHT;
 	}
 	if (GetAsyncKeyState(VK_SPACE) & 0x0001) {
-		m_command |= PAD_START;
+		command |= PAD_START;
 	}
 	if (GetAsyncKeyState(VK_RETURN) & 0x0001) { 
-		m_command |= PAD_ENTER;
+		command |= PAD_ENTER;
 	}
 	if (GetAsyncKeyState('Z') & 0x0001) {
-		m_command |= PAD_TRG1;
+		command |= PAD_TRG1;
 	}
 	if (GetAsyncKeyState('X') & 0x0001) {
-		m_command |= PAD_TRG2;
+		command |= PAD_TRG2;
 	}
-	if (GetAsyncKeyState('C') & 0x0001) {
-		m_command |= PAD_TRG3;
+	/*if (GetAsyncKeyState('C') & 0x0001) {
+		command |= PAD_TRG3;
 	}
 	if (GetAsyncKeyState('V') & 0x0001) {
-		m_command |= PAD_TRG4;
-	}
+		command |= PAD_TRG4;
+	}*/
 
-	return m_command;
+	return command;
 }
 
 void drawString(int _x, int _y, char *_buf, D3DCOLOR _color, int _format, int _sizeX, int _sizeY, float _angle)

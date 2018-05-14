@@ -22,6 +22,8 @@ m_coverDepth(a_coverDepth)
 	m_timer = 0;
 	m_pfMove = nullptr;
 	m_pfMoveOld = nullptr;
+	m_isOpening = false;
+	m_openAngle = 0;
 }
 
 Book::~Book()
@@ -34,27 +36,43 @@ Book::~Book()
 
 void Book::update()
 {
-
 	// Open and Close Book
 	// Change Book and Views' Angle
-	if (GetAsyncKeyState('8') & 0xF000) {
+	if (KEY_BOARD.D8) {
 		m_pfMove = &Book::openBook;
 	}
-	if (GetAsyncKeyState('7') & 0xF000) {
+	if (KEY_BOARD.D7) {
 		m_pfMove = &Book::closeBook;
 	}
-	if (GetAsyncKeyState('C') & 0x0001) {
-		if (m_pfMove == &Book::openBook){
-			m_pfMove = &Book::closeBook;
-		} else {
+
+	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
+	// 原因はKEY_BOARDがexternで更新していることと予測
+	if (/*KEY_TRACKER.pressed.C*/GetAsyncKeyState('C') & 0x0001/*KEY_BOARD.C*//*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
+		if (m_pfMove == &Book::closeBook){
 			m_pfMove = &Book::openBook;
+		} else {
+			m_pfMove = &Book::closeBook;
 		}
+		m_isOpening = !m_isOpening;
 	}
 	if (m_pfMove)
 	{
 		(this->*m_pfMove)();
 	}
 
+	// 左右BookのYaw回転と位置を同調
+	m_pBookLeft->m_custom3d.angleYawPitchRoll.x = m_openAngle;
+	m_pCoverLeft->m_custom3d.angleYawPitchRoll.x = m_openAngle;
+
+	m_pBookRight->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
+	m_pCoverRight->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
+
+	m_pBookLeft->m_custom3d.position = m_postion;
+	m_pCoverLeft->m_custom3d.position = m_postion;
+
+	m_pBookRight->m_custom3d.position = m_postion;
+	m_pCoverRight->m_custom3d.position = m_postion;
+	// 本全体の回転はカメラワークに任せる
 	e_camera.upDirection = { sinf(m_cameraAngleZY)*sinf(m_cameraAngleXY), cosf(m_cameraAngleZY), sinf(m_cameraAngleZY)*cosf(m_cameraAngleXY), 0 };
 	e_camera.eyePosition = { -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*sinf(m_cameraAngleXY), fabs(m_cameraDistance)*sinf(m_cameraAngleZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*cosf(m_cameraAngleXY),0 };
 
@@ -88,13 +106,17 @@ void Book::closeBook()
 	{
 	case STATE_INIT:
 		m_timer = 0;
+		m_openSpeed = 0;
+		m_openSpeedAcc = 0;
 		m_state = STATE_BEGIN;
 		break;
 	case STATE_BEGIN:
-		m_openAngle -= 1;
-		m_cameraAngleZY -= 0.01f;
-		m_postion.z += 5;
-		m_postion.y += 3;
+		m_openSpeedAcc += 0.005;
+		m_openSpeed += m_openSpeedAcc;
+		m_openAngle -= m_openSpeed;
+		m_cameraAngleZY -= m_openSpeed*0.01f;
+		m_postion.z += m_openSpeed * 5.0f;
+		m_postion.y += m_openSpeed * 3.0f;
 		if (m_openAngle <= -90) {
 			m_state = STATE_END;
 		}
@@ -131,10 +153,10 @@ void Book::openBook()
 		m_state = STATE_BEGIN;
 		break;
 	case STATE_BEGIN:
-		m_openAngle += 1;
-		m_cameraAngleZY += 0.01f;
-		m_postion.z -= 5;
-		m_postion.y -= 3;
+		m_openAngle += 3;
+		m_cameraAngleZY += 0.03f;
+		m_postion.z -= 15;
+		m_postion.y -= 9;
 		if (m_openAngle > 0) {
 			m_state = STATE_END;
 		}

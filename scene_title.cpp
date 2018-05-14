@@ -32,7 +32,7 @@ SceneTitle::SceneTitle()
 
 void SceneTitle::update()
 {
-	if (getInputKey() == PAD_START)
+	if (KEY_BOARD.Space)
 	{
 		changeScene(SCENE_MAIN); 
 	}

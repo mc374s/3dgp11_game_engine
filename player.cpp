@@ -123,12 +123,14 @@ void Player::update()
 
 void Player::draw()
 {
-
-	OBJ2DEX::draw();
-
 #ifdef DEBUG
 
 	drawRectangle(m_pos.x - m_size.x / 2, m_pos.y - m_size.y, m_size.x, m_size.y, 0, 0xFFFFFF40);
+
+#endif // DEBUG
+	OBJ2DEX::draw();
+
+#ifdef DEBUG
 
 	char buf[256];
 	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n", m_pos.x, m_pos.y, m_speed.x, m_speed.y);
@@ -156,12 +158,13 @@ void PlayerManager::transcriptPlayer()
 		pObj2dTemp->m_pos = m_pPlayer->m_pos;
 		pObj2dTemp->m_pos.z--;
 		pObj2dTemp->m_custom = m_pPlayer->m_custom;
+		pObj2dTemp->m_alpha = 128;
 		pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
 		pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
 		m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
 
 		m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
-		m_pPlayer->m_speed.x = 0;
+		m_pPlayer->m_speed = { 0,0,0 };
 		m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
 	}
 }

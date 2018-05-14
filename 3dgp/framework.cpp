@@ -14,6 +14,10 @@ ID3D11RenderTargetView*	framework::s_pRenderTargetView = NULL;
 ID3D11DepthStencilView*	framework::s_pDepthStencilView = NULL;
 
 CameraData e_camera;
+std::unique_ptr<DirectX::Keyboard> e_pKeyboard = std::make_unique<Keyboard>();
+DirectX::Keyboard::State KEY_BOARD = e_pKeyboard->GetState();
+DirectX::Keyboard::KeyboardStateTracker KEY_TRACKER;
+
 int renderTargetWidth = SCREEN_WIDTH;
 int renderTargetHeight = SCREEN_HEIGHT;
 
@@ -186,43 +190,10 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	// Test variables
 	static double time;
 	static CUSTOM3D custom3DTemp;
-	static float mX = 0, mY = 0, mZ = 0;
 	static float aXY = 0.0f, aZY = 0.0f;
 	static float d = 0.65f;
-	static float hClosed = -2.0f;
 	static XMFLOAT3 focusPos = { 0,0/* + 310 / (float)SCREEN_WIDTH*/,0 };
-	/*if (GetAsyncKeyState(VK_LEFT) < 0) {
-		aXY -= 0.01f;
-	}
-	if (GetAsyncKeyState(VK_RIGHT) < 0) {
-		aXY += 0.01f;
-	}
-	if (GetAsyncKeyState(VK_UP) < 0) {
-		aZY += 0.01f;
-	}
-	if (GetAsyncKeyState(VK_DOWN) < 0) {
-		aZY -= 0.01f;
-	}*/
-	if (GetAsyncKeyState('J') < 0) {
-		aXY -= 0.01f;
-	}
-	if (GetAsyncKeyState('L') < 0) {
-		aXY += 0.01f;
-	}
-	if (GetAsyncKeyState('I') < 0) {
-		aZY += 0.01f;
-	}
-	if (GetAsyncKeyState('K') < 0 || GetAsyncKeyState('Y') < 0) {
-		aZY -= 0.01f;
-	}
-	if (GetAsyncKeyState('N') < 0) {
-		d += 0.01f;
-	}
-	if (GetAsyncKeyState('M') < 0) {
-		d -= 0.01f;
-	}
-	//e_camera.upDirection = { sinf(aZY)*sinf(aXY), cosf(aZY), sinf(aZY)*cosf(aXY), 0 };
-	//e_camera.eyePosition = { -fabs(d)*cosf(aZY)*sinf(aXY), fabs(d)*sinf(aZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(d)*cosf(aZY)*cosf(aXY),0 };
+
 
 	if (GetAsyncKeyState('1') < 0) {
 		e_camera.eyePosition = { 1, 0, 0, 0 };
@@ -239,55 +210,18 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	}
 
 	if (GetAsyncKeyState('0') < 0) {
-		mX = mY = mZ = 0;
 		aXY = aZY = 0;
 		custom3DTemp.clear();
 	}
-	if (GetAsyncKeyState('R') < 0) {
-		custom3DTemp.angleYawPitchRoll = { 0,0,0 };
-	}
 
-	if (GetAsyncKeyState('W') < 0) {
-		custom3DTemp.angleYawPitchRoll.y += 1;
-	}
-	if (GetAsyncKeyState('S') < 0) {
-		custom3DTemp.angleYawPitchRoll.y -= 1;
-	}
-	if (GetAsyncKeyState('A') < 0) {
-		custom3DTemp.angleYawPitchRoll.x += 1;
-	}
-	if (GetAsyncKeyState('D') < 0) {
-		custom3DTemp.angleYawPitchRoll.x -= 1;
-	}
-	if (GetAsyncKeyState('Q') < 0) {
-		custom3DTemp.angleYawPitchRoll.z += 1;
-	}
-	if (GetAsyncKeyState('E') < 0) {
-		custom3DTemp.angleYawPitchRoll.z -= 1;
-	}
-	//if (GetAsyncKeyState('Z') < 0) {
-	//	mX += 2;
-	//	//custom3DTemp.position.z += 6;
-	//}
-	//if (GetAsyncKeyState('X') < 0) {
-	//	mX -= 2;
-	//	//custom3DTemp.position.z -= 6;
-	//}
-	//if (GetAsyncKeyState('C') < 0) {
-	//	custom3DTemp.position.y += 6;
-	//}
-	//if (GetAsyncKeyState('V') < 0) {
-	//	custom3DTemp.position.y -= 6;
-	//}
-
-	//e_camera.focusPosition = { focusPos.x,focusPos.y,focusPos.z,0 };
+	e_camera.focusPosition = { focusPos.x,focusPos.y,focusPos.z,0 };
 
 	// Change the blending mode 
-	if (GetAsyncKeyState(VK_SPACE) < 0)
+	/*if (GetAsyncKeyState(VK_SPACE) < 0)
 	{
 		blendMode++;
 		blendMode %= 9;
-	}
+	}*/
 
 	s_pDeviceContext->OMSetRenderTargets(1, &s_pRenderTargetView, s_pDepthStencilView);
 
@@ -307,49 +241,6 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	{
 		s_pScene->draw(/*elapsed_time*/);
 	}
-
-
-	// draw XYZ Rectangle Coordinates
-	//MyBlending::setMode(s_pDeviceContext, BLEND_NONE);
-	//m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(1024, 0, 0), XMFLOAT3(2048, 2, 2));
-	//m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 1024, 0), XMFLOAT3(2, 2048, 2));
-	//m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 0, 1024), XMFLOAT3(2, 2, 2048));
-
-	//m_pPrimitive3D[1]->drawCylinder(s_pDeviceContext, XMFLOAT3(-100, mY, 10 + mZ), XMFLOAT3(100, 100, 100), &custom3DTemp);
-
-
-	
-	// set02:Just Change the RenderTargetView. TODO: apply multi-RenderTargetView
-	//{
-	//	MyBlending::setMode(s_pDeviceContext, BLEND_ALPHA);
-
-	//	m_pRenderTargets[0]->render3D(s_pDeviceContext, -900, -950 / 2, 900, 950, 0, 0, 900, 950, 0, 0xFFFFFFFF, &custom3DTemp);
-
-	//	//m_pPrimitive3D[1]->drawCylinder(s_pDeviceContext, XMFLOAT3(-310, mY, 10 + mZ), XMFLOAT3(620, 700, 20), &custom3DTemp);
-	//	if (s_pScene)
-	//	{
-	//		s_pScene->draw(/*elapsed_time*/);
-	//	}
-
-	//	s_pDeviceContext->OMSetRenderTargets(1, &s_pRenderTargetView, s_pDepthStencilView);
-
-	//	e_camera.viewPort.Width = SCREEN_WIDTH;
-	//	e_camera.viewPort.Height = SCREEN_HEIGHT;
-	//	s_pDeviceContext->RSSetViewports(1, &e_camera.viewPort);
-
-	//	custom3DTemp.angleYawPitchRoll.x = -custom3DTemp.angleYawPitchRoll.x;
-	//	m_pRenderTargets[1]->render3D(s_pDeviceContext, 0, -950 / 2, 900, 950, 0, 0, 900, 950, 0, 0xFFFFFFFF, &custom3DTemp);
-	//	custom3DTemp.angleYawPitchRoll.x = -custom3DTemp.angleYawPitchRoll.x;
-	//	if (s_pScene)
-	//	{
-	//		s_pScene->draw(/*elapsed_time*/);
-	//	}
-	//	m_pSwapChain->Present(0, 0);
-	//}
-	//MyBlending::setMode(s_pDeviceContext, BLEND_ALPHA);
-	//char buf[256];
-	//sprintf_s(buf, "CameraDistance: %lf", d);
-	//drawSprString(s_pDeviceContext, 0, 0, buf);
 
 	m_pSwapChain->Present(0, 0);
 }

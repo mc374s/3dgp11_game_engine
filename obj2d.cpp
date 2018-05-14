@@ -26,7 +26,7 @@ void OBJ2DEX::draw()
 {
 	if (m_pSprData)
 	{
-		m_custom.argb = m_custom.argb << 8 >> 8 | m_alpha << 24;
+		m_custom.rgba = m_custom.rgba << 8 >> 8 | m_alpha << 24;
 		m_pSprData->draw(m_pos, &m_custom);
 	}
 }
