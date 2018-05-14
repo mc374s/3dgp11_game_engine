@@ -117,6 +117,16 @@ extern int m_command;
 
 #define TEX_MAX (64)
 
+enum STATE_STEP
+{
+	STATE_INIT = 0,
+	STATE_BEGIN,
+
+	STATE_END = 20,
+
+	STATE_FINISH = 40,
+};
+
 class Sprite;
 
 struct LOAD_TEXTURE

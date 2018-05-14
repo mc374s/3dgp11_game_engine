@@ -39,6 +39,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	ShowWindow(hwnd, cmd_show);
 
 	framework f(hwnd);
+	// Set the Init Scene
 	framework::changeScene(SCENE_TITLE);
 
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&f));

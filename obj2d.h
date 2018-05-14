@@ -49,7 +49,7 @@ public:
 	virtual void draw() {
 		if (m_pSprData)
 		{
-			m_custom.argb = m_custom.argb << 8 >> 8 | m_alpha << 24;
+			m_custom.argb = m_custom.argb >> 8 << 8 | m_alpha;
 			m_pSprData->draw(m_pos.x, m_pos.y, &m_custom);
 		}
 	};

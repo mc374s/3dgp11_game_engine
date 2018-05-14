@@ -20,8 +20,6 @@ private:
 
 	bool m_isPlayerOnLeftPage = true;
 
-	float m_bookRotateAngle = 0;
-	XMFLOAT3 m_bookPostion = { 0,0,0 };
 	
 public:
 	SceneMain();

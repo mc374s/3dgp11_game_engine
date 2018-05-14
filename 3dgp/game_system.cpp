@@ -56,16 +56,16 @@ int  getInputKey()
 {
 	int m_command = 0x0;
 
-	if (GetAsyncKeyState(VK_UP) & 0xF000) {
+	if (GetAsyncKeyState('W') & 0xF000) {
 		m_command |= PAD_UP;
 	}
-	if (GetAsyncKeyState(VK_DOWN) & 0xF000) {
+	if (GetAsyncKeyState('S') & 0xF000) {
 		m_command |= PAD_DOWN;
 	}
-	if (GetAsyncKeyState(VK_LEFT) & 0xF000){
+	if (GetAsyncKeyState('A') & 0xF000){
 		m_command |= PAD_LEFT;
 	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0xF000){
+	if (GetAsyncKeyState('D') & 0xF000){
 		m_command |= PAD_RIGHT;
 	}
 	if (GetAsyncKeyState(VK_SPACE) & 0x0001) {

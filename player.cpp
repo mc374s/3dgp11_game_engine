@@ -139,28 +139,29 @@ void Player::draw()
 
 // Player Manager Class
 void PlayerManager::init() {
-	if (!m_pPlayerTsuta)
+	if (!m_pPlayer)
 	{
-		m_pPlayerTsuta = new Player;
-		pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)] = m_pPlayerTsuta;
+		m_pPlayer = new Player;
+		pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)] = m_pPlayer;
 	}
 }
 
 void PlayerManager::transcriptPlayer()
 {
-	if (m_pPlayerTsuta)
+	if (m_pPlayer)
 	{
 		OBJ2D *pObj2dTemp = nullptr;
 		pObj2dTemp = pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)];
 		pObj2dTemp->m_isInit = true;
-		pObj2dTemp->m_pos = m_pPlayerTsuta->m_pos;
+		pObj2dTemp->m_pos = m_pPlayer->m_pos;
 		pObj2dTemp->m_pos.z--;
-		pObj2dTemp->m_custom = m_pPlayerTsuta->m_custom;
-		pObj2dTemp->m_pSprData = m_pPlayerTsuta->m_pSprData;
-		pObj2dTemp->m_isOnLeftPage = m_pPlayerTsuta->m_isOnLeftPage;
-		m_pPlayerTsuta->m_isOnLeftPage = !m_pPlayerTsuta->m_isOnLeftPage;
+		pObj2dTemp->m_custom = m_pPlayer->m_custom;
+		pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
+		pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
+		m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
 
-		m_pPlayerTsuta->m_pos.x = PAGE_WIDTH - m_pPlayerTsuta->m_pos.x;
-		m_pPlayerTsuta->m_custom.reflectX = !m_pPlayerTsuta->m_custom.reflectX;
+		m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
+		m_pPlayer->m_speed.x = 0;
+		m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
 	}
 }

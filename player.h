@@ -40,7 +40,7 @@ public:
 	PlayerManager() {};
 	~PlayerManager() {};
 
-	Player *m_pPlayerTsuta = nullptr;
+	Player *m_pPlayer = nullptr;
 
 	void init();
 	void transcriptPlayer();

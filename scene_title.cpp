@@ -23,6 +23,10 @@ SceneTitle::SceneTitle()
 
 	m_bg.m_pSprData = &e_sprTitleBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
+
+	//pObjManager->init();
+	//pPlayerManager->init();
+	//pPlayerManager->m_pPlayerTsuta->m_isOnLeftPage = false;
 	
 }
 

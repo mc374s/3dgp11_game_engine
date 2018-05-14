@@ -86,7 +86,7 @@ void ObjManager::draw(bool a_isLeftPage)
 
 	char buf[256];
 	sprintf_s(buf, "Obj Num: %d\n", num);
-	drawString(0, 50, buf, 0x000000FF, STR_LEFT);
+	drawString(0, PAGE_HEIGHT - 60, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG
 

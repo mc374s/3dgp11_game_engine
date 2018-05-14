@@ -31,14 +31,7 @@ SceneMain::~SceneMain()
 };
 
 void SceneMain::update()
-{
-	/*if (GetAsyncKeyState('Z') < 0) {
-		PAGE_LEFT->activePlayer(m_isPlayerOnLeftPage);
-		m_isPlayerOnLeftPage = !m_isPlayerOnLeftPage;
-		PAGE_RIGHT->activePlayer(m_isPlayerOnLeftPage);
-		pPlayerManager->player->m_pos.x = PAGE_WIDTH - pPlayerManager->player->m_pos.x;
-	}*/
-
+{	
 	if (GetAsyncKeyState(VK_HOME) & 0xF000)
 	{
 		changeScene(SCENE_TITLE);
@@ -46,7 +39,7 @@ void SceneMain::update()
 	// Update page's scene
 	for (int i = 0; i < CHILDREN_SCENE_MAX; i++)
 	{
-		if (m_pChildrenScene[i] && m_bookRotateAngle == 0)
+		if (m_pChildrenScene[i] && m_pBook->m_openAngle == 0)
 		{
 			m_pChildrenScene[i]->update();
 			if (m_pChildrenScene[i]->m_pNextScene)
@@ -57,62 +50,29 @@ void SceneMain::update()
 		}
 	}
 
-	static float aXY = 0.0f, aZY = 0.0f;
-	static float d = 0.65f;
-	// Change Book and Views' Angle
-	if (GetAsyncKeyState('8') & 0xF000) {
-		m_bookRotateAngle += 1;
-		aZY += 0.01f;
-		m_bookPostion.z -= 5;
-		m_bookPostion.y -= 3;
-		if (m_bookRotateAngle > 0) {
-			m_bookRotateAngle = 0;
-			aZY = 0.0f;
-			m_bookPostion.z = 0;
-			m_bookPostion.y = 0;
-		}
-	}
-	if (GetAsyncKeyState('7') & 0xF000) {
-		if (m_bookRotateAngle > -90) {
-			m_bookRotateAngle -= 1;
-			aZY -= 0.01f;
-			m_bookPostion.z += 5;
-			m_bookPostion.y += 3;
-		}
-		if (m_bookRotateAngle == -90) {
-			m_bookRotateAngle -= 1;
-			aZY = -0.90f;
-			m_bookPostion.z = 450;
-			m_bookPostion.y = 270;
-
-			pPlayerManager->transcriptPlayer();
-		}
-	}
-
-	e_camera.upDirection = { sinf(aZY)*sinf(aXY), cosf(aZY), sinf(aZY)*cosf(aXY), 0 };
-	e_camera.eyePosition = { -fabs(d)*cosf(aZY)*sinf(aXY), fabs(d)*sinf(aZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(d)*cosf(aZY)*cosf(aXY),0 };
+	m_pBook->update();
 
 	// Left Size
-	m_pBook->m_pBookLeft->m_custom3d.angleYawPitchRoll.x	= m_bookRotateAngle;
-	m_pBook->m_pCoverLeft->m_custom3d.angleYawPitchRoll.x	= m_bookRotateAngle;
-	m_pViewLeftPage->m_custom3d.angleYawPitchRoll.x			= m_bookRotateAngle;
+	m_pBook->m_pBookLeft->m_custom3d.angleYawPitchRoll.x	= m_pBook->m_openAngle;
+	m_pBook->m_pCoverLeft->m_custom3d.angleYawPitchRoll.x	= m_pBook->m_openAngle;
+	m_pViewLeftPage->m_custom3d.angleYawPitchRoll.x			= m_pBook->m_openAngle;
 	// Right Side
-	m_pBook->m_pBookRight->m_custom3d.angleYawPitchRoll.x	= -m_bookRotateAngle;
-	m_pBook->m_pCoverRight->m_custom3d.angleYawPitchRoll.x	= -m_bookRotateAngle;
-	m_pViewRightPage->m_custom3d.angleYawPitchRoll.x		= -m_bookRotateAngle;
+	m_pBook->m_pBookRight->m_custom3d.angleYawPitchRoll.x	= -m_pBook->m_openAngle;
+	m_pBook->m_pCoverRight->m_custom3d.angleYawPitchRoll.x	= -m_pBook->m_openAngle;
+	m_pViewRightPage->m_custom3d.angleYawPitchRoll.x		= -m_pBook->m_openAngle;
 
-	m_pBook->m_pBookLeft->m_custom3d.position= m_bookPostion;
-	m_pBook->m_pCoverLeft->m_custom3d.position = m_bookPostion;
-	m_pViewLeftPage->m_custom3d.position = m_bookPostion;
-	m_pViewLeftPage->m_custom3d.position.y = -m_bookPostion.y;
+	m_pBook->m_pBookLeft->m_custom3d.position= m_pBook->m_postion;
+	m_pBook->m_pCoverLeft->m_custom3d.position = m_pBook->m_postion;
+	m_pViewLeftPage->m_custom3d.position = m_pBook->m_postion;
+	m_pViewLeftPage->m_custom3d.position.y = -m_pBook->m_postion.y;
 	m_pViewLeftPage->m_custom3d.position.z -= 0.1;
 	// Right Side
-	m_pBook->m_pBookRight->m_custom3d.position = m_bookPostion;
-	m_pBook->m_pCoverRight->m_custom3d.position = m_bookPostion;
-	m_pViewRightPage->m_custom3d.position = m_bookPostion;
-	m_pViewRightPage->m_custom3d.position.y = -m_bookPostion.y;
+	m_pBook->m_pBookRight->m_custom3d.position = m_pBook->m_postion;
+	m_pBook->m_pCoverRight->m_custom3d.position = m_pBook->m_postion;
+	m_pViewRightPage->m_custom3d.position = m_pBook->m_postion;
+	m_pViewRightPage->m_custom3d.position.y = -m_pBook->m_postion.y;
 	m_pViewRightPage->m_custom3d.position.z -= 0.1;
-
+	
 	// bucause of the depth test is ON, set a different depth between page surface and view
 	//m_pViewRightPage->m_custom3d.position.z = m_pViewLeftPage->m_custom3d.position.z = -0.1;
 	
@@ -142,11 +102,11 @@ void SceneMain::draw()
 	View::clear();
 
 
-	drawString(SCREEN_WIDTH / 2, 100, "M A I N", COLOR_YELLOW | 0x80, STR_CENTER, 80, 80);
-	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED | 0x80, STR_LEFT, 32, 32);
-	drawString(0, 40, "Press [1] to Right View", COLOR_GREEN | 0x80, STR_LEFT, 24, 24);
-	drawString(0, 70, "Press [4] to Slanting View", COLOR_GREEN | 0x80, STR_LEFT, 24, 24);
-	drawString(0, 110, "Press [7] to CLOSE Book", COLOR_YELLOW | 0x80, STR_LEFT, 32, 32);
-	drawString(0, 150, "Press [8] to OPEN Book", COLOR_YELLOW | 0x80, STR_LEFT, 32, 32);
+	drawString(SCREEN_WIDTH / 2, 100, "M A I N", COLOR_YELLOW >> 8 << 8 | 0x80, STR_CENTER, 80, 80);
+	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
+	drawString(0, 40, "Press [1] to Right View", COLOR_GREEN >> 8 << 8 | 0x80, STR_LEFT, 24, 24);
+	drawString(0, 70, "Press [4] to Slanting View", COLOR_GREEN >> 8 << 8 | 0x80, STR_LEFT, 24, 24);
+	drawString(0, 110, "Press [7] to CLOSE Book", COLOR_YELLOW >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
+	drawString(0, 150, "Press [8] to OPEN Book", COLOR_YELLOW >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
 
 }

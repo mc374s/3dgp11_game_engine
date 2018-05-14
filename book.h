@@ -6,6 +6,9 @@ class Book
 private:
 
 public:
+	int m_state;
+	int m_timer;
+
 	int m_width;
 	int m_height;
 	int m_marginLeft;
@@ -18,11 +21,27 @@ public:
 	Cube *m_pBookRight;
 	Cube *m_pCoverLeft;
 	Cube *m_pCoverRight;
+	
+	// メンバー関数の関数ポインタ
+	void(Book::*m_pfMove)();
+	void(Book::*m_pfMoveOld)();
+
+	float m_openAngle = 0;
+	XMFLOAT3 m_postion = { 0,0,0 };
+
+
+	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
+	float m_cameraDistance = 0.65f;
 
 	Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth);
 	~Book();
 
+	void update();
 	void draw();
+
+
+	void closeBook();
+	void openBook();
 };
 
 
