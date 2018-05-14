@@ -10,5 +10,5 @@ Engine Test for TGS Project
 * `4`長押し : 斜めのビュー
 
 ## プレイヤー
-* `←` `→` : 移動<br>
+* `A` `D` : 移動<br>
 * `Z` : ジャンプ<br>
