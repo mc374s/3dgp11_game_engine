@@ -1,6 +1,6 @@
 # 3dgp11_game_engine
 Engine Test for TGS Project<br>
-Set your Solution Configuration to Debug and ste Platform to x86
+Please Set your Solution Configuration to `Debug`, and the Platform is `x86`
 <br><br><br>
 ## SceneMain
 ### 本
