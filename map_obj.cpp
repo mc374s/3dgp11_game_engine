@@ -2,45 +2,45 @@
 #include "sprite_data.h"
 #include "stage_data.h"
 
-#include "item.h"
+#include "map_obj.h"
 
 
-Item::Item(int a_type)
+MapObj::MapObj(int a_type)
 {
 	clear();
 	m_command = 0x0;
 	m_type = a_type;
 	switch (m_type)
 	{
-	case ITEM_HOUSE:
+	case MAPOBJ_HOUSE:
 		m_size = Vector3(56, 100, 14);
 
 		break;
-	case ITEM_TREE_A:
+	case MAPOBJ_TREE_A:
 		m_size = Vector3(120, 52, 36);
 
 		break;
-	case ITEM_TREE_B:
+	case MAPOBJ_TREE_B:
 		m_size = Vector3(208, 92, 28);
 		
 		break;
-	case ITEM_IVY_BIG:
+	case MAPOBJ_IVY_BIG:
 		m_size = Vector3(312, 120, 56);
 		
 		break;
-	case ITEM_IVY_THIN:
+	case MAPOBJ_IVY_THIN:
 		m_size = Vector3(104, 108, 16);
 	
 		break;
-	case ITEM_IVY_THICK:
+	case MAPOBJ_IVY_THICK:
 		m_size = Vector3(80, 124, 8);
 		
 		break;
-	case ITEM_DOOR:
+	case MAPOBJ_DOOR:
 		m_size = Vector3(84, 88, 8);
 		
 		break;
-	case ITEM_KEY:
+	case MAPOBJ_KEY:
 		m_size = Vector3(220, 196, 32);
 		
 		break;
@@ -52,13 +52,13 @@ Item::Item(int a_type)
 
 }
 
-void Item::init(int a_type)
+void MapObj::init(int a_type)
 {
 	m_type = a_type;
 }
 
 
-void Item::update()
+void MapObj::update()
 {
 	if (m_pfMove)
 	{
@@ -68,14 +68,14 @@ void Item::update()
 
 	}
 }
-int Item::searchSet(Item** a_ppBegin, int a_maxNum, void(*a_pfMove)(Item*), int a_type, Vector3 &a_pos, int a_concentration)
+int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, void(*a_pfMove)(MapObj*), int a_type, Vector3 &a_pos, int a_concentration)
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
 		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
-		a_ppBegin[i] = new Item(a_type);
+		a_ppBegin[i] = new MapObj(a_type);
 		a_ppBegin[i]->m_type = a_type;
 		a_ppBegin[i]->m_pfMove = a_pfMove;
 		a_ppBegin[i]->m_pos = a_pos;
@@ -87,7 +87,7 @@ int Item::searchSet(Item** a_ppBegin, int a_maxNum, void(*a_pfMove)(Item*), int 
 	return -1;
 }
 
-void Item::hitAdjust(OBJ2DEX* a_pObj)
+void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 {
 	// obj‚ªthis‚Ì‘O‚É‚ ‚é
 
@@ -99,7 +99,7 @@ void Item::hitAdjust(OBJ2DEX* a_pObj)
 
 }
 
-void Item::draw()
+void MapObj::draw()
 {
 #ifdef DEBUG
 
@@ -117,19 +117,19 @@ STAGE_DATA* stageSetData[] = {
 	stage01_setData,
 };
 
-void ItemManager::init(int a_stageNo)
+void MapObjManager::init(int a_stageNo)
 {
 	m_stageNo = a_stageNo;
 	m_timer = 0;
 	m_pStageData = stageSetData[m_stageNo];
-	for (int i = 0; i < ITEM_MAX_NUM; i++)
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		m_ppItem[i] = nullptr;
+		m_ppMapObj[i] = nullptr;
 	}
 
 }
 
-void ItemManager::stageUpdate()
+void MapObjManager::stageUpdate()
 {
 	m_timer++;
 
@@ -143,28 +143,28 @@ void ItemManager::stageUpdate()
 			}
 			break;
 		}
-		Item::searchSet(m_ppItem, ITEM_MAX_NUM, m_pStageData->pfMove, m_pStageData->itemType, m_pStageData->pos, m_pStageData->concentration);
+		MapObj::searchSet(m_ppMapObj, MAPOBJ_MAX_NUM, m_pStageData->pfMove, m_pStageData->mapObjType, m_pStageData->pos, m_pStageData->concentration);
 		m_pStageData++;
 	}
 }
 
-void ItemManager::update()
+void MapObjManager::update()
 {
-	for (int i = 0; i < ITEM_MAX_NUM; i++)
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppItem[i] && m_ppItem[i]->m_pfMove && m_ppItem[i]->m_state >= STATE_END + 2)
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_pfMove && m_ppMapObj[i]->m_state >= STATE_END + 2)
 		{
-			m_ppItem[i]->m_pfMove(m_ppItem[i]);
+			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
 		}
 	}
 }
 
-bool ItemManager::isAlive()
+bool MapObjManager::isAlive()
 {
 	int num = 0;
-	for (int i = 0; i < ITEM_MAX_NUM; i++)
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppItem[i] && m_ppItem[i]->m_isInit)
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
 		{
 			num++;
 		}
@@ -176,12 +176,12 @@ bool ItemManager::isAlive()
 	return true;
 }
 
-void ItemManager::draw()
+void MapObjManager::draw()
 {
 	int num = 0;
-	for (int i = 0; i < ITEM_MAX_NUM; i++)
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppItem[i] && m_ppItem[i]->m_isInit)
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
 		{
 			num++;
 		}

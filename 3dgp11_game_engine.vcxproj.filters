@@ -98,10 +98,10 @@
     <ClInclude Include="page_right.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="item.h">
+    <ClInclude Include="stage_data.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="stage_data.h">
+    <ClInclude Include="map_obj.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -166,13 +166,13 @@
     <ClCompile Include="page_right.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="stage00_data.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="stage01_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="map_obj.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

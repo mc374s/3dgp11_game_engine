@@ -142,7 +142,7 @@
     <ClInclude Include="3dgp\template.h" />
     <ClInclude Include="book.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="item.h" />
+    <ClInclude Include="map_obj.h" />
     <ClInclude Include="page_left.h" />
     <ClInclude Include="obj2d.h" />
     <ClInclude Include="page_right.h" />
@@ -166,7 +166,7 @@
     <ClCompile Include="3dgp\sprite.cpp" />
     <ClCompile Include="3dgp\sprite_string.cpp" />
     <ClCompile Include="book.cpp" />
-    <ClCompile Include="item.cpp" />
+    <ClCompile Include="map_obj.cpp" />
     <ClCompile Include="page_left.cpp" />
     <ClCompile Include="obj2d.cpp" />
     <ClCompile Include="page_right.cpp" />
