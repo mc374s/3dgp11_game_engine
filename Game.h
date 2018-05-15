@@ -17,6 +17,8 @@
 
 #define GROUND_HEIGHT (600)
 
+#define CAMERA_BEST_DISTANCE (0.65)
+#define CAMERA_MAX_DISTANCE (1.45)
 
 #include "sound_data.h"
 #include "tools.h"

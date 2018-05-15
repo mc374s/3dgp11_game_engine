@@ -45,6 +45,19 @@ void Book::update()
 		m_pfMove = &Book::closeBook;
 	}
 
+	if (KEY_BOARD.Up){
+		m_cameraDistance -= 0.01;
+		if (m_cameraDistance < CAMERA_BEST_DISTANCE){
+			m_cameraDistance = CAMERA_BEST_DISTANCE;
+		}
+	}
+	if (KEY_BOARD.Down){
+		m_cameraDistance += 0.01;
+		if (m_cameraDistance > CAMERA_MAX_DISTANCE){							  
+			m_cameraDistance = CAMERA_MAX_DISTANCE;
+		}
+	}
+
 	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
 	// 原因はKEY_BOARDがexternで更新していることと予測
 	if (/*KEY_TRACKER.pressed.C*/KEY_CLICK('C')/*KEY_BOARD.C*//*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
