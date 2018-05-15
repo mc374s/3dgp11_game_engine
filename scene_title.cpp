@@ -1,4 +1,10 @@
-#include "Game.h"
+#include "game.h"
+#include "sprite_data.h"
+#include "scene_main.h"
+
+#include "scene_title.h"
+
+
 
 #include <thread>
 
@@ -6,10 +12,10 @@ void loadTextureProgress()
 {
 	pTextureManager->loadTexture(e_loadTexture);		// 2D画像の一括ロード
 }
-void loadAudioProgress()
-{
-	pMFAudioManager->loadAudios(audio_data);			// 音声データの一括ロード
-}
+//void loadAudioProgress()
+//{
+//	pMFAudioManager->loadAudios(audio_data);			// 音声データの一括ロード
+//}
 
 SceneTitle::SceneTitle()
 {

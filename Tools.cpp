@@ -1,4 +1,4 @@
-#include "game.h"
+#include "tools.h"
 
 #include "stdio.h"
 

@@ -1,4 +1,12 @@
-#include "Game.h"
+#include "game.h"
+#include "sprite_data.h"
+#include "book.h"
+
+#include "scene_title.h"
+#include "page_left.h"
+#include "page_right.h"
+
+#include "scene_main.h"
 
 SceneMain::SceneMain()
 {

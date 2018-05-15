@@ -22,6 +22,8 @@ extern SPRITE_BOTTOM e_pAnimePlayerYawn[];
 extern SPRITE_BOTTOM e_pAnimePlayerRun[];
 extern SPRITE_BOTTOM e_pAnimePlayerJump[];
 
+// マップ関係、アイテム
+extern SPRITE_BOTTOM e_pSprItem[];
 
 
 #endif // !_SPRDATA_H_

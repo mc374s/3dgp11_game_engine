@@ -1,4 +1,8 @@
-#include "Game.h"
+#include "game.h"
+#include "sprite_data.h"
+#include "obj2d.h"
+
+#include "player.h"
 
 Player::Player()
 {
@@ -144,7 +148,7 @@ void PlayerManager::init() {
 	if (!m_pPlayer)
 	{
 		m_pPlayer = new Player;
-		pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)] = m_pPlayer;
+		pObjManager->m_ppObj[OBJ2D::searchSet(pObjManager->m_ppObj, OBJ_MAX_NUM)] = m_pPlayer;
 	}
 }
 
@@ -153,7 +157,7 @@ void PlayerManager::transcriptPlayer()
 	if (m_pPlayer)
 	{
 		OBJ2D *pObj2dTemp = nullptr;
-		pObj2dTemp = pObjManager->m_pObj[OBJ2D::searchSet(pObjManager->m_pObj, OBJ_MAX_NUM)];
+		pObj2dTemp = pObjManager->m_ppObj[GET_IDLE_OBJ_NO];
 		pObj2dTemp->m_isInit = true;
 		pObj2dTemp->m_pos = m_pPlayer->m_pos;
 		pObj2dTemp->m_pos.z--;

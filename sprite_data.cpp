@@ -9,6 +9,8 @@
 // インクルード
 #include "game.h"
 
+#include "sprite_data.h"
+
 // ラベル定義
 enum TEX_NO {
 	TEX_TITLE,
@@ -17,6 +19,7 @@ enum TEX_NO {
 
 	TEX_PAGE_LEFT,
 	TEX_PAGE_RIGHT,
+	TEX_MAP_OBJECT,
 };
 
 // 2D画像ロードデータ
@@ -28,6 +31,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_PAGE_LEFT,	"./DATA/Images/page_left.png" },
 	{ TEX_PAGE_RIGHT,	"./DATA/Images/page_right.png" },
+	{ TEX_MAP_OBJECT,	"./DATA/Images/map_object.png" },
 	{ -1, NULL }
 };
 
@@ -136,7 +140,19 @@ SPRITE_BOTTOM e_pAnimePlayerJump[] = {
 };
 
 
+// マップ関係、アイテム
+SPRITE_BOTTOM e_pSprItem[] =
+{
+	SPRITE_BOTTOM(TEX_MAP_OBJECT,   0, 0, 147,  92),// ITEM_HOUSE
+	SPRITE_BOTTOM(TEX_MAP_OBJECT, 147, 0, 101, 122),// ITEM_TREE_A
+	SPRITE_BOTTOM(TEX_MAP_OBJECT, 248, 0,  99, 112),// ITEM_TREE_B
+	SPRITE_BOTTOM(TEX_MAP_OBJECT, 347, 0,  79,  47),// ITEM_IVY_BIG
+	SPRITE_BOTTOM(TEX_MAP_OBJECT, 573, 0, 125,  22),// ITEM_IVY_THIN
+	SPRITE_BOTTOM(TEX_MAP_OBJECT, 448, 0, 125,  17),// ITEM_IVY_THICK
+	SPRITE_BOTTOM(TEX_MAP_OBJECT, 715, 0,  51,  76),// ITEM_DOOR
+	SPRITE_BOTTOM(TEX_MAP_OBJECT, 802, 0,  36,  28),// ITEM_KEY
 
-
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
+};
 
 //******************************************************************************

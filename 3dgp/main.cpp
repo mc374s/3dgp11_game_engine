@@ -1,7 +1,10 @@
 #include "3dgp_system.h"
 
+
 #include "framework.h"
-#include "../Game.h"
+#include "../game.h"
+#include "../sound_data.h"
+#include "../scene_title.h"
 
 LRESULT CALLBACK fnWndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {

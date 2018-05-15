@@ -5,6 +5,13 @@
 
 #include "Scene.h"
 
+
+CameraData e_camera;
+std::unique_ptr<DirectX::Keyboard> e_pKeyboard = std::make_unique<Keyboard>();
+DirectX::Keyboard::State KEY_BOARD = Keyboard::State();
+DirectX::Keyboard::KeyboardStateTracker KEY_TRACKER = DirectX::Keyboard::KeyboardStateTracker();
+
+
 Scene* framework::s_pScene = nullptr;
 
 ID3D11Device*           framework::s_pDevice = NULL;
@@ -12,11 +19,6 @@ ID3D11DeviceContext*    framework::s_pDeviceContext = NULL;
 
 ID3D11RenderTargetView*	framework::s_pRenderTargetView = NULL;
 ID3D11DepthStencilView*	framework::s_pDepthStencilView = NULL;
-
-CameraData e_camera;
-std::unique_ptr<DirectX::Keyboard> e_pKeyboard = std::make_unique<Keyboard>();
-DirectX::Keyboard::State KEY_BOARD = e_pKeyboard->GetState();
-DirectX::Keyboard::KeyboardStateTracker KEY_TRACKER;
 
 int renderTargetWidth = SCREEN_WIDTH;
 int renderTargetHeight = SCREEN_HEIGHT;
@@ -169,6 +171,92 @@ bool framework::initialize(HWND hwnd)
 	return true;
 }
 
+int framework::run()
+{
+	MSG msg = {};
+
+	/*if (!initialize(m_hWnd))
+	{
+	MessageBox(0, L"run: Iniialize FAILED", 0, 0);
+	return 0;
+	}*/
+	srand((unsigned int)time(NULL));
+
+	DWORD preTime;
+	while (WM_QUIT != msg.message)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		} else
+		{
+
+			KEY_TRACKER.Reset();
+			KEY_BOARD = e_pKeyboard->GetState();
+			KEY_TRACKER.Update(KEY_BOARD);
+
+			preTime = timeGetTime();
+			m_timer.tick();
+			calculate_frame_stats();
+
+			update(m_timer.time_interval());
+			render(m_timer.time_interval());
+
+			//Sleep(1000.0 / 60.0 - GetCurrentTime() + preTime);
+
+			//lastTime = GetTickCount()*6;
+			while ((timeGetTime() - preTime) * 6 < 100 /*0.0 / 60.0*/) {
+				Sleep(1);		// ƒtƒŒ[ƒ€ŽžŠÔ‚ð‰z‚¦‚é‚Ü‚Å‘Ò‚Â
+			}
+
+			//preTime += 100;
+		}
+	}
+	return static_cast<int>(msg.wParam);
+}
+
+LRESULT CALLBACK framework::handle_message(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+	switch (msg)
+	{
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc;
+		hdc = BeginPaint(hwnd, &ps);
+		EndPaint(hwnd, &ps);
+		break;
+	}
+	case WM_ACTIVATEAPP:
+		Keyboard::ProcessMessage(msg, wparam, lparam);
+		break;
+	case WM_KEYDOWN:
+		if (wparam == VK_ESCAPE) PostMessage(hwnd, WM_CLOSE, 0, 0);
+	case WM_SYSKEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		Keyboard::ProcessMessage(msg, wparam, lparam);
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	case WM_CREATE:
+		break;
+	case WM_ENTERSIZEMOVE:
+		// WM_EXITSIZEMOVE is sent when the user grabs the resize bars.
+		m_timer.stop();
+		break;
+	case WM_EXITSIZEMOVE:
+		// WM_EXITSIZEMOVE is sent when the user releases the resize bars.
+		// Here we reset everything based on the new window dimensions.
+		m_timer.start();
+		break;
+	default:
+		return DefWindowProc(hwnd, msg, wparam, lparam);
+	}
+	return 0;
+}
 
 void framework::update(float elapsed_time/*Elapsed seconds from last frame*/)
 {

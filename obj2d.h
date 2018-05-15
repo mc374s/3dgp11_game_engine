@@ -31,39 +31,12 @@ public:
 	bool m_isInit;
 	bool m_isOnLeftPage = true;
 
-	virtual void clear() {
-		m_pSprData = nullptr;
-		m_pos = Vector3(0, 0, 0);
-		m_speed = m_size = Vector3(0, 0, 0);
-		m_timer = 0;
-		m_state = 0;
-		m_alpha = 255;
-		m_isInit = false;
-
-		m_isOnLeftPage = true;
-
-		m_type = 0;
-	};
+	virtual void clear();
 	virtual void update() {};
 
-	virtual void draw() {
-		if (m_pSprData)
-		{
-			m_custom.rgba = m_custom.rgba >> 8 << 8 | m_alpha;
-			m_pSprData->draw(m_pos.x, m_pos.y, &m_custom);
-		}
-	};
+	virtual void draw();
 
-	static int searchSet(OBJ2D** a_ppBegin, int a_max) {
-		for (int i = 0; i < a_max; i++)
-		{
-			if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
-				continue;
-			}
-			return i;
-		}
-		return -1;
-	}
+	static int searchSet(OBJ2D** a_ppBegin, int a_max);
 
 };
 
@@ -85,12 +58,7 @@ public:
 		clear();
 	};
 
-	virtual void clear() {
-		OBJ2D::clear();
-		m_aframe = 0;
-		m_animeNO = 0;
-		m_pAnimeData = nullptr;
-	}
+	virtual void clear();
 
 	virtual void update() {};
 	virtual void animation();
@@ -120,28 +88,20 @@ class ObjManager : public Singleton<ObjManager>, public Manager
 private:
 
 public:
-	OBJ2D* m_pObj[OBJ_MAX_NUM] = { nullptr };
+	OBJ2D* m_ppObj[OBJ_MAX_NUM] = { nullptr };
 
 	void init();
 	void updata(bool a_isLeftPage = true);
 	void draw(bool a_isLeftPage = true);
 
 	ObjManager() {};
-	~ObjManager() {
-		for (int i = 0; i < OBJ_MAX_NUM; i++)
-		{
-			if (m_pObj[i])
-			{
-				delete m_pObj[i];
-			}
-		}
-		ZeroMemory(m_pObj, sizeof(m_pObj));
-		//delete[] m_pObj;
-	};
+	~ObjManager();
 
 };
 
 #define pObjManager (ObjManager::getInstance())
+
+#define GET_IDLE_OBJ_NO (OBJ2D::searchSet(pObjManager->m_ppObj, OBJ_MAX_NUM))
 
 
 #endif // !_OBJ2D_H_

@@ -98,6 +98,12 @@
     <ClInclude Include="page_right.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="stage_data.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp">
@@ -158,6 +164,15 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="page_right.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage00_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage01_data.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

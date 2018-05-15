@@ -1,12 +1,16 @@
 #ifndef _SCENE_MAIN_H_
 #define _SCENE_MAIN_H_
 
+#include "obj2d.h"
+
 #define CHILDREN_SCENE_MAX (2)
 enum CHILDREN_NO
 {
 	CHILD_LEFT,
 	CHILD_RIGHT,
 };
+
+class Book;
 
 class SceneMain :public Scene, public Singleton<SceneMain>
 {

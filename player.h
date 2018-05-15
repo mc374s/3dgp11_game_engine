@@ -1,13 +1,14 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+#include "obj2d.h"
+
 #define P_SPEED_AX		(0.5)
 #define P_SPEED_X_MAX	(5)
 
 #define GRIVATY			(1)
 #define P_SPEED_Y_MAX	(4)
 #define P_JUMP_POWER	(-6)
-
 
 enum P_MODE
 {

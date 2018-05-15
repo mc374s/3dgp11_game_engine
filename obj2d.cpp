@@ -1,4 +1,53 @@
-#include "Game.h"
+#include "game.h"
+#include "obj2d.h"
+
+/////////////////////////////////////////////////////////////////
+// Class OBJ2D Function
+void OBJ2D::clear() 
+{
+	m_pSprData = nullptr;
+	m_pos = Vector3(0, 0, 0);
+	m_speed = m_size = Vector3(0, 0, 0);
+	m_timer = 0;
+	m_state = 0;
+	m_alpha = 255;
+	m_isInit = false;
+
+	m_isOnLeftPage = true;
+
+	m_type = 0;
+}
+
+void OBJ2D::draw() 
+{
+	if (m_pSprData)
+	{
+		m_custom.rgba = m_custom.rgba >> 8 << 8 | m_alpha;
+		m_pSprData->draw(m_pos.x, m_pos.y, &m_custom);
+	}
+}
+
+int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max) 
+{
+	for (int i = 0; i < a_max; i++)
+	{
+		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
+			continue;
+		}
+		return i;
+	}
+	return -1;
+}
+
+///////////////////////////////////////////////////////////////
+// Class OBJ2DEX Function
+void OBJ2DEX::clear() 
+{
+	OBJ2D::clear();
+	m_aframe = 0;
+	m_animeNO = 0;
+	m_pAnimeData = nullptr;
+}
 
 void OBJ2DEX::animation() 
 {
@@ -16,10 +65,6 @@ void OBJ2DEX::animation()
 		}
 		m_pSprData = &(m_pAnimeData[m_animeNO]);
 	}
-	if (m_pAnimeData &&( m_pAnimeData!=e_pAnimePlayerJump && m_pAnimeData != e_pAnimePlayerStandby && m_pAnimeData != e_pAnimePlayerRun))
-	{
-		MessageBox(0, L"Alert", 0, MB_OK);
-	}
 }
 
 void OBJ2DEX::draw() 
@@ -30,13 +75,27 @@ void OBJ2DEX::draw()
 		m_pSprData->draw(m_pos, &m_custom);
 	}
 }
+/////////////////////////////////////////////////////////////////
+// Class ObjManager Function
+ObjManager::~ObjManager() 
+{
+	for (int i = 0; i < OBJ_MAX_NUM; i++)
+	{
+		if (m_ppObj[i])
+		{
+			delete m_ppObj[i];
+		}
+	}
+	ZeroMemory(m_ppObj, sizeof(m_ppObj));
+	//delete[] m_pObj;
+};
 
 void ObjManager::init() {
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (!m_pObj[i])
+		if (!m_ppObj[i])
 		{
-			m_pObj[i] = new OBJ2D;
+			m_ppObj[i] = new OBJ2D;
 		}
 	}
 	//ZeroMemory(pObj, sizeof(pObj));
@@ -47,9 +106,9 @@ void ObjManager::updata(bool a_isLeftPage) {
 
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_pObj[i] && m_pObj[i]->m_isOnLeftPage == a_isLeftPage)
+		if (m_ppObj[i] && m_ppObj[i]->m_isOnLeftPage == a_isLeftPage)
 		{
-			m_pObj[i]->update();
+			m_ppObj[i]->update();
 		}
 	}
 
@@ -57,16 +116,16 @@ void ObjManager::updata(bool a_isLeftPage) {
 	OBJ2D* temp = nullptr;
 	for (int i = 1; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_pObj[i - 1]->m_pos.z > m_pObj[i]->m_pos.z)
+		if (m_ppObj[i - 1]->m_pos.z > m_ppObj[i]->m_pos.z)
 		{
 			int j = i;
 			do
 			{
-				temp = m_pObj[j - 1];
-				m_pObj[j - 1] = m_pObj[j];
-				m_pObj[j] = temp;
+				temp = m_ppObj[j - 1];
+				m_ppObj[j - 1] = m_ppObj[j];
+				m_ppObj[j] = temp;
 				j--;
-			} while (j > 0 && m_pObj[j - 1]->m_pos.z < m_pObj[j]->m_pos.z);
+			} while (j > 0 && m_ppObj[j - 1]->m_pos.z < m_ppObj[j]->m_pos.z);
 		}
 	}
 }
@@ -76,9 +135,9 @@ void ObjManager::draw(bool a_isLeftPage)
 	int num = 0;
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_pObj[i] && m_pObj[i]->m_isInit && m_pObj[i]->m_isOnLeftPage == a_isLeftPage)
+		if (m_ppObj[i] && m_ppObj[i]->m_isInit && m_ppObj[i]->m_isOnLeftPage == a_isLeftPage)
 		{
-			m_pObj[i]->draw();
+			m_ppObj[i]->draw();
 			num++;
 		}
 	}
@@ -90,5 +149,5 @@ void ObjManager::draw(bool a_isLeftPage)
 
 #endif // DEBUG
 
-
 }
+//////////////////////////////////////////////////////////////////

@@ -1,4 +1,7 @@
 #include "game.h"
+#include "player.h"
+
+#include "book.h"
 
 Book::Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth):
 m_width(a_width),

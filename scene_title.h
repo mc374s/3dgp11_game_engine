@@ -1,6 +1,8 @@
 #ifndef _SCENE_TITLE_H_
 #define _SCENE_TITLE_H_
 
+#include "obj2d.h"
+
 // SceneTitleƒNƒ‰ƒX‚Ì’è‹`
 class SceneTitle :public Scene, public Singleton<SceneTitle>
 {

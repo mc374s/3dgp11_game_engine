@@ -142,6 +142,7 @@
     <ClInclude Include="3dgp\template.h" />
     <ClInclude Include="book.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="item.h" />
     <ClInclude Include="page_left.h" />
     <ClInclude Include="obj2d.h" />
     <ClInclude Include="page_right.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="scene_title.h" />
     <ClInclude Include="sound_data.h" />
     <ClInclude Include="sprite_data.h" />
+    <ClInclude Include="stage_data.h" />
     <ClInclude Include="tools.h" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +166,7 @@
     <ClCompile Include="3dgp\sprite.cpp" />
     <ClCompile Include="3dgp\sprite_string.cpp" />
     <ClCompile Include="book.cpp" />
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="page_left.cpp" />
     <ClCompile Include="obj2d.cpp" />
     <ClCompile Include="page_right.cpp" />
@@ -172,6 +175,8 @@
     <ClCompile Include="scene_title.cpp" />
     <ClCompile Include="sound_data.cpp" />
     <ClCompile Include="sprite_data.cpp" />
+    <ClCompile Include="stage00_data.cpp" />
+    <ClCompile Include="stage01_data.cpp" />
     <ClCompile Include="tools.cpp" />
   </ItemGroup>
   <ItemGroup>
