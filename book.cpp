@@ -47,7 +47,7 @@ void Book::update()
 
 	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
 	// 原因はKEY_BOARDがexternで更新していることと予測
-	if (/*KEY_TRACKER.pressed.C*/GetAsyncKeyState('C') & 0x0001/*KEY_BOARD.C*//*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
+	if (/*KEY_TRACKER.pressed.C*/KEY_CLICK('C')/*KEY_BOARD.C*//*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
 		if (m_pfMove == &Book::closeBook){
 			m_pfMove = &Book::openBook;
 		} else {

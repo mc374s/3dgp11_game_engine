@@ -6,7 +6,7 @@
 
 #define GRIVATY			(1)
 #define P_SPEED_Y_MAX	(4)
-#define P_JUMP_POWER	(-16)
+#define P_JUMP_POWER	(-6)
 
 
 enum P_MODE

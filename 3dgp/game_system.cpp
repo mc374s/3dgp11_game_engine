@@ -56,36 +56,36 @@ int  getInputKey()
 {
 	int command = 0x0;
 
-	if (GetAsyncKeyState('W') & 0xF000) {
+	if (KEY_BOARD.W) {
 		command |= PAD_UP;
 	}
-	if (GetAsyncKeyState('S') & 0xF000) {
+	if (KEY_BOARD.S) {
 		command |= PAD_DOWN;
 	}
-	if (GetAsyncKeyState('A') & 0xF000){
+	if (KEY_BOARD.A){
 		command |= PAD_LEFT;
 	}
-	if (GetAsyncKeyState('D') & 0xF000){
+	if (KEY_BOARD.D){
 		command |= PAD_RIGHT;
 	}
-	if (GetAsyncKeyState(VK_SPACE) & 0x0001) {
+	if (KEY_BOARD.Space) {
 		command |= PAD_START;
 	}
-	if (GetAsyncKeyState(VK_RETURN) & 0x0001) { 
+	if (KEY_BOARD.Enter) { 
 		command |= PAD_ENTER;
 	}
-	if (GetAsyncKeyState('Z') & 0x0001) {
+	if (KEY_BOARD.Z) {
 		command |= PAD_TRG1;
 	}
-	if (GetAsyncKeyState('X') & 0x0001) {
+	if (KEY_BOARD.X) {
 		command |= PAD_TRG2;
 	}
-	/*if (GetAsyncKeyState('C') & 0x0001) {
+	if (KEY_BOARD.C) {
 		command |= PAD_TRG3;
 	}
-	if (GetAsyncKeyState('V') & 0x0001) {
+	if (KEY_BOARD.V) {
 		command |= PAD_TRG4;
-	}*/
+	}
 
 	return command;
 }

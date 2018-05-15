@@ -98,7 +98,6 @@ void SceneMain::draw()
 	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
 	drawString(0, 40, "Press [1] to Right View", COLOR_GREEN >> 8 << 8 | 0x80, STR_LEFT, 24, 24);
 	drawString(0, 70, "Press [4] to Slanting View", COLOR_GREEN >> 8 << 8 | 0x80, STR_LEFT, 24, 24);
-
 	char buf[256];
 	sprintf_s(buf, "book_openflg: %d", m_pBook->m_isOpening ? 0 : 1);
 	drawString(0, 400, buf);

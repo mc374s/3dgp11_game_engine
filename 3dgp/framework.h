@@ -97,16 +97,17 @@ public:
 		DWORD preTime;
 		while (WM_QUIT != msg.message)
 		{
-			KEY_TRACKER.Reset();
-			KEY_BOARD = e_pKeyboard->GetState();
-			KEY_TRACKER.Update(KEY_BOARD);
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			} else
 			{
-				
+
+				KEY_TRACKER.Reset();
+				KEY_TRACKER.Update(KEY_BOARD);
+				KEY_BOARD = e_pKeyboard->GetState();
+
 				preTime = timeGetTime();
 				m_timer.tick();
 				calculate_frame_stats();
