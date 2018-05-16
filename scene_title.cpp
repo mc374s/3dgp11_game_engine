@@ -49,7 +49,12 @@ void SceneTitle::draw()
 	View::clear();
 
 	m_bg.draw();
+
+#ifdef DEBUG
+
 	drawString(SCREEN_WIDTH / 2, 100, "T I T L E", COLOR_YELLOW, STR_CENTER, 80, 80);
 	drawString(0, 0, "Click [SPACE] to SCENE_MAIN", COLOR_RED, STR_LEFT, 32, 32);
+
+#endif // DEBUG
 	
 }

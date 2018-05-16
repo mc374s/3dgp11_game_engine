@@ -30,7 +30,8 @@ public:
 	float m_openSpeed = 0;
 	float m_openSpeedAcc = 0;
 	XMFLOAT3 m_postion = { 0,0,0 };
-	bool m_isOpening;
+	bool m_isClosed;
+	bool m_isOpened;
 
 	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
 	float m_cameraDistance = 0.66f;
@@ -45,6 +46,5 @@ public:
 	void closeBook();
 	void openBook();
 };
-
 
 #endif // !_BOOK_H_

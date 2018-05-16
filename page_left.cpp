@@ -37,4 +37,9 @@ void PageLeft::draw()
 
 	drawString(0, PAGE_HEIGHT - 32, "PAGE_LEFT", COLOR_YELLOW, STR_LEFT, 32, 32);
 
+	View::clear();
+	char buf[256];
+	sprintf_s(buf, "Player Concentration: %d\nTransfer Concentration: %d", pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_concentration - pPlayerManager->m_transferConcentration);
+	drawString(0, 300, buf);
+
 }

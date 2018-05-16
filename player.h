@@ -32,6 +32,7 @@ public:
 	int m_command;
 	int m_mode;
 	int m_state;
+	int m_concentration;
 
 	Player();
 	~Player();
@@ -45,15 +46,21 @@ public:
 class PlayerManager:public Singleton<PlayerManager>, public Manager
 {
 private:
-
+	//int m_transferConcentration = 0;
 public:
-	PlayerManager() {};
+	PlayerManager() { init(); };
 	~PlayerManager() {};
 
 	Player *m_pPlayer = nullptr;
+	bool m_isTranscriptAble;
 
 	void init();
-	void transcriptPlayer();
+	void transcriptPlayer(int a_concentration = 1);
+	void manageConcentration();
+
+	int m_concentration = 10;
+	int m_transferConcentration = 0;
+	int m_transfer;
 
 
 };
