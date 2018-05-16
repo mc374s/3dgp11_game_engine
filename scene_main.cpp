@@ -5,6 +5,7 @@
 #include "scene_title.h"
 #include "page_left.h"
 #include "page_right.h"
+#include "map_obj.h"
 
 #include "scene_main.h"
 
@@ -24,6 +25,7 @@ SceneMain::SceneMain()
 	m_pChildrenScene[1] = PAGE_RIGHT;
 
 	pObjManager->init();
+	pMapObjManager->init(0);
 
 }
 SceneMain::~SceneMain()
@@ -59,6 +61,8 @@ void SceneMain::update()
 	}
 
 	m_pBook->update();
+
+	pMapObjManager->stageUpdate();
 
 	// Left Side
 	m_pViewLeftPage->m_custom3d.angleYawPitchRoll.x			= m_pBook->m_openAngle;

@@ -20,6 +20,14 @@ enum MAPOBJ_TYPE
 	MAPOBJ_MAX_TYPE,
 };
 
+enum DRAW_DIRECTION
+{
+	DRAW_UP,
+	DRAW_DOWN,
+	DRAW_LEFT,
+	DRAW_RIGHT,
+};
+
 class MapObj : public OBJ2DEX
 {
 private:
@@ -28,40 +36,57 @@ public:
 
 	int m_command; //プレイヤーのキー入力
 	int m_concentration; //濃度
+	int m_drawDirection;
+	Vector3 m_repeatDrawSize;
 
 	void hitAdjust(OBJ2DEX* a_pObj);
 
 	void(*m_pfMove)(MapObj*);
+
+	void clear();
 
 	MapObj(int a_type = 0);
 	~MapObj() {
 		clear();
 	};
 
-	void init(int a_type);
-
-	void clear() {
-		OBJ2DEX::clear();
-		m_pfMove = nullptr;
-		m_command = 0x0;
-	};
+	void init();
 
 	void update();
 	void draw();
 
-	static int searchSet(MapObj** a_ppBegin, int a_maxNum, void(*a_pfMove)(MapObj*), int a_type, Vector3 &a_pos = Vector3(0, 0, 0), int a_concentration = 10);
+	static int searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
 
 };
 
 struct STAGE_DATA {
 	int appearTime;
-	void(*pfMove)(MapObj*);
-	int mapObjType;
-	Vector3 pos;
-	int concentration;
+	MAPOBJ_TYPE mapObjType;
+	DRAW_DIRECTION drawDirection;
 	bool isOnLeftPage;
-	STAGE_DATA(int a_appearTime, void(*a_pfMove)(MapObj*), int a_MAP_OBJType, Vector3 a_pos, int a_concentration, bool a_isOnLeftPage)
-		:appearTime(a_appearTime), pfMove(a_pfMove), mapObjType(a_MAP_OBJType), pos(a_pos), concentration(a_concentration),isOnLeftPage(a_isOnLeftPage) {};
+	Vector3 pos;
+	Vector3 size;
+	int concentration;
+	void(*pfMove)(MapObj*);
+	/**
+	a_ppearTime:		出現のフレーム数
+	a_mapObjType:		Objの種類(MAPOBJ_***)
+	a_drawDirection:	描画の方向(DRAW_***)
+	a_isOnLeftPage:		このObjは左ページのものかどうか
+	a_pos:				ページ内での描画の位置(Objの下真ん中が基準点)
+	a_size:				判定サイズ(描画方向と無関係)
+	a_concentraction:	濃度
+	a_pfMove:			このObjを動かす関数ポインタ
+	*/
+	STAGE_DATA(int a_appearTime, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
+		appearTime(a_appearTime),
+		mapObjType(a_mapObjType),
+		drawDirection(a_drawDirection),
+		isOnLeftPage(a_isOnLeftPage),
+		pos(a_pos), 
+		size(a_size),
+		concentration(a_concentration),
+		pfMove(a_pfMove) {};
 };
 
 class MapObjManager : public Singleton<MapObjManager>, public Manager
