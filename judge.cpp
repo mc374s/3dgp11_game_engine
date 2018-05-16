@@ -8,7 +8,8 @@
 
 BOOL checkHitPlayerToMapObj(Player* a_pPlayer, MapObj* a_pMapObj)
 {
-	return checkHitRectZ(a_pPlayer->m_pos.x, a_pPlayer->m_pos.y, a_pPlayer->m_size.x, a_pPlayer->m_size.y, a_pMapObj->m_pos.x, a_pMapObj->m_pos.y, a_pMapObj->m_size.x, a_pMapObj->m_size.y);
+	return checkHitRectZ(a_pPlayer->m_pos.x, a_pPlayer->m_pos.y, a_pPlayer->m_size.x, a_pPlayer->m_size.y, 
+		a_pMapObj->m_pos.x + a_pMapObj->m_size.x / 2, a_pMapObj->m_pos.y + a_pMapObj->m_size.y, a_pMapObj->m_size.x, a_pMapObj->m_size.y);
 }
 
 void judgeAll()
@@ -20,7 +21,8 @@ void judgeAll()
 	{
 		if (ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage == ppMapObj[i]->m_isOnLeftPage && checkHitPlayerToMapObj(pPlayer, ppMapObj[i]))
 		{
-			ppMapObj[i]->clear();
+			//ppMapObj[i]->clear();
+			ppMapObj[i]->hitAdjust(pPlayer);
 		}
 	}
 

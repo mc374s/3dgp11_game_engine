@@ -12,7 +12,7 @@ Player::Player()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(95, 45, 4);
 	m_command = 0x0;
-	m_pos = { 200,GROUND_HEIGHT,0 };
+	m_pos = { 200,200,0 };
 	
 	m_pSprData = &m_pAnimeData[0];
 
@@ -77,20 +77,22 @@ void Player::normalMove()
 	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
 	{
 		m_pos.x = PAGE_WIDTH - m_size.x / 2;
+		m_speed.x = 0;
 	}
 	if (m_pos.x < m_size.x / 2)
 	{
 		m_pos.x = m_size.x / 2;
+		m_speed.x = 0;
 	}
 
 	if (m_pos.y > PAGE_HEIGHT - m_size.y / 2)
 	{
 		m_pos.y = PAGE_HEIGHT - m_size.y / 2;
+		m_speed.y = 0;
 	}
-
-	if (m_pos.y > GROUND_HEIGHT)
+	if (m_pos.y < 100 - m_size.y / 2)
 	{
-		m_pos.y = GROUND_HEIGHT;
+		m_pos.y = 100 - m_size.y / 2;
 		m_speed.y = 0;
 	}
 

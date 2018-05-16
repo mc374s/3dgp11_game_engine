@@ -33,7 +33,7 @@ public:
 	bool m_isOpening;
 
 	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
-	float m_cameraDistance = 0.65f;
+	float m_cameraDistance = 0.66f;
 
 	Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth);
 	~Book();

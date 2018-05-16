@@ -16,7 +16,7 @@
 
 #define GROUND_HEIGHT (600)
 
-#define CAMERA_BEST_DISTANCE (0.65)
+#define CAMERA_BEST_DISTANCE (0.66)
 #define CAMERA_MAX_DISTANCE (1.45)
 
 // TODO : Systemly Learn how Header.h and Source.cpp work

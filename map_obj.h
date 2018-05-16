@@ -28,6 +28,7 @@ enum DRAW_DIRECTION
 	DRAW_RIGHT,
 };
 
+// 基準座標左上
 class MapObj : public OBJ2DEX
 {
 private:
@@ -75,8 +76,8 @@ struct STAGE_DATA {
 	a_mapObjType:		Objの種類(MAPOBJ_***)
 	a_drawDirection:	描画の方向(DRAW_***)
 	a_isOnLeftPage:		このObjは左ページのものかどうか
-	a_pos:				ページ内での描画の位置(Objの下真ん中が基準点)
-	a_isHitAble:			判定があるかどうか
+	a_pos:				ページ内での描画の位置(Objの左上が基準点)
+	a_isHitAble:		判定があるかどうか
 	a_size:				判定サイズ(描画方向と無関係)
 	a_concentraction:	濃度
 	a_pfMove:			このObjを動かす関数ポインタ

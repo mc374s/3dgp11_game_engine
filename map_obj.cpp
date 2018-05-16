@@ -48,6 +48,26 @@ void MapObj::init()
 	default:
 		break;
 	}
+	switch (m_drawDirection)
+	{
+	case DRAW_DOWN:
+		m_custom.reflectX = true;
+		m_custom.angle = 180;
+		break;
+	case DRAW_LEFT:
+		m_custom.angle = -90;
+		m_repeatDrawSize.x = m_size.y;
+		m_repeatDrawSize.y = m_size.x;
+		break;
+	case DRAW_RIGHT:
+		m_custom.reflectX = true;
+		m_custom.angle = 90;
+		m_repeatDrawSize.x = m_size.y;
+		m_repeatDrawSize.y = m_size.x;
+		break;
+	default:
+		break;
+	}
 }
 
 
@@ -87,21 +107,44 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 
 void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 {
-	// objがthisの上にある
-
-	// objがthisの下にある
-
-	// objがthisの左にある
-
-	// objがthisの右にある
-
+	// objがthisの上にある(thisを上から進入としてる)
+	if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y && a_pObj->m_pos.y > m_pos.y
+		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y > 0)
+	{
+		a_pObj->m_pos.y = m_pos.y;
+		a_pObj->m_speed.y = 0;
+	}
+	// objがthisの下にある(thisを下から進入としてる)
+	else if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y + m_size.y && a_pObj->m_pos.y>m_pos.y + m_size.y 
+		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y < 0)
+	{
+		a_pObj->m_pos.y = m_pos.y + m_size.y + a_pObj->m_size.y;
+		a_pObj->m_speed.y = 0;
+	}
+	// objがthisの左にある(thisを右から進入としてる)
+	else if (a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x && a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x
+		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x > 0)
+	{
+		a_pObj->m_pos.x = m_pos.x - a_pObj->m_size.x / 2;
+		//a_pObj->m_speed.y = 0;
+		a_pObj->m_speed.x = 0;
+	}
+	// objがthisの右にある(thisを左から進入としてる)
+	else if (a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x + m_size.x && a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x + m_size.x
+		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x < 0)
+	{
+		a_pObj->m_pos.x = m_pos.x + m_size.x + a_pObj->m_size.x / 2;
+		//a_pObj->m_speed.y = 0;
+		a_pObj->m_speed.x = 0;
+	}
 }
 
 void MapObj::draw()
 {
 #ifdef DEBUG
 
-	drawRectangle(m_pos.x - m_size.x / 2, m_pos.y - m_size.y, m_size.x, m_size.y, 0, 0xFFFFFF80);
+	drawRectangle(m_pos.x, m_pos.y, m_size.x, m_size.y, 0, 0xFFFFFF40);
+	drawRectangle(m_pos.x, m_pos.y, m_size.x, m_size.y, 0, 0xFFFFFF40);
 
 #endif // DEBUG
 
@@ -112,8 +155,11 @@ void MapObj::draw()
 
 	m_pSprData->width = m_repeatDrawSize.x;
 	m_pSprData->height = m_repeatDrawSize.y;
-	m_pSprData->ofsX = -m_pSprData->width / 2;
-	m_pSprData->ofsY = -m_pSprData->height;
+	if (m_drawDirection == DRAW_LEFT || m_drawDirection == DRAW_RIGHT)
+	{
+		m_pSprData->ofsX = -m_pSprData->width / 2 + m_pSprData->height / 2;
+		m_pSprData->ofsY = -m_pSprData->ofsX;
+	}
 
 	// 繰り返し描画開始
 	OBJ2DEX::draw();
@@ -122,8 +168,15 @@ void MapObj::draw()
 	// SPRITE_BOTTONのデータを初期に戻す
 	m_pSprData->width = sprWidth;
 	m_pSprData->height = sprHeight;
-	m_pSprData->ofsX = -m_pSprData->width / 2;
-	m_pSprData->ofsY = -m_pSprData->height;
+	m_pSprData->ofsX = 0;
+	m_pSprData->ofsY = 0;
+
+
+#ifdef DEBUG
+
+	drawRectangle(m_pos.x, m_pos.y, 4, 4, 0, 0x0000FFFF);
+
+#endif // DEBUG
 
 }
 
