@@ -12,11 +12,12 @@ Player::Player()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(95, 45, 4);
 	m_command = 0x0;
-	m_pos = { 200,200,0 };
+	m_pos = { 200,200,3 };
 	
 	m_pSprData = &m_pAnimeData[0];
 
 	m_mode = MODE_NORMAL;
+	m_state = P_STATE_ON_GROUND;
 	m_isInit = true;
 	
 }
@@ -30,7 +31,19 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
-
+	// プレーヤーの状態判断
+	if (m_speed.y == 0 && m_state != P_STATE_JUMPING)
+	{
+		m_state = P_STATE_ON_GROUND;
+	}
+	if (m_speed.y < 0)
+	{
+		m_state = P_STATE_JUMPING;
+	}
+	if (m_speed.y > 0)
+	{
+		m_state = P_STATE_DROPPING;
+	}
 	// X方向移動
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
 	{
@@ -56,10 +69,42 @@ void Player::normalMove()
 
 	// Y方向移動
 	m_speed.y += GRIVATY;
-	if (m_command & PAD_TRG1)
+	// 溜めジャンプ
+	//static float power = 0;
+	//if ((m_command & PAD_TRG1))
+	//{
+	//	if (power > -30)
+	//	{
+	//		power += P_JUMP_POWER;
+	//	}
+	//	// TODO : reverse the animetion
+	//}
+	//if (KEY_UP('Z'))
+	//{
+	//	m_speed.y += power;
+	//	power = 0;
+	//}
+
+	static int pressFrame = 0, chargeMaxFrame = 12, jumpCounter = 0;
+	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
 	{
 		m_speed.y += P_JUMP_POWER;
+		pressFrame++;
 	}
+	if (KEY_UP('Z') && jumpCounter < P_JUMP_MAX_NUM)
+	{
+		pressFrame = 0;
+		jumpCounter++;
+	}
+	if (m_state == P_STATE_ON_GROUND)
+	{
+		jumpCounter = 0;
+	}
+	if (m_speed.y < -P_SPEED_Y_MAX)
+	{
+		m_speed.y = -P_SPEED_Y_MAX;
+	}
+
 
 	if (m_speed.x > P_SPEED_X_MAX)
 	{
@@ -107,7 +152,7 @@ void Player::normalMove()
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerJump;
 	}
-	if (m_speed.x == 0 && m_speed.y == 0 && m_pAnimeData != e_pAnimePlayerStandby)
+	if (m_state==P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerStandby)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerStandby;
@@ -140,7 +185,7 @@ void Player::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n", m_pos.x, m_pos.y, m_speed.x, m_speed.y);
+	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n pstate: %d", m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_state);
 	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG

@@ -7,12 +7,20 @@
 #define P_SPEED_X_MAX	(5)
 
 #define GRIVATY			(1)
-#define P_SPEED_Y_MAX	(4)
-#define P_JUMP_POWER	(-6)
+#define P_SPEED_Y_MAX	(16)
+#define P_JUMP_POWER	(-16)
+#define P_JUMP_MAX_NUM	(1)
 
 enum P_MODE
 {
 	MODE_NORMAL,
+};
+
+enum P_STATE
+{
+	P_STATE_ON_GROUND,
+	P_STATE_JUMPING,
+	P_STATE_DROPPING,
 };
 
 class Player:public OBJ2DEX
@@ -23,6 +31,7 @@ public:
 
 	int m_command;
 	int m_mode;
+	int m_state;
 
 	Player();
 	~Player();

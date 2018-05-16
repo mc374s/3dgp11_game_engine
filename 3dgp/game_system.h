@@ -111,11 +111,12 @@ const int	COLOR_BLUE		= 0x0000FFFF;
 const int	COLOR_CYAN		= 0x00FFFFFF;
 const int	COLOR_VIOLET	= 0x800080FF;
 
-#define KEY_CLICK(vk_code) ((GetAsyncKeyState(vk_code) & 0x0001))
-#define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000))
-#define KEY_PRESS(vk_code) ((GetAsyncKeyState(vk_code) & 0x8001))
-#define KEY_RELEASE(vk_code) ((GetAsyncKeyState(vk_code) & 0x0000))
-
+#define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x0001 ? 1 : 0))
+#define KEY_PRESS(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000 ?1 : 0))
+#define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000 ? 0 : 1))
+//#define KEY_CLICK(vk_code) ((GetAsyncKeyState(vk_code) & 0x0001 ? 1 : 0))
+//#define KEY_PRESS(vk_code) ((GetAsyncKeyState(vk_code) & 0x8001 ))
+//#define KEY_RELEASE(vk_code) ((GetAsyncKeyState(vk_code) == 0))
 extern int e_command;
 
 
