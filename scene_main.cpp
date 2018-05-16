@@ -6,6 +6,7 @@
 #include "page_left.h"
 #include "page_right.h"
 #include "map_obj.h"
+#include "judge.h"
 
 #include "scene_main.h"
 
@@ -63,6 +64,8 @@ void SceneMain::update()
 	m_pBook->update();
 
 	pMapObjManager->stageUpdate();
+
+	judgeAll();
 
 	// Left Side
 	m_pViewLeftPage->m_custom3d.angleYawPitchRoll.x			= m_pBook->m_openAngle;

@@ -12,6 +12,7 @@ void MapObj::clear()
 	m_concentration = 10;
 	m_drawDirection = DRAW_UP;
 	m_repeatDrawSize = Vector3(0, 0, 0);
+	m_isHitAble = false;
 }
 
 MapObj::MapObj(int a_type)
@@ -60,7 +61,7 @@ void MapObj::update()
 
 	}
 }
-int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
+int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
@@ -72,6 +73,7 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 		a_ppBegin[i]->m_drawDirection = a_drawDirection;
 		a_ppBegin[i]->m_isOnLeftPage = a_isOnLeftPage;
 		a_ppBegin[i]->m_pos = a_pos;
+		a_ppBegin[i]->m_isHitAble = a_isHitAble;
 		a_ppBegin[i]->m_size = a_size;
 		a_ppBegin[i]->m_concentration = a_concentration;
 		a_ppBegin[i]->m_pfMove = a_pfMove;
@@ -162,7 +164,7 @@ void MapObjManager::stageUpdate()
 			}
 			break;
 		}
-		MapObj::searchSet(m_ppMapObj, MAPOBJ_MAX_NUM, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->isOnLeftPage, m_pStageData->pos, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+		MapObj::searchSet(m_ppMapObj, MAPOBJ_MAX_NUM, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->isOnLeftPage, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
 		m_pStageData++;
 	}
 }

@@ -1,7 +1,7 @@
 #ifndef _OBJ2D_H_
 #define _OBJ2D_H_
 
-#define OBJ_MAX_NUM	(128)
+#define OBJ_MAX_NUM	(256)
 
 class OBJ2D
 {

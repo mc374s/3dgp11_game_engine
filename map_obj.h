@@ -3,7 +3,7 @@
 
 #include "obj2d.h"
 
-#define MAPOBJ_MAX_NUM (24)
+#define MAPOBJ_MAX_NUM (64)
 
 enum MAPOBJ_TYPE
 {
@@ -37,6 +37,7 @@ public:
 	int m_command; //プレイヤーのキー入力
 	int m_concentration; //濃度
 	int m_drawDirection;
+	bool m_isHitAble;
 	Vector3 m_repeatDrawSize;
 
 	void hitAdjust(OBJ2DEX* a_pObj);
@@ -55,7 +56,7 @@ public:
 	void update();
 	void draw();
 
-	static int searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
+	static int searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
 
 };
 
@@ -65,6 +66,7 @@ struct STAGE_DATA {
 	DRAW_DIRECTION drawDirection;
 	bool isOnLeftPage;
 	Vector3 pos;
+	bool isHitAble;
 	Vector3 size;
 	int concentration;
 	void(*pfMove)(MapObj*);
@@ -74,16 +76,18 @@ struct STAGE_DATA {
 	a_drawDirection:	描画の方向(DRAW_***)
 	a_isOnLeftPage:		このObjは左ページのものかどうか
 	a_pos:				ページ内での描画の位置(Objの下真ん中が基準点)
+	a_isHitAble:			判定があるかどうか
 	a_size:				判定サイズ(描画方向と無関係)
 	a_concentraction:	濃度
 	a_pfMove:			このObjを動かす関数ポインタ
 	*/
-	STAGE_DATA(int a_appearTime, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
+	STAGE_DATA(int a_appearTime, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
 		appearTime(a_appearTime),
 		mapObjType(a_mapObjType),
 		drawDirection(a_drawDirection),
 		isOnLeftPage(a_isOnLeftPage),
-		pos(a_pos), 
+		pos(a_pos),
+		isHitAble(a_isHitAble),
 		size(a_size),
 		concentration(a_concentration),
 		pfMove(a_pfMove) {};

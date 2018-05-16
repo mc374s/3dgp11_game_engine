@@ -21,24 +21,5 @@
 
 // TODO : Systemly Learn how Header.h and Source.cpp work
 
-//#include "sound_data.h"
-//#include "tools.h"
-//#include "sprite_data.h"
-
-
-// Transcription game
-
-//#include "obj2d.h"
-//#include "player.h"
-
-//#include "page_left.h"
-//#include "page_right.h"
-
-// Real game
-
-//#include "book.h"
-
-//#include "scene_title.h"
-//#include "scene_main.h"
 
 #endif // !_GAME_H_

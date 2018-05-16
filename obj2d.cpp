@@ -34,6 +34,11 @@ int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max)
 		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
+		if (a_ppBegin[i])
+		{
+			delete a_ppBegin[i];
+			a_ppBegin[i] = new OBJ2D;
+		}
 		return i;
 	}
 	return -1;
