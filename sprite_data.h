@@ -26,4 +26,7 @@ extern SPRITE_BOTTOM e_pAnimePlayerJump[];
 extern SPRITE_LEFTTOP e_pSprItem[];
 
 
+// UIŠÖŒW
+extern SPRITE_LEFTTOP e_sprWhite;
+
 #endif // !_SPRDATA_H_

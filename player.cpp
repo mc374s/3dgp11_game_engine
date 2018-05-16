@@ -142,17 +142,17 @@ void Player::normalMove()
 	}
 
 	// アニメーションデータ
-	if (m_speed.x != 0 && m_speed.y == 0 && m_pAnimeData != e_pAnimePlayerRun)
+	if (m_speed.x != 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerRun)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerRun;
 	}
-	if (m_speed.y != 0 && m_pAnimeData != e_pAnimePlayerJump)
+	if ((m_state == P_STATE_DROPPING || m_state == P_STATE_JUMPING) && m_pAnimeData != e_pAnimePlayerJump)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerJump;
 	}
-	if (m_state==P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerStandby)
+	if (m_speed.x == 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerStandby)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerStandby;

@@ -13,6 +13,7 @@
 
 // ラベル定義
 enum TEX_NO {
+	TEX_WHITE,
 	TEX_TITLE,
 	TEX_MAIN,
 	TEX_PLAYER,
@@ -26,6 +27,7 @@ enum TEX_NO {
 
 // 2D画像ロードデータ
 LOAD_TEXTURE e_loadTexture[] = {
+	{ TEX_WHITE,		"./DATA/Images/white.png" },
 	{ TEX_TITLE,		"./DATA/Images/default_bg.jpg"},
 	{ TEX_MAIN,			"./DATA/Images/default_bg.jpg"},
 	{ TEX_PLAYER,		"./DATA/Images/character.png"},
@@ -113,8 +115,12 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(TEX_IVY_THICK,    0, 0, 125,  17),// MAPOBJ_IVY_THICK
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 715, 0,  51,  76),// MAPOBJ_DOOR
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 802, 0,  36,  28),// MAPOBJ_KEY
+	e_sprWhite,// MAPOBJ_HIGH_CONCENTRATION
 
 	SPRITE_LEFTTOP(-1, 0, 0, 0, 0),
 };
+
+// UI関係
+SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
 
 //******************************************************************************

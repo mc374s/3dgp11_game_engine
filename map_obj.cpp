@@ -43,7 +43,11 @@ void MapObj::init()
 	case MAPOBJ_IVY_THIN:
 	case MAPOBJ_IVY_THICK:
 		m_repeatDrawSize = m_size;
-
+		break;
+	case MAPOBJ_HIGH_CONCENTRATION:
+		m_repeatDrawSize = m_size;
+		m_custom.rgba = 0x000000FF;
+		m_alpha = 255 * m_concentration / 10;
 		break;
 	default:
 		break;
