@@ -7,12 +7,17 @@
 Player::Player()
 {
 	OBJ2DEX::clear();
+	init();
+	
+}
+void Player::init()
+{
 	m_pAnimeData = e_pAnimePlayerStandby;
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
-	m_pos = { 200,200,5 };
-	
+	m_pos = { PAGE_WIDTH - 50,200,5 };
+
 	m_pSprData = &m_pAnimeData[0];
 
 	m_mode = MODE_NORMAL;
@@ -21,7 +26,7 @@ Player::Player()
 	m_transferConcentration = 0;
 
 	m_isInit = true;
-	
+
 }
 
 Player::~Player()
@@ -71,21 +76,6 @@ void Player::normalMove()
 
 	// Y方向移動
 	m_speed.y += GRIVATY;
-	// 溜めジャンプ
-	//static float power = 0;
-	//if ((m_command & PAD_TRG1))
-	//{
-	//	if (power > -30)
-	//	{
-	//		power += P_JUMP_POWER;
-	//	}
-	//	// TODO : reverse the animetion
-	//}
-	//if (KEY_UP('Z'))
-	//{
-	//	m_speed.y += power;
-	//	power = 0;
-	//}
 
 	static int pressFrame = 0, chargeMaxFrame = 12, jumpCounter = 0;
 	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
@@ -98,6 +88,25 @@ void Player::normalMove()
 		pressFrame = 0;
 		jumpCounter++;
 	}
+
+	// 溜めジャンプ
+	//static float power = 0;
+	//if ((m_command & PAD_TRG1) && jumpCounter < P_JUMP_MAX_NUM)
+	//{
+	//	if (power > -30)
+	//	{
+	//		power += P_JUMP_POWER;
+	//	}
+	//	// TODO : reverse the animetion
+	//}
+	//if (KEY_UP('Z'))
+	//{
+	//	m_speed.y += power;
+	//	jumpCounter++;
+	//	power = 0;
+	//}
+
+	
 	if (m_state == P_STATE_ON_GROUND)
 	{
 		jumpCounter = 0;
@@ -121,26 +130,23 @@ void Player::normalMove()
 	// 移動
 	m_pos += m_speed;
 
-	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
+	// ページ外チェック
+	if (m_pos.x > PAGE_WIDTH + m_size.x / 2)
 	{
-		m_pos.x = PAGE_WIDTH - m_size.x / 2;
-		m_speed.x = 0;
+		init();
 	}
-	if (m_pos.x < m_size.x / 2)
+	if (m_pos.x < -m_size.x / 2)
 	{
-		m_pos.x = m_size.x / 2;
-		m_speed.x = 0;
+		init();
 	}
 
-	if (m_pos.y > PAGE_HEIGHT - m_size.y / 2)
+	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
-		m_pos.y = PAGE_HEIGHT - m_size.y / 2;
-		m_speed.y = 0;
+		init();
 	}
-	if (m_pos.y < 100 - m_size.y / 2)
+	if (m_pos.y < - m_size.y)
 	{
-		m_pos.y = 100 - m_size.y / 2;
-		m_speed.y = 0;
+		init();
 	}
 
 	// 濃度計算：動いてるときに減っていく
@@ -201,7 +207,8 @@ void Player::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d", m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_state, m_concentration);
+	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d",
+		m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_state, m_concentration, m_transferConcentration);
 	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG

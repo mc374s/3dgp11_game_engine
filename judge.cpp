@@ -37,7 +37,7 @@ void judgeAll()
 			&& checkHitPlayerToMapObjOpened(pPlayer, ppMapObj[i]))
 		{
 			//ppMapObj[i]->clear();
-			if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION && ppMapObj[i]->m_type != MAPOBJ_NONE)
+			if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION && ppMapObj[i]->m_type != MAPOBJ_NONE && ppMapObj[i]->m_concentration >= pPlayer->m_concentration)
 			{
 				ppMapObj[i]->hitAdjust(pPlayer);
 			}

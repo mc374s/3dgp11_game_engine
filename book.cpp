@@ -137,14 +137,18 @@ void Book::closeBook()
 		m_postion.y += m_openSpeed * 3.0f;
 		if (m_openAngle <= -90) {
 			m_isClosed = true;
+			m_openAngle = -90;
+			m_cameraAngleZY = -0.90f;
+			m_postion.z = 450;
+			m_postion.y = 270;
 			m_state = STATE_END;
 		}
 		break;
 	case STATE_END:
-		m_openAngle = -90;
+		/*m_openAngle = -90;
 		m_cameraAngleZY = -0.90f;
 		m_postion.z = 450;
-		m_postion.y = 270;
+		m_postion.y = 270;*/
 
 		pPlayerManager->transcriptPlayer();
 		m_state = STATE_FINISH;
@@ -178,14 +182,18 @@ void Book::openBook()
 		m_postion.y -= 9;
 		if (m_openAngle > 0) {
 			m_isOpened = true;
+			m_openAngle = 0;
+			m_cameraAngleZY = 0.0f;
+			m_postion.z = 0;
+			m_postion.y = 0;
 			m_state = STATE_END;
 		}
 		break;
 	case STATE_END:
-		m_openAngle = 0;
+		/*m_openAngle = 0;
 		m_cameraAngleZY = 0.0f;
 		m_postion.z = 0;
-		m_postion.y = 0;
+		m_postion.y = 0;*/
 		m_state = STATE_FINISH;
 		break;
 	case STATE_FINISH:
