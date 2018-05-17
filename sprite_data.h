@@ -1,9 +1,9 @@
-#ifndef _SPRDATA_H_
+ï»¿#ifndef _SPRDATA_H_
 #define	_SPRDATA_H_
 
 extern LOAD_TEXTURE e_loadTexture[];
 
-// ”wŒi
+// èƒŒæ™¯
 extern SPRITE_LEFTTOP	e_sprTitleBG;
 extern SPRITE_LEFTTOP	e_sprMainBG;
 
@@ -11,7 +11,7 @@ extern SPRITE_LEFTTOP	e_sprMainBG;
 extern SPRITE_LEFTTOP e_sprPageLeft;
 extern SPRITE_LEFTTOP e_sprPageRight;
 
-// ƒLƒƒƒ‰‚È‚Ç
+// ã‚­ãƒ£ãƒ©ãªã©
 //extern SPRITE_BOTTOM e_pSprPlayerStandby[];
 //extern SPRITE_BOTTOM* e_pAnimePlayerStandby[][9];
 
@@ -22,11 +22,11 @@ extern SPRITE_BOTTOM e_pAnimePlayerYawn[];
 extern SPRITE_BOTTOM e_pAnimePlayerRun[];
 extern SPRITE_BOTTOM e_pAnimePlayerJump[];
 
-// ƒ}ƒbƒvŠÖŒWAƒAƒCƒeƒ€
+// ãƒãƒƒãƒ—é–¢ä¿‚ã€ã‚¢ã‚¤ãƒ†ãƒ 
 extern SPRITE_LEFTTOP e_pSprItem[];
 
 
-// UIŠÖŒW
+// UIé–¢ä¿‚
 extern SPRITE_LEFTTOP e_sprWhite;
 
 #endif // !_SPRDATA_H_

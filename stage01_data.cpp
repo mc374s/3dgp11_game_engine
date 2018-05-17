@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 #include "map_obj.h"
 
 #include "stage_data.h"

@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "sprite_data.h"
 #include "scene_main.h"
 
@@ -10,17 +10,17 @@
 
 void loadTextureProgress()
 {
-	pTextureManager->loadTexture(e_loadTexture);		// 2D‰æ‘œ‚ÌˆêŠ‡ƒ[ƒh
+	pTextureManager->loadTexture(e_loadTexture);		// 2Dç”»åƒã®ä¸€æ‹¬ãƒ­ãƒ¼ãƒ‰
 }
 //void loadAudioProgress()
 //{
-//	pMFAudioManager->loadAudios(audio_data);			// ‰¹ºƒf[ƒ^‚ÌˆêŠ‡ƒ[ƒh
+//	pMFAudioManager->loadAudios(audio_data);			// éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ä¸€æ‹¬ãƒ­ãƒ¼ãƒ‰
 //}
 
 SceneTitle::SceneTitle()
 {
 	Scene::init();
-	//pTextureManager->loadTexture(e_loadTexture);		// 2D‰æ‘œ‚ÌˆêŠ‡ƒ[ƒh
+	//pTextureManager->loadTexture(e_loadTexture);		// 2Dç”»åƒã®ä¸€æ‹¬ãƒ­ãƒ¼ãƒ‰
 	std::thread loadThread_1(loadTextureProgress);
 	loadThread_1.detach();
 	/*std::thread loadThread_2(loadAudioProgress);

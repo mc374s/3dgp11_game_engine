@@ -1,17 +1,17 @@
-//******************************************************************************
+﻿//******************************************************************************
 //
 //
-//		2D�摜�f�[�^
+//		2D画像データ
 //
 //
 //******************************************************************************
 
-// �C���N���[�h
+// インクルード
 #include "game.h"
 
 #include "sprite_data.h"
 
-// ���x����`
+// ラベル定義
 enum TEX_NO {
 	TEX_WHITE,
 	TEX_TITLE,
@@ -25,7 +25,7 @@ enum TEX_NO {
 	TEX_IVY_THIN,
 };
 
-// 2D�摜���[�h�f�[�^
+// 2D画像ロードデータ
 LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_WHITE,		"./DATA/Images/white.png" },
 	{ TEX_TITLE,		"./DATA/Images/default_bg.jpg"},
@@ -41,7 +41,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ -1, NULL }
 };
 
-// �w�i
+// 背景
 SPRITE_LEFTTOP	e_sprTitleBG = SPRITE_LEFTTOP(TEX_TITLE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 SPRITE_LEFTTOP	e_sprMainBG = SPRITE_LEFTTOP(TEX_MAIN, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -49,7 +49,7 @@ SPRITE_LEFTTOP	e_sprMainBG = SPRITE_LEFTTOP(TEX_MAIN, 0, 0, SCREEN_WIDTH, SCREEN
 SPRITE_LEFTTOP e_sprPageLeft = SPRITE_LEFTTOP(TEX_PAGE_LEFT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 SPRITE_LEFTTOP e_sprPageRight = SPRITE_LEFTTOP(TEX_PAGE_RIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 
-// �L�����Ȃ�
+// キャラなど
 
 SPRITE_BOTTOM e_pAnimePlayerStandby[] = {
 
@@ -104,7 +104,7 @@ SPRITE_BOTTOM e_pAnimePlayerJump[] = {
 };
 
 
-// �}�b�v�֌W�A�A�C�e��
+// マップ関係、アイテム
 SPRITE_LEFTTOP e_pSprItem[] =
 {
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT,   0, 0, 147,  92),// ITEM_HOUSE
@@ -120,7 +120,7 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(-1, 0, 0, 0, 0),
 };
 
-// UI�֌W
+// UI関係
 SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
 
 //******************************************************************************

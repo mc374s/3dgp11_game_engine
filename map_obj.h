@@ -1,4 +1,4 @@
-#ifndef _MAP_OBJ_H_
+ï»¿#ifndef _MAP_OBJ_H_
 #define _MAP_OBJ_H_
 
 #include "obj2d.h"
@@ -29,15 +29,15 @@ enum DRAW_DIRECTION
 	DRAW_RIGHT,
 };
 
-// Šî€À•W¶ã
+// åŸºæº–åº§æ¨™å·¦ä¸Š
 class MapObj : public OBJ2DEX
 {
 private:
 
 public:
 
-	int m_command; //ƒvƒŒƒCƒ„[‚ÌƒL[“ü—Í
-	int m_concentration; //”Z“x
+	int m_command; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚­ãƒ¼å…¥åŠ›
+	int m_concentration; //æ¿ƒåº¦
 	int m_drawDirection;
 	bool m_isHitAble;
 	Vector3 m_repeatDrawSize;
@@ -74,15 +74,15 @@ struct STAGE_DATA {
 	int concentration;
 	void(*pfMove)(MapObj*);
 	/**
-	a_ppearTime:		oŒ»‚ÌƒtƒŒ[ƒ€”
-	a_mapObjType:		Obj‚Ìí—Ş(MAPOBJ_***)
-	a_drawDirection:	•`‰æ‚Ì•ûŒü(DRAW_***)
-	a_isOnLeftPage:		‚±‚ÌObj‚Í¶ƒy[ƒW‚Ì‚à‚Ì‚©‚Ç‚¤‚©
-	a_pos:				ƒy[ƒW“à‚Å‚Ì•`‰æ‚ÌˆÊ’u(Obj‚Ì¶ã‚ªŠî€“_)
-	a_isHitAble:		”»’è‚ª‚ ‚é‚©‚Ç‚¤‚©
-	a_size:				”»’èƒTƒCƒY(•`‰æ•ûŒü‚Æ–³ŠÖŒW)
-	a_concentraction:	”Z“x
-	a_pfMove:			‚±‚ÌObj‚ğ“®‚©‚·ŠÖ”ƒ|ƒCƒ“ƒ^
+	a_ppearTime:		å‡ºç¾ã®ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	a_mapObjType:		Objã®ç¨®é¡(MAPOBJ_***)
+	a_drawDirection:	æç”»ã®æ–¹å‘(DRAW_***)
+	a_isOnLeftPage:		ã“ã®Objã¯å·¦ãƒšãƒ¼ã‚¸ã®ã‚‚ã®ã‹ã©ã†ã‹
+	a_pos:				ãƒšãƒ¼ã‚¸å†…ã§ã®æç”»ã®ä½ç½®(Objã®å·¦ä¸ŠãŒåŸºæº–ç‚¹)
+	a_isHitAble:		åˆ¤å®šãŒã‚ã‚‹ã‹ã©ã†ã‹
+	a_size:				åˆ¤å®šã‚µã‚¤ã‚º(æç”»æ–¹å‘ã¨ç„¡é–¢ä¿‚)
+	a_concentraction:	æ¿ƒåº¦
+	a_pfMove:			ã“ã®Objã‚’å‹•ã‹ã™é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 	*/
 	STAGE_DATA(int a_appearTime, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
 		appearTime(a_appearTime),

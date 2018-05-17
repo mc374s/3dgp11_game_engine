@@ -1,5 +1,6 @@
-#ifndef _GAME_H_
+﻿#ifndef _GAME_H_
 #define	_GAME_H_
+
 
 #include "./3dgp/3dgp_system.h"
 #include "./3dgp/framework.h"

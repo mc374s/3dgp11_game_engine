@@ -1,4 +1,4 @@
-#ifndef _SCENE_MAIN_H_
+﻿#ifndef _SCENE_MAIN_H_
 #define _SCENE_MAIN_H_
 
 #include "obj2d.h"

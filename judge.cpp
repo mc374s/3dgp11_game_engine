@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "player.h"
 #include "map_obj.h"
 #include "scene_main.h"
@@ -55,17 +55,17 @@ void judgeAll()
 
 bool checkHitRectZ(float ax, float ay, int aw, int ah, float bx, float by, int bw, int bh)
 {
-	float al = ax - aw / 2;		//•¨‘ÌA‚Ì¶’[(Left)
+	float al = ax - aw / 2;		//ç‰©ä½“Aã®å·¦ç«¯(Left)
 	float ar = ax + aw / 2;
 	float au = ay - ah;
 	float ad = ay;
 
-	float bl = bx - bw / 2;		//•¨‘ÌB‚Ì¶’[(Left)
+	float bl = bx - bw / 2;		//ç‰©ä½“Bã®å·¦ç«¯(Left)
 	float br = bx + bw / 2;
 	float bu = by - bh;
 	float bd = by;
 
-	//“–‚½‚Á‚Ä‚¢‚È‚¢ğŒ
+	//å½“ãŸã£ã¦ã„ãªã„æ¡ä»¶
 	if (aw <= 0 || ah <= 0 || bw <= 0 || bh <= 0)
 	{
 		return  false;

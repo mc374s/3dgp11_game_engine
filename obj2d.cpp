@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "obj2d.h"
 
 /////////////////////////////////////////////////////////////////
@@ -117,7 +117,7 @@ void ObjManager::updata(bool a_isLeftPage) {
 		}
 	}
 
-	// •`‰æ‡”Ô‚ğ•À‚Ñ‘Ö‚¦@pos.z : ¬‚³‚¢‡‚©‚ç•`‰æ‚µ‚Ä‚¢‚­ 
+	// æç”»é †ç•ªã‚’ä¸¦ã³æ›¿ãˆã€€pos.z : å°ã•ã„é †ã‹ã‚‰æç”»ã—ã¦ã„ã 
 	OBJ2D* temp = nullptr;
 	for (int i = 1; i < OBJ_MAX_NUM; i++)
 	{

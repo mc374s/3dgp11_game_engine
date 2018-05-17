@@ -1,4 +1,4 @@
-#ifndef _OBJ2D_H_
+﻿#ifndef _OBJ2D_H_
 #define _OBJ2D_H_
 
 #define OBJ_MAX_NUM	(256)

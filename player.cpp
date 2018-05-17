@@ -5,6 +5,7 @@
 #include "player.h"
 
 
+
 Player::Player()
 {
 	OBJ2DEX::clear();

@@ -1,5 +1,6 @@
-#ifndef _BOOK_H_
+ï»¿#ifndef _BOOK_H_
 #define _BOOK_H_
+
 
 class Book
 {
@@ -22,7 +23,7 @@ public:
 	Cube *m_pCoverLeft;
 	Cube *m_pCoverRight;
 	
-	// ƒƒ“ƒo[ŠÖ”‚ÌŠÖ”ƒ|ƒCƒ“ƒ^
+	// ãƒ¡ãƒ³ãƒãƒ¼é–¢æ•°ã®é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 	void(Book::*m_pfMove)();
 	void(Book::*m_pfMoveOld)();
 

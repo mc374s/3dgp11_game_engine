@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "sprite_data.h"
 #include "stage_data.h"
 
@@ -25,7 +25,7 @@ MapObj::MapObj(int a_type)
 
 }
 
-// stageData ‚É‚æ‚é‰Šú‰»
+// stageData ã«ã‚ˆã‚‹åˆæœŸåŒ–
 void MapObj::init()
 {
 	m_isInit = true;
@@ -111,21 +111,21 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 
 void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 {
-	// obj‚ªthis‚Ìã‚É‚ ‚é(this‚ðã‚©‚çi“ü‚Æ‚µ‚Ä‚é)
+	// objãŒthisã®ä¸Šã«ã‚ã‚‹(thisã‚’ä¸Šã‹ã‚‰é€²å…¥ã¨ã—ã¦ã‚‹)
 	if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y && a_pObj->m_pos.y > m_pos.y
 		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y > 0)
 	{
 		a_pObj->m_pos.y = m_pos.y;
 		a_pObj->m_speed.y = 0;
 	}
-	// obj‚ªthis‚Ì‰º‚É‚ ‚é(this‚ð‰º‚©‚çi“ü‚Æ‚µ‚Ä‚é)
+	// objãŒthisã®ä¸‹ã«ã‚ã‚‹(thisã‚’ä¸‹ã‹ã‚‰é€²å…¥ã¨ã—ã¦ã‚‹)
 	else if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y + m_size.y && a_pObj->m_pos.y>m_pos.y + m_size.y 
 		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y < 0)
 	{
 		a_pObj->m_pos.y = m_pos.y + m_size.y + a_pObj->m_size.y;
 		a_pObj->m_speed.y = 0;
 	}
-	// obj‚ªthis‚Ì¶‚É‚ ‚é(this‚ð‰E‚©‚çi“ü‚Æ‚µ‚Ä‚é)
+	// objãŒthisã®å·¦ã«ã‚ã‚‹(thisã‚’å³ã‹ã‚‰é€²å…¥ã¨ã—ã¦ã‚‹)
 	else if (a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x && a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x
 		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x > 0)
 	{
@@ -133,7 +133,7 @@ void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 		//a_pObj->m_speed.y = 0;
 		a_pObj->m_speed.x = 0;
 	}
-	// obj‚ªthis‚Ì‰E‚É‚ ‚é(this‚ð¶‚©‚çi“ü‚Æ‚µ‚Ä‚é)
+	// objãŒthisã®å³ã«ã‚ã‚‹(thisã‚’å·¦ã‹ã‚‰é€²å…¥ã¨ã—ã¦ã‚‹)
 	else if (a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x + m_size.x && a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x + m_size.x
 		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x < 0)
 	{
@@ -153,7 +153,7 @@ void MapObj::draw()
 #endif // DEBUG
 
 
-	// ŒJ‚è•Ô‚µ•`‰æ‚Ì‚½‚ßAˆê’USPRITE_BOTTOM‚Ì‰Šúƒf[ƒ^‚ð•Û‘¶
+	// ç¹°ã‚Šè¿”ã—æç”»ã®ãŸã‚ã€ä¸€æ—¦SPRITE_BOTTOMã®åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜
 	int sprWidth = m_pSprData->width;
 	int sprHeight = m_pSprData->height;
 
@@ -165,11 +165,11 @@ void MapObj::draw()
 		m_pSprData->ofsY = -m_pSprData->ofsX;
 	}
 
-	// ŒJ‚è•Ô‚µ•`‰æŠJŽn
+	// ç¹°ã‚Šè¿”ã—æç”»é–‹å§‹
 	OBJ2DEX::draw();
-	// ŒJ‚è•Ô‚µ•`‰æI—¹
+	// ç¹°ã‚Šè¿”ã—æç”»çµ‚äº†
 
-	// SPRITE_BOTTON‚Ìƒf[ƒ^‚ð‰Šú‚É–ß‚·
+	// SPRITE_BOTTONã®ãƒ‡ãƒ¼ã‚¿ã‚’åˆæœŸã«æˆ»ã™
 	m_pSprData->width = sprWidth;
 	m_pSprData->height = sprHeight;
 	m_pSprData->ofsX = 0;

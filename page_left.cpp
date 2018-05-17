@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 #include "sprite_data.h"
 #include "obj2d.h"
 #include "player.h"

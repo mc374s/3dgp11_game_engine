@@ -1,4 +1,4 @@
-#ifndef _JUDGE_H_
+﻿#ifndef _JUDGE_H_
 #define _JUDGE_H_
 
 void judgeAll();

@@ -1,9 +1,9 @@
-#ifndef _SCENE_TITLE_H_
+ï»¿#ifndef _SCENE_TITLE_H_
 #define _SCENE_TITLE_H_
 
 #include "obj2d.h"
 
-// SceneTitleƒNƒ‰ƒX‚Ì’è‹`
+// SceneTitleã‚¯ãƒ©ã‚¹ã®å®šç¾©
 class SceneTitle :public Scene, public Singleton<SceneTitle>
 {
 private:

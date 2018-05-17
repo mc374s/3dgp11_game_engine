@@ -1,4 +1,4 @@
-#ifndef _SOUND_DATA_H_
+﻿#ifndef _SOUND_DATA_H_
 #define _SOUND_DATA_H_
 
 enum AUDIO_NO

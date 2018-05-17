@@ -1,4 +1,4 @@
-#ifndef _PAGE_LEFT_H_
+﻿#ifndef _PAGE_LEFT_H_
 #define _PAGE_LEFT_H_
 
 class PageLeft :public Scene, public Singleton<PageLeft>

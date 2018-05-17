@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "sprite_data.h"
 #include "book.h"
 
@@ -123,7 +123,7 @@ void SceneMain::updateChildScenes()
 	// Right Side
 	m_pViewRightPage->m_custom3d.angleYawPitchRoll.x = -m_pBook->m_openAngle;
 
-	// –{‚ÆTargetView‚ÌˆÊ’u‚ð“¯’²‚©‚Ë‚ÄÀ•WŒn‚Ìˆá‚¢‚É‚æ‚é
+	// æœ¬ã¨TargetViewã®ä½ç½®ã‚’åŒèª¿ã‹ã­ã¦åº§æ¨™ç³»ã®é•ã„ã«ã‚ˆã‚‹
 	m_pViewLeftPage->m_custom3d.position = m_pBook->m_postion;
 	m_pViewLeftPage->m_custom3d.position.y = -m_pBook->m_postion.y;
 	//m_pViewLeftPage->m_custom3d.position.z -= 0.1;

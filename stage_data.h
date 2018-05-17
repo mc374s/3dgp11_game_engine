@@ -1,4 +1,4 @@
-#ifndef _STAGE_DATA_H_
+﻿#ifndef _STAGE_DATA_H_
 #define _STAGE_DATA_H_
 
 struct STAGE_DATA;
