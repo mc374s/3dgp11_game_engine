@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "player.h"
 
 #include "book.h"
@@ -62,8 +62,8 @@ void Book::update()
 		}
 	}
 
-	// TODO : –{‚ğ•Â‚¶ŠJ‚­ [C] ƒL[‚ª getInputKey() ‚Ì’†‚ÌPAD_TRG3‚ÆÕ“ËA‰ğŒˆ—v¿
-	// Œ´ˆö‚ÍKEY_BOARD‚ªextern‚ÅXV‚µ‚Ä‚¢‚é‚±‚Æ‚Æ—\‘ª
+	// TODO : æœ¬ã‚’é–‰ã˜é–‹ã [C] ã‚­ãƒ¼ãŒ getInputKey() ã®ä¸­ã®PAD_TRG3ã¨è¡çªã€è§£æ±ºè¦è«‹
+	// åŸå› ã¯KEY_BOARDãŒexternã§æ›´æ–°ã—ã¦ã„ã‚‹ã“ã¨ã¨äºˆæ¸¬
 	if (/*KEY_TRACKER.pressed.C*/KEY_DOWN('C')/*KEY_BOARD.C*//*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
 		if (m_pfMove == &Book::closeBook){
 			m_pfMove = &Book::openBook;
@@ -76,7 +76,7 @@ void Book::update()
 		(this->*m_pfMove)();
 	}
 
-	// ¶‰EBook‚ÌYaw‰ñ“]‚ÆˆÊ’u‚ğ“¯’²
+	// å·¦å³Bookã®Yawå›è»¢ã¨ä½ç½®ã‚’åŒèª¿
 	m_pBookLeft->m_custom3d.angleYawPitchRoll.x = m_openAngle;
 	m_pCoverLeft->m_custom3d.angleYawPitchRoll.x = m_openAngle;
 
@@ -88,7 +88,7 @@ void Book::update()
 
 	m_pBookRight->m_custom3d.position = m_postion;
 	m_pCoverRight->m_custom3d.position = m_postion;
-	// –{‘S‘Ì‚Ì‰ñ“]‚ÍƒJƒƒ‰ƒ[ƒN‚É”C‚¹‚é
+	// æœ¬å…¨ä½“ã®å›è»¢ã¯ã‚«ãƒ¡ãƒ©ãƒ¯ãƒ¼ã‚¯ã«ä»»ã›ã‚‹
 	e_camera.upDirection = { sinf(m_cameraAngleZY)*sinf(m_cameraAngleXY), cosf(m_cameraAngleZY), sinf(m_cameraAngleZY)*cosf(m_cameraAngleXY), 0 };
 	e_camera.eyePosition = { -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*sinf(m_cameraAngleXY), fabs(m_cameraDistance)*sinf(m_cameraAngleZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*cosf(m_cameraAngleXY),0 };
 
