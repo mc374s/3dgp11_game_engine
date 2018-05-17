@@ -71,7 +71,7 @@ void Player::normalMove()
 		break;
 	}
 
-	// Y方向移動	
+	// Y方向移動
 	m_speed.y += GRIVATY;
 	// 溜めジャンプ
 	//static float power = 0;
