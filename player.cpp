@@ -10,7 +10,7 @@ Player::Player()
 	OBJ2DEX::clear();
 	m_pAnimeData = e_pAnimePlayerStandby;
 	//m_pAnimeData = e_pAnimePlayerJump;
-	m_size = Vector3(95, 45, 4);
+	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
 	m_pos = { 200,200,5 };
 	
@@ -34,7 +34,7 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
-	// ƒvƒŒ[ƒ„[‚Ìó‘Ô”»’f
+	// ãƒ—ãƒ¬ãƒ¼ãƒ¤ãƒ¼ã®çŠ¶æ…‹åˆ¤æ–­
 	if (m_speed.y == 0 && m_state != P_STATE_JUMPING)
 	{
 		m_state = P_STATE_ON_GROUND;
@@ -47,7 +47,7 @@ void Player::normalMove()
 	{
 		m_state = P_STATE_DROPPING;
 	}
-	// X•ûŒüˆÚ“®
+	// Xæ–¹å‘ç§»å‹•
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
 	{
 	case PAD_LEFT:
@@ -70,9 +70,9 @@ void Player::normalMove()
 		break;
 	}
 
-	// Y•ûŒüˆÚ“®
+	// Yæ–¹å‘ç§»å‹•
 	m_speed.y += GRIVATY;
-	// —­‚ßƒWƒƒƒ“ƒv
+	// æºœã‚ã‚¸ãƒ£ãƒ³ãƒ—
 	//static float power = 0;
 	//if ((m_command & PAD_TRG1))
 	//{
@@ -119,7 +119,7 @@ void Player::normalMove()
 	}
 
 
-	// ˆÚ“®
+	// ç§»å‹•
 	m_pos += m_speed;
 
 	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
@@ -144,7 +144,7 @@ void Player::normalMove()
 		m_speed.y = 0;
 	}
 
-	// ”Z“xŒvZF“®‚¢‚Ä‚é‚Æ‚«‚ÉŒ¸‚Á‚Ä‚¢‚­
+	// æ¿ƒåº¦è¨ˆç®—ï¼šå‹•ã„ã¦ã‚‹ã¨ãã«æ¸›ã£ã¦ã„ã
 	if (m_pAnimeData != e_pAnimePlayerStandby)
 	{
 		m_timer++;
@@ -159,7 +159,7 @@ void Player::normalMove()
 		}
 	}
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“ƒf[ƒ^
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿
 	if (m_speed.x != 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerRun)
 	{
 		m_animeNO = 0;
