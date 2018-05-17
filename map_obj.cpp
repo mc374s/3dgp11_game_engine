@@ -15,13 +15,10 @@ void MapObj::clear()
 	m_isHitAble = false;
 }
 
-MapObj::MapObj(int a_type)
+MapObj::MapObj(/*int a_type*/)
 {
 	clear();
 	m_command = 0x0;
-	m_type = a_type;
-
-	m_pSprData = &e_pSprItem[m_type];
 
 }
 
@@ -29,6 +26,9 @@ MapObj::MapObj(int a_type)
 void MapObj::init()
 {
 	m_isInit = true;
+
+	m_pSprData = &e_pSprItem[m_type];
+
 	switch (m_type)
 	{
 	case MAPOBJ_HOUSE:
@@ -92,7 +92,7 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
-		a_ppBegin[i] = new MapObj(a_mapObjType);
+		//a_ppBegin[i] = new MapObj(a_mapObjType);
 		a_ppBegin[i]->m_type = a_mapObjType;
 		a_ppBegin[i]->m_drawDirection = a_drawDirection;
 		a_ppBegin[i]->m_isOnLeftPage = a_isOnLeftPage;
@@ -190,6 +190,20 @@ STAGE_DATA* stageSetData[] = {
 	stage01_setData,
 };
 
+
+MapObjManager::~MapObjManager() 
+{
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		if (m_ppMapObj[i] && !m_ppMapObj[i]->m_isInit)
+		{
+			delete m_ppMapObj[i];
+			m_ppMapObj[i] = nullptr;
+		}
+	}
+}
+
+
 void MapObjManager::init(int a_stageNo)
 {
 	m_stageNo = a_stageNo;
@@ -201,7 +215,7 @@ void MapObjManager::init(int a_stageNo)
 		{
 			delete m_ppMapObj[i];
 		}
-		m_ppMapObj[i] = nullptr;
+		m_ppMapObj[i] = new MapObj();
 	}
 
 }

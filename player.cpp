@@ -1,6 +1,7 @@
 ﻿#include "game.h"
 #include "sprite_data.h"
 #include "obj2d.h"
+#include "game_ui.h"
 
 #include "player.h"
 
@@ -262,29 +263,41 @@ void PlayerManager::manageConcentration()
 	{
 	case STATE_INIT:
 		m_concentration = m_pPlayer->m_concentration;
-		m_transferConcentration = m_pPlayer->m_concentration - 1;
+		m_pPlayer->m_transferConcentration = 1;
+		m_pPlayer->m_concentration--;
 		m_state = STATE_BEGIN;
 		//break;
 	case STATE_BEGIN:
-		if (KEY_DOWN('A')) {
-			m_pPlayer->m_isOnLeftPage ? (m_transferConcentration--) : (m_transferConcentration++);
+
+
+		if ((m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (!m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+			m_pPlayer->m_transferConcentration--;
+			m_pPlayer->m_concentration++;
 		}
-		if (KEY_DOWN('D')) {
-			m_pPlayer->m_isOnLeftPage ? (m_transferConcentration++) : (m_transferConcentration--);
+		if ((!m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+			m_pPlayer->m_transferConcentration++;
+			m_pPlayer->m_concentration--;
 		}
 
-		if (m_transferConcentration < 1) {
-			m_transferConcentration = 1;
+		if (m_pPlayer->m_transferConcentration < 1) {
+			m_pPlayer->m_transferConcentration = 1;
+		}
+		if (m_pPlayer->m_transferConcentration > m_concentration - 1) {
+			m_pPlayer->m_transferConcentration = m_concentration - 1;
+		}
+		if (m_pPlayer->m_concentration < 1) {
+			m_pPlayer->m_concentration = 1;
+		}				 
+		if (m_pPlayer->m_concentration > m_concentration - 1) {
+			m_pPlayer->m_concentration = m_concentration - 1;
 		}
 
-		if (m_transferConcentration > m_concentration - 1) {
-			m_transferConcentration = m_concentration - 1;
-		}
-		m_pPlayer->m_concentration = m_transferConcentration;
 		break;
 	default:
 		break;
 	}
+
+	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_isOnLeftPage);
 
 }
 
@@ -292,13 +305,13 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 {
 	if (m_pPlayer && m_isTranscriptAble)
 	{
-		OBJ2D *pObj2dTemp = nullptr;
-		pObj2dTemp = pObjManager->m_ppObj[GET_IDLE_OBJ_NO];
+		OBJ2D *pObj2dTemp = new OBJ2D;
+		pObjManager->m_ppObj[GET_IDLE_OBJ_NO] = pObj2dTemp;
 		pObj2dTemp->m_isInit = true;
 		pObj2dTemp->m_pos = m_pPlayer->m_pos;
 		pObj2dTemp->m_pos.z--;
 		pObj2dTemp->m_custom = m_pPlayer->m_custom;
-		pObj2dTemp->m_alpha = 255 * (m_concentration - m_transferConcentration) / 10;
+		pObj2dTemp->m_alpha = 255 * (m_pPlayer->m_concentration - m_pPlayer->m_transferConcentration) / 10;
 		pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
 		pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
 		m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;

@@ -28,7 +28,7 @@ void judgeAll()
 	if (isBookClosed)
 	{
 		pPlayerManager->m_isTranscriptAble = true;
-		//pPlayerManager->manageConcentration();
+		pPlayerManager->manageConcentration();
 	}
 
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)

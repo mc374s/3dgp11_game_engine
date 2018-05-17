@@ -8,6 +8,8 @@
 #include "map_obj.h"
 #include "judge.h"
 
+#include "game_ui.h"
+
 #include "scene_main.h"
 
 SceneMain::SceneMain()
@@ -28,6 +30,7 @@ SceneMain::SceneMain()
 	pObjManager->init();
 	pMapObjManager->init(0);
 
+	pGameUIManager->init();
 }
 SceneMain::~SceneMain()
 {
@@ -51,8 +54,6 @@ void SceneMain::update()
 	m_isBookClosed = m_pBook->m_isClosed;
 	m_isBookOpened = m_pBook->m_isOpened;
 	updateChildScenes();
-
-
 
 	pMapObjManager->stageUpdate();
 
@@ -85,6 +86,8 @@ void SceneMain::draw()
 		m_pChildrenScene[CHILD_RIGHT]->draw();
 	}
 	View::clear();
+
+	pGameUIManager->draw();
 
 #ifdef DEBUG
 

@@ -51,8 +51,8 @@ public:
 
 	void clear();
 
-	MapObj(int a_type = 0);
-	~MapObj() {
+	MapObj(/*int a_type = 0*/);
+	virtual ~MapObj() {
 		clear();
 	};
 
@@ -104,7 +104,7 @@ private:
 
 public:
 
-	MapObj* m_ppMapObj[MAPOBJ_MAX_NUM];
+	MapObj* m_ppMapObj[MAPOBJ_MAX_NUM] = {nullptr};
 
 	STAGE_DATA* m_pStageData;
 	int m_stageNo;
@@ -115,15 +115,7 @@ public:
 	void draw();
 
 	MapObjManager() {};
-	~MapObjManager() {
-		/*for (int i = 0; i < MAP_OBJ_MAX_NUM; i++)
-		{
-		if (pMAP_OBJ[i]) {
-		delete pMAP_OBJ[i];
-		pMAP_OBJ[i] = nullptr;
-		}
-		}*/
-	};
+	~MapObjManager();
 
 	bool isAlive();
 

@@ -34,11 +34,11 @@ int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max)
 		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
-		if (a_ppBegin[i])
+		/*if (a_ppBegin[i])
 		{
 			delete a_ppBegin[i];
 			a_ppBegin[i] = new OBJ2D;
-		}
+		}*/
 		return i;
 	}
 	return -1;
@@ -100,7 +100,7 @@ void ObjManager::init() {
 	{
 		if (!m_ppObj[i])
 		{
-			m_ppObj[i] = new OBJ2D;
+			//m_ppObj[i] = new OBJ2D;
 		}
 	}
 	//ZeroMemory(pObj, sizeof(pObj));
@@ -121,7 +121,7 @@ void ObjManager::updata(bool a_isLeftPage) {
 	OBJ2D* temp = nullptr;
 	for (int i = 1; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_ppObj[i - 1]->m_pos.z > m_ppObj[i]->m_pos.z)
+		if (m_ppObj[i - 1] && m_ppObj[i] && m_ppObj[i - 1]->m_pos.z > m_ppObj[i]->m_pos.z)
 		{
 			int j = i;
 			do
