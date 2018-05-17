@@ -21,6 +21,9 @@ public:
 	SPRITE_DATA* m_pSprData;
 	Vector3 m_pos;
 	Vector3 m_speed;
+	Vector3 m_speedAcc;
+	Vector3 m_speedMax;
+
 	Vector3 m_size;
 
 	CUSTOM m_custom;

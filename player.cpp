@@ -36,6 +36,7 @@ void Player::init()
 
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
 	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
+	m_isOnScrollArea = false;
 
 	m_isInit = true;
 
@@ -179,6 +180,18 @@ void Player::normalMove()
 
 	// 移動
 	m_pos += m_speed;
+	m_isOnScrollArea = false;
+	if (m_pos.y > P_SCROLL_Y_BOTTOM)
+	{
+		m_pos.y = P_SCROLL_Y_BOTTOM;
+		m_isOnScrollArea = true;
+	}
+	if (m_pos.y < P_SCROLL_Y_TOP)
+	{
+		m_pos.y = P_SCROLL_Y_TOP;
+		m_isOnScrollArea = true;
+	}
+
 
 	// ページ外チェック
 	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)

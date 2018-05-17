@@ -223,6 +223,35 @@ void MapObjManager::init(int a_stageNo)
 	}
 
 }
+void MapObjManager::update()
+{
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_pfMove && m_ppMapObj[i]->m_state >= STATE_END + 2)
+		{
+			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
+		}
+	}
+}
+
+void MapObjManager::draw()
+{
+	int num = 0;
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
+		{
+			num++;
+		}
+	}
+#ifdef DEBUG
+
+	char buf[256];
+	sprintf_s(buf, "MapObj Num: %d\n", num);
+	drawString(0, 150, buf, 0x000000FF);
+
+#endif // DEBUG
+}
 
 void MapObjManager::stageUpdate()
 {
@@ -244,16 +273,6 @@ void MapObjManager::stageUpdate()
 	}
 }
 
-void MapObjManager::update()
-{
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_pfMove && m_ppMapObj[i]->m_state >= STATE_END + 2)
-		{
-			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
-		}
-	}
-}
 
 bool MapObjManager::isAlive()
 {
@@ -269,21 +288,13 @@ bool MapObjManager::isAlive()
 	return false;
 }
 
-void MapObjManager::draw()
+void MapObjManager::setScroll(Vector3 a_speed, bool a_isOnLeftPage)
 {
-	int num = 0;
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit && m_ppMapObj[i]->m_isOnLeftPage == a_isOnLeftPage)
 		{
-			num++;
+			m_ppMapObj[i]->m_pos.y -= a_speed.y;
 		}
 	}
-#ifdef DEBUG
-
-	char buf[256];
-	sprintf_s(buf, "MapObj Num: %d\n", num);
-	drawString(0, 150, buf, 0x000000FF);
-
-#endif // DEBUG
 }

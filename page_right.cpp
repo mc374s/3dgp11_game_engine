@@ -27,27 +27,28 @@ void PageRight::update()
 		Vector3 pos = pPlayerManager->m_pPlayer->m_pos;
 		Vector3 speed = pPlayerManager->m_pPlayer->m_speed;
 		Vector3 size = pPlayerManager->m_pPlayer->m_size;
-		Vector3 randPos;
+		Vector3 randAdjust;
 		for (int i = 0; i < 3; i++){
+			randAdjust = { (float)(rand() % (int)(fabsf(speed.x) + size.x)), (float)(rand() % (int)(fabsf(speed.y) + size.y)),0 };
+			if (speed.x == 0 && !pPlayerManager->m_pPlayer->m_isOnGround)
+			{
+				randAdjust.x -= size.x / 2;
+				randAdjust.y -= size.y / 2;
+			}
+			if (pPlayerManager->m_pPlayer->m_isOnGround)
+			{
+				randAdjust.x += size.x / 2;
+			}
 
-			randPos = { rand() % (int)(fabsf(speed.x) + size.x) - size.x / 2, (float)(rand() % (int)(fabsf(speed.y) + size.y)),0 };
-			if (speed.y == 0)
-			{
-				randPos.x += size.x;
-			}
-			if (speed.y != 0)
-			{
-				randPos.y += size.y;
-			}
 			if (speed.x != 0)
 			{
-				randPos.x *= (speed.x / fabsf(speed.x));
+				randAdjust.x *= (speed.x / fabsf(speed.x));
 			}
 			if (speed.y != 0)
 			{
-				randPos.y *= (speed.y / fabsf(speed.y));
+				randAdjust.y *= (speed.y / fabsf(speed.y));
 			}
-			pObjManager->m_hitObj.m_pos = pos - randPos;
+			pObjManager->m_hitObj.m_pos = pos - randAdjust;
 			pObjManager->m_hitObj.m_custom.angle = rand() % 90;
 			pObjManager->m_hitObj.m_alpha = rand() % 20 + 20;
 			pObjManager->m_newblurArea.push_back(pObjManager->m_hitObj);

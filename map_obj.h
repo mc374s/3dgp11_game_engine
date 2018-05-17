@@ -119,6 +119,8 @@ public:
 
 	bool isAlive();
 
+	void setScroll(Vector3 a_speed, bool a_isOnLeftPage);
+
 };
 
 #define pMapObjManager (MapObjManager::getInstance())

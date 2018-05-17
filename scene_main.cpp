@@ -9,6 +9,7 @@
 #include "judge.h"
 
 #include "game_ui.h"
+#include "player.h"
 
 #include "scene_main.h"
 
@@ -59,6 +60,7 @@ void SceneMain::update()
 	case STATE_INIT:
 		//init();
 		pObjManager->init();
+		//pMapObjManager->init(0);
 		m_state = STATE_BEGIN;
 		//break;
 	case STATE_BEGIN:
@@ -68,7 +70,10 @@ void SceneMain::update()
 		updateChildScenes();
 
 		pMapObjManager->stageUpdate();
-
+		if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
+		{
+			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_isOnLeftPage);
+		}
 
 
 		judgeAll();

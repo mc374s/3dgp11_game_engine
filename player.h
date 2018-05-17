@@ -21,6 +21,9 @@
 
 #define P_LIFE_MAX		(4)
 
+#define P_SCROLL_Y_TOP		(100)
+#define P_SCROLL_Y_BOTTOM	(650)
+
 enum P_MODE
 {
 	MODE_NORMAL,
@@ -48,10 +51,8 @@ public:
 	int m_transferConcentration;
 	bool m_isOnGround;
 	bool m_isMoving;
-	Vector3 m_speedAcc;
-	Vector3 m_speedMax;
 	bool m_isOnBlurArea;
-
+	bool m_isOnScrollArea;
 
 	Player();
 	~Player();
@@ -82,6 +83,8 @@ public:
 	void manageConcentration();
 
 	int m_concentration = 10;
+
+	Vector3 getMapScroll();
 
 };
 
