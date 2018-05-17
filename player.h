@@ -11,6 +11,10 @@
 #define P_JUMP_POWER	(-16)
 #define P_JUMP_MAX_NUM	(1)
 
+
+#define P_CONCENTRATION_MAX_NUM			(10)
+#define P_CONCENTRATION_DECREASE_SPEED	(80)
+
 enum P_MODE
 {
 	MODE_NORMAL,
@@ -34,6 +38,7 @@ public:
 	int m_mode;
 	int m_state;
 	int m_concentration;
+	int m_transferConcentration;
 
 	Player();
 	~Player();
