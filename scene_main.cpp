@@ -92,8 +92,8 @@ void SceneMain::draw()
 	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
 	char buf[256];
 
-	sprintf_s(buf, "m_cameraDistance: %f", m_pBook->m_cameraDistance);
-	drawString(0, 400, buf);
+	//sprintf_s(buf, "m_cameraDistance: %f", m_pBook->m_cameraDistance);
+	//drawString(0, 400, buf);
 
 #endif // DEBUG
 

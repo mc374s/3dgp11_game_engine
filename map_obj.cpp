@@ -115,21 +115,21 @@ void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 	if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y && a_pObj->m_pos.y > m_pos.y
 		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y > 0)
 	{
-		a_pObj->m_pos.y = m_pos.y;
+		a_pObj->m_pos.y = m_pos.y - 0.1f;
 		a_pObj->m_speed.y = 0;
 	}
 	// objがthisの下にある(thisを下から進入としてる)
 	else if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y + m_size.y && a_pObj->m_pos.y>m_pos.y + m_size.y 
 		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y < 0)
 	{
-		a_pObj->m_pos.y = m_pos.y + m_size.y + a_pObj->m_size.y;
+		a_pObj->m_pos.y = m_pos.y + m_size.y + a_pObj->m_size.y + 0.1f;
 		a_pObj->m_speed.y = 0;
 	}
 	// objがthisの左にある(thisを右から進入としてる)
 	else if (a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x && a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x
 		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x > 0)
 	{
-		a_pObj->m_pos.x = m_pos.x - a_pObj->m_size.x / 2;
+		a_pObj->m_pos.x = m_pos.x - a_pObj->m_size.x / 2 - 0.1f;
 		//a_pObj->m_speed.y = 0;
 		a_pObj->m_speed.x = 0;
 	}
@@ -137,7 +137,7 @@ void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 	else if (a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x + m_size.x && a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x + m_size.x
 		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x < 0)
 	{
-		a_pObj->m_pos.x = m_pos.x + m_size.x + a_pObj->m_size.x / 2;
+		a_pObj->m_pos.x = m_pos.x + m_size.x + a_pObj->m_size.x / 2 + 0.1f;
 		//a_pObj->m_speed.y = 0;
 		a_pObj->m_speed.x = 0;
 	}
