@@ -184,7 +184,6 @@ void Player::update()
 	case MODE_NORMAL:
 		normalMove();
 		animation();
-
 		break;
 	default:
 		break;
