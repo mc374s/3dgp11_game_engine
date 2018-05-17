@@ -2,6 +2,7 @@
 #include "sprite_data.h"
 #include "obj2d.h"
 #include "player.h"
+#include "map_obj.h"
 
 #include "page_left.h"
 
@@ -23,6 +24,7 @@ void PageLeft::update()
 	}*/
 
 	pObjManager->updata(m_isLeftPage);
+	pMapObjManager->mapScroll(m_isLeftPage,pPlayerManager->m_scrollHeight);
 }
 
 void PageLeft::draw()

@@ -30,6 +30,8 @@ void judgeAll()
 		pPlayerManager->m_isTranscriptAble = true;
 		//pPlayerManager->manageConcentration();
 	}
+	
+	pPlayer->m_pos.y = 370;
 
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
@@ -52,6 +54,7 @@ void judgeAll()
 			}
 		}
 	}
+
 }
 
 bool checkHitRectZ(float ax, float ay, int aw, int ah, float bx, float by, int bw, int bh)

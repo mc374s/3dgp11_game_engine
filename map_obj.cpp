@@ -83,6 +83,7 @@ void MapObj::update()
 
 		animation();
 
+
 	}
 }
 int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
@@ -249,6 +250,18 @@ bool MapObjManager::isAlive()
 		}
 	}
 	return false;
+}
+
+void MapObjManager::mapScroll(float a_scrollHeight)
+{
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		if (m_ppMapObj[i])
+		{
+			m_ppMapObj[i]->m_pos.y -= a_scrollHeight;
+		}
+	}
+
 }
 
 void MapObjManager::draw()
