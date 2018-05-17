@@ -41,5 +41,6 @@ void PageLeft::draw()
 	char buf[256];
 	sprintf_s(buf, "Player Concentration: %d\nTransfer Concentration: %d", pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_concentration - pPlayerManager->m_transferConcentration);
 	drawString(0, 300, buf);
+	drawRectangle(638, 0, 2, 720, 0, 0x000000FF);
 
 }
