@@ -15,13 +15,10 @@ void MapObj::clear()
 	m_isHitAble = false;
 }
 
-MapObj::MapObj(int a_type)
+MapObj::MapObj(/*int a_type*/)
 {
 	clear();
 	m_command = 0x0;
-	m_type = a_type;
-
-	m_pSprData = &e_pSprItem[m_type];
 
 }
 
@@ -29,6 +26,9 @@ MapObj::MapObj(int a_type)
 void MapObj::init()
 {
 	m_isInit = true;
+
+	m_pSprData = &e_pSprItem[m_type];
+
 	switch (m_type)
 	{
 	case MAPOBJ_HOUSE:
@@ -93,7 +93,7 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
-		a_ppBegin[i] = new MapObj(a_mapObjType);
+		//a_ppBegin[i] = new MapObj(a_mapObjType);
 		a_ppBegin[i]->m_type = a_mapObjType;
 		a_ppBegin[i]->m_drawDirection = a_drawDirection;
 		a_ppBegin[i]->m_isOnLeftPage = a_isOnLeftPage;
@@ -191,6 +191,20 @@ STAGE_DATA* stageSetData[] = {
 	stage01_setData,
 };
 
+
+MapObjManager::~MapObjManager() 
+{
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		if (m_ppMapObj[i] && !m_ppMapObj[i]->m_isInit)
+		{
+			delete m_ppMapObj[i];
+			m_ppMapObj[i] = nullptr;
+		}
+	}
+}
+
+
 void MapObjManager::init(int a_stageNo)
 {
 	m_stageNo = a_stageNo;
@@ -201,10 +215,43 @@ void MapObjManager::init(int a_stageNo)
 		if (m_ppMapObj[i])
 		{
 			delete m_ppMapObj[i];
+			m_ppMapObj[i] = nullptr;
 		}
-		m_ppMapObj[i] = nullptr;
+		if (!m_ppMapObj[i])
+		{
+			m_ppMapObj[i] = new MapObj();
+		}
 	}
 
+}
+void MapObjManager::update()
+{
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_pfMove && m_ppMapObj[i]->m_state >= STATE_END + 2)
+		{
+			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
+		}
+	}
+		}
+
+void MapObjManager::draw()
+{
+	int num = 0;
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
+		{
+			num++;
+	}
+	}
+#ifdef DEBUG
+
+	char buf[256];
+	sprintf_s(buf, "MapObj Num: %d\n", num);
+	drawString(0, 150, buf, 0x000000FF);
+
+#endif // DEBUG
 }
 
 void MapObjManager::stageUpdate()
@@ -227,16 +274,6 @@ void MapObjManager::stageUpdate()
 	}
 }
 
-void MapObjManager::update()
-{
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_pfMove && m_ppMapObj[i]->m_state >= STATE_END + 2)
-		{
-			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
-		}
-	}
-}
 
 bool MapObjManager::isAlive()
 {
@@ -252,33 +289,13 @@ bool MapObjManager::isAlive()
 	return false;
 }
 
-void MapObjManager::mapScroll(float a_scrollHeight)
+void MapObjManager::setScroll(Vector3 a_speed, bool a_isOnLeftPage)
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i])
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit && m_ppMapObj[i]->m_isOnLeftPage == a_isOnLeftPage)
 		{
-			m_ppMapObj[i]->m_pos.y -= a_scrollHeight;
+			m_ppMapObj[i]->m_pos.y -= a_speed.y;
 		}
 	}
-
-}
-
-void MapObjManager::draw()
-{
-	int num = 0;
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
-		{
-			num++;
-		}
-	}
-#ifdef DEBUG
-
-	char buf[256];
-	sprintf_s(buf, "\MapObj Num: %d\n", num);
-	drawString(0, 150, buf, 0x000000FF);
-
-#endif // DEBUG
 }

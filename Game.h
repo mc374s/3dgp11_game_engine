@@ -20,6 +20,9 @@
 #define CAMERA_BEST_DISTANCE (0.66)
 #define CAMERA_MAX_DISTANCE (1.45)
 
+
+#define P_CONCENTRATION_MAX_NUM			(10)
+
 // TODO : Systemly Learn how Header.h and Source.cpp work
 
 

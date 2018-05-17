@@ -8,18 +8,21 @@
 #include "map_obj.h"
 #include "judge.h"
 
+#include "game_ui.h"
+#include "player.h"
+
 #include "scene_main.h"
 
 SceneMain::SceneMain()
 {
-	Scene::init();
+	//init();
 
-	m_bg.m_pSprData = &e_sprMainBG;
-	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
-	
 	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 40, 8);
 	m_pViewLeftPage = new View(PAGE_WIDTH, PAGE_HEIGHT);
 	m_pViewRightPage = new View(PAGE_WIDTH, PAGE_HEIGHT);
+
+	m_bg.m_pSprData = &e_sprMainBG;
+	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	m_childrenSceneNO = 0;
 
 	m_pChildrenScene[0] = PAGE_LEFT;
@@ -28,7 +31,16 @@ SceneMain::SceneMain()
 	pObjManager->init();
 	pMapObjManager->init(0);
 
+	pGameUIManager->init();
+
 }
+
+void SceneMain::init()
+{
+
+	Scene::init();
+}
+
 SceneMain::~SceneMain()
 {
 	if (m_pNextScene)
@@ -43,20 +55,38 @@ SceneMain::~SceneMain()
 
 void SceneMain::update()
 {	
+	switch (m_state)
+	{
+	case STATE_INIT:
+		//init();
+		pObjManager->init();
+		//pMapObjManager->init(0);
+		m_state = STATE_BEGIN;
+		//break;
+	case STATE_BEGIN:
+		m_pBook->update();
+		m_isBookClosed = m_pBook->m_isClosed;
+		m_isBookOpened = m_pBook->m_isOpened;
+		updateChildScenes();
+
+		pMapObjManager->stageUpdate();
+		if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
+		{
+			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_isOnLeftPage);
+		}
+
+
+		judgeAll();
+		break;
+	default:
+		break;
+	}
+
 	if (GetAsyncKeyState(VK_HOME) & 0xF000)
 	{
+		m_state = STATE_INIT;
 		changeScene(SCENE_TITLE);
 	}
-	m_pBook->update();
-	m_isBookClosed = m_pBook->m_isClosed;
-	m_isBookOpened = m_pBook->m_isOpened;
-	updateChildScenes();
-
-
-
-	pMapObjManager->stageUpdate();
-
-	judgeAll();
 
 
 	
@@ -85,6 +115,8 @@ void SceneMain::draw()
 		m_pChildrenScene[CHILD_RIGHT]->draw();
 	}
 	View::clear();
+
+	pGameUIManager->draw();
 
 #ifdef DEBUG
 

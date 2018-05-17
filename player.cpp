@@ -1,8 +1,12 @@
 ﻿#include "game.h"
 #include "sprite_data.h"
 #include "obj2d.h"
+#include "game_ui.h"
+
+//#include <list>
 
 #include "player.h"
+
 
 Player::Player()
 {
@@ -25,8 +29,15 @@ void Player::init()
 	m_mode = MODE_NORMAL;
 	m_state = P_STATE_STANDY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_alpha = 255;
 	m_transferConcentration = 0;
-	
+	m_timer = 0;
+	m_isOnBlurArea = false;
+
+	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
+	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
+	m_isOnScrollArea = false;
+
 	m_isInit = true;
 
 }
@@ -40,21 +51,42 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
+
+	// 滲む範囲でのスピード入れ替え
+	if (m_isOnBlurArea) {
+		m_speedAcc.x = P_SPEED_AX_BLUR;
+		m_speedAcc.y = P_JUMP_POWER_BLUR;
+		m_speedMax.x = P_SPEED_X_MAX_BLUR;
+		m_speedMax.y = P_SPEED_Y_MAX_BLUR;
+	} else {
+		m_speedAcc.x = P_SPEED_AX;
+		m_speedAcc.y = P_JUMP_POWER;
+		m_speedMax.x = P_SPEED_X_MAX;
+		m_speedMax.y = P_SPEED_Y_MAX;
+	}
+
 	// 濃度計算：動いてるときに減っていく
 	if (m_speed.x != 0 || m_speed.y != 0)
 	{
 		m_timer++;
-		if (m_timer > P_CONCENTRATION_DECREASE_SPEED)
+		if (m_timer > P_CONCENTRATION_DECREASE_FRAME)
 		{
 			m_timer = 0;
 			m_concentration--;
-			if (m_concentration < 0)
+			if (m_concentration < 1)
 			{
 				init();
 				m_life--;
 			}
 		}
+		m_isMoving = true;
 	}
+	else
+	{
+		m_isMoving = false;
+	}
+	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
+
 	// プレーヤーの状態判断
 	if (m_speed.y == 0 && m_state != P_STATE_JUMPING && !m_isOnGround)
 	{
@@ -74,20 +106,20 @@ void Player::normalMove()
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
 	{
 	case PAD_LEFT:
-		m_speed.x -= P_SPEED_AX;
+		m_speed.x -= m_speedAcc.x;
 		m_custom.reflectX = false;
 		break;
 	case PAD_RIGHT:
-		m_speed.x += P_SPEED_AX;
+		m_speed.x += m_speedAcc.x;
 		m_custom.reflectX = true;
 		break;
 	default:
 		if (m_speed.x > 0) {
-			m_speed.x -= P_SPEED_AX / 2;
+			m_speed.x -= m_speedAcc.x / 2;
 			if (m_speed.x < 0) m_speed.x = 0;
 		}
 		if (m_speed.x < 0) {
-			m_speed.x += P_SPEED_AX / 2;
+			m_speed.x += m_speedAcc.x / 2;
 			if (m_speed.x > 0) m_speed.x = 0;
 		}
 		break;
@@ -99,7 +131,7 @@ void Player::normalMove()
 	static int pressFrame = 0, chargeMaxFrame = 12, jumpCounter = 0;
 	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
 	{
-		m_speed.y += P_JUMP_POWER;
+		m_speed.y += m_speedAcc.y;
 		pressFrame++;
 	}
 	if (KEY_UP('Z') && jumpCounter < P_JUMP_MAX_NUM)
@@ -114,7 +146,7 @@ void Player::normalMove()
 	//{
 	//	if (power > -30)
 	//	{
-	//		power += P_JUMP_POWER;
+	//		power += m_speedAcc.y;
 	//	}
 	//	// TODO : reverse the animetion
 	//}
@@ -130,24 +162,36 @@ void Player::normalMove()
 	{
 		jumpCounter = 0;
 	}
-	if (m_speed.y < -P_SPEED_Y_MAX)
+	if (m_speed.y < -m_speedMax.y)
 	{
-		m_speed.y = -P_SPEED_Y_MAX;
+		m_speed.y = -m_speedMax.y;
 	}
 
 
-	if (m_speed.x > P_SPEED_X_MAX)
+	if (m_speed.x > m_speedMax.x)
 	{
-		m_speed.x = P_SPEED_X_MAX;
+		m_speed.x = m_speedMax.x;
 	}
-	if (m_speed.x < -P_SPEED_X_MAX)
+	if (m_speed.x < -m_speedMax.x)
 	{
-		m_speed.x = -P_SPEED_X_MAX;
+		m_speed.x = -m_speedMax.x;
 	}
 
 
 	// 移動
 	m_pos += m_speed;
+	m_isOnScrollArea = false;
+	if (m_pos.y > P_SCROLL_Y_BOTTOM)
+	{
+		m_pos.y = P_SCROLL_Y_BOTTOM;
+		m_isOnScrollArea = true;
+	}
+	if (m_pos.y < P_SCROLL_Y_TOP)
+	{
+		m_pos.y = P_SCROLL_Y_TOP;
+		m_isOnScrollArea = true;
+	}
+
 
 	// ページ外チェック
 	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
@@ -185,7 +229,7 @@ void Player::normalMove()
 	if (m_speed.x == 0 && m_isOnGround)
 	{
 		// 待機からあくびに切り替え
-		static int waitFrame = 0, yawnFrame = 64, standyFrame = 300;
+		static int waitFrame = 0, yawnFrame = 64, standyFrame = 300, randInteger = 0;
 		if (m_pAnimeData != e_pAnimePlayerStandby && m_pAnimeData != e_pAnimePlayerYawn)
 		{
 			m_animeNO = 0;
@@ -195,11 +239,12 @@ void Player::normalMove()
 		if (m_pAnimeData == e_pAnimePlayerStandby)
 		{
 			waitFrame++;
-			if (waitFrame > standyFrame)
+			if (waitFrame > standyFrame + randInteger)
 			{
 				m_animeNO = 0;
 				m_pAnimeData = e_pAnimePlayerYawn;
 				waitFrame = 0;
+				randInteger = rand() % 300;
 			}
 		}
 		if (m_pAnimeData == e_pAnimePlayerYawn)
@@ -235,6 +280,7 @@ void Player::draw()
 	drawRectangle(m_pos.x - m_size.x / 2, m_pos.y - m_size.y, m_size.x, m_size.y, 0, 0xFFFFFF40);
 
 #endif // DEBUG
+
 	OBJ2DEX::draw();
 
 #ifdef DEBUG
@@ -262,52 +308,85 @@ void PlayerManager::manageConcentration()
 	{
 	case STATE_INIT:
 		m_concentration = m_pPlayer->m_concentration;
-		m_transferConcentration = m_pPlayer->m_concentration - 1;
-		m_state = STATE_BEGIN;
-		//break;
+		if (m_concentration >= 2)
+		{
+			m_pPlayer->m_transferConcentration = 1;
+			m_pPlayer->m_concentration--;
+			m_state = STATE_BEGIN;
+		} 
+		else
+		{
+			m_pPlayer->m_transferConcentration = 0;
+			m_pPlayer->m_concentration;
+			m_state = STATE_END;
+		}
+		break;
 	case STATE_BEGIN:
-		if (KEY_DOWN('A')) {
-			m_pPlayer->m_isOnLeftPage ? (m_transferConcentration--) : (m_transferConcentration++);
-		}
-		if (KEY_DOWN('D')) {
-			m_pPlayer->m_isOnLeftPage ? (m_transferConcentration++) : (m_transferConcentration--);
+
+		if (m_isTranscriptAble)
+		{
+			if ((m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (!m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+				m_pPlayer->m_transferConcentration--;
+				m_pPlayer->m_concentration++;
+			}
+			if ((!m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+				m_pPlayer->m_transferConcentration++;
+				m_pPlayer->m_concentration--;
+			}
 		}
 
-		if (m_transferConcentration < 1) {
-			m_transferConcentration = 1;
+		if (m_pPlayer->m_transferConcentration < 1) {
+			m_pPlayer->m_transferConcentration = 1;
+		}
+		if (m_pPlayer->m_transferConcentration > m_concentration - 1) {
+			m_pPlayer->m_transferConcentration = m_concentration - 1;
+		}
+		if (m_pPlayer->m_concentration < 1 ) {
+			m_pPlayer->m_concentration = 1;
+		}				 
+		if (m_pPlayer->m_concentration > m_concentration - 1) {
+			m_pPlayer->m_concentration = m_concentration - 1;
 		}
 
-		if (m_transferConcentration > m_concentration - 1) {
-			m_transferConcentration = m_concentration - 1;
-		}
-		m_pPlayer->m_concentration = m_transferConcentration;
 		break;
 	default:
 		break;
 	}
 
+	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_isOnLeftPage, m_isTranscriptAble);
+
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)
 {
-	if (m_pPlayer && m_isTranscriptAble)
+	if (m_pPlayer)
 	{
-		OBJ2D *pObj2dTemp = nullptr;
-		pObj2dTemp = pObjManager->m_ppObj[GET_IDLE_OBJ_NO];
-		pObj2dTemp->m_isInit = true;
-		pObj2dTemp->m_pos = m_pPlayer->m_pos;
-		pObj2dTemp->m_pos.z--;
-		pObj2dTemp->m_custom = m_pPlayer->m_custom;
-		pObj2dTemp->m_alpha = 255 * (m_concentration - m_transferConcentration) / 10;
-		pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
-		pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
-		m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
+		if (m_isTranscriptAble)
+		{
+			OBJ2D *pObj2dTemp = new OBJ2D;
+			pObjManager->m_ppObj[GET_IDLE_OBJ_NO] = pObj2dTemp;
+			pObj2dTemp->m_isInit = true;
+			pObj2dTemp->m_pos = m_pPlayer->m_pos;
+			pObj2dTemp->m_pos.z--;
+			pObj2dTemp->m_custom = m_pPlayer->m_custom;
+			pObj2dTemp->m_alpha = 255 * (m_pPlayer->m_concentration - m_pPlayer->m_transferConcentration) / 10;
+			pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
+			pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
+			m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
 
-		m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
-		m_pPlayer->m_speed = { 0,0,0 };
-		m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
+			m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
+			m_pPlayer->m_speed = { 0,0,0 };
+			m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
+			m_pPlayer->m_timer = 0;
+			m_state = STATE_INIT;
+		}
+		else
+		{
+			m_pPlayer->m_concentration = m_concentration;
+			m_pPlayer->m_transferConcentration = 0;
+			m_state = STATE_INIT;
+		}
 
-		m_state = STATE_INIT;
 	}
 }
 
