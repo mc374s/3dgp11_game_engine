@@ -1,6 +1,8 @@
 ﻿#include "game.h"
 #include "obj2d.h"
 
+#include "sprite_data.h"
+
 /////////////////////////////////////////////////////////////////
 // Class OBJ2D Function
 void OBJ2D::clear() 
@@ -86,13 +88,15 @@ ObjManager::~ObjManager()
 {
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_ppObj[i])
+		if (m_ppObj[i] && m_ppObj[i]->m_pSprData && m_ppObj[i]->m_isInit)
 		{
 			delete m_ppObj[i];
 		}
 	}
 	ZeroMemory(m_ppObj, sizeof(m_ppObj));
 	//delete[] m_pObj;
+
+	m_blurArea.clear();
 };
 
 void ObjManager::init() {
@@ -104,6 +108,14 @@ void ObjManager::init() {
 		}
 	}
 	//ZeroMemory(pObj, sizeof(pObj));
+
+	m_hitObj.m_pSprData = &e_sprHitObj;
+	m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
+	m_hitObj.m_custom.rgba = 0x000000FF;
+	m_hitObj.m_alpha = 80;
+	m_blurArea.clear();
+	m_newblurArea.clear();
+
 }
 
 void ObjManager::updata(bool a_isLeftPage) {
@@ -137,6 +149,13 @@ void ObjManager::updata(bool a_isLeftPage) {
 
 void ObjManager::draw(bool a_isLeftPage)
 {
+
+	for (auto it : m_blurArea) {
+		if (it.m_isOnLeftPage == a_isLeftPage)
+		{
+			it.draw();
+		}
+	}
 	int num = 0;
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
@@ -146,10 +165,11 @@ void ObjManager::draw(bool a_isLeftPage)
 			num++;
 		}
 	}
+
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, "Obj Num: %d\n", num);
+	sprintf_s(buf, "Obj Num: %d\nBlurObjNum: %d", num, m_blurArea.size());
 	drawString(0, PAGE_HEIGHT - 60, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG

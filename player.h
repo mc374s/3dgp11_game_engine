@@ -3,12 +3,18 @@
 
 #include "obj2d.h"
 
-#define P_SPEED_AX		(0.5)
-#define P_SPEED_X_MAX	(5)
+#define P_SPEED_AX			(0.5)
+#define P_SPEED_X_MAX		(5)
+#define P_SPEED_AX_BLUR		(0.7)
+#define P_SPEED_X_MAX_BLUR	(7)
 
-#define GRIVATY			(1)
-#define P_SPEED_Y_MAX	(16)
-#define P_JUMP_POWER	(-16)
+#define GRIVATY				(1)
+#define P_SPEED_Y_MAX		(16)
+#define P_JUMP_POWER		(-16)
+
+#define P_SPEED_Y_MAX_BLUR	(18)
+#define P_JUMP_POWER_BLUR	(-18)
+
 #define P_JUMP_MAX_NUM	(1)
 
 #define P_CONCENTRATION_DECREASE_FRAME	(100)
@@ -41,6 +47,11 @@ public:
 	int m_concentration;
 	int m_transferConcentration;
 	bool m_isOnGround;
+	bool m_isMoving;
+	Vector3 m_speedAcc;
+	Vector3 m_speedMax;
+	bool m_isOnBlurArea;
+
 
 	Player();
 	~Player();
@@ -71,7 +82,6 @@ public:
 	void manageConcentration();
 
 	int m_concentration = 10;
-
 
 };
 

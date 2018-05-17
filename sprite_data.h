@@ -31,4 +31,7 @@ extern SPRITE_LEFTTOP e_sprWhite;
 extern SPRITE_CENTER e_sprGage;
 extern SPRITE_CENTER e_sprGageDivision;
 
+// Effect関係
+extern SPRITE_BOTTOM e_sprHitObj;
+
 #endif // !_SPRDATA_H_

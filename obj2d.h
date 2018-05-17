@@ -1,6 +1,8 @@
 ﻿#ifndef _OBJ2D_H_
 #define _OBJ2D_H_
 
+#include <list>
+
 #define OBJ_MAX_NUM	(256)
 
 class OBJ2D
@@ -89,6 +91,10 @@ private:
 
 public:
 	OBJ2D* m_ppObj[OBJ_MAX_NUM] = { nullptr };
+
+	std::list<OBJ2D> m_blurArea;
+	std::list<OBJ2D> m_newblurArea;
+	OBJ2D m_hitObj;
 
 	void init();
 	void updata(bool a_isLeftPage = true);

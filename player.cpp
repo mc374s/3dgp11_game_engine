@@ -3,7 +3,10 @@
 #include "obj2d.h"
 #include "game_ui.h"
 
+//#include <list>
+
 #include "player.h"
+
 
 Player::Player()
 {
@@ -29,6 +32,10 @@ void Player::init()
 	m_alpha = 255;
 	m_transferConcentration = 0;
 	m_timer = 0;
+	m_isOnBlurArea = false;
+
+	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
+	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
 
 	m_isInit = true;
 
@@ -43,6 +50,20 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
+
+	// 滲む範囲でのスピード入れ替え
+	if (m_isOnBlurArea) {
+		m_speedAcc.x = P_SPEED_AX_BLUR;
+		m_speedAcc.y = P_JUMP_POWER_BLUR;
+		m_speedMax.x = P_SPEED_X_MAX_BLUR;
+		m_speedMax.y = P_SPEED_Y_MAX_BLUR;
+	} else {
+		m_speedAcc.x = P_SPEED_AX;
+		m_speedAcc.y = P_JUMP_POWER;
+		m_speedMax.x = P_SPEED_X_MAX;
+		m_speedMax.y = P_SPEED_Y_MAX;
+	}
+
 	// 濃度計算：動いてるときに減っていく
 	if (m_speed.x != 0 || m_speed.y != 0)
 	{
@@ -57,6 +78,11 @@ void Player::normalMove()
 				m_life--;
 			}
 		}
+		m_isMoving = true;
+	}
+	else
+	{
+		m_isMoving = false;
 	}
 	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 
@@ -79,20 +105,20 @@ void Player::normalMove()
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
 	{
 	case PAD_LEFT:
-		m_speed.x -= P_SPEED_AX;
+		m_speed.x -= m_speedAcc.x;
 		m_custom.reflectX = false;
 		break;
 	case PAD_RIGHT:
-		m_speed.x += P_SPEED_AX;
+		m_speed.x += m_speedAcc.x;
 		m_custom.reflectX = true;
 		break;
 	default:
 		if (m_speed.x > 0) {
-			m_speed.x -= P_SPEED_AX / 2;
+			m_speed.x -= m_speedAcc.x / 2;
 			if (m_speed.x < 0) m_speed.x = 0;
 		}
 		if (m_speed.x < 0) {
-			m_speed.x += P_SPEED_AX / 2;
+			m_speed.x += m_speedAcc.x / 2;
 			if (m_speed.x > 0) m_speed.x = 0;
 		}
 		break;
@@ -104,7 +130,7 @@ void Player::normalMove()
 	static int pressFrame = 0, chargeMaxFrame = 12, jumpCounter = 0;
 	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
 	{
-		m_speed.y += P_JUMP_POWER;
+		m_speed.y += m_speedAcc.y;
 		pressFrame++;
 	}
 	if (KEY_UP('Z') && jumpCounter < P_JUMP_MAX_NUM)
@@ -119,7 +145,7 @@ void Player::normalMove()
 	//{
 	//	if (power > -30)
 	//	{
-	//		power += P_JUMP_POWER;
+	//		power += m_speedAcc.y;
 	//	}
 	//	// TODO : reverse the animetion
 	//}
@@ -135,19 +161,19 @@ void Player::normalMove()
 	{
 		jumpCounter = 0;
 	}
-	if (m_speed.y < -P_SPEED_Y_MAX)
+	if (m_speed.y < -m_speedMax.y)
 	{
-		m_speed.y = -P_SPEED_Y_MAX;
+		m_speed.y = -m_speedMax.y;
 	}
 
 
-	if (m_speed.x > P_SPEED_X_MAX)
+	if (m_speed.x > m_speedMax.x)
 	{
-		m_speed.x = P_SPEED_X_MAX;
+		m_speed.x = m_speedMax.x;
 	}
-	if (m_speed.x < -P_SPEED_X_MAX)
+	if (m_speed.x < -m_speedMax.x)
 	{
-		m_speed.x = -P_SPEED_X_MAX;
+		m_speed.x = -m_speedMax.x;
 	}
 
 
@@ -241,6 +267,7 @@ void Player::draw()
 	drawRectangle(m_pos.x - m_size.x / 2, m_pos.y - m_size.y, m_size.x, m_size.y, 0, 0xFFFFFF40);
 
 #endif // DEBUG
+
 	OBJ2DEX::draw();
 
 #ifdef DEBUG

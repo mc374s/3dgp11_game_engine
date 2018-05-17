@@ -33,6 +33,7 @@ public:
 	bool m_isBookOpened;
 	bool m_isBookClosed;
 
+	void init();
 	void update();
 	void draw();
 	

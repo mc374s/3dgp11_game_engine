@@ -62,8 +62,12 @@ void GameUIManager::init()
 		if(m_ppGameUI[i])
 		{
 			delete m_ppGameUI[i];
+			m_ppGameUI[i] = nullptr;
 		}
-		m_ppGameUI[i] = new GameUI();
+		if (!m_ppGameUI[i])
+		{
+			m_ppGameUI[i] = new GameUI();
+		}
 
 		m_ppGameUI[i]->m_custom.scaleMode = SCALE_MODE::CENTER;
 	}

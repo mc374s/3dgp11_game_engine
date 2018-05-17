@@ -214,8 +214,12 @@ void MapObjManager::init(int a_stageNo)
 		if (m_ppMapObj[i])
 		{
 			delete m_ppMapObj[i];
+			m_ppMapObj[i] = nullptr;
 		}
-		m_ppMapObj[i] = new MapObj();
+		if (!m_ppMapObj[i])
+		{
+			m_ppMapObj[i] = new MapObj();
+		}
 	}
 
 }
@@ -278,7 +282,7 @@ void MapObjManager::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, "\MapObj Num: %d\n", num);
+	sprintf_s(buf, "MapObj Num: %d\n", num);
 	drawString(0, 150, buf, 0x000000FF);
 
 #endif // DEBUG

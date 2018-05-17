@@ -128,4 +128,8 @@ SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
 SPRITE_CENTER e_sprGageDivision = SPRITE_CENTER(TEX_GAGE_DIVISION, 0, 0, 775, 222);
 SPRITE_CENTER e_sprGage = SPRITE_CENTER(TEX_WHITE, 0, 0, 388, 222);
 
+
+// Effect関係
+SPRITE_BOTTOM e_sprHitObj = SPRITE_BOTTOM(TEX_WHITE, 0, 0, 8, 8);
+
 //******************************************************************************

@@ -3,15 +3,23 @@
 #include "map_obj.h"
 #include "scene_main.h"
 
+#include "obj2d.h"
+
 #include "judge.h"
 
 
+bool checkObjOpened(OBJ2D* a_pObjA, OBJ2D* a_pObjB)
+{
+	return checkHitRectZ(a_pObjA->m_pos.x, a_pObjA->m_pos.y, a_pObjA->m_size.x, a_pObjA->m_size.y,
+		a_pObjB->m_pos.x, a_pObjB->m_pos.y, a_pObjB->m_size.x, a_pObjB->m_size.y);
+}
 
 bool checkHitPlayerToMapObjOpened(Player* a_pPlayer, MapObj* a_pMapObj)
 {
 	return checkHitRectZ(a_pPlayer->m_pos.x, a_pPlayer->m_pos.y, a_pPlayer->m_size.x, a_pPlayer->m_size.y, 
 		a_pMapObj->m_pos.x + a_pMapObj->m_size.x / 2, a_pMapObj->m_pos.y + a_pMapObj->m_size.y, a_pMapObj->m_size.x, a_pMapObj->m_size.y);
 }
+
 bool checkHitPlayerToMapObjClosed(Player* a_pPlayer, MapObj* a_pMapObj)
 {
 	return checkHitRectZ(PAGE_WIDTH - a_pPlayer->m_pos.x, a_pPlayer->m_pos.y, a_pPlayer->m_size.x, a_pPlayer->m_size.y,
@@ -23,6 +31,7 @@ void judgeAll()
 	static Player* pPlayer = pPlayerManager->m_pPlayer;
 	static MapObj** ppMapObj = pMapObjManager->m_ppMapObj;
 	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
+
 	isBookClosed = SCENE_MAIN->m_isBookClosed;
 	isBookOpened = SCENE_MAIN->m_isBookOpened;
 	if (isBookClosed)
@@ -56,6 +65,40 @@ void judgeAll()
 			}
 		}
 	}
+
+	pPlayer->m_isOnBlurArea = false;
+	if (isBookOpened)
+	{
+		for (auto it : pObjManager->m_blurArea) {
+
+			if (pPlayer->m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(pPlayer, &(it)))
+			{
+				pPlayer->m_isOnBlurArea = true;
+				break;
+			}
+		}
+	}
+
+
+	// 被ってる滲むObjは作らない
+	bool isRepeated = false;
+	for (auto newIt : pObjManager->m_newblurArea) {
+		isRepeated = false;
+		for (auto it : pObjManager->m_blurArea) {
+
+			if (newIt.m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(&(newIt), &(it)))
+			{
+				isRepeated = true;
+				break;
+			}
+		}
+		if (!isRepeated)
+		{
+			pObjManager->m_blurArea.push_back(newIt);
+		}
+	}
+	pObjManager->m_newblurArea.clear();
+
 }
 
 bool checkHitRectZ(float ax, float ay, int aw, int ah, float bx, float by, int bw, int bh)
