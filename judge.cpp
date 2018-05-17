@@ -27,8 +27,12 @@ void judgeAll()
 	isBookOpened = SCENE_MAIN->m_isBookOpened;
 	if (isBookClosed)
 	{
-		pPlayerManager->m_isTranscriptAble = true;
 		pPlayerManager->manageConcentration();
+		pPlayerManager->m_isTranscriptAble = true;
+	}
+	if (!isBookClosed)
+	{
+		pPlayerManager->m_state = STATE_INIT;
 	}
 
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)

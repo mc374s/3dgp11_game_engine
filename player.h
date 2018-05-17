@@ -11,7 +11,7 @@
 #define P_JUMP_POWER	(-16)
 #define P_JUMP_MAX_NUM	(1)
 
-#define P_CONCENTRATION_DECREASE_SPEED	(80)
+#define P_CONCENTRATION_DECREASE_FRAME	(100)
 
 #define P_LIFE_MAX		(4)
 

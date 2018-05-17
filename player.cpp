@@ -26,8 +26,10 @@ void Player::init()
 	m_mode = MODE_NORMAL;
 	m_state = P_STATE_STANDY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_alpha = 255;
 	m_transferConcentration = 0;
-	
+	m_timer = 0;
+
 	m_isInit = true;
 
 }
@@ -45,17 +47,19 @@ void Player::normalMove()
 	if (m_speed.x != 0 || m_speed.y != 0)
 	{
 		m_timer++;
-		if (m_timer > P_CONCENTRATION_DECREASE_SPEED)
+		if (m_timer > P_CONCENTRATION_DECREASE_FRAME)
 		{
 			m_timer = 0;
 			m_concentration--;
-			if (m_concentration < 0)
+			if (m_concentration < 1)
 			{
 				init();
 				m_life--;
 			}
 		}
 	}
+	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
+
 	// プレーヤーの状態判断
 	if (m_speed.y == 0 && m_state != P_STATE_JUMPING && !m_isOnGround)
 	{
@@ -186,7 +190,7 @@ void Player::normalMove()
 	if (m_speed.x == 0 && m_isOnGround)
 	{
 		// 待機からあくびに切り替え
-		static int waitFrame = 0, yawnFrame = 64, standyFrame = 300;
+		static int waitFrame = 0, yawnFrame = 64, standyFrame = 300, randInteger = 0;
 		if (m_pAnimeData != e_pAnimePlayerStandby && m_pAnimeData != e_pAnimePlayerYawn)
 		{
 			m_animeNO = 0;
@@ -196,11 +200,12 @@ void Player::normalMove()
 		if (m_pAnimeData == e_pAnimePlayerStandby)
 		{
 			waitFrame++;
-			if (waitFrame > standyFrame)
+			if (waitFrame > standyFrame + randInteger)
 			{
 				m_animeNO = 0;
 				m_pAnimeData = e_pAnimePlayerYawn;
 				waitFrame = 0;
+				randInteger = rand() % 300;
 			}
 		}
 		if (m_pAnimeData == e_pAnimePlayerYawn)
@@ -263,20 +268,31 @@ void PlayerManager::manageConcentration()
 	{
 	case STATE_INIT:
 		m_concentration = m_pPlayer->m_concentration;
-		m_pPlayer->m_transferConcentration = 1;
-		m_pPlayer->m_concentration--;
-		m_state = STATE_BEGIN;
-		//break;
+		if (m_concentration >= 2)
+		{
+			m_pPlayer->m_transferConcentration = 1;
+			m_pPlayer->m_concentration--;
+			m_state = STATE_BEGIN;
+		} 
+		else
+		{
+			m_pPlayer->m_transferConcentration = 0;
+			m_pPlayer->m_concentration;
+			m_state = STATE_END;
+		}
+		break;
 	case STATE_BEGIN:
 
-
-		if ((m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (!m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
-			m_pPlayer->m_transferConcentration--;
-			m_pPlayer->m_concentration++;
-		}
-		if ((!m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
-			m_pPlayer->m_transferConcentration++;
-			m_pPlayer->m_concentration--;
+		if (m_isTranscriptAble)
+		{
+			if ((m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (!m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+				m_pPlayer->m_transferConcentration--;
+				m_pPlayer->m_concentration++;
+			}
+			if ((!m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+				m_pPlayer->m_transferConcentration++;
+				m_pPlayer->m_concentration--;
+			}
 		}
 
 		if (m_pPlayer->m_transferConcentration < 1) {
@@ -285,7 +301,7 @@ void PlayerManager::manageConcentration()
 		if (m_pPlayer->m_transferConcentration > m_concentration - 1) {
 			m_pPlayer->m_transferConcentration = m_concentration - 1;
 		}
-		if (m_pPlayer->m_concentration < 1) {
+		if (m_pPlayer->m_concentration < 1 ) {
 			m_pPlayer->m_concentration = 1;
 		}				 
 		if (m_pPlayer->m_concentration > m_concentration - 1) {
@@ -297,30 +313,40 @@ void PlayerManager::manageConcentration()
 		break;
 	}
 
-	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_isOnLeftPage);
+	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_isOnLeftPage, m_isTranscriptAble);
 
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)
 {
-	if (m_pPlayer && m_isTranscriptAble)
+	if (m_pPlayer)
 	{
-		OBJ2D *pObj2dTemp = new OBJ2D;
-		pObjManager->m_ppObj[GET_IDLE_OBJ_NO] = pObj2dTemp;
-		pObj2dTemp->m_isInit = true;
-		pObj2dTemp->m_pos = m_pPlayer->m_pos;
-		pObj2dTemp->m_pos.z--;
-		pObj2dTemp->m_custom = m_pPlayer->m_custom;
-		pObj2dTemp->m_alpha = 255 * (m_pPlayer->m_concentration - m_pPlayer->m_transferConcentration) / 10;
-		pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
-		pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
-		m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
+		if (m_isTranscriptAble)
+		{
+			OBJ2D *pObj2dTemp = new OBJ2D;
+			pObjManager->m_ppObj[GET_IDLE_OBJ_NO] = pObj2dTemp;
+			pObj2dTemp->m_isInit = true;
+			pObj2dTemp->m_pos = m_pPlayer->m_pos;
+			pObj2dTemp->m_pos.z--;
+			pObj2dTemp->m_custom = m_pPlayer->m_custom;
+			pObj2dTemp->m_alpha = 255 * (m_pPlayer->m_concentration - m_pPlayer->m_transferConcentration) / 10;
+			pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
+			pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
+			m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
 
-		m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
-		m_pPlayer->m_speed = { 0,0,0 };
-		m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
+			m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
+			m_pPlayer->m_speed = { 0,0,0 };
+			m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
+			m_pPlayer->m_timer = 0;
+			m_state = STATE_INIT;
+		}
+		else
+		{
+			m_pPlayer->m_concentration = m_concentration;
+			m_pPlayer->m_transferConcentration = 0;
+			m_state = STATE_INIT;
+		}
 
-		m_state = STATE_INIT;
 	}
 }
 

@@ -77,7 +77,7 @@ void GameUIManager::init()
 	m_ppGameUI[GAGE_LEFT]->m_pSprData = &e_sprGage;
 	m_ppGameUI[GAGE_LEFT]->m_isVisible = false;
 	m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0000FFFF;
-	m_ppGameUI[GAGE_LEFT]->m_alpha = 128;
+	m_ppGameUI[GAGE_LEFT]->m_alpha = 180;
 	m_ppGameUI[GAGE_LEFT]->m_pos = { (SCREEN_WIDTH - e_sprGage.width) / 2,SCREEN_HEIGHT / 2,1 };
 	m_ppGameUI[GAGE_LEFT]->m_size = { e_sprGageDivision.width,e_sprGageDivision.height,0 };
 	m_ppGameUI[GAGE_LEFT]->m_custom.scaleMode = SCALE_MODE::RIGHTCENTER;
@@ -85,7 +85,7 @@ void GameUIManager::init()
 	m_ppGameUI[GAGE_RIGHT]->m_pSprData = &e_sprGage;
 	m_ppGameUI[GAGE_RIGHT]->m_isVisible = false;
 	m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xDD0000FF;
-	m_ppGameUI[GAGE_RIGHT]->m_alpha = 128;
+	m_ppGameUI[GAGE_RIGHT]->m_alpha = 180;
 	m_ppGameUI[GAGE_RIGHT]->m_pos = { (SCREEN_WIDTH + e_sprGage.width) / 2,SCREEN_HEIGHT / 2,1 };
 	m_ppGameUI[GAGE_RIGHT]->m_size = { e_sprGageDivision.width,e_sprGageDivision.height,0 };
 	m_ppGameUI[GAGE_RIGHT]->m_custom.scaleMode = SCALE_MODE::LEFTCENTER;
@@ -115,7 +115,7 @@ void GameUIManager::draw()
 	}
 }
 
-void GameUIManager::setInkGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage)
+void GameUIManager::setInkGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble)
 {
 	if (m_ppGameUI[GAGE_FRAME])
 	{
@@ -126,12 +126,24 @@ void GameUIManager::setInkGage(int a_playerConcentration, int a_transferConcentr
 		if (a_isOnLeftPage)
 		{
 			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
+			m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0404B4FF;
+			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
 			m_ppGameUI[GAGE_RIGHT]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
-		}
-		else
+			m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xB18904FF;
+			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
+		} else
 		{
-			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			m_ppGameUI[GAGE_RIGHT]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
+			m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x0404B4FF;
+			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
+			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
+			m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xB18904FF;
+			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
+		}
+		if (!a_isTranscriptAble)
+		{
+			m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xFF0000FF;
+			m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xFF0000FF;
 		}
 
 	}

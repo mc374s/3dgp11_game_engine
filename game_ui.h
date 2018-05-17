@@ -45,7 +45,7 @@ public:
 	void update();
 	void draw();
 
-	void setInkGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage);
+	void setInkGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
 
 };
 
