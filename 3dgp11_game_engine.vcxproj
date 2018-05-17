@@ -154,6 +154,7 @@
     <ClInclude Include="sprite_data.h" />
     <ClInclude Include="stage_data.h" />
     <ClInclude Include="tools.h" />
+    <ClInclude Include="game_ui.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="stage00_data.cpp" />
     <ClCompile Include="stage01_data.cpp" />
     <ClCompile Include="tools.cpp" />
+    <ClCompile Include="game_ui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="3dgp\primitive3d.hlsli" />

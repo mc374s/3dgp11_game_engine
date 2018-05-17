@@ -35,8 +35,7 @@ void PageLeft::draw()
 	}*/
 	pObjManager->draw(m_isLeftPage);
 
-	drawString(0, PAGE_HEIGHT - 32, "PAGE_LEFT", COLOR_YELLOW, STR_LEFT, 32, 32);
-	drawRectangle(638, 0, 2, 720, 0, 0x000000FF);
+	drawRectangle(PAGE_WIDTH - 4, 0, 4, PAGE_HEIGHT, 0, 0x000000FF);
 
 	View::clear();
 	//char buf[256];
