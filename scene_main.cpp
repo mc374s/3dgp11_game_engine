@@ -47,41 +47,19 @@ void SceneMain::update()
 	{
 		changeScene(SCENE_TITLE);
 	}
-	// Update page's scene
-	for (int i = 0; i < CHILDREN_SCENE_MAX; i++)
-	{
-		if (m_pChildrenScene[i] && m_pBook->m_openAngle == 0)
-		{
-			m_pChildrenScene[i]->update();
-			if (m_pChildrenScene[i]->m_pNextScene)
-			{
-				m_pChildrenScene[i] = m_pChildrenScene[i]->m_pNextScene;
-				m_pChildrenScene[i]->update();
-			}
-		}
-	}
-
 	m_pBook->update();
+	m_isBookClosed = m_pBook->m_isClosed;
+	m_isBookOpened = m_pBook->m_isOpened;
+	updateChildScenes();
+
+
 
 	pMapObjManager->stageUpdate();
 
 	judgeAll();
 
-	// Left Side
-	m_pViewLeftPage->m_custom3d.angleYawPitchRoll.x			= m_pBook->m_openAngle;
-	// Right Side
-	m_pViewRightPage->m_custom3d.angleYawPitchRoll.x		= -m_pBook->m_openAngle;
 
-	// 本とTargetViewの位置を同調かねて座標系の違いによる
-	m_pViewLeftPage->m_custom3d.position	= m_pBook->m_postion;
-	m_pViewLeftPage->m_custom3d.position.y	= -m_pBook->m_postion.y;
-	//m_pViewLeftPage->m_custom3d.position.z -= 0.1;
-	// Right Side
-	m_pViewRightPage->m_custom3d.position	= m_pBook->m_postion;
-	m_pViewRightPage->m_custom3d.position.y = -m_pBook->m_postion.y;
-	//m_pViewRightPage->m_custom3d.position.z -= 0.1;
-	// bucause of the depth test is ON, set a different depth between page surface and view
-	m_pViewRightPage->m_custom3d.position.z = m_pViewLeftPage->m_custom3d.position.z -= 0.1;
+	
 	
 }
 
@@ -108,10 +86,51 @@ void SceneMain::draw()
 	}
 	View::clear();
 
+#ifdef DEBUG
+
 	drawString(SCREEN_WIDTH / 2, 100, "M A I N", COLOR_YELLOW >> 8 << 8 | 0x80, STR_CENTER, 80, 80);
 	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
 	char buf[256];
+
 	sprintf_s(buf, "m_cameraDistance: %f", m_pBook->m_cameraDistance);
 	drawString(0, 400, buf);
 
+#endif // DEBUG
+
+
+}
+
+void SceneMain::updateChildScenes()
+{
+	// Update page's scene
+	for (int i = 0; i < CHILDREN_SCENE_MAX; i++)
+	{
+		if (m_pChildrenScene[i] && m_pBook->m_isOpened)
+		{
+			m_pChildrenScene[i]->update();
+			if (m_pChildrenScene[i]->m_pNextScene)
+			{
+				m_pChildrenScene[i] = m_pChildrenScene[i]->m_pNextScene;
+				m_pChildrenScene[i]->update();
+			}
+		}
+	}
+
+
+	// View Update
+	// Left Side
+	m_pViewLeftPage->m_custom3d.angleYawPitchRoll.x = m_pBook->m_openAngle;
+	// Right Side
+	m_pViewRightPage->m_custom3d.angleYawPitchRoll.x = -m_pBook->m_openAngle;
+
+	// 本とTargetViewの位置を同調かねて座標系の違いによる
+	m_pViewLeftPage->m_custom3d.position = m_pBook->m_postion;
+	m_pViewLeftPage->m_custom3d.position.y = -m_pBook->m_postion.y;
+	//m_pViewLeftPage->m_custom3d.position.z -= 0.1;
+	// Right Side
+	m_pViewRightPage->m_custom3d.position = m_pBook->m_postion;
+	m_pViewRightPage->m_custom3d.position.y = -m_pBook->m_postion.y;
+	//m_pViewRightPage->m_custom3d.position.z -= 0.1;
+	// bucause of the depth test is ON, set a different depth between page surface and view
+	m_pViewRightPage->m_custom3d.position.z = m_pViewLeftPage->m_custom3d.position.z -= 0.1;
 }

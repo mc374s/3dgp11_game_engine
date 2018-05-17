@@ -43,6 +43,7 @@ public:
 	Vector3 m_repeatDrawSize;
 
 	void hitAdjust(OBJ2DEX* a_pObj);
+	//void judgePlayer(OBJ2DEX* a_pObj);
 
 	void(*m_pfMove)(MapObj*);
 

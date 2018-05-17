@@ -30,9 +30,13 @@ public:
 	~SceneMain();
 
 	int m_childrenSceneNO;
+	bool m_isBookOpened;
+	bool m_isBookClosed;
 
 	void update();
 	void draw();
+	
+	void updateChildScenes();
 };
 
 
