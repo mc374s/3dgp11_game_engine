@@ -47,7 +47,7 @@ void Player::normalMove()
 	{
 		m_state = P_STATE_DROPPING;
 	}
-	// X方向移動
+	// X方向移勁E
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
 	{
 	case PAD_LEFT:
@@ -70,9 +70,9 @@ void Player::normalMove()
 		break;
 	}
 
-	// Y方向移動
+	// Y方向移勁E
 	m_speed.y += GRIVATY;
-	// 溜めジャンプ
+	// 溜めジャンチE
 	//static float power = 0;
 	//if ((m_command & PAD_TRG1))
 	//{
@@ -119,7 +119,7 @@ void Player::normalMove()
 	}
 
 
-	// 移動
+	// 移勁E
 	m_pos += m_speed;
 
 	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
@@ -144,7 +144,7 @@ void Player::normalMove()
 		m_speed.y = 0;
 	}
 
-	// 濃度計算：動いてるときに減っていく
+	// 濁E��計算：動ぁE��るときに減ってぁE��
 	if (m_pAnimeData != e_pAnimePlayerStandby)
 	{
 		m_timer++;
@@ -159,7 +159,7 @@ void Player::normalMove()
 		}
 	}
 
-	// アニメーションデータ
+	// アニメーションチE�Eタ
 	if (m_speed.x != 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerRun)
 	{
 		m_animeNO = 0;
