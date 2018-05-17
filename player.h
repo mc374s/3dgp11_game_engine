@@ -14,6 +14,7 @@
 enum P_MODE
 {
 	MODE_NORMAL,
+	MODE_DAMAGE
 };
 
 enum P_STATE
