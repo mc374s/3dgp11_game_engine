@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 #include "sprite_data.h"
 #include "obj2d.h"
 
@@ -47,7 +47,7 @@ void Player::normalMove()
 	{
 		m_state = P_STATE_DROPPING;
 	}
-	// X方向移勁E
+	// X方向移動
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
 	{
 	case PAD_LEFT:
@@ -70,9 +70,9 @@ void Player::normalMove()
 		break;
 	}
 
-	// Y方向移勁E
+	// Y方向移動
 	m_speed.y += GRIVATY;
-	// 溜めジャンチE
+	// 溜めジャンプ
 	//static float power = 0;
 	//if ((m_command & PAD_TRG1))
 	//{
@@ -119,7 +119,7 @@ void Player::normalMove()
 	}
 
 
-	// 移勁E
+	// 移動
 	m_pos += m_speed;
 
 	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
@@ -144,7 +144,7 @@ void Player::normalMove()
 		m_speed.y = 0;
 	}
 
-	// 濁E��計算：動ぁE��るときに減ってぁE��
+	// 濃度計算：動いてるときに減っていく
 	if (m_pAnimeData != e_pAnimePlayerStandby)
 	{
 		m_timer++;
@@ -159,7 +159,7 @@ void Player::normalMove()
 		}
 	}
 
-	// アニメーションチE�Eタ
+	// アニメーションデータ
 	if (m_speed.x != 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerRun)
 	{
 		m_animeNO = 0;
