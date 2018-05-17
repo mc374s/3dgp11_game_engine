@@ -12,13 +12,14 @@ Player::Player()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(95, 45, 4);
 	m_command = 0x0;
-	m_pos = { 200,200,3 };
+	m_pos = { 200,200,5 };
 	
 	m_pSprData = &m_pAnimeData[0];
 
 	m_mode = MODE_NORMAL;
 	m_state = P_STATE_ON_GROUND;
-	m_concentration = 10;
+	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_transferConcentration = 0;
 
 	m_isInit = true;
 	
@@ -147,13 +148,13 @@ void Player::normalMove()
 	if (m_pAnimeData != e_pAnimePlayerStandby)
 	{
 		m_timer++;
-		if (m_timer > 80)
+		if (m_timer > P_CONCENTRATION_DECREASE_SPEED)
 		{
 			m_timer = 0;
 			m_concentration--;
 			if (m_concentration < 0)
 			{
-				m_concentration = 10;
+				m_concentration = P_CONCENTRATION_MAX_NUM;
 			}
 		}
 	}
