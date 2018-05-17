@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 #include "sprite_data.h"
 #include "obj2d.h"
 
@@ -34,7 +34,7 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
-	// プレーヤーの状態判断
+	// 繝励Ξ繝ｼ繝､繝ｼ縺ｮ迥ｶ諷句愛譁ｭ
 	if (m_speed.y == 0 && m_state != P_STATE_JUMPING)
 	{
 		m_state = P_STATE_ON_GROUND;
@@ -47,7 +47,7 @@ void Player::normalMove()
 	{
 		m_state = P_STATE_DROPPING;
 	}
-	// X方向移動
+	// X譁ｹ蜷醍ｧｻ蜍・
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
 	{
 	case PAD_LEFT:
@@ -70,9 +70,9 @@ void Player::normalMove()
 		break;
 	}
 
-	// Y方向移動
+	// Y譁ｹ蜷醍ｧｻ蜍・
 	m_speed.y += GRIVATY;
-	// 溜めジャンプ
+	// 貅懊ａ繧ｸ繝｣繝ｳ繝・
 	//static float power = 0;
 	//if ((m_command & PAD_TRG1))
 	//{
@@ -119,7 +119,7 @@ void Player::normalMove()
 	}
 
 
-	// 移動
+	// 遘ｻ蜍・
 	m_pos += m_speed;
 
 	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
@@ -144,7 +144,7 @@ void Player::normalMove()
 		m_speed.y = 0;
 	}
 
-	// 濃度計算：動いてるときに減っていく
+	// 豼・ｺｦ險育ｮ暦ｼ壼虚縺・※繧九→縺阪↓貂帙▲縺ｦ縺・￥
 	if (m_pAnimeData != e_pAnimePlayerStandby)
 	{
 		m_timer++;
@@ -159,7 +159,7 @@ void Player::normalMove()
 		}
 	}
 
-	// アニメーションデータ
+	// 繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ繝・・繧ｿ
 	if (m_speed.x != 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerRun)
 	{
 		m_animeNO = 0;
