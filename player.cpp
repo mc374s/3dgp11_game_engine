@@ -7,12 +7,14 @@
 Player::Player()
 {
 	OBJ2DEX::clear();
-	init();
+	init(); 
+	m_life = 4;
+	m_isOnGround = true;
 	
 }
 void Player::init()
 {
-	m_pAnimeData = e_pAnimePlayerStandby;
+	m_pAnimeData = e_pAnimePlayerYawn;
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
@@ -21,10 +23,10 @@ void Player::init()
 	m_pSprData = &m_pAnimeData[0];
 
 	m_mode = MODE_NORMAL;
-	m_state = P_STATE_ON_GROUND;
+	m_state = P_STATE_STANDY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
 	m_transferConcentration = 0;
-
+	
 	m_isInit = true;
 
 }
@@ -38,18 +40,35 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
-	// プレーヤーの状態判断
-	if (m_speed.y == 0 && m_state != P_STATE_JUMPING)
+	// 濃度計算：動いてるときに減っていく
+	if (m_speed.x != 0 || m_speed.y != 0)
 	{
-		m_state = P_STATE_ON_GROUND;
+		m_timer++;
+		if (m_timer > P_CONCENTRATION_DECREASE_SPEED)
+		{
+			m_timer = 0;
+			m_concentration--;
+			if (m_concentration < 0)
+			{
+				init();
+				m_life--;
+			}
+		}
+	}
+	// プレーヤーの状態判断
+	if (m_speed.y == 0 && m_state != P_STATE_JUMPING && !m_isOnGround)
+	{
+		m_isOnGround = true;
 	}
 	if (m_speed.y < 0)
 	{
 		m_state = P_STATE_JUMPING;
+		m_isOnGround = false;
 	}
 	if (m_speed.y > 0)
 	{
 		m_state = P_STATE_DROPPING;
+		m_isOnGround = false;
 	}
 	// X方向移動
 	switch (m_command & (PAD_LEFT | PAD_RIGHT))
@@ -107,7 +126,7 @@ void Player::normalMove()
 	//}
 
 	
-	if (m_state == P_STATE_ON_GROUND)
+	if (m_isOnGround)
 	{
 		jumpCounter = 0;
 	}
@@ -131,54 +150,68 @@ void Player::normalMove()
 	m_pos += m_speed;
 
 	// ページ外チェック
-	if (m_pos.x > PAGE_WIDTH + m_size.x / 2)
+	if (m_pos.x > PAGE_WIDTH - m_size.x / 2)
 	{
-		init();
+		m_pos.x = PAGE_WIDTH - m_size.x / 2;
 	}
-	if (m_pos.x < -m_size.x / 2)
+	if (m_pos.x < m_size.x / 2)
 	{
-		init();
+		m_pos.x = m_size.x / 2;
 	}
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
 		init();
+		m_life--;
 	}
-	if (m_pos.y < - m_size.y)
+	if (m_pos.y < - m_size.y - 100)
 	{
-		init();
-	}
-
-	// 濃度計算：動いてるときに減っていく
-	if (m_pAnimeData != e_pAnimePlayerStandby)
-	{
-		m_timer++;
-		if (m_timer > P_CONCENTRATION_DECREASE_SPEED)
-		{
-			m_timer = 0;
-			m_concentration--;
-			if (m_concentration < 0)
-			{
-				m_concentration = P_CONCENTRATION_MAX_NUM;
-			}
-		}
+		m_pos.y = -m_size.y - 100;
 	}
 
 	// アニメーションデータ
-	if (m_speed.x != 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerRun)
+	if (m_speed.x != 0 && m_isOnGround && m_pAnimeData != e_pAnimePlayerRun)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerRun;
 	}
-	if ((m_state == P_STATE_DROPPING || m_state == P_STATE_JUMPING) && m_pAnimeData != e_pAnimePlayerJump)
+	if ((m_state == P_STATE_DROPPING || m_state == P_STATE_JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerJump;
 	}
-	if (m_speed.x == 0 && m_state == P_STATE_ON_GROUND && m_pAnimeData != e_pAnimePlayerStandby)
+
+	// 待機アニメショーン
+	if (m_speed.x == 0 && m_isOnGround)
 	{
-		m_animeNO = 0;
-		m_pAnimeData = e_pAnimePlayerStandby;
+		// 待機からあくびに切り替え
+		static int waitFrame = 0, yawnFrame = 64, standyFrame = 300;
+		if (m_pAnimeData != e_pAnimePlayerStandby && m_pAnimeData != e_pAnimePlayerYawn)
+		{
+			m_animeNO = 0;
+			waitFrame = 0;
+			m_pAnimeData = e_pAnimePlayerStandby;
+		}
+		if (m_pAnimeData == e_pAnimePlayerStandby)
+		{
+			waitFrame++;
+			if (waitFrame > standyFrame)
+			{
+				m_animeNO = 0;
+				m_pAnimeData = e_pAnimePlayerYawn;
+				waitFrame = 0;
+			}
+		}
+		if (m_pAnimeData == e_pAnimePlayerYawn)
+		{
+			waitFrame++;
+			if (waitFrame > yawnFrame)
+			{
+				m_animeNO = 0;
+				m_pAnimeData = e_pAnimePlayerStandby;
+				waitFrame = 0;
+			}
+		}
 	}
 }
 
@@ -276,4 +309,23 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 
 		m_state = STATE_INIT;
 	}
+}
+
+
+int Player::getLife()
+{
+	return m_life;
+}
+
+void Player::setLife(int a_life)
+{
+	if (a_life < 0)
+	{
+		a_life = 0;
+	}
+	if (a_life > P_LIFE_MAX)
+	{
+		a_life = P_LIFE_MAX;
+	}
+	m_life = a_life;
 }

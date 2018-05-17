@@ -29,4 +29,6 @@ extern SPRITE_LEFTTOP e_pSprItem[];
 // UI関係
 extern SPRITE_LEFTTOP e_sprWhite;
 
+extern SPRITE_LEFTTOP e_sprGageDivision;
+
 #endif // !_SPRDATA_H_

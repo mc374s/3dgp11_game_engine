@@ -15,6 +15,8 @@
 #define P_CONCENTRATION_MAX_NUM			(10)
 #define P_CONCENTRATION_DECREASE_SPEED	(80)
 
+#define P_LIFE_MAX		(4)
+
 enum P_MODE
 {
 	MODE_NORMAL,
@@ -23,15 +25,16 @@ enum P_MODE
 
 enum P_STATE
 {
-	P_STATE_ON_GROUND,
+	P_STATE_STANDY,
 	P_STATE_JUMPING,
 	P_STATE_DROPPING,
+	P_STATE_MOVING,
 };
 
 class Player:public OBJ2DEX
 {
 private:
-
+	int m_life;
 public:
 
 	int m_command;
@@ -39,6 +42,7 @@ public:
 	int m_state;
 	int m_concentration;
 	int m_transferConcentration;
+	bool m_isOnGround;
 
 	Player();
 	~Player();
@@ -46,6 +50,9 @@ public:
 	void update();
 	void draw();
 
+	int getLife();
+	void setLife(int a_life);
+	
 	void normalMove();
 
 };

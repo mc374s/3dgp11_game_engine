@@ -37,7 +37,8 @@ void judgeAll()
 			&& checkHitPlayerToMapObjOpened(pPlayer, ppMapObj[i]))
 		{
 			//ppMapObj[i]->clear();
-			if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION && ppMapObj[i]->m_type != MAPOBJ_NONE && ppMapObj[i]->m_concentration >= pPlayer->m_concentration)
+			if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION && ppMapObj[i]->m_type != MAPOBJ_NONE 
+				&& (ppMapObj[i]->m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION))
 			{
 				ppMapObj[i]->hitAdjust(pPlayer);
 			}
@@ -45,7 +46,7 @@ void judgeAll()
 		if (isBookClosed && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage != ppMapObj[i]->m_isOnLeftPage
 			&& checkHitPlayerToMapObjClosed(pPlayer, ppMapObj[i]))
 		{
-			if (pPlayer->m_concentration <= ppMapObj[i]->m_concentration)
+			if ((pPlayer->m_concentration < ppMapObj[i]->m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && ppMapObj[i]->m_concentration > LOW_CONCENTRATION)
 			{
 				pPlayerManager->m_isTranscriptAble = false;
 			}

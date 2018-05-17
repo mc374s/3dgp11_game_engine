@@ -107,6 +107,9 @@
     <ClInclude Include="judge.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="game_ui.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp">
@@ -179,6 +182,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="judge.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="game_ui.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

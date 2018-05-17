@@ -23,21 +23,25 @@ enum TEX_NO {
 	TEX_MAP_OBJECT,
 	TEX_IVY_THICK,
 	TEX_IVY_THIN,
+
+	TEX_GAGE_DIVISION,
 };
 
 // 2D画像ロードデータ
 LOAD_TEXTURE e_loadTexture[] = {
-	{ TEX_WHITE,		"./DATA/Images/white.png" },
-	{ TEX_TITLE,		"./DATA/Images/default_bg.jpg"},
-	{ TEX_MAIN,			"./DATA/Images/default_bg.jpg"},
-	{ TEX_PLAYER,		"./DATA/Images/character.png"},
+	{ TEX_WHITE,			"./DATA/Images/white.png" },
+	{ TEX_TITLE,			"./DATA/Images/default_bg.jpg"},
+	{ TEX_MAIN,				"./DATA/Images/default_bg.jpg"},
+	{ TEX_PLAYER,			"./DATA/Images/character.png"},
 
 
-	{ TEX_PAGE_LEFT,	"./DATA/Images/page_left.png" },
-	{ TEX_PAGE_RIGHT,	"./DATA/Images/page_right.png" },
-	{ TEX_MAP_OBJECT,	"./DATA/Images/map_object.png" },
-	{ TEX_IVY_THICK,	"./DATA/Images/ivy_thick.png" },
-	{ TEX_IVY_THIN,		"./DATA/Images/ivy_thin.png" },
+	{ TEX_PAGE_LEFT,		"./DATA/Images/page_left.png" },
+	{ TEX_PAGE_RIGHT,		"./DATA/Images/page_right.png" },
+	{ TEX_MAP_OBJECT,		"./DATA/Images/map_object.png" },
+	{ TEX_IVY_THICK,		"./DATA/Images/ivy_thick.png" },
+	{ TEX_IVY_THIN,			"./DATA/Images/ivy_thin.png" },
+
+	{ TEX_GAGE_DIVISION,	"./DATA/Images/gage_division.png" },
 	{ -1, NULL }
 };
 
@@ -53,23 +57,23 @@ SPRITE_LEFTTOP e_sprPageRight = SPRITE_LEFTTOP(TEX_PAGE_RIGHT, 0, 0, PAGE_WIDTH,
 
 SPRITE_BOTTOM e_pAnimePlayerStandby[] = {
 
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 0, 95, 120, 55, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 1, 95, 120, 55, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 2, 95, 120, 55, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 3, 95, 120, 55, 5),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 0, 95, 120, 55, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 1, 95, 120, 55, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 2, 95, 120, 55, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 3, 95, 120, 55, 8),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
 
 SPRITE_BOTTOM e_pAnimePlayerYawn[] = {
 
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 0, 177, 120, 73, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 1, 177, 120, 73, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 2, 177, 120, 73, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 3, 177, 120, 73, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 4, 177, 120, 73, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 5, 177, 120, 73, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 6, 177, 120, 73, 5),
-	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 7, 177, 120, 73, 5),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 0, 177, 120, 73, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 1, 177, 120, 73, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 2, 177, 120, 73, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 3, 177, 120, 73, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 4, 177, 120, 73, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 5, 177, 120, 73, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 6, 177, 120, 73, 8),
+	SPRITE_BOTTOM(TEX_PLAYER, 0 + 120 * 7, 177, 120, 73, 8),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
 
@@ -120,5 +124,7 @@ SPRITE_LEFTTOP e_pSprItem[] =
 
 // UI関係
 SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
+
+SPRITE_LEFTTOP e_sprGageDivision = SPRITE_LEFTTOP(TEX_GAGE_DIVISION, 0, 0, 775, 222);
 
 //******************************************************************************
