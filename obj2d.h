@@ -10,14 +10,15 @@ class OBJ2D
 {
 private:
 
-public:
-	OBJ2D() {
-		clear();
-	};
+protected:
+	virtual void memberCopy(const OBJ2D& a_inputObj);
 
-	virtual ~OBJ2D() {
-		clear();
-	};
+public:
+	OBJ2D();
+	OBJ2D(const OBJ2D& a_inputObj);
+	virtual ~OBJ2D();
+
+	const OBJ2D& operator=(const OBJ2D& a_right);
 
 	SPRITE_DATA* m_pSprData;
 	Vector3 m_pos;
@@ -50,6 +51,7 @@ public:
 class OBJ2DEX : public OBJ2D
 {
 private:
+	virtual void memberCopy(const OBJ2DEX& a_inputObj);
 
 public:
 
@@ -58,12 +60,11 @@ public:
 
 	SPRITE_DATA* m_pAnimeData;
 
-	OBJ2DEX() {
-		clear();
-	};
-	virtual ~OBJ2DEX() {
-		clear();
-	};
+	OBJ2DEX();
+	OBJ2DEX(const OBJ2DEX& a_inputObj);
+	virtual ~OBJ2DEX();
+	const OBJ2DEX& operator=(const OBJ2DEX& a_right);
+
 
 	virtual void clear();
 
@@ -93,6 +94,7 @@ private:
 class ObjManager : public Singleton<ObjManager>, public Manager
 {
 private:
+
 
 public:
 	OBJ2D* m_ppObj[OBJ_MAX_NUM] = { nullptr };

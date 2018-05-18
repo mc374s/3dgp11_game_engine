@@ -5,6 +5,53 @@
 
 /////////////////////////////////////////////////////////////////
 // Class OBJ2D Function
+OBJ2D::OBJ2D() 
+{
+	clear();
+}
+
+
+void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
+{
+	m_pos = a_inputObj.m_pos;
+	m_speed = a_inputObj.m_speed;
+	m_speedAcc = a_inputObj.m_speedAcc;
+	m_speedMax = a_inputObj.m_speedMax;
+
+	m_size = a_inputObj.m_size;
+
+	m_custom = a_inputObj.m_custom;
+
+	m_timer = a_inputObj.m_timer;
+	m_state = a_inputObj.m_state;
+	m_alpha = a_inputObj.m_alpha;
+	m_type = a_inputObj.m_type;
+	m_concentration = a_inputObj.m_concentration;
+
+	m_isInit = a_inputObj.m_isInit;
+	m_isOnLeftPage = a_inputObj.m_isOnLeftPage;
+}
+
+OBJ2D::OBJ2D(const OBJ2D& a_inputObj)
+{
+	memberCopy(a_inputObj);
+	m_pSprData = a_inputObj.m_pSprData;
+}
+
+OBJ2D::~OBJ2D() 
+{
+	clear();
+}
+
+
+const OBJ2D& OBJ2D::operator=(const OBJ2D& a_right)
+{
+	memberCopy(a_right);
+	m_pSprData = a_right.m_pSprData;
+	return *this;
+}
+
+
 void OBJ2D::clear() 
 {
 	m_pSprData = nullptr;
@@ -49,6 +96,37 @@ int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max)
 
 ///////////////////////////////////////////////////////////////
 // Class OBJ2DEX Function
+
+OBJ2DEX::OBJ2DEX()
+{
+	clear();
+}
+
+void OBJ2DEX::memberCopy(const OBJ2DEX& a_inputObj)
+{
+	OBJ2D::memberCopy(a_inputObj);
+	m_aframe = a_inputObj.m_aframe;
+	m_animeNO = a_inputObj.m_animeNO;
+}
+
+OBJ2DEX::OBJ2DEX(const OBJ2DEX& a_inputObj):OBJ2D(a_inputObj)
+{
+	memberCopy(a_inputObj);
+	m_pAnimeData = a_inputObj.m_pAnimeData;
+}
+
+OBJ2DEX::~OBJ2DEX()
+{
+	clear();
+}
+
+const OBJ2DEX& OBJ2DEX::operator=(const OBJ2DEX& a_right)
+{
+	memberCopy(a_right);
+	m_pAnimeData = a_right.m_pAnimeData;
+	return *this;
+}
+
 void OBJ2DEX::clear() 
 {
 	OBJ2D::clear();
@@ -91,7 +169,7 @@ ObjManager::~ObjManager()
 	{
 		if (m_ppObj[i] && m_ppObj[i]->m_pSprData && m_ppObj[i]->m_isInit)
 		{
-			delete m_ppObj[i];
+			m_ppObj[i] = nullptr;
 		}
 	}
 	ZeroMemory(m_ppObj, sizeof(m_ppObj));

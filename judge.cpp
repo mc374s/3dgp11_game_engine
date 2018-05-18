@@ -29,7 +29,6 @@ bool checkHitPlayerToMapObjClosed(Player* a_pPlayer, MapObj* a_pMapObj)
 void judgeAll()
 {
 	static Player* pPlayer = pPlayerManager->m_pPlayer;
-	static MapObj** ppMapObj = pMapObjManager->m_ppMapObj;
 	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
 
 	// When Restart, ignore Judgement
@@ -52,23 +51,22 @@ void judgeAll()
 		pPlayerManager->m_state = STATE_INIT;
 	}
 
-
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	for (auto &mapObj : pMapObjManager->m_mapObjList)
 	{
-		if (isBookOpened && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage == ppMapObj[i]->m_isOnLeftPage 
-			&& checkHitPlayerToMapObjOpened(pPlayer, ppMapObj[i]))
+		if (isBookOpened && mapObj.m_isHitAble && pPlayer->m_isOnLeftPage == mapObj.m_isOnLeftPage
+			&& checkHitPlayerToMapObjOpened(pPlayer, &mapObj))
 		{
-			//ppMapObj[i]->clear();
-			if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION && ppMapObj[i]->m_type != MAPOBJ_NONE 
-				&& ppMapObj[i]->m_type!=MAPOBJ_DOOR && ppMapObj[i]->m_type != MAPOBJ_KEY
-				&& (ppMapObj[i]->m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION))
+			//mapObj.clear();
+			if (mapObj.m_type != MAPOBJ_HIGH_CONCENTRATION && mapObj.m_type != MAPOBJ_NONE
+				&& mapObj.m_type != MAPOBJ_DOOR && mapObj.m_type != MAPOBJ_KEY
+				&& (mapObj.m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION))
 			{
-				ppMapObj[i]->hitAdjust(pPlayer);
+				mapObj.hitAdjust(pPlayer);
 			}
 
-			if (ppMapObj[i]->m_type == MAPOBJ_HIGH_CONCENTRATION)
+			if (mapObj.m_type == MAPOBJ_HIGH_CONCENTRATION)
 			{
-				if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
+				if (pPlayer->m_concentration < mapObj.m_concentration)
 				{
 					pPlayer->m_mode = P_MODE_INIT;
 				}
@@ -76,34 +74,39 @@ void judgeAll()
 
 
 			// 鍵関係
-			if (ppMapObj[i]->m_type == MAPOBJ_KEY)
+			if (mapObj.m_type == MAPOBJ_KEY)
 			{
 				pPlayer->m_isKeyHandled = true;
-				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
-				ppMapObj[i]->m_isHitAble = false;
-				ppMapObj[i]->m_alpha = 0;
+				pPlayer->m_keyObj.m_pSprData = mapObj.m_pSprData;
+				mapObj.m_isHitAble = false;
+				mapObj.m_alpha = 0;
 			}
-			if (ppMapObj[i]->m_type == MAPOBJ_DOOR && pPlayer->m_isKeyHandled)
+			if (mapObj.m_type == MAPOBJ_DOOR && pPlayer->m_isKeyHandled)
 			{
 				//pPlayer->m_isKeyHandled = false;
-				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
+				pPlayer->m_keyObj.m_pSprData = mapObj.m_pSprData;
 				pPlayer->m_mode = P_MODE_CLEAR;
-				//ppMapObj[i]->clear();
+				//mapObj.clear();
 			}
 		}
-		if (isBookClosed && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage != ppMapObj[i]->m_isOnLeftPage
-			&& checkHitPlayerToMapObjClosed(pPlayer, ppMapObj[i]))
+		if (isBookClosed && mapObj.m_isHitAble && pPlayer->m_isOnLeftPage != mapObj.m_isOnLeftPage
+			&& checkHitPlayerToMapObjClosed(pPlayer, &mapObj))
 		{
-			if ((pPlayer->m_concentration < ppMapObj[i]->m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && ppMapObj[i]->m_concentration > LOW_CONCENTRATION)
+			if ((pPlayer->m_concentration < mapObj.m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && mapObj.m_concentration > LOW_CONCENTRATION)
 			{
 				pPlayerManager->m_isTranscriptAble = false;
-				if (ppMapObj[i]->m_type == MAPOBJ_HIGH_CONCENTRATION)
+				if (mapObj.m_type == MAPOBJ_HIGH_CONCENTRATION)
 				{
 					pPlayerManager->m_isTranscriptAble = true;
 					pPlayerManager->m_isTranscriptCanceled = true;
 				}
 			}
 		}
+	}
+
+	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	{
+		
 	}
 
 	// 転写元判定

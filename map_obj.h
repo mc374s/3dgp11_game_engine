@@ -5,7 +5,7 @@
 
 #define LOW_CONCENTRATION (4)
 
-#define MAPOBJ_MAX_NUM (64)
+#define MAPOBJ_MAX_NUM (128)
 
 enum MAPOBJ_TYPE
 {
@@ -60,9 +60,6 @@ public:
 
 	void update();
 	void draw();
-
-	static int searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
-
 };
 
 struct STAGE_DATA {
@@ -106,6 +103,9 @@ public:
 
 	MapObj* m_ppMapObj[MAPOBJ_MAX_NUM] = {nullptr};
 
+	std::vector<MapObj> m_mapObjList;
+	MapObj m_mapSetObj;
+
 	STAGE_DATA* m_pStageData;
 	int m_stageNo;
 
@@ -114,12 +114,9 @@ public:
 	void update();
 	void draw();
 
-	void mapScroll(float m_scrollHeight);
 
-	MapObjManager() {};
+	MapObjManager();
 	~MapObjManager();
-
-	bool isAlive();
 
 	void setScroll(Vector3 a_speed, bool a_isOnLeftPage);
 
