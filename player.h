@@ -6,10 +6,10 @@
 #define P_SPEED_AX			(0.5)
 #define P_SPEED_X_MAX		(5)
 #define P_SPEED_AX_BLUR		(0.7)
-#define P_SPEED_X_MAX_BLUR	(7)
+#define P_SPEED_X_MAX_BLUR	(5)
 
-#define GRIVATY				(1)
-#define P_SPEED_Y_MAX		(16)
+#define GRIVATY				(0.15)
+#define P_SPEED_Y_MAX		(12)
 #define P_JUMP_POWER		(-16)
 
 #define P_SPEED_Y_MAX_BLUR	(18)
@@ -22,7 +22,7 @@
 #define P_LIFE_MAX		(4)
 
 #define P_SCROLL_Y_TOP		(200)
-#define P_SCROLL_Y_BOTTOM	(550)
+#define P_SCROLL_Y_BOTTOM	(330)
 
 enum P_MODE
 {
