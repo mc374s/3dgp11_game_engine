@@ -233,7 +233,7 @@ void MapObjManager::update()
 			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
 		}
 	}
-		}
+}
 
 void MapObjManager::draw()
 {

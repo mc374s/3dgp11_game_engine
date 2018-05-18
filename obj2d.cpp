@@ -156,13 +156,7 @@ void ObjManager::updata(bool a_isLeftPage) {
 void ObjManager::draw(bool a_isLeftPage)
 {
 
-#ifdef DEBUG
-
 	char buf[256];
-
-#endif // DEBUG
-
-
 	for (auto it : m_transcriptionList) {
 		if (it.m_isOnLeftPage == a_isLeftPage)
 		{

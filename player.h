@@ -26,9 +26,10 @@
 
 enum P_MODE
 {
-	MODE_NORMAL,
-	MODE_CLEAR,
-	MODE_DEAD,
+	P_MODE_NORMAL,
+	P_MODE_CLEAR,
+	P_MODE_DEAD,
+	P_MODE_INIT,
 };
 
 enum P_STATE
@@ -58,6 +59,8 @@ public:
 	bool m_isKeyHandled;
 	OBJ2D m_keyObj;
 
+	Vector3 m_initPos;
+
 	Player();
 	~Player();
 	void init();
@@ -69,6 +72,7 @@ public:
 	void setLife(int a_life);
 	
 	void normalMove();
+	void initMove();
 
 };
 

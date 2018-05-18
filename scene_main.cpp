@@ -79,7 +79,7 @@ void SceneMain::update()
 
 		judgeAll();
 
-		if (pPlayerManager->m_pPlayer->m_mode == MODE_CLEAR)
+		if (pPlayerManager->m_pPlayer->m_mode == P_MODE_CLEAR)
 		{
 			m_pStr = "GAME CLEAR";
 			m_timer++;
@@ -90,7 +90,7 @@ void SceneMain::update()
 			}
 		}
 
-		if (pPlayerManager->m_pPlayer->m_mode == MODE_DEAD)
+		if (pPlayerManager->m_pPlayer->m_mode == P_MODE_DEAD)
 		{
 
 			m_pStr = "GAME OVER";
@@ -146,16 +146,9 @@ void SceneMain::draw()
 
 	pGameUIManager->draw();
 
-#ifdef DEBUG
 
 	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0x80, STR_CENTER, 80, 80);
 	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
-	char buf[256];
-
-	//sprintf_s(buf, "m_cameraDistance: %f", m_pBook->m_cameraDistance);
-	//drawString(0, 400, buf);
-
-#endif // DEBUG
 
 
 }

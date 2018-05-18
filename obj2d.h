@@ -98,8 +98,8 @@ public:
 	OBJ2D* m_ppObj[OBJ_MAX_NUM] = { nullptr };
 
 	// TODO : 途中insert()しないからstd::vectorの方が早い、要変更
-	std::list<OBJ2D> m_blurAreaList;
-	std::list<OBJ2D> m_newblurAreaList;
+	std::vector<OBJ2D> m_blurAreaList;
+	std::vector<OBJ2D> m_newblurAreaList;
 	std::vector<OBJ2D> m_transcriptionList;
 
 	OBJ2D m_hitObj;

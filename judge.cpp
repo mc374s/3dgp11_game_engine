@@ -32,6 +32,13 @@ void judgeAll()
 	static MapObj** ppMapObj = pMapObjManager->m_ppMapObj;
 	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
 
+	// When Restart, ignore Judgement
+	if (pPlayer->m_mode == P_MODE_INIT)
+	{
+		pObjManager->m_newblurAreaList.clear();
+		return;
+	}
+
 	isBookClosed = SCENE_MAIN->m_isBookClosed;
 	isBookOpened = SCENE_MAIN->m_isBookOpened;
 	if (isBookClosed)
@@ -63,8 +70,7 @@ void judgeAll()
 			{
 				if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
 				{
-					pPlayer->init();
-					pPlayer->m_life--;
+					pPlayer->m_mode = P_MODE_INIT;
 				}
 			}
 
@@ -81,7 +87,7 @@ void judgeAll()
 			{
 				//pPlayer->m_isKeyHandled = false;
 				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
-				pPlayer->m_mode = MODE_CLEAR;
+				pPlayer->m_mode = P_MODE_CLEAR;
 				//ppMapObj[i]->clear();
 			}
 		}

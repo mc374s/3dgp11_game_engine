@@ -23,22 +23,25 @@ void Player::init()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
-	m_pos = { 20,-100,5 };
+	m_pos = { 20,0,5 };
+	m_initPos = m_pos;
+	m_isOnLeftPage = true;
 
 	m_pSprData = &m_pAnimeData[0];
-
-	m_mode = MODE_NORMAL;
+	m_state = STATE_INIT;
+	m_mode = P_MODE_NORMAL;
 	m_montionState = P_STATE_STANDY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
 	m_alpha = 255;
 	m_transferConcentration = 0;
 	m_timer = 0;
 	m_isOnBlurArea = false;
+	m_isMoving = false;
 	if (!m_isKeyHandled)
 	{
 		m_keyObj.clear();
 	}
-
+	m_speed = { 0,0,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
 	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
 	m_isOnScrollArea = false;
@@ -69,7 +72,10 @@ void Player::normalMove()
 		m_speedMax.x = P_SPEED_X_MAX;
 		m_speedMax.y = P_SPEED_Y_MAX;
 	}
-
+	if (m_life <= 0)
+	{
+		m_mode = P_MODE_DEAD;
+	}
 	// 濃度計算：動いてるときに減っていく
 	if (m_speed.x != 0 || m_speed.y != 0)
 	{
@@ -80,12 +86,7 @@ void Player::normalMove()
 			m_concentration--;
 			if (m_concentration < 1)
 			{
-				init();
-				m_life--;
-				if (m_life <= 0)
-				{
-					m_mode = MODE_DEAD;
-				}
+				m_mode = P_MODE_INIT;
 			}
 		}
 		m_isMoving = true;
@@ -189,15 +190,22 @@ void Player::normalMove()
 
 	// 移動
 	m_pos += m_speed;
+
+
+	// スクロールエリア処理
 	m_isOnScrollArea = false;
 	if (m_pos.y > P_SCROLL_Y_BOTTOM)
 	{
 		m_pos.y = P_SCROLL_Y_BOTTOM;
+		// Init 位置を計算していく
+		m_initPos.y -= m_speed.y;
 		m_isOnScrollArea = true;
 	}
-	if (m_pos.y < P_SCROLL_Y_TOP && m_state == P_STATE_JUMPING)
+	if (m_pos.y < P_SCROLL_Y_TOP && m_montionState == P_STATE_JUMPING)
 	{
 		m_pos.y = P_SCROLL_Y_TOP;
+		// Init 位置を計算していく
+		m_initPos.y += m_speed.y;
 		m_isOnScrollArea = true;
 	}
 
@@ -214,9 +222,9 @@ void Player::normalMove()
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
-		init();
-		m_life--;
+		m_mode = P_MODE_INIT;
 	}
+
 	if (m_pos.y < - m_size.y - 100)
 	{
 		m_pos.y = -m_size.y - 100;
@@ -269,14 +277,60 @@ void Player::normalMove()
 	}
 }
 
+void Player::initMove()
+{
+
+	m_isMoving = false;
+	switch (m_state)
+	{
+	case STATE_INIT:
+		m_speed.x = 0;
+		m_speed.y = (m_initPos.y - m_pos.y) / 10;
+		m_alpha = 0;
+		m_state = STATE_BEGIN;
+		//break;
+	case STATE_BEGIN:
+		m_pos.y += m_speed.y;
+		m_initPos.y -= m_speed.y;
+		if (m_initPos.y > m_pos.y - 10)
+		{
+			m_state = STATE_END;
+		}
+
+		m_isOnScrollArea = false;
+		if (m_pos.y > P_SCROLL_Y_BOTTOM)
+		{
+			m_pos.y = P_SCROLL_Y_BOTTOM;
+			m_isOnScrollArea = true;
+		}
+		if (m_pos.y < P_SCROLL_Y_TOP)
+		{
+			m_pos.y = P_SCROLL_Y_TOP;
+			m_isOnScrollArea = true;
+		}
+		break;
+	case STATE_END:
+		init();
+		m_life--;
+		m_mode = P_MODE_NORMAL;
+
+		break;
+	default:
+		break;
+	}
+}
+
 void Player::update()
 {
 	switch (m_mode)
 	{
-	case MODE_CLEAR:
-	case MODE_NORMAL:
+	case P_MODE_CLEAR:
+	case P_MODE_NORMAL:
 		normalMove();
 		animation();
+		break;
+	case P_MODE_INIT:
+		initMove();
 		break;
 	default:
 		break;
@@ -301,12 +355,33 @@ void Player::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d",
-		m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration,m_life);
+	sprintf_s(buf, " initPosY: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d",
+		m_initPos.y, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration,m_life);
 	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG
 }
+
+
+int Player::getLife()
+{
+	return m_life;
+}
+
+void Player::setLife(int a_life)
+{
+	if (a_life < 0)
+	{
+		a_life = 0;
+	}
+	if (a_life > P_LIFE_MAX)
+	{
+		a_life = P_LIFE_MAX;
+	}
+	m_life = a_life;
+}
+
+////////////////////////////////////////////////////////////////////////
 
 // Player Manager Class
 void PlayerManager::init() {
@@ -393,8 +468,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 
 			if (m_isTranscriptCanceled)
 			{
-				m_pPlayer->init();
-				m_pPlayer->m_life--;
+				m_pPlayer->m_mode = P_MODE_INIT;
 
 			}
 			else
@@ -419,21 +493,4 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 	}
 }
 
-
-int Player::getLife()
-{
-	return m_life;
-}
-
-void Player::setLife(int a_life)
-{
-	if (a_life < 0)
-	{
-		a_life = 0;
-	}
-	if (a_life > P_LIFE_MAX)
-	{
-		a_life = P_LIFE_MAX;
-	}
-	m_life = a_life;
-}
+////////////////////////////////////////////////////////////////////////
