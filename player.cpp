@@ -14,6 +14,7 @@ Player::Player()
 	init(); 
 	m_life = 4;
 	m_isOnGround = true;
+	m_isKeyHandled = false;
 	
 }
 void Player::init()
@@ -33,6 +34,10 @@ void Player::init()
 	m_transferConcentration = 0;
 	m_timer = 0;
 	m_isOnBlurArea = false;
+	if (!m_isKeyHandled)
+	{
+		m_keyObj.clear();
+	}
 
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
 	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
@@ -77,6 +82,10 @@ void Player::normalMove()
 			{
 				init();
 				m_life--;
+				if (m_life <= 0)
+				{
+					m_mode = MODE_DEAD;
+				}
 			}
 		}
 		m_isMoving = true;
@@ -264,6 +273,7 @@ void Player::update()
 {
 	switch (m_mode)
 	{
+	case MODE_CLEAR:
 	case MODE_NORMAL:
 		normalMove();
 		animation();
@@ -282,12 +292,17 @@ void Player::draw()
 #endif // DEBUG
 
 	OBJ2DEX::draw();
+	if (m_isKeyHandled)
+	{
+		m_keyObj.m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj.m_pSprData->width + m_size.x / 2, 2 * m_size.y, 0);
+		m_keyObj.draw();
+	}
 
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d",
-		m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration);
+	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d",
+		m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration,m_life);
 	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG

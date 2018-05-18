@@ -27,7 +27,8 @@
 enum P_MODE
 {
 	MODE_NORMAL,
-	MODE_DAMAGE
+	MODE_CLEAR,
+	MODE_DEAD,
 };
 
 enum P_STATE
@@ -53,6 +54,9 @@ public:
 	bool m_isMoving;
 	bool m_isOnBlurArea;
 	bool m_isOnScrollArea;
+
+	bool m_isKeyHandled;
+	OBJ2D m_keyObj;
 
 	Player();
 	~Player();
