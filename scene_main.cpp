@@ -33,6 +33,8 @@ SceneMain::SceneMain()
 
 	pGameUIManager->init();
 
+	m_pStr = "";
+
 }
 
 void SceneMain::init()
@@ -75,8 +77,34 @@ void SceneMain::update()
 			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_isOnLeftPage);
 		}
 
-
 		judgeAll();
+
+		if (pPlayerManager->m_pPlayer->m_mode == MODE_CLEAR)
+		{
+			m_pStr = "GAME CLEAR";
+			m_timer++;
+			if (m_timer > 120)
+			{
+				//m_state = STATE_INIT;
+				//changeScene(SCENE_TITLE);
+			}
+		}
+
+		if (pPlayerManager->m_pPlayer->m_mode == MODE_DEAD)
+		{
+
+			m_pStr = "GAME OVER";
+			m_timer++;
+			if (m_timer > 120)
+			{
+				m_state = STATE_END;
+			}
+		}
+
+		break;
+	case STATE_END:
+
+
 		break;
 	default:
 		break;
@@ -120,7 +148,7 @@ void SceneMain::draw()
 
 #ifdef DEBUG
 
-	drawString(SCREEN_WIDTH / 2, 100, "M A I N", COLOR_YELLOW >> 8 << 8 | 0x80, STR_CENTER, 80, 80);
+	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0x80, STR_CENTER, 80, 80);
 	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
 	char buf[256];
 

@@ -44,7 +44,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_IVY_THIN,			"./DATA/Images/ivy_thin.png" },
 
 	{ TEX_GAGE_DIVISION,	"./DATA/Images/gage_division.png" },
-	
+	{ TEX_SMOKE,			"./DATA/Images/particle-smoke2.png" },
 
 	{ -1, NULL }
 };
@@ -134,6 +134,6 @@ SPRITE_CENTER e_sprGage = SPRITE_CENTER(TEX_WHITE, 0, 0, 388, 222);
 
 
 // Effect関係
-SPRITE_BOTTOM e_sprHitObj = SPRITE_BOTTOM(TEX_WHITE, 0, 0, 8, 8);
+SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);
 
 //******************************************************************************

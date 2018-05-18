@@ -113,9 +113,10 @@ void ObjManager::init() {
 	//ZeroMemory(pObj, sizeof(pObj));
 
 	m_hitObj.m_pSprData = &e_sprHitObj;
-	m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
+	//m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
+	m_hitObj.m_size = { 10,10,0 };
 	m_hitObj.m_custom.rgba = 0x000000FF;
-	m_hitObj.m_alpha = 80;
+	m_hitObj.m_alpha = 10;
 
 	m_blurAreaList.clear();
 	m_newblurAreaList.clear();

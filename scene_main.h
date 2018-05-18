@@ -19,6 +19,7 @@ private:
 	Book *m_pBook;
 	View *m_pViewLeftPage;
 	View *m_pViewRightPage;
+	char *m_pStr;
 
 	Scene *m_pChildrenScene[2];
 

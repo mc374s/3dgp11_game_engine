@@ -52,9 +52,25 @@ void judgeAll()
 		{
 			//ppMapObj[i]->clear();
 			if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION && ppMapObj[i]->m_type != MAPOBJ_NONE 
+				&& ppMapObj[i]->m_type!=MAPOBJ_DOOR && ppMapObj[i]->m_type != MAPOBJ_KEY
 				&& (ppMapObj[i]->m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION))
 			{
 				ppMapObj[i]->hitAdjust(pPlayer);
+			}
+
+			if (ppMapObj[i]->m_type == MAPOBJ_KEY)
+			{
+				pPlayer->m_isKeyHandled = true;
+				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
+				ppMapObj[i]->m_isHitAble = false;
+				ppMapObj[i]->m_alpha = 0;
+			}
+			if (ppMapObj[i]->m_type == MAPOBJ_DOOR && pPlayer->m_isKeyHandled)
+			{
+				//pPlayer->m_isKeyHandled = false;
+				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
+				pPlayer->m_mode = MODE_CLEAR;
+				//ppMapObj[i]->clear();
 			}
 		}
 		if (isBookClosed && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage != ppMapObj[i]->m_isOnLeftPage

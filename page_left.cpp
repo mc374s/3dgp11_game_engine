@@ -50,7 +50,7 @@ void PageLeft::update()
 				randAdjust.y *= (speed.y / fabsf(speed.y));
 			}
 			pObjManager->m_hitObj.m_pos = pos - randAdjust;
-			pObjManager->m_hitObj.m_custom.angle = rand() % 90;
+			pObjManager->m_hitObj.m_custom.angle = rand() % 180;
 			pObjManager->m_hitObj.m_alpha = rand() % 20 + 20;
 			pObjManager->m_newblurAreaList.push_back(pObjManager->m_hitObj);
 		}
