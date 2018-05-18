@@ -42,7 +42,7 @@ enum P_STATE
 class Player:public OBJ2DEX
 {
 private:
-	int m_life;
+
 public:
 
 	int m_command;
@@ -64,6 +64,7 @@ public:
 	void update();
 	void draw();
 
+	int m_life;
 	int getLife();
 	void setLife(int a_life);
 	
@@ -80,7 +81,8 @@ public:
 	~PlayerManager() {};
 
 	Player *m_pPlayer = nullptr;
-	bool m_isTranscriptAble;
+	bool m_isTranscriptAble = true;
+	bool m_isTranscriptCanceled = false;
 
 	void init();
 	void transcriptPlayer(int a_concentration = 1);

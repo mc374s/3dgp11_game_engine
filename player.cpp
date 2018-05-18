@@ -23,7 +23,7 @@ void Player::init()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
-	m_pos = { 10,500,5 };
+	m_pos = { 20,-100,5 };
 
 	m_pSprData = &m_pAnimeData[0];
 
@@ -195,7 +195,7 @@ void Player::normalMove()
 		m_pos.y = P_SCROLL_Y_BOTTOM;
 		m_isOnScrollArea = true;
 	}
-	if (m_pos.y < P_SCROLL_Y_TOP)
+	if (m_pos.y < P_SCROLL_Y_TOP && m_state == P_STATE_JUMPING)
 	{
 		m_pos.y = P_SCROLL_Y_TOP;
 		m_isOnScrollArea = true;
@@ -379,7 +379,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 	{
 		if (m_isTranscriptAble)
 		{
-			//OBJ2D *pObj2dTemp = new OBJ2D;
+
 			pObjManager->m_transcriptionObj.m_isInit = true;
 			pObjManager->m_transcriptionObj.m_pos = m_pPlayer->m_pos;
 			pObjManager->m_transcriptionObj.m_size = m_pPlayer->m_size;
@@ -391,11 +391,22 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			pObjManager->m_transcriptionObj.m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
 			pObjManager->m_transcriptionList.push_back(pObjManager->m_transcriptionObj);
 
-			m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
-			m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
-			m_pPlayer->m_speed = { 0,0,0 };
-			m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
-			m_pPlayer->m_timer = 0;
+			if (m_isTranscriptCanceled)
+			{
+				m_pPlayer->init();
+				m_pPlayer->m_life--;
+
+			}
+			else
+			{
+
+				m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
+				m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
+				m_pPlayer->m_speed = { 0,0,0 };
+				m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
+				m_pPlayer->m_timer = 0;
+
+			}
 			m_state = STATE_INIT;
 		}
 		else

@@ -38,6 +38,7 @@ void judgeAll()
 	{
 		pPlayerManager->manageConcentration();
 		pPlayerManager->m_isTranscriptAble = true;
+		pPlayerManager->m_isTranscriptCanceled = false;
 	}
 	if (!isBookClosed)
 	{
@@ -58,6 +59,17 @@ void judgeAll()
 				ppMapObj[i]->hitAdjust(pPlayer);
 			}
 
+			if (ppMapObj[i]->m_type == MAPOBJ_HIGH_CONCENTRATION)
+			{
+				if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
+				{
+					pPlayer->init();
+					pPlayer->m_life--;
+				}
+			}
+
+
+			// 鍵関係
 			if (ppMapObj[i]->m_type == MAPOBJ_KEY)
 			{
 				pPlayer->m_isKeyHandled = true;
@@ -78,9 +90,11 @@ void judgeAll()
 		{
 			if ((pPlayer->m_concentration < ppMapObj[i]->m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && ppMapObj[i]->m_concentration > LOW_CONCENTRATION)
 			{
-				if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION)
+				pPlayerManager->m_isTranscriptAble = false;
+				if (ppMapObj[i]->m_type == MAPOBJ_HIGH_CONCENTRATION)
 				{
-					pPlayerManager->m_isTranscriptAble = false;
+					pPlayerManager->m_isTranscriptAble = true;
+					pPlayerManager->m_isTranscriptCanceled = true;
 				}
 			}
 		}

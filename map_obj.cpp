@@ -298,4 +298,15 @@ void MapObjManager::setScroll(Vector3 a_speed, bool a_isOnLeftPage)
 			m_ppMapObj[i]->m_pos.y -= a_speed.y;
 		}
 	}
+
+	for (auto &it : pObjManager->m_blurAreaList)
+	{
+		it.m_pos.y -= a_speed.y;
+	}
+
+	for (auto &it : pObjManager->m_transcriptionList)
+	{
+		it.m_pos.y -= a_speed.y;
+	}
+
 }
