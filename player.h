@@ -21,8 +21,8 @@
 
 #define P_LIFE_MAX		(4)
 
-#define P_SCROLL_Y_TOP		(100)
-#define P_SCROLL_Y_BOTTOM	(650)
+#define P_SCROLL_Y_TOP		(200)
+#define P_SCROLL_Y_BOTTOM	(550)
 
 enum P_MODE
 {
