@@ -25,6 +25,8 @@ enum TEX_NO {
 	TEX_IVY_THIN,
 
 	TEX_GAGE_DIVISION,
+
+	TEX_SMOKE,
 };
 
 // 2D画像ロードデータ
@@ -42,6 +44,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_IVY_THIN,			"./DATA/Images/ivy_thin.png" },
 
 	{ TEX_GAGE_DIVISION,	"./DATA/Images/gage_division.png" },
+	
+
 	{ -1, NULL }
 };
 

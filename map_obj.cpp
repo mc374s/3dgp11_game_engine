@@ -293,7 +293,7 @@ void MapObjManager::setScroll(Vector3 a_speed, bool a_isOnLeftPage)
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit && m_ppMapObj[i]->m_isOnLeftPage == a_isOnLeftPage)
+		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit/* && m_ppMapObj[i]->m_isOnLeftPage == a_isOnLeftPage*/)
 		{
 			m_ppMapObj[i]->m_pos.y -= a_speed.y;
 		}
