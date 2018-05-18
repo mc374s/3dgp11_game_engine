@@ -58,7 +58,6 @@ void PageLeft::update()
 
 
 	pObjManager->updata(m_isLeftPage);
-	pMapObjManager->mapScroll(m_isLeftPage,pPlayerManager->m_scrollHeight);
 }
 
 void PageLeft::draw()
