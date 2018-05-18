@@ -72,7 +72,7 @@ void SceneMain::update()
 		updateChildScenes();
 
 		pMapObjManager->stageUpdate();
-		if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
+		if (pPlayerManager->m_pPlayer->m_isOnScrollArea && m_isBookOpened)
 		{
 			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_isOnLeftPage);
 		}
