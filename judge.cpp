@@ -44,6 +44,7 @@ void judgeAll()
 		pPlayerManager->m_state = STATE_INIT;
 	}
 
+
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
 		if (isBookOpened && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage == ppMapObj[i]->m_isOnLeftPage 
@@ -66,10 +67,39 @@ void judgeAll()
 		}
 	}
 
+	// 転写元判定
+	for (auto &it : pObjManager->m_transcriptionList) {
+
+		if (pPlayer->m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(pPlayer, &(it)) && it.m_concentration > 1)
+		{
+			// TODO : 関数化
+
+			if (pPlayer->m_concentration < P_CONCENTRATION_MAX_NUM)
+			{
+				if (it.m_concentration - 1 + pPlayer->m_concentration > P_CONCENTRATION_MAX_NUM)
+				{
+					it.m_concentration -= P_CONCENTRATION_MAX_NUM - pPlayer->m_concentration;
+					pPlayer->m_concentration = P_CONCENTRATION_MAX_NUM;
+				}
+				else
+				{
+					pPlayer->m_concentration += it.m_concentration - 1;
+					it.m_concentration = 1;
+				}
+
+				pPlayer->m_alpha = 255 * pPlayer->m_concentration / P_CONCENTRATION_MAX_NUM;
+				it.m_alpha = 255 * it.m_concentration / P_CONCENTRATION_MAX_NUM;
+			}
+			break;
+		}
+	}
+
+
+	// 滲んだとこと判定
 	pPlayer->m_isOnBlurArea = false;
 	if (isBookOpened)
 	{
-		for (auto it : pObjManager->m_blurArea) {
+		for (auto &it : pObjManager->m_blurAreaList) {
 
 			if (pPlayer->m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(pPlayer, &(it)))
 			{
@@ -82,9 +112,9 @@ void judgeAll()
 
 	// 被ってる滲むObjは作らない
 	bool isRepeated = false;
-	for (auto newIt : pObjManager->m_newblurArea) {
+	for (auto &newIt : pObjManager->m_newblurAreaList) {
 		isRepeated = false;
-		for (auto it : pObjManager->m_blurArea) {
+		for (auto it : pObjManager->m_blurAreaList) {
 
 			if (newIt.m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(&(newIt), &(it)))
 			{
@@ -94,10 +124,10 @@ void judgeAll()
 		}
 		if (!isRepeated)
 		{
-			pObjManager->m_blurArea.push_back(newIt);
+			pObjManager->m_blurAreaList.push_back(newIt);
 		}
 	}
-	pObjManager->m_newblurArea.clear();
+	pObjManager->m_newblurAreaList.clear();
 
 }
 

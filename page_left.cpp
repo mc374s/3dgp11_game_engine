@@ -51,7 +51,7 @@ void PageLeft::update()
 			pObjManager->m_hitObj.m_pos = pos - randAdjust;
 			pObjManager->m_hitObj.m_custom.angle = rand() % 90;
 			pObjManager->m_hitObj.m_alpha = rand() % 20 + 20;
-			pObjManager->m_newblurArea.push_back(pObjManager->m_hitObj);
+			pObjManager->m_newblurAreaList.push_back(pObjManager->m_hitObj);
 		}
 	}
 

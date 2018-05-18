@@ -127,7 +127,7 @@ void GameUIManager::setInkGage(int a_playerConcentration, int a_transferConcentr
 		m_ppGameUI[GAGE_FRAME]->m_isVisible = true;
 		m_ppGameUI[GAGE_LEFT]->m_isVisible = true;
 		m_ppGameUI[GAGE_RIGHT]->m_isVisible = true;
-		if (a_isOnLeftPage)
+		if (!a_isOnLeftPage)
 		{
 			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0404B4FF;

@@ -150,7 +150,6 @@ void Book::closeBook()
 		m_postion.z = 450;
 		m_postion.y = 270;*/
 
-		pPlayerManager->transcriptPlayer();
 		m_state = STATE_FINISH;
 		break;
 	case STATE_FINISH:
@@ -171,6 +170,10 @@ void Book::openBook()
 	{
 	case STATE_INIT:
 		m_timer = 0;
+		if (m_isClosed)
+		{
+			pPlayerManager->transcriptPlayer();
+		}
 		m_isOpened = false;
 		m_state = STATE_BEGIN;
 		break;

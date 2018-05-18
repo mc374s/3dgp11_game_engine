@@ -46,8 +46,8 @@ public:
 
 	int m_command;
 	int m_mode;
-	int m_state;
-	int m_concentration;
+	int m_montionState;
+	//int m_concentration;
 	int m_transferConcentration;
 	bool m_isOnGround;
 	bool m_isMoving;

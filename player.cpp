@@ -27,7 +27,7 @@ void Player::init()
 	m_pSprData = &m_pAnimeData[0];
 
 	m_mode = MODE_NORMAL;
-	m_state = P_STATE_STANDY;
+	m_montionState = P_STATE_STANDY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
 	m_alpha = 255;
 	m_transferConcentration = 0;
@@ -88,18 +88,18 @@ void Player::normalMove()
 	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 
 	// プレーヤーの状態判断
-	if (m_speed.y == 0 && m_state != P_STATE_JUMPING && !m_isOnGround)
+	if (m_speed.y == 0 && m_montionState != P_STATE_JUMPING && !m_isOnGround)
 	{
 		m_isOnGround = true;
 	}
 	if (m_speed.y < 0)
 	{
-		m_state = P_STATE_JUMPING;
+		m_montionState = P_STATE_JUMPING;
 		m_isOnGround = false;
 	}
 	if (m_speed.y > 0)
 	{
-		m_state = P_STATE_DROPPING;
+		m_montionState = P_STATE_DROPPING;
 		m_isOnGround = false;
 	}
 	// X方向移動
@@ -219,7 +219,7 @@ void Player::normalMove()
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerRun;
 	}
-	if ((m_state == P_STATE_DROPPING || m_state == P_STATE_JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
+	if ((m_montionState == P_STATE_DROPPING || m_montionState == P_STATE_JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerJump;
@@ -287,7 +287,7 @@ void Player::draw()
 
 	char buf[256];
 	sprintf_s(buf, " posX: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d",
-		m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_state, m_concentration, m_transferConcentration);
+		m_pos.x, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration);
 	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG
@@ -326,13 +326,14 @@ void PlayerManager::manageConcentration()
 		if (m_isTranscriptAble)
 		{
 			if ((m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (!m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
-				m_pPlayer->m_transferConcentration--;
-				m_pPlayer->m_concentration++;
-			}
-			if ((!m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
 				m_pPlayer->m_transferConcentration++;
 				m_pPlayer->m_concentration--;
 			}
+			if ((!m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+				m_pPlayer->m_transferConcentration--;
+				m_pPlayer->m_concentration++;
+			}
+
 		}
 
 		if (m_pPlayer->m_transferConcentration < 1) {
@@ -348,13 +349,13 @@ void PlayerManager::manageConcentration()
 			m_pPlayer->m_concentration = m_concentration - 1;
 		}
 
+
 		break;
 	default:
 		break;
 	}
 
 	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_isOnLeftPage, m_isTranscriptAble);
-
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)
@@ -363,17 +364,19 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 	{
 		if (m_isTranscriptAble)
 		{
-			OBJ2D *pObj2dTemp = new OBJ2D;
-			pObjManager->m_ppObj[GET_IDLE_OBJ_NO] = pObj2dTemp;
-			pObj2dTemp->m_isInit = true;
-			pObj2dTemp->m_pos = m_pPlayer->m_pos;
-			pObj2dTemp->m_pos.z--;
-			pObj2dTemp->m_custom = m_pPlayer->m_custom;
-			pObj2dTemp->m_alpha = 255 * (m_pPlayer->m_concentration - m_pPlayer->m_transferConcentration) / 10;
-			pObj2dTemp->m_pSprData = m_pPlayer->m_pSprData;
-			pObj2dTemp->m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
-			m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
+			//OBJ2D *pObj2dTemp = new OBJ2D;
+			pObjManager->m_transcriptionObj.m_isInit = true;
+			pObjManager->m_transcriptionObj.m_pos = m_pPlayer->m_pos;
+			pObjManager->m_transcriptionObj.m_size = m_pPlayer->m_size;
+			pObjManager->m_transcriptionObj.m_pos.z--;
+			pObjManager->m_transcriptionObj.m_custom = m_pPlayer->m_custom;
+			pObjManager->m_transcriptionObj.m_concentration = m_pPlayer->m_transferConcentration;
+			pObjManager->m_transcriptionObj.m_alpha = 255 * pObjManager->m_transcriptionObj.m_concentration / 10;
+			pObjManager->m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
+			pObjManager->m_transcriptionObj.m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
+			pObjManager->m_transcriptionList.push_back(pObjManager->m_transcriptionObj);
 
+			m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
 			m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
 			m_pPlayer->m_speed = { 0,0,0 };
 			m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
