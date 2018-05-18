@@ -78,7 +78,10 @@ void judgeAll()
 		{
 			if ((pPlayer->m_concentration < ppMapObj[i]->m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && ppMapObj[i]->m_concentration > LOW_CONCENTRATION)
 			{
-				pPlayerManager->m_isTranscriptAble = false;
+				if (ppMapObj[i]->m_type != MAPOBJ_HIGH_CONCENTRATION)
+				{
+					pPlayerManager->m_isTranscriptAble = false;
+				}
 			}
 		}
 	}
