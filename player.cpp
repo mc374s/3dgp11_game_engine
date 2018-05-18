@@ -22,7 +22,7 @@ void Player::init()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
-	m_pos = { 10,0,5 };
+	m_pos = { 10,500,5 };
 
 	m_pSprData = &m_pAnimeData[0];
 
