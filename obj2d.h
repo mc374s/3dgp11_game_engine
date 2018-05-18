@@ -2,6 +2,7 @@
 #define _OBJ2D_H_
 
 #include <list>
+#include <vector>
 
 #define OBJ_MAX_NUM	(256)
 
@@ -32,6 +33,7 @@ public:
 	int m_state;
 	int m_alpha;
 	int m_type;
+	int m_concentration; //濃度
 
 	bool m_isInit;
 	bool m_isOnLeftPage = true;
@@ -95,9 +97,13 @@ private:
 public:
 	OBJ2D* m_ppObj[OBJ_MAX_NUM] = { nullptr };
 
-	std::list<OBJ2D> m_blurArea;
-	std::list<OBJ2D> m_newblurArea;
+	// TODO : 途中insert()しないからstd::vectorの方が早い、要変更
+	std::list<OBJ2D> m_blurAreaList;
+	std::list<OBJ2D> m_newblurAreaList;
+	std::vector<OBJ2D> m_transcriptionList;
+
 	OBJ2D m_hitObj;
+	OBJ2D m_transcriptionObj;
 
 	void init();
 	void updata(bool a_isLeftPage = true);

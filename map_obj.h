@@ -39,7 +39,7 @@ private:
 public:
 
 	int m_command; //プレイヤーのキー入力
-	int m_concentration; //濃度
+	//int m_concentration; //濃度
 	int m_drawDirection;
 	bool m_isHitAble;
 	Vector3 m_repeatDrawSize;

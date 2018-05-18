@@ -9,10 +9,11 @@ void OBJ2D::clear()
 {
 	m_pSprData = nullptr;
 	m_pos = Vector3(0, 0, 0);
-	m_speed = m_size = Vector3(0, 0, 0);
+	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
 	m_timer = 0;
 	m_state = 0;
 	m_alpha = 255;
+	m_concentration = 0;
 	m_isInit = false;
 
 	m_isOnLeftPage = true;
@@ -96,7 +97,9 @@ ObjManager::~ObjManager()
 	ZeroMemory(m_ppObj, sizeof(m_ppObj));
 	//delete[] m_pObj;
 
-	m_blurArea.clear();
+	m_blurAreaList.clear();
+	m_newblurAreaList.clear();
+	m_transcriptionList.clear();
 };
 
 void ObjManager::init() {
@@ -113,8 +116,10 @@ void ObjManager::init() {
 	m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
 	m_hitObj.m_custom.rgba = 0x000000FF;
 	m_hitObj.m_alpha = 80;
-	m_blurArea.clear();
-	m_newblurArea.clear();
+
+	m_blurAreaList.clear();
+	m_newblurAreaList.clear();
+	m_transcriptionList.clear();
 
 }
 
@@ -150,7 +155,22 @@ void ObjManager::updata(bool a_isLeftPage) {
 void ObjManager::draw(bool a_isLeftPage)
 {
 
-	for (auto it : m_blurArea) {
+#ifdef DEBUG
+
+	char buf[256];
+
+#endif // DEBUG
+
+
+	for (auto it : m_transcriptionList) {
+		if (it.m_isOnLeftPage == a_isLeftPage)
+		{
+			it.draw();
+			sprintf_s(buf, "%d", it.m_concentration);
+			drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, buf, 0x00000060, STR_CENTER, 32, 20, -20);
+		}
+	}
+	for (auto it : m_blurAreaList) {
 		if (it.m_isOnLeftPage == a_isLeftPage)
 		{
 			it.draw();
@@ -168,8 +188,7 @@ void ObjManager::draw(bool a_isLeftPage)
 
 #ifdef DEBUG
 
-	char buf[256];
-	sprintf_s(buf, "Obj Num: %d\nBlurObjNum: %d", num, m_blurArea.size());
+	sprintf_s(buf, "Obj Num: %d\nBlurObjNum: %d", num, m_blurAreaList.size());
 	drawString(0, PAGE_HEIGHT - 60, buf, 0x000000FF, STR_LEFT);
 
 #endif // DEBUG
