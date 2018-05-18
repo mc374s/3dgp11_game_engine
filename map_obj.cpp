@@ -83,6 +83,7 @@ void MapObj::update()
 
 		animation();
 
+
 	}
 }
 int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
@@ -232,7 +233,7 @@ void MapObjManager::update()
 			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
 		}
 	}
-}
+		}
 
 void MapObjManager::draw()
 {
@@ -242,7 +243,7 @@ void MapObjManager::draw()
 		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
 		{
 			num++;
-		}
+	}
 	}
 #ifdef DEBUG
 

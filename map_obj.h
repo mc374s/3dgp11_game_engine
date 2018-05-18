@@ -114,6 +114,8 @@ public:
 	void update();
 	void draw();
 
+	void mapScroll(float m_scrollHeight);
+
 	MapObjManager() {};
 	~MapObjManager();
 
