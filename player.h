@@ -81,8 +81,8 @@ class PlayerManager:public Singleton<PlayerManager>, public Manager
 private:
 	//int m_transferConcentration = 0;
 public:
-	PlayerManager() { init(); };
-	~PlayerManager() {};
+	PlayerManager();
+	~PlayerManager();
 
 	Player *m_pPlayer = nullptr;
 	bool m_isTranscriptAble = true;

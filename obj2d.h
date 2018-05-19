@@ -10,10 +10,8 @@ class OBJ2D
 {
 private:
 
-protected:
-	virtual void memberCopy(const OBJ2D& a_inputObj);
-
 public:
+	virtual void memberCopy(const OBJ2D& a_inputObj);
 	OBJ2D();
 	OBJ2D(const OBJ2D& a_inputObj);
 	virtual ~OBJ2D();
@@ -51,7 +49,6 @@ public:
 class OBJ2DEX : public OBJ2D
 {
 private:
-	virtual void memberCopy(const OBJ2DEX& a_inputObj);
 
 public:
 
@@ -60,6 +57,7 @@ public:
 
 	SPRITE_DATA* m_pAnimeData;
 
+	virtual void memberCopy(const OBJ2DEX& a_inputObj);
 	OBJ2DEX();
 	OBJ2DEX(const OBJ2DEX& a_inputObj);
 	virtual ~OBJ2DEX();
@@ -94,6 +92,8 @@ private:
 class ObjManager : public Singleton<ObjManager>, public Manager
 {
 private:
+	OBJ2D m_hitObj;
+	OBJ2D m_transcriptionObj;
 
 
 public:
@@ -104,8 +104,6 @@ public:
 	std::vector<OBJ2D> m_newblurAreaList;
 	std::vector<OBJ2D> m_transcriptionList;
 
-	OBJ2D m_hitObj;
-	OBJ2D m_transcriptionObj;
 
 	void init();
 	void updata(bool a_isLeftPage = true);

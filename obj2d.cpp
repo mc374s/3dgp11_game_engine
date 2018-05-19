@@ -30,12 +30,13 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 
 	m_isInit = a_inputObj.m_isInit;
 	m_isOnLeftPage = a_inputObj.m_isOnLeftPage;
+
+	m_pSprData = a_inputObj.m_pSprData;
 }
 
 OBJ2D::OBJ2D(const OBJ2D& a_inputObj)
 {
 	memberCopy(a_inputObj);
-	m_pSprData = a_inputObj.m_pSprData;
 }
 
 OBJ2D::~OBJ2D() 
@@ -43,11 +44,9 @@ OBJ2D::~OBJ2D()
 	clear();
 }
 
-
 const OBJ2D& OBJ2D::operator=(const OBJ2D& a_right)
 {
 	memberCopy(a_right);
-	m_pSprData = a_right.m_pSprData;
 	return *this;
 }
 
@@ -107,12 +106,12 @@ void OBJ2DEX::memberCopy(const OBJ2DEX& a_inputObj)
 	OBJ2D::memberCopy(a_inputObj);
 	m_aframe = a_inputObj.m_aframe;
 	m_animeNO = a_inputObj.m_animeNO;
+	m_pAnimeData = a_inputObj.m_pAnimeData;
 }
 
 OBJ2DEX::OBJ2DEX(const OBJ2DEX& a_inputObj):OBJ2D(a_inputObj)
 {
 	memberCopy(a_inputObj);
-	m_pAnimeData = a_inputObj.m_pAnimeData;
 }
 
 OBJ2DEX::~OBJ2DEX()
@@ -123,7 +122,6 @@ OBJ2DEX::~OBJ2DEX()
 const OBJ2DEX& OBJ2DEX::operator=(const OBJ2DEX& a_right)
 {
 	memberCopy(a_right);
-	m_pAnimeData = a_right.m_pAnimeData;
 	return *this;
 }
 
@@ -167,10 +165,7 @@ ObjManager::~ObjManager()
 {
 	for (int i = 0; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_ppObj[i] && m_ppObj[i]->m_pSprData && m_ppObj[i]->m_isInit)
-		{
-			m_ppObj[i] = nullptr;
-		}
+		m_ppObj[i] = nullptr;
 	}
 	ZeroMemory(m_ppObj, sizeof(m_ppObj));
 	//delete[] m_pObj;

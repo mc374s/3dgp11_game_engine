@@ -4,6 +4,40 @@
 
 #include "map_obj.h"
 
+void MapObj::memberCopy(const MapObj& a_inputObj)
+{
+	OBJ2DEX::memberCopy(a_inputObj);
+	m_command = a_inputObj.m_command;
+	m_drawDirection = a_inputObj.m_drawDirection;
+	bool m_isHitAble = a_inputObj.m_isHitAble;
+	m_repeatDrawSize = a_inputObj.m_repeatDrawSize;
+	m_pfMove = a_inputObj.m_pfMove;
+}
+
+
+MapObj::MapObj()
+{
+	clear();
+}
+
+MapObj::MapObj(const MapObj& a_inputObj):OBJ2DEX(a_inputObj)
+{
+	memberCopy(a_inputObj);
+	
+}
+
+MapObj::~MapObj()
+{
+	clear();
+}
+
+const MapObj& MapObj::operator=(const MapObj& a_right)
+{
+	memberCopy(a_right);
+	return *this;
+}
+
+
 void MapObj::clear()
 {
 	OBJ2DEX::clear();
@@ -13,12 +47,6 @@ void MapObj::clear()
 	m_drawDirection = DRAW_UP;
 	m_repeatDrawSize = Vector3(0, 0, 0);
 	m_isHitAble = false;
-}
-
-MapObj::MapObj(/*int a_type*/)
-{
-	clear();
-
 }
 
 // stageData による初期化
@@ -51,6 +79,7 @@ void MapObj::init()
 	default:
 		break;
 	}
+
 	switch (m_drawDirection)
 	{
 	case DRAW_DOWN:
@@ -172,7 +201,8 @@ MapObjManager::MapObjManager()
 {
 
 	// m_mapObjListの要素のアドレスをアクセスしたいから、メモリを一気に確保
-	m_mapObjList.reserve(MAPOBJ_MAX_NUM);
+	m_mapObjList.reserve(10000);
+	//m_mapObjList.clear();
 }
 
 
@@ -242,6 +272,7 @@ void MapObjManager::stageUpdate()
 			break;
 		}
 		//MapObj::searchSet(m_ppMapObj, MAPOBJ_MAX_NUM, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->isOnLeftPage, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+
 		m_mapSetObj.clear();
 		m_mapSetObj.m_type = m_pStageData->mapObjType;
 		m_mapSetObj.m_drawDirection = m_pStageData->drawDirection;

@@ -104,10 +104,6 @@ void judgeAll()
 		}
 	}
 
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		
-	}
 
 	// 転写元判定
 	for (auto &it : pObjManager->m_transcriptionList) {

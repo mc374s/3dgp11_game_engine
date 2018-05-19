@@ -78,5 +78,6 @@ STAGE_DATA stage00_setData[] = {
 	STAGE_DATA(0, MAPOBJ_IVY_THIN, DRAW_DOWN, false, v3(200,222,0),true, v3(200,22,0), 10),
 	STAGE_DATA(0, MAPOBJ_IVY_THIN, DRAW_LEFT, false, v3(178,400,0),true, v3(22,200,0), 10),
 	STAGE_DATA(0, MAPOBJ_IVY_THIN, DRAW_RIGHT, false, v3(422,400,0),true, v3(22,200,0), 10),*/
+
 	STAGE_DATA(-1, MAPOBJ_NONE, DRAW_UP, false, v3(0,0,0),false, v3(0,0,0)),
 };

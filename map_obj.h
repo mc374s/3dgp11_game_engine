@@ -38,28 +38,26 @@ private:
 
 public:
 
-	int m_command; //プレイヤーのキー入力
-	//int m_concentration; //濃度
-	int m_drawDirection;
-	bool m_isHitAble;
-	Vector3 m_repeatDrawSize;
-
-	void hitAdjust(OBJ2DEX* a_pObj);
-	//void judgePlayer(OBJ2DEX* a_pObj);
-
-	void(*m_pfMove)(MapObj*);
+	virtual void memberCopy(const MapObj& a_inputObj);
+	MapObj();
+	MapObj(const MapObj& a_inputObj);
+	virtual ~MapObj();
+	const MapObj& operator=(const MapObj& a_right);
 
 	void clear();
 
-	MapObj(/*int a_type = 0*/);
-	virtual ~MapObj() {
-		clear();
-	};
+	int m_command; //プレイヤーのキー入力
+	int m_drawDirection;
+	bool m_isHitAble;
+	Vector3 m_repeatDrawSize;
+	void(*m_pfMove)(MapObj*);
 
 	void init();
-
 	void update();
 	void draw();
+
+	void hitAdjust(OBJ2DEX* a_pObj);
+	//void judgePlayer(OBJ2DEX* a_pObj);
 };
 
 struct STAGE_DATA {

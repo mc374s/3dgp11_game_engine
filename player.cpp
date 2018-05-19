@@ -384,6 +384,20 @@ void Player::setLife(int a_life)
 ////////////////////////////////////////////////////////////////////////
 
 // Player Manager Class
+PlayerManager::PlayerManager()
+{
+	init();
+}
+
+PlayerManager::~PlayerManager()
+{
+	if (m_pPlayer)
+	{
+		delete m_pPlayer;
+		m_pPlayer = nullptr;
+	}
+}
+
 void PlayerManager::init() {
 	if (!m_pPlayer)
 	{
