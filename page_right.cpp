@@ -17,13 +17,13 @@ PageRight::PageRight()
 
 void PageRight::update()
 {
-	/*if (!pPlayerManager->m_pPlayerTsuta->m_isOnLeftPage && !m_isLeftPage)
+	/*if (!pPlayerManager->m_pPlayerTsuta->m_isOnLeftPage && !m_pagination)
 	{
 		pPlayerManager->m_pPlayerTsuta->update();
 	}*/
 	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
-	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_isLeftPage && pPlayerManager->m_pPlayer->m_isMoving){
-		pObjManager->m_hitObj.m_liveInPagination = m_isLeftPage;
+	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_pagination && pPlayerManager->m_pPlayer->m_isMoving){
+		pObjManager->m_hitObj.m_liveInPagination = m_pagination;
 		Vector3 pos = pPlayerManager->m_pPlayer->m_pos;
 		Vector3 speed = pPlayerManager->m_pPlayer->m_speed;
 		Vector3 size = pPlayerManager->m_pPlayer->m_size;
@@ -55,18 +55,18 @@ void PageRight::update()
 		}
 	}
 
-	pObjManager->update(m_isLeftPage);
+	pObjManager->update(m_pagination);
 }
 
 void PageRight::draw()
 {
 
 	m_bg.draw();
-	/*if (!pPlayerManager->m_pPlayerTsuta->m_isOnLeftPage && !m_isLeftPage)
+	/*if (!pPlayerManager->m_pPlayerTsuta->m_isOnLeftPage && !m_pagination)
 	{
 		pPlayerManager->m_pPlayerTsuta->draw();
 	}*/
-	pObjManager->draw(m_isLeftPage);
+	pObjManager->draw(m_pagination);
 
 	drawRectangle(0, 0, 4, PAGE_HEIGHT, 0, 0x000000FF);
 

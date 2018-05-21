@@ -14,6 +14,7 @@ OBJ2D::OBJ2D()
 void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 {
 	m_pos = a_inputObj.m_pos;
+	m_initPos = a_inputObj.m_initPos;
 	m_speed = a_inputObj.m_speed;
 	m_speedAcc = a_inputObj.m_speedAcc;
 	m_speedMax = a_inputObj.m_speedMax;
@@ -188,12 +189,12 @@ void ObjManager::init() {
 
 }
 
-void ObjManager::update(bool a_isLeftPage) {
+void ObjManager::update(int a_liveInPagination) {
 
 
 	for (auto &it : m_ppObjs)
 	{
-		if (it && it->m_liveInPagination == a_isLeftPage)
+		if (it && it->m_liveInPagination == a_liveInPagination)
 		{
 			it->update();
 		}
@@ -203,27 +204,30 @@ void ObjManager::update(bool a_isLeftPage) {
 	OBJ2D* temp = nullptr;
 	for (int i = 1; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_ppObjs[i - 1] && m_ppObjs[i] && m_ppObjs[i - 1]->m_pos.z > m_ppObjs[i]->m_pos.z)
+		if (m_ppObjs[i - 1] && m_ppObjs[i] && (m_ppObjs[i - 1]->m_liveInPagination == m_ppObjs[i]->m_liveInPagination))
 		{
-			int j = i;
-			do
+			if (m_ppObjs[i - 1]->m_pos.z > m_ppObjs[i]->m_pos.z)
 			{
-				temp = m_ppObjs[j - 1];
-				m_ppObjs[j - 1] = m_ppObjs[j];
-				m_ppObjs[j] = temp;
-				j--;
-			} while (j > 0 && m_ppObjs[j - 1]->m_pos.z < m_ppObjs[j]->m_pos.z);
+				int j = i;
+				do
+				{
+					temp = m_ppObjs[j - 1];
+					m_ppObjs[j - 1] = m_ppObjs[j];
+					m_ppObjs[j] = temp;
+					j--;
+				} while (j > 0 && m_ppObjs[j - 1]->m_pos.z < m_ppObjs[j]->m_pos.z);
+			}
 		}
 	}
 
 }
 
-void ObjManager::draw(bool a_isLeftPage)
+void ObjManager::draw(int a_liveInPagination)
 {
 
 	char pConcentration[8];
 	for (auto &it : m_transcriptionList) {
-		if (it.m_liveInPagination == a_isLeftPage)
+		if (it.m_liveInPagination == a_liveInPagination)
 		{
 			it.draw();
 			sprintf_s(pConcentration, "%d", it.m_concentration);
@@ -231,7 +235,7 @@ void ObjManager::draw(bool a_isLeftPage)
 		}
 	}
 	for (auto &it : m_blurAreaList) {
-		if (it.m_liveInPagination == a_isLeftPage)
+		if (it.m_liveInPagination == a_liveInPagination)
 		{
 			it.draw();
 		}
@@ -239,7 +243,7 @@ void ObjManager::draw(bool a_isLeftPage)
 	int num = 0;
 	for (auto &it : m_ppObjs)
 	{
-		if (it && it->m_isInit && it->m_liveInPagination == a_isLeftPage)
+		if (it && it->m_isInit && it->m_liveInPagination == a_liveInPagination)
 		{
 			it->draw();
 			num++;

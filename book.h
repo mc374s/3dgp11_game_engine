@@ -3,6 +3,8 @@
 
 #define PAGINATION_MAX (2)
 
+class Page;
+
 class Book
 {
 private:

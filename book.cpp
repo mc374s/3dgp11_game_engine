@@ -137,10 +137,10 @@ void Book::closeBook()
 		m_openSpeed = 0;
 		m_openSpeedAcc = 0;
 		m_isClosed = false;
+		m_isOpened = false;
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
-		m_isOpened = false;
 		m_openSpeedAcc += 0.005;
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed;
@@ -185,7 +185,9 @@ void Book::openBook()
 		if (m_isClosed)
 		{
 			pPlayerManager->transcriptPlayer();
+			pPlayerManager->m_step = STEP::INIT;
 		}
+		m_isClosed = false;
 		m_isOpened = false;
 		m_step = STEP::BEGIN;
 		break;

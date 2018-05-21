@@ -5,7 +5,7 @@ class Page :public Scene, public Singleton<Page>
 {
 private:
 	View *m_pView;
-
+	Scene *m_pInnerScene;
 
 public:
 	int m_width;

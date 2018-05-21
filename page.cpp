@@ -30,6 +30,17 @@ Page::~Page()
 
 void Page::update()
 {
+	//ページの内容を更新
+	/*if (m_pInnerScene)
+	{
+		if (m_pInnerScene->m_pNextScene)
+		{
+			m_pInnerScene = m_pInnerScene->m_pNextScene;
+		}
+		m_pInnerScene->update();
+	}*/
+
+	//ページの内容を更新
 
 	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
 	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_pagination && pPlayerManager->m_pPlayer->m_isMoving) {
@@ -71,7 +82,8 @@ void Page::update()
 
 void Page::draw()
 {
-
+	//View::clear();
+	//m_pView->set(-PAGE_WIDTH, -PAGE_HEIGHT / 2, PAGE_WIDTH, PAGE_HEIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 
 	m_bg.draw();
 

@@ -78,18 +78,18 @@ void SceneMain::update()
 
 		judgeAll();
 
-		if (pPlayerManager->m_pPlayer->m_mode == PLAYER_MODE::CLEAR)
+		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::CLEAR)
 		{
 			m_pStr = "GAME CLEAR";
 			m_timer++;
 			if (m_timer > 120)
 			{
-				//m_state = STEP::INIT;
+				//m_state = STEP::RESTART;
 				//changeScene(SCENE_TITLE);
 			}
 		}
 
-		if (pPlayerManager->m_pPlayer->m_mode == DEAD)
+		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::DEAD)
 		{
 
 			m_pStr = "GAME OVER";
@@ -179,6 +179,7 @@ void SceneMain::updateChildScenes()
 	m_pViewLeftPage->m_custom3d.position = m_pBook->m_postion;
 	m_pViewLeftPage->m_custom3d.position.y = -m_pBook->m_postion.y;
 	//m_pViewLeftPage->m_custom3d.position.z -= 0.1;
+
 	// Right Side
 	m_pViewRightPage->m_custom3d.position = m_pBook->m_postion;
 	m_pViewRightPage->m_custom3d.position.y = -m_pBook->m_postion.y;

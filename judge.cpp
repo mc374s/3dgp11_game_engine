@@ -33,7 +33,7 @@ void judgeAll()
 	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
 
 	// When Restart, ignore Judgement
-	if (pPlayer->m_mode == INIT)
+	if (pPlayer->m_mode == P_MODE::RESTART)
 	{
 		pObjManager->m_newblurAreaList.clear();
 		return;
@@ -70,7 +70,7 @@ void judgeAll()
 			{
 				if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
 				{
-					pPlayer->m_mode = INIT;
+					pPlayer->m_mode = P_MODE::RESTART;
 				}
 			}
 
@@ -87,7 +87,7 @@ void judgeAll()
 			{
 				//pPlayer->m_isKeyHandled = false;
 				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
-				pPlayer->m_mode = PLAYER_MODE::CLEAR;
+				pPlayer->m_mode = P_MODE::CLEAR;
 				//ppMapObj[i]->clear();
 			}
 		}

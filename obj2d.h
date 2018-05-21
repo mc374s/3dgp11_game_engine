@@ -19,6 +19,7 @@ public:
 
 	SPRITE_DATA* m_pSprData;
 	Vector3 m_pos;
+	Vector3 m_initPos;
 	Vector3 m_speed;
 	Vector3 m_speedAcc;
 	Vector3 m_speedMax;
@@ -34,7 +35,7 @@ public:
 	int m_concentration; //濃度
 
 	bool m_isInit;
-	bool m_liveInPagination;
+	int m_liveInPagination; //所属しているページナンバー
 
 	virtual void clear();
 	virtual void update() {};
@@ -99,7 +100,7 @@ public:
 
 	//std::vector<OBJ2D*> m_ppObjList = { nullptr };
 
-	// TODO : 途中insert()しないからstd::vectorの方が早い、要変更
+	// TODO : 途中insert()しないからstd::vectorがListよりが早い、要変更->変更済み
 	std::vector<OBJ2D> m_blurAreaList;
 	std::vector<OBJ2D> m_newblurAreaList;
 	std::vector<OBJ2D> m_transcriptionList;
@@ -110,7 +111,7 @@ public:
 
 	void init();
 	void update(int a_liveInPagination = 1);
-	void draw(bool a_liveInPagination = 1);
+	void draw(int a_liveInPagination = 1);
 
 	ObjManager() {};
 	~ObjManager();

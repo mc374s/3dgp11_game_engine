@@ -113,7 +113,7 @@ void MapObj::update()
 
 	}
 }
-int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, bool a_isOnLeftPage, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
+int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
@@ -125,9 +125,9 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 		} else {
 			a_ppBegin[i]->clear();
 		}
+		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
 		a_ppBegin[i]->m_type = a_mapObjType;
 		a_ppBegin[i]->m_drawDirection = a_drawDirection;
-		a_ppBegin[i]->m_liveInPagination = a_isOnLeftPage;
 		a_ppBegin[i]->m_pos = a_pos;
 		a_ppBegin[i]->m_isHitAble = a_isHitAble;
 		a_ppBegin[i]->m_size = a_size;
@@ -299,7 +299,7 @@ void MapObjManager::stageUpdate()
 			}
 			break;
 		}
-		MapObj::searchSet(m_ppMapObjs, MAPOBJ_MAX_NUM, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->isOnLeftPage, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+		MapObj::searchSet(m_ppMapObjs, MAPOBJ_MAX_NUM, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
 		m_pStageData++;
 	}
 }
@@ -319,11 +319,11 @@ bool MapObjManager::isAlive()
 	return false;
 }
 
-void MapObjManager::setScroll(Vector3 a_speed, bool a_isOnLeftPage)
+void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination)
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit /*&& m_ppMapObjs[i]->m_isOnLeftPage == a_isOnLeftPage*/)
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit /*&& m_ppMapObjs[i]->m_liveInPagination == a_liveInPagination*/)
 		{
 			m_ppMapObjs[i]->m_pos.y -= a_speed.y;
 		}

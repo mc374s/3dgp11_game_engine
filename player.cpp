@@ -25,12 +25,13 @@ void Player::init()
 	m_command = 0x0;
 	m_pos = { 20,0,5 };
 	m_initPos = m_pos;
-	m_liveInPagination = true;
+	m_scrolledDistance = { 0,0,0 };
+	m_liveInPagination = 1;
 
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
-	m_mode = PLAYER_MODE::NORMAL;
-	m_montionState = PLAYER_STATE::STANDY;
+	m_mode = P_MODE::NORMAL;
+	m_montionState = P_STATE::STANDY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
 	m_alpha = 255;
 	m_transferConcentration = 0;
@@ -74,7 +75,7 @@ void Player::normalMove()
 	}
 	if (m_life <= 0)
 	{
-		m_mode = DEAD;
+		m_mode = P_MODE::DEAD;
 	}
 	// 濃度計算：動いてるときに減っていく
 	if (m_speed.x != 0 || m_speed.y != 0)
@@ -86,7 +87,7 @@ void Player::normalMove()
 			m_concentration--;
 			if (m_concentration < 1)
 			{
-				m_mode = INIT;
+				m_mode = P_MODE::RESTART;
 			}
 		}
 		m_isMoving = true;
@@ -98,18 +99,18 @@ void Player::normalMove()
 	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 
 	// プレーヤーの状態判断
-	if (m_speed.y == 0 && m_montionState != PLAYER_STATE::JUMPING && !m_isOnGround)
+	if (m_speed.y == 0 && m_montionState != P_STATE::JUMPING && !m_isOnGround)
 	{
 		m_isOnGround = true;
 	}
 	if (m_speed.y < 0)
 	{
-		m_montionState = PLAYER_STATE::JUMPING;
+		m_montionState = P_STATE::JUMPING;
 		m_isOnGround = false;
 	}
 	if (m_speed.y > 0)
 	{
-		m_montionState = PLAYER_STATE::DROPPING;
+		m_montionState = P_STATE::DROPPING;
 		m_isOnGround = false;
 	}
 	// X方向移動
@@ -194,19 +195,33 @@ void Player::normalMove()
 
 	// スクロールエリア処理
 	m_isOnScrollArea = false;
-	if (m_pos.y > P_SCROLL_Y_BOTTOM)
+	m_type = 0;//debug
+	// TODO : スピードが高い場合の判定
+	if (m_pos.y - m_size.y < P_SCROLL_Y_TOP && m_pos.y/* - m_speed.y */> P_SCROLL_Y_TOP && m_speed.y < 0 && m_scrolledDistance.y > 0)
+	{
+		/*if (m_scrolledDistance.y > -P_JUMP_POWER_BLUR)
+		{
+			
+		}*/
+		m_pos.y = P_SCROLL_Y_TOP + m_size.y - 0.1;
+		m_isOnScrollArea = true;
+		m_type = 1;//debug
+	}
+	if (m_pos.y > P_SCROLL_Y_BOTTOM && m_pos.y - m_size.y < P_SCROLL_Y_BOTTOM && m_speed.y > 0)
 	{
 		m_pos.y = P_SCROLL_Y_BOTTOM;
-		// Init 位置を計算していく
-		m_initPos.y -= m_speed.y;
 		m_isOnScrollArea = true;
+		m_type = 2;//debug
 	}
-	if (m_pos.y < P_SCROLL_Y_TOP && m_montionState == PLAYER_STATE::JUMPING)
+	if (m_isOnScrollArea)
 	{
-		m_pos.y = P_SCROLL_Y_TOP;
-		// Init 位置を計算していく
-		m_initPos.y += m_speed.y;
-		m_isOnScrollArea = true;
+		// スクロール距離を計算していく
+		m_scrolledDistance.y += m_speed.y;
+		if (m_scrolledDistance.y < 0)
+		{
+			m_scrolledDistance.y = 0;
+			m_speed.y = 0;
+		}
 	}
 
 
@@ -222,12 +237,13 @@ void Player::normalMove()
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
-		m_mode = INIT;
+		m_mode = P_MODE::RESTART;
 	}
 
 	if (m_pos.y < - m_size.y - 100)
 	{
 		m_pos.y = -m_size.y - 100;
+		m_speed.y = 0;
 	}
 
 	// アニメーションデータ
@@ -236,7 +252,7 @@ void Player::normalMove()
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerRun;
 	}
-	if ((m_montionState == PLAYER_STATE::DROPPING || m_montionState == PLAYER_STATE::JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
+	if ((m_montionState == P_STATE::DROPPING || m_montionState == P_STATE::JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerJump;
@@ -285,34 +301,28 @@ void Player::initMove()
 	{
 	case STEP::INIT:
 		m_speed.x = 0;
-		m_speed.y = (m_initPos.y - m_pos.y) / 10;
+		m_speed.y = -m_scrolledDistance.y / 10;
 		m_alpha = 0;
 		m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
 		m_pos.y += m_speed.y;
-		m_initPos.y -= m_speed.y;
-		if (m_initPos.y > m_pos.y - 10)
-		{
-			m_step = STEP::END;
-		}
 
-		m_isOnScrollArea = false;
-		if (m_pos.y > P_SCROLL_Y_BOTTOM)
+		m_isOnScrollArea = true;
+		if (m_isOnScrollArea)
 		{
-			m_pos.y = P_SCROLL_Y_BOTTOM;
-			m_isOnScrollArea = true;
-		}
-		if (m_pos.y < P_SCROLL_Y_TOP)
-		{
-			m_pos.y = P_SCROLL_Y_TOP;
-			m_isOnScrollArea = true;
+			m_scrolledDistance.y += m_speed.y;
+			if (m_scrolledDistance.y <= 0)
+			{
+				m_speed.y = 0;
+				m_step = STEP::END;
+			}
 		}
 		break;
 	case STEP::END:
 		init();
 		m_life--;
-		m_mode = PLAYER_MODE::NORMAL;
+		m_mode = P_MODE::NORMAL;
 
 		break;
 	default:
@@ -324,12 +334,12 @@ void Player::update()
 {
 	switch (m_mode)
 	{
-	case PLAYER_MODE::CLEAR:
-	case NORMAL:
+	case P_MODE::CLEAR:
+	case P_MODE::NORMAL:
 		normalMove();
 		animation();
 		break;
-	case INIT:
+	case P_MODE::RESTART:
 		initMove();
 		break;
 	default:
@@ -355,9 +365,25 @@ void Player::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, " initPosY: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d",
-		m_initPos.y, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration,m_life);
+	sprintf_s(buf, " scrolledDisY: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d",
+		m_scrolledDistance.y, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration,m_life);
 	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
+	if (m_type == 0)
+	{
+		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
+		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
+	}
+	else
+	{
+		if (m_type == 1)
+		{
+			drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
+		}
+		if (m_type == 2)
+		{
+			drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
+		}
+	} 
 
 #endif // DEBUG
 }
@@ -368,17 +394,17 @@ int Player::getLife()
 	return m_life;
 }
 
-void Player::setLife(int a_life)
+void Player::addLife(int a_life)
 {
-	if (a_life < 0)
+	m_life += a_life;
+	if (m_life < 0)
 	{
-		a_life = 0;
+		m_life = 0;
 	}
-	if (a_life > P_LIFE_MAX)
+	if (m_life > P_LIFE_MAX)
 	{
-		a_life = P_LIFE_MAX;
+		m_life = P_LIFE_MAX;
 	}
-	m_life = a_life;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -404,6 +430,10 @@ void PlayerManager::init() {
 		m_pPlayer = new Player;
 		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = m_pPlayer;
 	}
+	else
+	{
+		m_pPlayer->init();
+	}
 }
 
 void PlayerManager::manageConcentration()
@@ -411,6 +441,7 @@ void PlayerManager::manageConcentration()
 	switch (m_step)
 	{
 	case STEP::INIT:
+		m_isPlayerOnLeft = m_pPlayer->m_liveInPagination % 2 != 0;
 		m_concentration = m_pPlayer->m_concentration;
 		if (m_concentration >= 2)
 		{
@@ -429,11 +460,11 @@ void PlayerManager::manageConcentration()
 
 		if (m_isTranscriptAble)
 		{
-			if ((m_pPlayer->m_liveInPagination && KEY_DOWN('A')) || (!m_pPlayer->m_liveInPagination && KEY_DOWN('D'))) {
+			if ((m_isPlayerOnLeft && KEY_DOWN('A')) || (!m_isPlayerOnLeft && KEY_DOWN('D'))) {
 				m_pPlayer->m_transferConcentration++;
 				m_pPlayer->m_concentration--;
 			}
-			if ((!m_pPlayer->m_liveInPagination && KEY_DOWN('A')) || (m_pPlayer->m_liveInPagination && KEY_DOWN('D'))) {
+			if ((!m_isPlayerOnLeft && KEY_DOWN('A')) || (m_isPlayerOnLeft && KEY_DOWN('D'))) {
 				m_pPlayer->m_transferConcentration--;
 				m_pPlayer->m_concentration++;
 			}
@@ -459,7 +490,7 @@ void PlayerManager::manageConcentration()
 		break;
 	}
 
-	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_liveInPagination, m_isTranscriptAble);
+	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble);
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)
@@ -468,7 +499,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 	{
 		if (m_isTranscriptAble)
 		{
-
+			// 転写元を作成
 			pObjManager->m_transcriptionObj.m_isInit = true;
 			pObjManager->m_transcriptionObj.m_pos = m_pPlayer->m_pos;
 			pObjManager->m_transcriptionObj.m_size = m_pPlayer->m_size;
@@ -482,13 +513,14 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 
 			if (m_isTranscriptCanceled)
 			{
-				m_pPlayer->m_mode = INIT;
+				// 転写失敗によって転写先を生成位置に強制リセット
+				m_pPlayer->m_mode = P_MODE::RESTART;
 
 			}
 			else
 			{
-
-				m_pPlayer->m_liveInPagination = !m_pPlayer->m_liveInPagination;
+				// 隣のページへ転写
+				m_pPlayer->m_liveInPagination += m_pPlayer->m_liveInPagination % 2 ? 1 : -1;
 				m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
 				m_pPlayer->m_speed = { 0,0,0 };
 				m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;

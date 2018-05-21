@@ -20,8 +20,8 @@ void PageLeft::update()
 {
 	
 	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
-	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_isLeftPage && pPlayerManager->m_pPlayer->m_isMoving){
-		pObjManager->m_hitObj.m_liveInPagination = m_isLeftPage;
+	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_pagination && pPlayerManager->m_pPlayer->m_isMoving){
+		pObjManager->m_hitObj.m_liveInPagination = m_pagination;
 		Vector3 pos = pPlayerManager->m_pPlayer->m_pos;
 		Vector3 speed = pPlayerManager->m_pPlayer->m_speed;
 		Vector3 size = pPlayerManager->m_pPlayer->m_size;
@@ -54,7 +54,7 @@ void PageLeft::update()
 	}
 
 
-	pObjManager->update(m_isLeftPage);
+	pObjManager->update(m_pagination);
 }
 
 void PageLeft::draw()
@@ -62,7 +62,7 @@ void PageLeft::draw()
 
 	m_bg.draw();
 
-	pObjManager->draw(m_isLeftPage);
+	pObjManager->draw(m_pagination);
 
 	drawRectangle(PAGE_WIDTH - 4, 0, 4, PAGE_HEIGHT, 0, 0x000000FF);
 

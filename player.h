@@ -3,12 +3,12 @@
 
 #include "obj2d.h"
 
-#define P_SPEED_AX			(0.5)
-#define P_SPEED_X_MAX		(5)
-#define P_SPEED_AX_BLUR		(0.7)
-#define P_SPEED_X_MAX_BLUR	(5)
+#define P_SPEED_AX			(0.5f)
+#define P_SPEED_X_MAX		(5.0f)
+#define P_SPEED_AX_BLUR		(0.5f)
+#define P_SPEED_X_MAX_BLUR	(7.0f)
 
-#define GRIVATY				(0.15)
+#define GRIVATY				(0.15f)
 #define P_SPEED_Y_MAX		(12)
 #define P_JUMP_POWER		(-16)
 
@@ -24,15 +24,15 @@
 #define P_SCROLL_Y_TOP		(200)
 #define P_SCROLL_Y_BOTTOM	(330)
 
-enum PLAYER_MODE
+enum P_MODE
 {
-	INIT,
+	RESTART,
 	NORMAL,
 	CLEAR,
 	DEAD,
 };
 
-enum PLAYER_STATE
+enum P_STATE
 {
 	STANDY,
 	JUMPING,
@@ -58,7 +58,7 @@ public:
 	bool m_isKeyHandled;
 	OBJ2D m_keyObj;
 
-	Vector3 m_mapPos;
+	Vector3 m_scrolledDistance;
 
 	Player();
 	~Player();
@@ -68,7 +68,7 @@ public:
 
 	int m_life;
 	int getLife();
-	void setLife(int a_life);
+	void addLife(int a_life);
 	
 	void normalMove();
 	void initMove();
@@ -84,6 +84,7 @@ public:
 	~PlayerManager();
 
 	Player *m_pPlayer = nullptr;
+	bool m_isPlayerOnLeft;
 	bool m_isTranscriptAble = true;
 	bool m_isTranscriptCanceled = false;
 
