@@ -97,7 +97,7 @@ void GameUIManager::init()
 	//m_ppGameUI[GAGE]->m_custom.scaleX = m_ppGameUI[GAGE]->m_size.x / m_ppGameUI[GAGE]->m_pSprData->width;
 	//m_ppGameUI[GAGE]->m_custom.scaleY = m_ppGameUI[GAGE]->m_size.y / m_ppGameUI[GAGE]->m_pSprData->height;
 
-	m_life = Player::getLife();
+	m_life = pPlayerManager->m_pPlayer->getLife();
 	for (int i = 0; i < m_life - 1; i++) {
 		m_life_stamp[i].m_pSprData = &e_sprLifeStamp;
 		m_life_stamp[i].m_pos.y = 30;
@@ -124,7 +124,7 @@ void GameUIManager::draw()
 	}
 
 	//プレイヤーのライフ数取得してはんこUI表示
-	m_life = Player::getLife();
+	m_life = pPlayerManager->m_pPlayer->getLife();
 	for (int i = 0; i < m_life - 1; i++) {
 		m_life_stamp[i].m_pos.x = 45 * i + 30;
 		m_life_stamp[i].draw();

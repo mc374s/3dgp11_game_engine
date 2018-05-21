@@ -7,8 +7,6 @@
 
 #include "player.h"
 
-int Player::m_life;
-
 Player::Player()
 {
 	OBJ2DEX::clear();
