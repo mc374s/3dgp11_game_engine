@@ -67,8 +67,8 @@ public:
 	void update();
 	void draw();
 
-	int m_life;
-	int getLife();
+	static int m_life;
+	static int getLife();
 	void setLife(int a_life);
 	
 	void normalMove();
