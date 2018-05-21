@@ -9,8 +9,6 @@
 #include "./3dgp/template.h"
 #include "./3dgp/scene.h"
 
-#include <vector>
-
 #define DEBUG
 
 

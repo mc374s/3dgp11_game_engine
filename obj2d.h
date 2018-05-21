@@ -16,7 +16,9 @@ public:
 	OBJ2D(const OBJ2D& a_inputObj);
 	virtual ~OBJ2D();
 
-	const OBJ2D& operator=(const OBJ2D& a_right);
+	virtual ~OBJ2D() {
+		clear();
+	};
 
 	SPRITE_DATA* m_pSprData;
 	Vector3 m_pos;
@@ -94,7 +96,6 @@ class ObjManager : public Singleton<ObjManager>, public Manager
 private:
 	OBJ2D m_hitObj;
 	OBJ2D m_transcriptionObj;
-
 
 public:
 	OBJ2D* m_ppObj[OBJ_MAX_NUM] = { nullptr };
