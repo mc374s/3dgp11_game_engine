@@ -7,6 +7,7 @@
 
 #include "player.h"
 
+int Player::m_life;
 
 Player::Player()
 {
@@ -327,6 +328,7 @@ void Player::initMove()
 		break;
 	default:
 		break;
+
 	}
 }
 

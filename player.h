@@ -3,10 +3,10 @@
 
 #include "obj2d.h"
 
-#define P_SPEED_AX			(0.5f)
-#define P_SPEED_X_MAX		(5.0f)
-#define P_SPEED_AX_BLUR		(0.5f)
-#define P_SPEED_X_MAX_BLUR	(7.0f)
+#define P_SPEED_AX			(0.5)
+#define P_SPEED_X_MAX		(2)
+#define P_SPEED_AX_BLUR		(0.7)
+#define P_SPEED_X_MAX_BLUR	(5)
 
 #define GRIVATY				(0.15f)
 #define P_SPEED_Y_MAX		(12)

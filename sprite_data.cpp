@@ -27,6 +27,8 @@ enum TEX_NO {
 	TEX_GAGE_DIVISION,
 
 	TEX_SMOKE,
+
+	TEX_LIFE_STAMP,
 };
 
 // 2D画像ロードデータ
@@ -45,6 +47,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_GAGE_DIVISION,	"./DATA/Images/gage_division.png" },
 	{ TEX_SMOKE,			"./DATA/Images/particle-smoke2.png" },
+	{ TEX_LIFE_STAMP,		"./DATA/Images/stamp.png"},
 
 	{ -1, NULL }
 };
@@ -132,6 +135,7 @@ SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
 SPRITE_CENTER e_sprGageDivision = SPRITE_CENTER(TEX_GAGE_DIVISION, 0, 0, 775, 222);
 SPRITE_CENTER e_sprGage = SPRITE_CENTER(TEX_WHITE, 0, 0, 388, 222);
 
+SPRITE_CENTER e_sprLifeStamp = SPRITE_CENTER(TEX_LIFE_STAMP, 0, 0, 36, 28);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);
