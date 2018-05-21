@@ -25,13 +25,13 @@ SceneMain::SceneMain()
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	m_childrenSceneNO = 0;
 
-	m_pChildrenScene[0] = PAGE_LEFT;
-	m_pChildrenScene[1] = PAGE_RIGHT;
-
 	pObjManager->init();
 	pMapObjManager->init(0);
 
 	pGameUIManager->init();
+
+	m_pChildrenScene[0] = PAGE_LEFT;
+	m_pChildrenScene[1] = PAGE_RIGHT;
 
 	m_pStr = "";
 
@@ -57,15 +57,14 @@ SceneMain::~SceneMain()
 
 void SceneMain::update()
 {	
-	switch (m_state)
+	switch (m_step)
 	{
-	case STATE_INIT:
+	case STEP::INIT:
 		//init();
-		pObjManager->init();
 		//pMapObjManager->init(0);
-		m_state = STATE_BEGIN;
+		m_step = STEP::BEGIN;
 		//break;
-	case STATE_BEGIN:
+	case STEP::BEGIN:
 		m_pBook->update();
 		m_isBookClosed = m_pBook->m_isClosed;
 		m_isBookOpened = m_pBook->m_isOpened;
@@ -74,35 +73,35 @@ void SceneMain::update()
 		pMapObjManager->stageUpdate();
 		if (pPlayerManager->m_pPlayer->m_isOnScrollArea && m_isBookOpened)
 		{
-			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_isOnLeftPage);
+			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination);
 		}
 
 		judgeAll();
 
-		if (pPlayerManager->m_pPlayer->m_mode == P_MODE_CLEAR)
+		if (pPlayerManager->m_pPlayer->m_mode == PLAYER_MODE::CLEAR)
 		{
 			m_pStr = "GAME CLEAR";
 			m_timer++;
 			if (m_timer > 120)
 			{
-				//m_state = STATE_INIT;
+				//m_state = STEP::INIT;
 				//changeScene(SCENE_TITLE);
 			}
 		}
 
-		if (pPlayerManager->m_pPlayer->m_mode == P_MODE_DEAD)
+		if (pPlayerManager->m_pPlayer->m_mode == DEAD)
 		{
 
 			m_pStr = "GAME OVER";
 			m_timer++;
 			if (m_timer > 120)
 			{
-				m_state = STATE_END;
+				m_step = STEP::END;
 			}
 		}
 
 		break;
-	case STATE_END:
+	case STEP::END:
 
 
 		break;
@@ -112,7 +111,7 @@ void SceneMain::update()
 
 	if (GetAsyncKeyState(VK_HOME) & 0xF000)
 	{
-		m_state = STATE_INIT;
+		m_step = STEP::INIT;
 		changeScene(SCENE_TITLE);
 	}
 

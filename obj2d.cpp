@@ -23,13 +23,13 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 	m_custom = a_inputObj.m_custom;
 
 	m_timer = a_inputObj.m_timer;
-	m_state = a_inputObj.m_state;
+	m_step = a_inputObj.m_step;
 	m_alpha = a_inputObj.m_alpha;
 	m_type = a_inputObj.m_type;
 	m_concentration = a_inputObj.m_concentration;
 
 	m_isInit = a_inputObj.m_isInit;
-	m_isOnLeftPage = a_inputObj.m_isOnLeftPage;
+	m_liveInPagination = a_inputObj.m_liveInPagination;
 
 	m_pSprData = a_inputObj.m_pSprData;
 }
@@ -57,12 +57,12 @@ void OBJ2D::clear()
 	m_pos = Vector3(0, 0, 0);
 	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
 	m_timer = 0;
-	m_state = 0;
+	m_step = 0;
 	m_alpha = 255;
 	m_concentration = 0;
 	m_isInit = false;
 
-	m_isOnLeftPage = true;
+	m_liveInPagination = 1;
 
 	m_type = 0;
 }
@@ -83,11 +83,6 @@ int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max)
 		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
-		/*if (a_ppBegin[i])
-		{
-			delete a_ppBegin[i];
-			a_ppBegin[i] = new OBJ2D;
-		}*/
 		return i;
 	}
 	return -1;
@@ -163,26 +158,22 @@ void OBJ2DEX::draw()
 // Class ObjManager Function
 ObjManager::~ObjManager() 
 {
-	for (int i = 0; i < OBJ_MAX_NUM; i++)
-	{
-		m_ppObj[i] = nullptr;
-	}
-	ZeroMemory(m_ppObj, sizeof(m_ppObj));
-	//delete[] m_pObj;
+	ZeroMemory(m_ppObjs, sizeof(m_ppObjs));
 
 	m_blurAreaList.clear();
 	m_newblurAreaList.clear();
 	m_transcriptionList.clear();
+
 };
 
 void ObjManager::init() {
-	for (int i = 0; i < OBJ_MAX_NUM; i++)
-	{
-		if (!m_ppObj[i])
-		{
-			//m_ppObj[i] = new OBJ2D;
+
+	for (auto &it:m_ppObjs){
+		if (it){
+			it->clear();
 		}
 	}
+
 	//ZeroMemory(pObj, sizeof(pObj));
 
 	m_hitObj.m_pSprData = &e_sprHitObj;
@@ -197,14 +188,14 @@ void ObjManager::init() {
 
 }
 
-void ObjManager::updata(bool a_isLeftPage) {
+void ObjManager::update(bool a_isLeftPage) {
 
 
-	for (int i = 0; i < OBJ_MAX_NUM; i++)
+	for (auto &it : m_ppObjs)
 	{
-		if (m_ppObj[i] && m_ppObj[i]->m_isOnLeftPage == a_isLeftPage)
+		if (it && it->m_liveInPagination == a_isLeftPage)
 		{
-			m_ppObj[i]->update();
+			it->update();
 		}
 	}
 
@@ -212,50 +203,52 @@ void ObjManager::updata(bool a_isLeftPage) {
 	OBJ2D* temp = nullptr;
 	for (int i = 1; i < OBJ_MAX_NUM; i++)
 	{
-		if (m_ppObj[i - 1] && m_ppObj[i] && m_ppObj[i - 1]->m_pos.z > m_ppObj[i]->m_pos.z)
+		if (m_ppObjs[i - 1] && m_ppObjs[i] && m_ppObjs[i - 1]->m_pos.z > m_ppObjs[i]->m_pos.z)
 		{
 			int j = i;
 			do
 			{
-				temp = m_ppObj[j - 1];
-				m_ppObj[j - 1] = m_ppObj[j];
-				m_ppObj[j] = temp;
+				temp = m_ppObjs[j - 1];
+				m_ppObjs[j - 1] = m_ppObjs[j];
+				m_ppObjs[j] = temp;
 				j--;
-			} while (j > 0 && m_ppObj[j - 1]->m_pos.z < m_ppObj[j]->m_pos.z);
+			} while (j > 0 && m_ppObjs[j - 1]->m_pos.z < m_ppObjs[j]->m_pos.z);
 		}
 	}
+
 }
 
 void ObjManager::draw(bool a_isLeftPage)
 {
 
-	char buf[256];
-	for (auto it : m_transcriptionList) {
-		if (it.m_isOnLeftPage == a_isLeftPage)
+	char pConcentration[8];
+	for (auto &it : m_transcriptionList) {
+		if (it.m_liveInPagination == a_isLeftPage)
 		{
 			it.draw();
-			sprintf_s(buf, "%d", it.m_concentration);
-			drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, buf, 0x00000060, STR_CENTER, 32, 20, -20);
+			sprintf_s(pConcentration, "%d", it.m_concentration);
+			drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, pConcentration, 0x00000060, STR_CENTER, 32, 20, -20);
 		}
 	}
-	for (auto it : m_blurAreaList) {
-		if (it.m_isOnLeftPage == a_isLeftPage)
+	for (auto &it : m_blurAreaList) {
+		if (it.m_liveInPagination == a_isLeftPage)
 		{
 			it.draw();
 		}
 	}
 	int num = 0;
-	for (int i = 0; i < OBJ_MAX_NUM; i++)
+	for (auto &it : m_ppObjs)
 	{
-		if (m_ppObj[i] && m_ppObj[i]->m_isInit && m_ppObj[i]->m_isOnLeftPage == a_isLeftPage)
+		if (it && it->m_isInit && it->m_liveInPagination == a_isLeftPage)
 		{
-			m_ppObj[i]->draw();
+			it->draw();
 			num++;
 		}
 	}
 
 #ifdef DEBUG
 
+	char buf[256];
 	sprintf_s(buf, "Obj Num: %d\nBlurObjNum: %d", num, m_blurAreaList.size());
 	drawString(0, PAGE_HEIGHT - 60, buf, 0x000000FF, STR_LEFT);
 

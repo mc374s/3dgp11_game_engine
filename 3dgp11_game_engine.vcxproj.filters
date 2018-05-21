@@ -110,6 +110,9 @@
     <ClInclude Include="game_ui.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="page.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp">
@@ -185,6 +188,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="game_ui.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="page.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

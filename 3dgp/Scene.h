@@ -6,10 +6,10 @@ class Scene
 {
 protected:
 	int m_timer;
-	int m_state;
+	int m_step;
 
 public:
-	Scene() :m_timer(0), m_state(0), m_pNextScene(nullptr) {};
+	Scene() :m_timer(0), m_step(0), m_pNextScene(nullptr) {};
 	virtual ~Scene() {
 		if (m_pNextScene)
 		{
@@ -21,7 +21,7 @@ public:
 
 	virtual void init() {
 		m_timer = 0;
-		m_state = 0;
+		m_step = 0;
 		m_pNextScene = nullptr;
 	};
 	/*virtual void update(float _elapsedTime = .0f) {};

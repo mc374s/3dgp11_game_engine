@@ -1,6 +1,6 @@
 ﻿#include "game.h"
 #include "player.h"
-
+#include "page.h"
 #include "book.h"
 
 Book::Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth):
@@ -21,13 +21,16 @@ m_coverDepth(a_coverDepth)
 	m_pCoverLeft = new Cube(XMFLOAT3(-coverWidth / 2, 0, a_bookDepth + a_coverDepth / 2), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
 	m_pCoverRight = new Cube(XMFLOAT3(coverWidth / 2, 0, a_bookDepth + a_coverDepth / 2), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
 
-	m_state = STATE_INIT;
+	m_step = STEP::INIT;
 	m_timer = 0;
 	m_pfMove = nullptr;
 	m_pfMoveOld = nullptr;
 	m_isClosed = false;
 	m_isOpened = true;
 	m_openAngle = 0;
+
+
+
 }
 
 Book::~Book()
@@ -37,6 +40,12 @@ Book::~Book()
 	SAFE_DELETE(m_pCoverLeft);
 	SAFE_DELETE(m_pCoverRight);
 }
+
+void Book::init()
+{
+
+}
+
 
 void Book::update()
 {
@@ -108,6 +117,9 @@ void Book::draw()
 	if (m_pCoverRight) {
 		m_pCoverRight->draw();
 	}
+
+
+
 }
 
 // Book move function
@@ -116,18 +128,18 @@ void Book::closeBook()
 	if (m_pfMoveOld != &Book::closeBook)
 	{
 		m_pfMoveOld = m_pfMove;
-		m_state = STATE_INIT;
+		m_step = STEP::INIT;
 	}
-	switch (m_state)
+	switch (m_step)
 	{
-	case STATE_INIT:
+	case STEP::INIT:
 		m_timer = 0;
 		m_openSpeed = 0;
 		m_openSpeedAcc = 0;
 		m_isClosed = false;
-		m_state = STATE_BEGIN;
+		m_step = STEP::BEGIN;
 		break;
-	case STATE_BEGIN:
+	case STEP::BEGIN:
 		m_isOpened = false;
 		m_openSpeedAcc += 0.005;
 		m_openSpeed += m_openSpeedAcc;
@@ -141,18 +153,18 @@ void Book::closeBook()
 			m_cameraAngleZY = -0.90f;
 			m_postion.z = 450;
 			m_postion.y = 270;
-			m_state = STATE_END;
+			m_step = STEP::END;
 		}
 		break;
-	case STATE_END:
+	case STEP::END:
 		/*m_openAngle = -90;
 		m_cameraAngleZY = -0.90f;
 		m_postion.z = 450;
 		m_postion.y = 270;*/
 
-		m_state = STATE_FINISH;
+		m_step = STEP::FINISH;
 		break;
-	case STATE_FINISH:
+	case STEP::FINISH:
 		break;
 	default:
 		break;
@@ -164,20 +176,20 @@ void Book::openBook()
 	if (m_pfMoveOld != &Book::openBook)
 	{
 		m_pfMoveOld = m_pfMove;
-		m_state = STATE_INIT;
+		m_step = STEP::INIT;
 	}
-	switch (m_state)
+	switch (m_step)
 	{
-	case STATE_INIT:
+	case STEP::INIT:
 		m_timer = 0;
 		if (m_isClosed)
 		{
 			pPlayerManager->transcriptPlayer();
 		}
 		m_isOpened = false;
-		m_state = STATE_BEGIN;
+		m_step = STEP::BEGIN;
 		break;
-	case STATE_BEGIN:
+	case STEP::BEGIN:
 		m_isClosed = false;
 		m_openAngle += 3;
 		m_cameraAngleZY += 0.03f;
@@ -189,17 +201,17 @@ void Book::openBook()
 			m_cameraAngleZY = 0.0f;
 			m_postion.z = 0;
 			m_postion.y = 0;
-			m_state = STATE_END;
+			m_step = STEP::END;
 		}
 		break;
-	case STATE_END:
+	case STEP::END:
 		/*m_openAngle = 0;
 		m_cameraAngleZY = 0.0f;
 		m_postion.z = 0;
 		m_postion.y = 0;*/
-		m_state = STATE_FINISH;
+		m_step = STEP::FINISH;
 		break;
-	case STATE_FINISH:
+	case STEP::FINISH:
 
 		break;
 	default:

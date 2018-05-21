@@ -1,13 +1,14 @@
 ﻿#ifndef _BOOK_H_
 #define _BOOK_H_
 
+#define PAGINATION_MAX (2)
 
 class Book
 {
 private:
 
 public:
-	int m_state;
+	int m_step;
 	int m_timer;
 
 	int m_width;
@@ -18,11 +19,19 @@ public:
 	int m_marginBottom;
 	int m_bookDepth;
 	int m_coverDepth;
+
 	Cube *m_pBookLeft;
 	Cube *m_pBookRight;
 	Cube *m_pCoverLeft;
 	Cube *m_pCoverRight;
-	
+
+	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
+	float m_cameraDistance = 0.66f;
+
+	Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth);
+	~Book();
+
+
 	// メンバー関数の関数ポインタ
 	void(Book::*m_pfMove)();
 	void(Book::*m_pfMoveOld)();
@@ -34,15 +43,11 @@ public:
 	bool m_isClosed;
 	bool m_isOpened;
 
-	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
-	float m_cameraDistance = 0.66f;
+	Page* m_ppPages[PAGINATION_MAX];
 
-	Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth);
-	~Book();
-
+	void init();
 	void update();
 	void draw();
-
 
 	void closeBook();
 	void openBook();

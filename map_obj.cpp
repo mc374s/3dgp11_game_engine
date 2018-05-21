@@ -14,7 +14,6 @@ void MapObj::memberCopy(const MapObj& a_inputObj)
 	m_pfMove = a_inputObj.m_pfMove;
 }
 
-
 MapObj::MapObj()
 {
 	clear();
@@ -121,10 +120,14 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
-		//a_ppBegin[i] = new MapObj(a_mapObjType);
+		if (!a_ppBegin[i]){
+			a_ppBegin[i] = new MapObj;
+		} else {
+			a_ppBegin[i]->clear();
+		}
 		a_ppBegin[i]->m_type = a_mapObjType;
 		a_ppBegin[i]->m_drawDirection = a_drawDirection;
-		a_ppBegin[i]->m_isOnLeftPage = a_isOnLeftPage;
+		a_ppBegin[i]->m_liveInPagination = a_isOnLeftPage;
 		a_ppBegin[i]->m_pos = a_pos;
 		a_ppBegin[i]->m_isHitAble = a_isHitAble;
 		a_ppBegin[i]->m_size = a_size;
@@ -132,7 +135,7 @@ int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, MAPOBJ_TYPE a_mapObjType
 		a_ppBegin[i]->m_pfMove = a_pfMove;
 		a_ppBegin[i]->init();
 
-		pObjManager->m_ppObj[GET_IDLE_OBJ_NO] = a_ppBegin[i];
+		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = a_ppBegin[i];
 		return i;
 	}
 	return -1;
@@ -220,19 +223,19 @@ STAGE_DATA* stageSetData[] = {
 };
 
 
-	// m_mapObjListの要素のアドレスをアクセスしたいから、メモリを一気に確保
-	m_mapObjList.reserve(MAPOBJ_MAX_NUM);
-}
+MapObjManager::MapObjManager()
+{
 
+}
 
 MapObjManager::~MapObjManager() 
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i] && !m_ppMapObj[i]->m_isInit)
+		if (m_ppMapObjs[i])
 		{
-			delete m_ppMapObj[i];
-			m_ppMapObj[i] = nullptr;
+			delete m_ppMapObjs[i];
+			m_ppMapObjs[i] = nullptr;
 		}
 	}
 }
@@ -243,16 +246,10 @@ void MapObjManager::init(int a_stageNo)
 	m_stageNo = a_stageNo;
 	m_timer = 0;
 	m_pStageData = stageSetData[m_stageNo];
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObj[i])
-		{
-			delete m_ppMapObj[i];
-			m_ppMapObj[i] = nullptr;
-		}
-		if (!m_ppMapObj[i])
-		{
-			m_ppMapObj[i] = new MapObj();
+
+	for (auto &it:m_ppMapObjs){
+		if (it){
+			it->clear();
 		}
 	}
 
@@ -261,9 +258,9 @@ void MapObjManager::update()
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_pfMove && m_ppMapObj[i]->m_state >= STATE_END + 2)
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove && m_ppMapObjs[i]->m_step >= STEP::END + 2)
 		{
-			m_ppMapObj[i]->m_pfMove(m_ppMapObj[i]);
+			m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
 		}
 	}
 }
@@ -273,7 +270,7 @@ void MapObjManager::draw()
 	int num = 0;
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit)
 		{
 			num++;
 	}
@@ -302,7 +299,7 @@ void MapObjManager::stageUpdate()
 			}
 			break;
 		}
-		MapObj::searchSet(m_ppMapObj, MAPOBJ_MAX_NUM, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->isOnLeftPage, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+		MapObj::searchSet(m_ppMapObjs, MAPOBJ_MAX_NUM, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->isOnLeftPage, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
 		m_pStageData++;
 	}
 }
@@ -313,7 +310,7 @@ bool MapObjManager::isAlive()
 	int num = 0;
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit)
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit)
 		{
 			num++;
 			return true;
@@ -326,9 +323,9 @@ void MapObjManager::setScroll(Vector3 a_speed, bool a_isOnLeftPage)
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObj[i] && m_ppMapObj[i]->m_isInit /*&& m_ppMapObj[i]->m_isOnLeftPage == a_isOnLeftPage*/)
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit /*&& m_ppMapObjs[i]->m_isOnLeftPage == a_isOnLeftPage*/)
 		{
-			m_ppMapObj[i]->m_pos.y -= a_speed.y;
+			m_ppMapObjs[i]->m_pos.y -= a_speed.y;
 		}
 	}
 

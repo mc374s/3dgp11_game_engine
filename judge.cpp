@@ -29,11 +29,11 @@ bool checkHitPlayerToMapObjClosed(Player* a_pPlayer, MapObj* a_pMapObj)
 void judgeAll()
 {
 	static Player* pPlayer = pPlayerManager->m_pPlayer;
-	static MapObj** ppMapObj = pMapObjManager->m_ppMapObj;
+	static MapObj** ppMapObj = pMapObjManager->m_ppMapObjs;
 	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
 
 	// When Restart, ignore Judgement
-	if (pPlayer->m_mode == P_MODE_INIT)
+	if (pPlayer->m_mode == INIT)
 	{
 		pObjManager->m_newblurAreaList.clear();
 		return;
@@ -49,13 +49,13 @@ void judgeAll()
 	}
 	if (!isBookClosed)
 	{
-		pPlayerManager->m_state = STATE_INIT;
+		pPlayerManager->m_step = STEP::INIT;
 	}
 
 
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (isBookOpened && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage == ppMapObj[i]->m_isOnLeftPage 
+		if (isBookOpened && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_liveInPagination == ppMapObj[i]->m_liveInPagination 
 			&& checkHitPlayerToMapObjOpened(pPlayer, ppMapObj[i]))
 		{
 			//ppMapObj[i]->clear();
@@ -70,7 +70,7 @@ void judgeAll()
 			{
 				if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
 				{
-					pPlayer->m_mode = P_MODE_INIT;
+					pPlayer->m_mode = INIT;
 				}
 			}
 
@@ -87,11 +87,11 @@ void judgeAll()
 			{
 				//pPlayer->m_isKeyHandled = false;
 				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
-				pPlayer->m_mode = P_MODE_CLEAR;
+				pPlayer->m_mode = PLAYER_MODE::CLEAR;
 				//ppMapObj[i]->clear();
 			}
 		}
-		if (isBookClosed && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_isOnLeftPage != ppMapObj[i]->m_isOnLeftPage
+		if (isBookClosed && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_liveInPagination != ppMapObj[i]->m_liveInPagination
 			&& checkHitPlayerToMapObjClosed(pPlayer, ppMapObj[i]))
 		{
 			if ((pPlayer->m_concentration < ppMapObj[i]->m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && ppMapObj[i]->m_concentration > LOW_CONCENTRATION)
@@ -109,7 +109,7 @@ void judgeAll()
 	// 転写元判定
 	for (auto &it : pObjManager->m_transcriptionList) {
 
-		if (pPlayer->m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(pPlayer, &(it)) && it.m_concentration > 1)
+		if (pPlayer->m_liveInPagination == it.m_liveInPagination && checkObjOpened(pPlayer, &(it)) && it.m_concentration > 1)
 		{
 			// TODO : 関数化
 
@@ -140,7 +140,7 @@ void judgeAll()
 	{
 		for (auto &it : pObjManager->m_blurAreaList) {
 
-			if (pPlayer->m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(pPlayer, &(it)))
+			if (pPlayer->m_liveInPagination == it.m_liveInPagination && checkObjOpened(pPlayer, &(it)))
 			{
 				pPlayer->m_isOnBlurArea = true;
 				break;
@@ -155,7 +155,7 @@ void judgeAll()
 		isRepeated = false;
 		for (auto it : pObjManager->m_blurAreaList) {
 
-			if (newIt.m_isOnLeftPage == it.m_isOnLeftPage && checkObjOpened(&(newIt), &(it)))
+			if (newIt.m_liveInPagination == it.m_liveInPagination && checkObjOpened(&(newIt), &(it)))
 			{
 				isRepeated = true;
 				break;

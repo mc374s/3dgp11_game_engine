@@ -122,14 +122,14 @@ extern int e_command;
 
 #define TEX_MAX (64)
 
-enum STATE_STEP
+enum STEP
 {
-	STATE_INIT = 0,
-	STATE_BEGIN,
+	INIT = 0,
+	BEGIN,
 
-	STATE_END = 20,
+	END = 20,
 
-	STATE_FINISH = 40,
+	FINISH = 40,
 };
 
 class Sprite;

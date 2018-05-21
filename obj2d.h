@@ -15,10 +15,7 @@ public:
 	OBJ2D();
 	OBJ2D(const OBJ2D& a_inputObj);
 	virtual ~OBJ2D();
-
-	virtual ~OBJ2D() {
-		clear();
-	};
+	const OBJ2D& OBJ2D::operator=(const OBJ2D& a_right);
 
 	SPRITE_DATA* m_pSprData;
 	Vector3 m_pos;
@@ -31,13 +28,13 @@ public:
 	CUSTOM m_custom;
 
 	int m_timer;
-	int m_state;
+	int m_step;
 	int m_alpha;
 	int m_type;
 	int m_concentration; //濃度
 
 	bool m_isInit;
-	bool m_isOnLeftPage = true;
+	bool m_liveInPagination;
 
 	virtual void clear();
 	virtual void update() {};
@@ -79,10 +76,10 @@ class Manager
 {
 public:
 	int m_timer;
-	int m_state;
+	int m_step;
 	Manager() {
 		m_timer = 0;
-		m_state = 0;
+		m_step = 0;
 	};
 	virtual ~Manager() {};
 
@@ -94,21 +91,26 @@ private:
 class ObjManager : public Singleton<ObjManager>, public Manager
 {
 private:
-	OBJ2D m_hitObj;
-	OBJ2D m_transcriptionObj;
 
 public:
-	OBJ2D* m_ppObj[OBJ_MAX_NUM] = { nullptr };
+
+
+	OBJ2D* m_ppObjs[OBJ_MAX_NUM] = { nullptr };
+
+	//std::vector<OBJ2D*> m_ppObjList = { nullptr };
 
 	// TODO : 途中insert()しないからstd::vectorの方が早い、要変更
 	std::vector<OBJ2D> m_blurAreaList;
 	std::vector<OBJ2D> m_newblurAreaList;
 	std::vector<OBJ2D> m_transcriptionList;
 
+	OBJ2D m_hitObj;
+	OBJ2D m_transcriptionObj;
+
 
 	void init();
-	void updata(bool a_isLeftPage = true);
-	void draw(bool a_isLeftPage = true);
+	void update(int a_liveInPagination = 1);
+	void draw(bool a_liveInPagination = 1);
 
 	ObjManager() {};
 	~ObjManager();
@@ -117,7 +119,7 @@ public:
 
 #define pObjManager (ObjManager::getInstance())
 
-#define GET_IDLE_OBJ_NO (OBJ2D::searchSet(pObjManager->m_ppObj, OBJ_MAX_NUM))
+#define GET_IDLE_OBJ_NO (OBJ2D::searchSet(pObjManager->m_ppObjs, OBJ_MAX_NUM))
 
 
 #endif // !_OBJ2D_H_

@@ -16,8 +16,8 @@ public:
 			m_pNextScene = nullptr;
 		}
 	};
-	bool activePlayer(bool a_doActive = true);
 
+	void init();
 	void update();
 	void draw();
 

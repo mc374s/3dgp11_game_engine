@@ -1,32 +1,44 @@
-ï»¿#include "game.h"
+#include "game.h"
+
 #include "sprite_data.h"
 #include "obj2d.h"
 #include "player.h"
 #include "map_obj.h"
 
-#include "page_left.h"
+#include "page.h"
 
-PageLeft::PageLeft()
+
+Page::Page(int a_pageWidth, int a_pageHeight, int a_pagination) :m_pagination(a_pagination), m_width(a_pageWidth), m_height(a_pageHeight)
 {
 	m_bg.m_pSprData = &e_sprPageLeft;
+	m_pView = new View(m_width, m_height);
 }
 
-void PageLeft::init()
+void Page::init()
 {
 	pPlayerManager->init();
 }
 
-void PageLeft::update()
+Page::~Page()
 {
-	
-	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒé€šéŽã—ãŸã¨ã“ã‚ã«ãƒ©ãƒ³ãƒ€ãƒ ã§æ»²ã‚€åˆ¤å®šç”¨Objã‚’é…ç½®
-	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_isLeftPage && pPlayerManager->m_pPlayer->m_isMoving){
-		pObjManager->m_hitObj.m_liveInPagination = m_isLeftPage;
+	if (m_pNextScene)
+	{
+		//delete nextScene;
+		m_pNextScene = nullptr;
+	}
+}
+
+void Page::update()
+{
+
+	// ƒvƒŒƒCƒ„[‚ª’Ê‰ß‚µ‚½‚Æ‚±‚ë‚Éƒ‰ƒ“ƒ_ƒ€‚ÅŸø‚Þ”»’è—pObj‚ð”z’u
+	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_pagination && pPlayerManager->m_pPlayer->m_isMoving) {
+		pObjManager->m_hitObj.m_liveInPagination = m_pagination;
 		Vector3 pos = pPlayerManager->m_pPlayer->m_pos;
 		Vector3 speed = pPlayerManager->m_pPlayer->m_speed;
 		Vector3 size = pPlayerManager->m_pPlayer->m_size;
 		Vector3 randAdjust;
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			randAdjust = { (float)(rand() % (int)(fabsf(speed.x) + size.x)), (float)(rand() % (int)(fabsf(speed.y) + size.y)),0 };
 			if (speed.x == 0 && !pPlayerManager->m_pPlayer->m_isOnGround)
 			{
@@ -54,15 +66,16 @@ void PageLeft::update()
 	}
 
 
-	pObjManager->update(m_isLeftPage);
+	pObjManager->update(m_pagination);
 }
 
-void PageLeft::draw()
+void Page::draw()
 {
+
 
 	m_bg.draw();
 
-	pObjManager->draw(m_isLeftPage);
+	pObjManager->draw(m_pagination);
 
 	drawRectangle(PAGE_WIDTH - 4, 0, 4, PAGE_HEIGHT, 0, 0x000000FF);
 

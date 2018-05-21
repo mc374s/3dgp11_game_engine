@@ -102,7 +102,7 @@ private:
 
 public:
 
-	MapObj* m_ppMapObj[MAPOBJ_MAX_NUM] = {nullptr};
+	MapObj* m_ppMapObjs[MAPOBJ_MAX_NUM] = {nullptr};
 
 	STAGE_DATA* m_pStageData;
 	int m_stageNo;
@@ -114,7 +114,7 @@ public:
 
 	void mapScroll(float m_scrollHeight);
 
-	MapObjManager() {};
+	MapObjManager();
 	~MapObjManager();
 
 	bool isAlive();

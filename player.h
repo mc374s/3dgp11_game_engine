@@ -24,20 +24,20 @@
 #define P_SCROLL_Y_TOP		(200)
 #define P_SCROLL_Y_BOTTOM	(330)
 
-enum P_MODE
+enum PLAYER_MODE
 {
-	P_MODE_NORMAL,
-	P_MODE_CLEAR,
-	P_MODE_DEAD,
-	P_MODE_INIT,
+	INIT,
+	NORMAL,
+	CLEAR,
+	DEAD,
 };
 
-enum P_STATE
+enum PLAYER_STATE
 {
-	P_STATE_STANDY,
-	P_STATE_JUMPING,
-	P_STATE_DROPPING,
-	P_STATE_MOVING,
+	STANDY,
+	JUMPING,
+	DROPPING,
+	MOVING,
 };
 
 class Player:public OBJ2DEX
@@ -49,7 +49,6 @@ public:
 	int m_command;
 	int m_mode;
 	int m_montionState;
-	//int m_concentration;
 	int m_transferConcentration;
 	bool m_isOnGround;
 	bool m_isMoving;
@@ -59,7 +58,7 @@ public:
 	bool m_isKeyHandled;
 	OBJ2D m_keyObj;
 
-	Vector3 m_initPos;
+	Vector3 m_mapPos;
 
 	Player();
 	~Player();

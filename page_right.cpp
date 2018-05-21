@@ -22,8 +22,8 @@ void PageRight::update()
 		pPlayerManager->m_pPlayerTsuta->update();
 	}*/
 	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
-	if (pPlayerManager->m_pPlayer->m_isOnLeftPage == m_isLeftPage && pPlayerManager->m_pPlayer->m_isMoving){
-		pObjManager->m_hitObj.m_isOnLeftPage = m_isLeftPage;
+	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_isLeftPage && pPlayerManager->m_pPlayer->m_isMoving){
+		pObjManager->m_hitObj.m_liveInPagination = m_isLeftPage;
 		Vector3 pos = pPlayerManager->m_pPlayer->m_pos;
 		Vector3 speed = pPlayerManager->m_pPlayer->m_speed;
 		Vector3 size = pPlayerManager->m_pPlayer->m_size;
@@ -55,7 +55,7 @@ void PageRight::update()
 		}
 	}
 
-	pObjManager->updata(m_isLeftPage);
+	pObjManager->update(m_isLeftPage);
 }
 
 void PageRight::draw()

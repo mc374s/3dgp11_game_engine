@@ -25,12 +25,12 @@ void Player::init()
 	m_command = 0x0;
 	m_pos = { 20,0,5 };
 	m_initPos = m_pos;
-	m_isOnLeftPage = true;
+	m_liveInPagination = true;
 
 	m_pSprData = &m_pAnimeData[0];
-	m_state = STATE_INIT;
-	m_mode = P_MODE_NORMAL;
-	m_montionState = P_STATE_STANDY;
+	m_step = STEP::INIT;
+	m_mode = PLAYER_MODE::NORMAL;
+	m_montionState = PLAYER_STATE::STANDY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
 	m_alpha = 255;
 	m_transferConcentration = 0;
@@ -74,7 +74,7 @@ void Player::normalMove()
 	}
 	if (m_life <= 0)
 	{
-		m_mode = P_MODE_DEAD;
+		m_mode = DEAD;
 	}
 	// 濃度計算：動いてるときに減っていく
 	if (m_speed.x != 0 || m_speed.y != 0)
@@ -86,7 +86,7 @@ void Player::normalMove()
 			m_concentration--;
 			if (m_concentration < 1)
 			{
-				m_mode = P_MODE_INIT;
+				m_mode = INIT;
 			}
 		}
 		m_isMoving = true;
@@ -98,18 +98,18 @@ void Player::normalMove()
 	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 
 	// プレーヤーの状態判断
-	if (m_speed.y == 0 && m_montionState != P_STATE_JUMPING && !m_isOnGround)
+	if (m_speed.y == 0 && m_montionState != PLAYER_STATE::JUMPING && !m_isOnGround)
 	{
 		m_isOnGround = true;
 	}
 	if (m_speed.y < 0)
 	{
-		m_montionState = P_STATE_JUMPING;
+		m_montionState = PLAYER_STATE::JUMPING;
 		m_isOnGround = false;
 	}
 	if (m_speed.y > 0)
 	{
-		m_montionState = P_STATE_DROPPING;
+		m_montionState = PLAYER_STATE::DROPPING;
 		m_isOnGround = false;
 	}
 	// X方向移動
@@ -201,7 +201,7 @@ void Player::normalMove()
 		m_initPos.y -= m_speed.y;
 		m_isOnScrollArea = true;
 	}
-	if (m_pos.y < P_SCROLL_Y_TOP && m_montionState == P_STATE_JUMPING)
+	if (m_pos.y < P_SCROLL_Y_TOP && m_montionState == PLAYER_STATE::JUMPING)
 	{
 		m_pos.y = P_SCROLL_Y_TOP;
 		// Init 位置を計算していく
@@ -222,7 +222,7 @@ void Player::normalMove()
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
-		m_mode = P_MODE_INIT;
+		m_mode = INIT;
 	}
 
 	if (m_pos.y < - m_size.y - 100)
@@ -236,7 +236,7 @@ void Player::normalMove()
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerRun;
 	}
-	if ((m_montionState == P_STATE_DROPPING || m_montionState == P_STATE_JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
+	if ((m_montionState == PLAYER_STATE::DROPPING || m_montionState == PLAYER_STATE::JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerJump;
@@ -281,20 +281,20 @@ void Player::initMove()
 {
 
 	m_isMoving = false;
-	switch (m_state)
+	switch (m_step)
 	{
-	case STATE_INIT:
+	case STEP::INIT:
 		m_speed.x = 0;
 		m_speed.y = (m_initPos.y - m_pos.y) / 10;
 		m_alpha = 0;
-		m_state = STATE_BEGIN;
+		m_step = STEP::BEGIN;
 		//break;
-	case STATE_BEGIN:
+	case STEP::BEGIN:
 		m_pos.y += m_speed.y;
 		m_initPos.y -= m_speed.y;
 		if (m_initPos.y > m_pos.y - 10)
 		{
-			m_state = STATE_END;
+			m_step = STEP::END;
 		}
 
 		m_isOnScrollArea = false;
@@ -309,10 +309,10 @@ void Player::initMove()
 			m_isOnScrollArea = true;
 		}
 		break;
-	case STATE_END:
+	case STEP::END:
 		init();
 		m_life--;
-		m_mode = P_MODE_NORMAL;
+		m_mode = PLAYER_MODE::NORMAL;
 
 		break;
 	default:
@@ -324,12 +324,12 @@ void Player::update()
 {
 	switch (m_mode)
 	{
-	case P_MODE_CLEAR:
-	case P_MODE_NORMAL:
+	case PLAYER_MODE::CLEAR:
+	case NORMAL:
 		normalMove();
 		animation();
 		break;
-	case P_MODE_INIT:
+	case INIT:
 		initMove();
 		break;
 	default:
@@ -402,38 +402,38 @@ void PlayerManager::init() {
 	if (!m_pPlayer)
 	{
 		m_pPlayer = new Player;
-		pObjManager->m_ppObj[OBJ2D::searchSet(pObjManager->m_ppObj, OBJ_MAX_NUM)] = m_pPlayer;
+		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = m_pPlayer;
 	}
 }
 
 void PlayerManager::manageConcentration()
 {
-	switch (m_state)
+	switch (m_step)
 	{
-	case STATE_INIT:
+	case STEP::INIT:
 		m_concentration = m_pPlayer->m_concentration;
 		if (m_concentration >= 2)
 		{
 			m_pPlayer->m_transferConcentration = 1;
 			m_pPlayer->m_concentration--;
-			m_state = STATE_BEGIN;
+			m_step = STEP::BEGIN;
 		} 
 		else
 		{
 			m_pPlayer->m_transferConcentration = 0;
 			m_pPlayer->m_concentration;
-			m_state = STATE_END;
+			m_step = STEP::END;
 		}
 		break;
-	case STATE_BEGIN:
+	case STEP::BEGIN:
 
 		if (m_isTranscriptAble)
 		{
-			if ((m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (!m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+			if ((m_pPlayer->m_liveInPagination && KEY_DOWN('A')) || (!m_pPlayer->m_liveInPagination && KEY_DOWN('D'))) {
 				m_pPlayer->m_transferConcentration++;
 				m_pPlayer->m_concentration--;
 			}
-			if ((!m_pPlayer->m_isOnLeftPage && KEY_DOWN('A')) || (m_pPlayer->m_isOnLeftPage && KEY_DOWN('D'))) {
+			if ((!m_pPlayer->m_liveInPagination && KEY_DOWN('A')) || (m_pPlayer->m_liveInPagination && KEY_DOWN('D'))) {
 				m_pPlayer->m_transferConcentration--;
 				m_pPlayer->m_concentration++;
 			}
@@ -459,7 +459,7 @@ void PlayerManager::manageConcentration()
 		break;
 	}
 
-	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_isOnLeftPage, m_isTranscriptAble);
+	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_pPlayer->m_liveInPagination, m_isTranscriptAble);
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)
@@ -477,31 +477,31 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			pObjManager->m_transcriptionObj.m_concentration = m_pPlayer->m_transferConcentration;
 			pObjManager->m_transcriptionObj.m_alpha = 255 * pObjManager->m_transcriptionObj.m_concentration / 10;
 			pObjManager->m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
-			pObjManager->m_transcriptionObj.m_isOnLeftPage = m_pPlayer->m_isOnLeftPage;
+			pObjManager->m_transcriptionObj.m_liveInPagination = m_pPlayer->m_liveInPagination;
 			pObjManager->m_transcriptionList.push_back(pObjManager->m_transcriptionObj);
 
 			if (m_isTranscriptCanceled)
 			{
-				m_pPlayer->m_mode = P_MODE_INIT;
+				m_pPlayer->m_mode = INIT;
 
 			}
 			else
 			{
 
-				m_pPlayer->m_isOnLeftPage = !m_pPlayer->m_isOnLeftPage;
+				m_pPlayer->m_liveInPagination = !m_pPlayer->m_liveInPagination;
 				m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
 				m_pPlayer->m_speed = { 0,0,0 };
 				m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
 				m_pPlayer->m_timer = 0;
 
 			}
-			m_state = STATE_INIT;
+			m_step = STEP::INIT;
 		}
 		else
 		{
 			m_pPlayer->m_concentration = m_concentration;
 			m_pPlayer->m_transferConcentration = 0;
-			m_state = STATE_INIT;
+			m_step = STEP::INIT;
 		}
 
 	}
