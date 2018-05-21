@@ -125,10 +125,10 @@ void Book::closeBook()
 		m_openSpeed = 0;
 		m_openSpeedAcc = 0;
 		m_isClosed = false;
+		m_isOpened = false;
 		m_state = STATE_BEGIN;
 		break;
 	case STATE_BEGIN:
-		m_isOpened = false;
 		m_openSpeedAcc += 0.005;
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed;
@@ -173,12 +173,13 @@ void Book::openBook()
 		if (m_isClosed)
 		{
 			pPlayerManager->transcriptPlayer();
+			pPlayerManager->m_state = STATE_INIT;
 		}
+		m_isClosed = false;
 		m_isOpened = false;
 		m_state = STATE_BEGIN;
 		break;
 	case STATE_BEGIN:
-		m_isClosed = false;
 		m_openAngle += 3;
 		m_cameraAngleZY += 0.03f;
 		m_postion.z -= 15;
