@@ -3,6 +3,7 @@
 #include "obj2d.h"
 
 #include "game_ui.h"
+#include "player.h"
 
 
 ////////////////////////////////////////////////////////
@@ -59,7 +60,7 @@ void GameUIManager::init()
 {
 	for (int i = 0; i < UI_OBJ_MAX_NUM; i++)
 	{
-		if(m_ppGameUI[i])
+		if (m_ppGameUI[i])
 		{
 			delete m_ppGameUI[i];
 			m_ppGameUI[i] = nullptr;
@@ -71,7 +72,7 @@ void GameUIManager::init()
 
 		m_ppGameUI[i]->m_custom.scaleMode = SCALE_MODE::CENTER;
 	}
-	m_ppGameUI[GAGE_FRAME]->m_pSprData = &e_sprGageDivision; 
+	m_ppGameUI[GAGE_FRAME]->m_pSprData = &e_sprGageDivision;
 	m_ppGameUI[GAGE_FRAME]->m_isVisible = false;
 	m_ppGameUI[GAGE_FRAME]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	m_ppGameUI[GAGE_FRAME]->m_size = { e_sprGageDivision.width,e_sprGageDivision.height,0 };
@@ -95,8 +96,12 @@ void GameUIManager::init()
 	m_ppGameUI[GAGE_RIGHT]->m_custom.scaleMode = SCALE_MODE::LEFTCENTER;
 	//m_ppGameUI[GAGE]->m_custom.scaleX = m_ppGameUI[GAGE]->m_size.x / m_ppGameUI[GAGE]->m_pSprData->width;
 	//m_ppGameUI[GAGE]->m_custom.scaleY = m_ppGameUI[GAGE]->m_size.y / m_ppGameUI[GAGE]->m_pSprData->height;
-	
 
+	m_life = Player::getLife();
+	for (int i = 0; i < m_life - 1; i++) {
+		m_life_stamp[i].m_pSprData = &e_sprLifeStamp;
+		m_life_stamp[i].m_pos.y = 30;
+	}
 }
 
 void GameUIManager::update()
@@ -116,6 +121,13 @@ void GameUIManager::draw()
 			}
 
 		}
+	}
+
+	//プレイヤーのライフ数取得してはんこUI表示
+	m_life = Player::getLife();
+	for (int i = 0; i < m_life - 1; i++) {
+		m_life_stamp[i].m_pos.x = 45 * i + 30;
+		m_life_stamp[i].draw();
 	}
 }
 

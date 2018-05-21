@@ -30,6 +30,7 @@ extern SPRITE_LEFTTOP e_pSprItem[];
 extern SPRITE_LEFTTOP e_sprWhite;
 extern SPRITE_CENTER e_sprGage;
 extern SPRITE_CENTER e_sprGageDivision;
+extern SPRITE_CENTER e_sprLifeStamp;
 
 // Effect関係
 extern SPRITE_CENTER e_sprHitObj;
