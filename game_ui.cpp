@@ -1,13 +1,12 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "sprite_data.h"
 #include "obj2d.h"
 
 #include "game_ui.h"
 #include "player.h"
 
-
 ////////////////////////////////////////////////////////
-// ƒNƒ‰ƒX: GameUI ŠÖ”
+// ã‚¯ãƒ©ã‚¹: GameUI é–¢æ•°
 GameUI::GameUI()
 {
 	m_isVisible = true;
@@ -38,7 +37,7 @@ void GameUI::draw()
 
 
 ////////////////////////////////////////////////////////
-// ƒNƒ‰ƒX: GameUIManager ŠÖ”
+// ã‚¯ãƒ©ã‚¹: GameUIManager é–¢æ•°
 GameUIManager::GameUIManager()
 {
 
@@ -123,7 +122,7 @@ void GameUIManager::draw()
 		}
 	}
 
-	//ƒvƒŒƒCƒ„[‚Ìƒ‰ƒCƒt”Žæ“¾‚µ‚Ä‚Í‚ñ‚±UI•\Ž¦
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ©ã‚¤ãƒ•æ•°å–å¾—ã—ã¦ã¯ã‚“ã“UIè¡¨ç¤º
 	m_life = pPlayerManager->m_pPlayer->getLife();
 	for (int i = 0; i < m_life - 1; i++) {
 		m_life_stamp[i].m_pos.x = 45 * i + 30;

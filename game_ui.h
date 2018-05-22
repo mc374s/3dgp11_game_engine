@@ -1,4 +1,4 @@
-#ifndef _GAME_UI_H_
+﻿#ifndef _GAME_UI_H_
 #define _GAME_UI_H_
 
 #define UI_OBJ_MAX_NUM	(36)
@@ -10,7 +10,6 @@ enum UI_NO
 	GAGE_LEFT,
 	GAGE_RIGHT,
 };
-
 
 
 class GameUI:public OBJ2DEX

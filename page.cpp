@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 
 #include "sprite_data.h"
 #include "obj2d.h"
@@ -30,7 +30,7 @@ Page::~Page()
 
 void Page::update()
 {
-	//ƒy[ƒW‚Ì“à—e‚ðXV
+	//ãƒšãƒ¼ã‚¸ã®å†…å®¹ã‚’æ›´æ–°
 	/*if (m_pInnerScene)
 	{
 		if (m_pInnerScene->m_pNextScene)
@@ -40,9 +40,9 @@ void Page::update()
 		m_pInnerScene->update();
 	}*/
 
-	//ƒy[ƒW‚Ì“à—e‚ðXV
+	//ãƒšãƒ¼ã‚¸ã®å†…å®¹ã‚’æ›´æ–°
 
-	// ƒvƒŒƒCƒ„[‚ª’Ê‰ß‚µ‚½‚Æ‚±‚ë‚Éƒ‰ƒ“ƒ_ƒ€‚ÅŸø‚Þ”»’è—pObj‚ð”z’u
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒé€šéŽã—ãŸã¨ã“ã‚ã«ãƒ©ãƒ³ãƒ€ãƒ ã§æ»²ã‚€åˆ¤å®šç”¨Objã‚’é…ç½®
 	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_pagination && pPlayerManager->m_pPlayer->m_isMoving) {
 		pObjManager->m_hitObj.m_liveInPagination = m_pagination;
 		Vector3 pos = pPlayerManager->m_pPlayer->m_pos;
