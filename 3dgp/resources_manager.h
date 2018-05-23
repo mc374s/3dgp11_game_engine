@@ -7,7 +7,7 @@
 namespace MyResourcesManager {
 
 #define SAFE_RELEASE(ptr) {if(ptr){ptr->Release();}}
-#define SAFE_DELETE(ptr) {if(ptr){delete ptr; ptr=NULL;}}
+#define SAFE_DELETE(ptr) {if(ptr){delete ptr; ptr=nullptr;}}
 #define FILE_NUM_MAX (64)
 
 	template <typename D3D_TYPE>

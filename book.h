@@ -41,11 +41,12 @@ public:
 	float m_openAngle = 0;
 	float m_openSpeed = 0;
 	float m_openSpeedAcc = 0;
-	XMFLOAT3 m_postion = { 0,0,0 };
+	XMFLOAT3 m_position = { 0,0,0 };
 	bool m_isClosed;
 	bool m_isOpened;
 
-	Page* m_ppPages[PAGINATION_MAX];
+	// Page 0 is reserved
+	Page* m_ppPages[PAGINATION_MAX] = { nullptr };
 
 	void init();
 	void update();

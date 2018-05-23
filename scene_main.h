@@ -17,11 +17,8 @@ class SceneMain :public Scene, public Singleton<SceneMain>
 private:
 	OBJ2D m_bg;
 	Book *m_pBook;
-	View *m_pViewLeftPage;
-	View *m_pViewRightPage;
 	char *m_pStr;
 
-	Scene *m_pChildrenScene[2];
 
 	bool m_isPlayerOnLeftPage = true;
 
@@ -30,15 +27,12 @@ public:
 	SceneMain();
 	~SceneMain();
 
-	int m_childrenSceneNO;
 	bool m_isBookOpened;
 	bool m_isBookClosed;
 
 	void init();
 	void update();
 	void draw();
-	
-	void updateChildScenes();
 };
 
 

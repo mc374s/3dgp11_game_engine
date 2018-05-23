@@ -2,8 +2,6 @@
 
 #include "sprite_data.h"
 #include "obj2d.h"
-#include "player.h"
-#include "map_obj.h"
 
 #include "page.h"
 
@@ -11,12 +9,20 @@
 Page::Page(int a_pageWidth, int a_pageHeight, int a_pagination) :m_pagination(a_pagination), m_width(a_pageWidth), m_height(a_pageHeight)
 {
 	m_bg.m_pSprData = &e_sprPageLeft;
-	m_pView = new View(m_width, m_height);
+
+	// Create a resize unable View
+	if (m_pagination % 2 != 0)
+	{// Left View
+		m_pView = new View(-m_width, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height);
+	} else
+	{// Right View
+		m_pView = new View(0, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height);
+	}
 }
 
 void Page::init()
 {
-	pPlayerManager->init();
+
 }
 
 Page::~Page()
@@ -26,6 +32,12 @@ Page::~Page()
 		//delete nextScene;
 		m_pNextScene = nullptr;
 	}
+	SAFE_DELETE(m_pView);
+}
+
+void Page::syncViewCustom3d()
+{
+	m_pView->m_custom3d = m_custom3d;
 }
 
 void Page::update()
@@ -41,59 +53,39 @@ void Page::update()
 	}*/
 
 	//ページの内容を更新
-
-	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
-	if (pPlayerManager->m_pPlayer->m_liveInPagination == m_pagination && pPlayerManager->m_pPlayer->m_isMoving) {
-		pObjManager->m_hitObj.m_liveInPagination = m_pagination;
-		Vector3 pos = pPlayerManager->m_pPlayer->m_pos;
-		Vector3 speed = pPlayerManager->m_pPlayer->m_speed;
-		Vector3 size = pPlayerManager->m_pPlayer->m_size;
-		Vector3 randAdjust;
-		for (int i = 0; i < 3; i++) {
-			randAdjust = { (float)(rand() % (int)(fabsf(speed.x) + size.x)), (float)(rand() % (int)(fabsf(speed.y) + size.y)),0 };
-			if (speed.x == 0 && !pPlayerManager->m_pPlayer->m_isOnGround)
-			{
-				randAdjust.x -= size.x / 2;
-				randAdjust.y -= size.y / 2;
-			}
-			if (pPlayerManager->m_pPlayer->m_isOnGround)
-			{
-				randAdjust.x += size.x / 2;
-			}
-
-			if (speed.x != 0)
-			{
-				randAdjust.x *= (speed.x / fabsf(speed.x));
-			}
-			if (speed.y != 0)
-			{
-				randAdjust.y *= (speed.y / fabsf(speed.y));
-			}
-			pObjManager->m_hitObj.m_pos = pos - randAdjust;
-			pObjManager->m_hitObj.m_custom.angle = rand() % 180;
-			pObjManager->m_hitObj.m_alpha = rand() % 20 + 20;
-			pObjManager->m_newblurAreaList.push_back(pObjManager->m_hitObj);
-		}
-	}
-
-
 	pObjManager->update(m_pagination);
+
+
+	// bucause of the depth test is ON, set a different depth between page surface and view
+	//m_pView->m_custom3d.position.z = m_custom3d.position.z - 0.1;
 }
 
 void Page::draw()
 {
-	//View::clear();
-	//m_pView->set(-PAGE_WIDTH, -PAGE_HEIGHT / 2, PAGE_WIDTH, PAGE_HEIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+	View::clear();
+	m_pView->set();
 
 	m_bg.draw();
 
 	pObjManager->draw(m_pagination);
 
-	drawRectangle(PAGE_WIDTH - 4, 0, 4, PAGE_HEIGHT, 0, 0x000000FF);
+	// 真ん中の黒い線
+	if (m_pagination % 2 != 0)
+	{// Left View
+		drawRectangle(m_width - 4, 0, 4, m_height, 0, 0x000000FF);
+	} else
+	{// Right View
+		drawRectangle(0, 0, 4, m_height, 0, 0x000000FF);
+	}
+
+#ifdef DEBUG
+
+	char buf[256];
+	sprintf_s(buf, "Pagination: %d", m_pagination);
+	drawString(0, m_height - 40, buf);
+
+#endif // DEBUG
 
 	View::clear();
-	//char buf[256];
-	//sprintf_s(buf, "Player Concentration: %d\nTransfer Concentration: %d", pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_concentration - pPlayerManager-//>m_transferConcentration);
-	//drawString(0, 300, buf);
 
 }

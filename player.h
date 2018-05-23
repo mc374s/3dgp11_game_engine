@@ -24,6 +24,7 @@
 #define P_SCROLL_Y_TOP		(200)
 #define P_SCROLL_Y_BOTTOM	(330)
 
+// Player Update Mode
 enum P_MODE
 {
 	RESTART,
@@ -32,9 +33,10 @@ enum P_MODE
 	DEAD,
 };
 
+// Player State
 enum P_STATE
 {
-	STANDY,
+	STANDBY,
 	JUMPING,
 	DROPPING,
 	MOVING,
@@ -43,6 +45,7 @@ enum P_STATE
 class Player:public OBJ2DEX
 {
 private:
+	int m_life;
 
 public:
 
@@ -66,10 +69,11 @@ public:
 	void update();
 	void draw();
 
-	int m_life;
 	int getLife();
 	void addLife(int a_life);
-	
+
+	void blur();
+
 	void normalMove();
 	void initMove();
 
@@ -93,8 +97,6 @@ public:
 	void manageConcentration();
 
 	int m_concentration = 10;
-
-	Vector3 getMapScroll();
 
 };
 

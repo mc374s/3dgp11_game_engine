@@ -43,7 +43,7 @@ void MapObj::clear()
 	m_pfMove = nullptr;
 	m_command = 0x0;
 	m_concentration = 10;
-	m_drawDirection = DRAW_UP;
+	m_drawDirection = M_DRAW::UP;
 	m_repeatDrawSize = Vector3(0, 0, 0);
 	m_isHitAble = false;
 }
@@ -52,25 +52,25 @@ void MapObj::clear()
 void MapObj::init()
 {
 	m_isInit = true;
-
+	m_initPos = m_pos;
 	m_pSprData = &e_pSprItem[m_type];
 
 	switch (m_type)
 	{
-	case MAPOBJ_HOUSE:
-	case MAPOBJ_TREE_A:
-	case MAPOBJ_TREE_B:
+	case M_TYPE::HOUSE:
+	case M_TYPE::TREE_A:
+	case M_TYPE::TREE_B:
 
-	case MAPOBJ_IVY_BIG:
-	case MAPOBJ_KEY:
-	case MAPOBJ_DOOR:
+	case M_TYPE::IVY_BIG:
+	case M_TYPE::KEY:
+	case M_TYPE::DOOR:
 		m_repeatDrawSize = { m_pSprData->width,m_pSprData->height,0 };
 		break;
-	case MAPOBJ_IVY_THIN:
-	case MAPOBJ_IVY_THICK:
+	case M_TYPE::IVY_THIN:
+	case M_TYPE::IVY_THICK:
 		m_repeatDrawSize = m_size;
 		break;
-	case MAPOBJ_HIGH_CONCENTRATION:
+	case M_TYPE::HIGH_CONCENTRATION:
 		m_repeatDrawSize = m_size;
 		m_custom.rgba = 0x000000FF;
 		m_alpha = 255 * m_concentration / 10;
@@ -81,16 +81,16 @@ void MapObj::init()
 
 	switch (m_drawDirection)
 	{
-	case DRAW_DOWN:
+	case M_DRAW::DOWN:
 		m_custom.reflectX = true;
 		m_custom.angle = 180;
 		break;
-	case DRAW_LEFT:
+	case M_DRAW::LEFT:
 		m_custom.angle = -90;
 		m_repeatDrawSize.x = m_size.y;
 		m_repeatDrawSize.y = m_size.x;
 		break;
-	case DRAW_RIGHT:
+	case M_DRAW::RIGHT:
 		m_custom.reflectX = true;
 		m_custom.angle = 90;
 		m_repeatDrawSize.x = m_size.y;
@@ -113,7 +113,7 @@ void MapObj::update()
 
 	}
 }
-int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
+int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
@@ -191,7 +191,7 @@ void MapObj::draw()
 
 	m_pSprData->width = m_repeatDrawSize.x;
 	m_pSprData->height = m_repeatDrawSize.y;
-	if (m_drawDirection == DRAW_LEFT || m_drawDirection == DRAW_RIGHT)
+	if (m_drawDirection == M_DRAW::LEFT || m_drawDirection == M_DRAW::RIGHT)
 	{
 		m_pSprData->ofsX = -m_pSprData->width / 2 + m_pSprData->height / 2;
 		m_pSprData->ofsY = -m_pSprData->ofsX;
@@ -321,22 +321,34 @@ bool MapObjManager::isAlive()
 
 void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination)
 {
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	for (auto &it : m_ppMapObjs)
 	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit /*&& m_ppMapObjs[i]->m_liveInPagination == a_liveInPagination*/)
+		if (it && it->m_isInit/* && m_ppMapObjs[i]->m_liveInPagination == a_liveInPagination*/)
 		{
-			m_ppMapObjs[i]->m_pos.y -= a_speed.y;
+			it->m_pos.y -= a_speed.y;
+			if (a_speed.y < 0 && it->m_pos.y > it->m_initPos.y)
+			{
+				it->m_pos.y = it->m_initPos.y;
+			}
 		}
 	}
 
 	for (auto &it : pObjManager->m_blurAreaList)
 	{
 		it.m_pos.y -= a_speed.y;
+		/*if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y)
+		{
+			it.m_pos.y = it.m_initPos.y;
+		}*/
 	}
 
 	for (auto &it : pObjManager->m_transcriptionList)
 	{
 		it.m_pos.y -= a_speed.y;
+		/*if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y)
+		{
+			it.m_pos.y = it.m_initPos.y;
+		}*/
 	}
 
 }

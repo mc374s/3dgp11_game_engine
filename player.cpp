@@ -30,7 +30,7 @@ void Player::init()
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
 	m_mode = P_MODE::NORMAL;
-	m_montionState = P_STATE::STANDY;
+	m_montionState = P_STATE::STANDBY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
 	m_alpha = 255;
 	m_transferConcentration = 0;
@@ -256,6 +256,11 @@ void Player::normalMove()
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerJump;
 	}
+	// 滲む
+	if (m_isMoving) 
+	{
+		blur();
+	}
 
 	// 待機アニメショーン
 	if (m_speed.x == 0 && m_isOnGround)
@@ -313,7 +318,7 @@ void Player::initMove()
 			m_scrolledDistance.y += m_speed.y;
 			if (m_scrolledDistance.y <= 0)
 			{
-				m_speed.y = 0;
+				//m_speed.y = 0;
 				m_step = STEP::END;
 			}
 		}
@@ -327,6 +332,41 @@ void Player::initMove()
 	default:
 		break;
 
+	}
+}
+
+// 滲む処理
+void Player::blur()
+{
+	pObjManager->m_hitObj.m_liveInPagination = m_liveInPagination;
+
+	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
+	Vector3 randAdjust;
+	for (int i = 0, maxInOnce = 3; i < maxInOnce; i++) {
+		randAdjust = { (float)(rand() % (int)(fabsf(m_speed.x) + m_size.x)), (float)(rand() % (int)(fabsf(m_speed.y) + m_size.y)),0 };
+		if (m_speed.x == 0 && !m_isOnGround)
+		{
+			randAdjust.x -= m_size.x / 2;
+			randAdjust.y -= m_size.y / 2;
+		}
+		if (m_isOnGround)
+		{
+			randAdjust.x += m_size.x / 2;
+		}
+
+		if (m_speed.x != 0)
+		{
+			randAdjust.x *= (m_speed.x / fabsf(m_speed.x));
+		}
+		if (m_speed.y != 0)
+		{
+			randAdjust.y *= (m_speed.y / fabsf(m_speed.y));
+		}
+		pObjManager->m_hitObj.m_pos = m_pos - randAdjust;
+		pObjManager->m_hitObj.m_initPos = pObjManager->m_hitObj.m_pos;
+		pObjManager->m_hitObj.m_custom.angle = rand() % 180;
+		pObjManager->m_hitObj.m_alpha = rand() % 20 + 20;
+		pObjManager->m_newblurAreaList.push_back(pObjManager->m_hitObj);
 	}
 }
 
@@ -502,6 +542,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			// 転写元を作成
 			pObjManager->m_transcriptionObj.m_isInit = true;
 			pObjManager->m_transcriptionObj.m_pos = m_pPlayer->m_pos;
+			pObjManager->m_transcriptionObj.m_initPos = pObjManager->m_transcriptionObj.m_pos;
 			pObjManager->m_transcriptionObj.m_size = m_pPlayer->m_size;
 			pObjManager->m_transcriptionObj.m_pos.z--;
 			pObjManager->m_transcriptionObj.m_custom = m_pPlayer->m_custom;

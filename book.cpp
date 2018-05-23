@@ -29,6 +29,14 @@ m_coverDepth(a_coverDepth)
 	m_isOpened = true;
 	m_openAngle = 0;
 
+	// Page 0 is reserved
+	for (int i = 0, pagination = 1; i < PAGINATION_MAX; ++i, ++pagination)
+	{
+		if (!m_ppPages[i])
+		{ 
+			m_ppPages[i] = new Page(m_width, m_height, pagination);
+		}
+	}
 
 
 }
@@ -39,6 +47,10 @@ Book::~Book()
 	SAFE_DELETE(m_pBookRight);
 	SAFE_DELETE(m_pCoverLeft);
 	SAFE_DELETE(m_pCoverRight);
+	for (auto &it : m_ppPages)
+	{
+		SAFE_DELETE(it);
+	}
 }
 
 void Book::init()
@@ -49,6 +61,9 @@ void Book::init()
 
 void Book::update()
 {
+	//////////////////////////////////////////////////////////////
+	// For Book update
+
 	// Open and Close Book
 	// Change Book and Views' Angle
 	if (KEY_BOARD.D8) {
@@ -92,14 +107,43 @@ void Book::update()
 	m_pBookRight->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
 	m_pCoverRight->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
 
-	m_pBookLeft->m_custom3d.position = m_postion;
-	m_pCoverLeft->m_custom3d.position = m_postion;
+	m_pBookLeft->m_custom3d.position = m_position;
+	m_pCoverLeft->m_custom3d.position = m_position;
 
-	m_pBookRight->m_custom3d.position = m_postion;
-	m_pCoverRight->m_custom3d.position = m_postion;
+	m_pBookRight->m_custom3d.position = m_position;
+	m_pCoverRight->m_custom3d.position = m_position;
 	// 本全体の回転はカメラワークに任せる
 	e_camera.upDirection = { sinf(m_cameraAngleZY)*sinf(m_cameraAngleXY), cosf(m_cameraAngleZY), sinf(m_cameraAngleZY)*cosf(m_cameraAngleXY), 0 };
 	e_camera.eyePosition = { -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*sinf(m_cameraAngleXY), fabs(m_cameraDistance)*sinf(m_cameraAngleZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*cosf(m_cameraAngleXY),0 };
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	// For Pages update
+	for (auto &it : m_ppPages)
+	{
+		if (it)
+		{
+
+			// 本とページの位置を同調かねて座標系の違いによる修正
+
+			it->m_custom3d.position = m_position;
+			it->m_custom3d.position.y = -m_position.y;
+			it->m_custom3d.position.z = m_position.z - 0.1;
+			if (it->m_pagination % 2 != 0)
+			{// Page 1,3,5,7...
+				it->m_custom3d.angleYawPitchRoll.x = m_openAngle;
+			} else
+			{// Page 2,4,6,8...
+				it->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
+			}
+			//Always Need to Update Page View's m_custom3d
+			it->syncViewCustom3d();
+			if (m_isOpened)
+			{
+				it->update();
+			}
+		}
+	}
 
 }
 
@@ -118,6 +162,13 @@ void Book::draw()
 		m_pCoverRight->draw();
 	}
 
+	for (auto &it : m_ppPages)
+	{
+		if (it && it->m_isActive)
+		{
+			it->draw();
+		}
+	}
 
 
 }
@@ -145,22 +196,22 @@ void Book::closeBook()
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed;
 		m_cameraAngleZY -= m_openSpeed*0.01f;
-		m_postion.z += m_openSpeed * 5.0f;
-		m_postion.y += m_openSpeed * 3.0f;
+		m_position.z += m_openSpeed * 5.0f;
+		m_position.y += m_openSpeed * 3.0f;
 		if (m_openAngle <= -90) {
 			m_isClosed = true;
 			m_openAngle = -90;
 			m_cameraAngleZY = -0.90f;
-			m_postion.z = 450;
-			m_postion.y = 270;
+			m_position.z = 450;
+			m_position.y = 270;
 			m_step = STEP::END;
 		}
 		break;
 	case STEP::END:
 		/*m_openAngle = -90;
 		m_cameraAngleZY = -0.90f;
-		m_postion.z = 450;
-		m_postion.y = 270;*/
+		m_position.z = 450;
+		m_position.y = 270;*/
 
 		m_step = STEP::FINISH;
 		break;
@@ -195,22 +246,22 @@ void Book::openBook()
 		m_isClosed = false;
 		m_openAngle += 3;
 		m_cameraAngleZY += 0.03f;
-		m_postion.z -= 15;
-		m_postion.y -= 9;
+		m_position.z -= 15;
+		m_position.y -= 9;
 		if (m_openAngle > 0) {
 			m_isOpened = true;
 			m_openAngle = 0;
 			m_cameraAngleZY = 0.0f;
-			m_postion.z = 0;
-			m_postion.y = 0;
+			m_position.z = 0;
+			m_position.y = 0;
 			m_step = STEP::END;
 		}
 		break;
 	case STEP::END:
 		/*m_openAngle = 0;
 		m_cameraAngleZY = 0.0f;
-		m_postion.z = 0;
-		m_postion.y = 0;*/
+		m_position.z = 0;
+		m_position.y = 0;*/
 		m_step = STEP::FINISH;
 		break;
 	case STEP::FINISH:

@@ -55,7 +55,7 @@ const OBJ2D& OBJ2D::operator=(const OBJ2D& a_right)
 void OBJ2D::clear() 
 {
 	m_pSprData = nullptr;
-	m_pos = Vector3(0, 0, 0);
+	m_pos = m_initPos = Vector3(0, 0, 0);
 	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
 	m_timer = 0;
 	m_step = 0;

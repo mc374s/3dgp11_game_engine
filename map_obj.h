@@ -6,29 +6,30 @@
 #define LOW_CONCENTRATION (4)
 
 #define MAPOBJ_MAX_NUM (64)
-
-enum MAPOBJ_TYPE
+// MapObj Type
+enum M_TYPE
 {
-	MAPOBJ_NONE = -1,
-	MAPOBJ_HOUSE = 0,
-	MAPOBJ_TREE_A,
-	MAPOBJ_TREE_B,
-	MAPOBJ_IVY_BIG,
-	MAPOBJ_IVY_THIN,
-	MAPOBJ_IVY_THICK,
-	MAPOBJ_DOOR,
-	MAPOBJ_KEY,
-	MAPOBJ_HIGH_CONCENTRATION,
+	NONE = -1,
+	HOUSE = 0,
+	TREE_A,
+	TREE_B,
+	IVY_BIG,
+	IVY_THIN,
+	IVY_THICK,
+	DOOR,
+	KEY,
+	HIGH_CONCENTRATION,
 
-	MAPOBJ_MAX_TYPE,
+	MAX_NUM,
 };
 
-enum DRAW_DIRECTION
+// MapObj Draw Direction
+enum M_DRAW
 {
-	DRAW_UP,
-	DRAW_DOWN,
-	DRAW_LEFT,
-	DRAW_RIGHT,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
 };
 
 // 基準座標左上
@@ -56,7 +57,7 @@ public:
 	void update();
 	void draw();
 
-	static int searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
+	static int searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
 
 
 	void hitAdjust(OBJ2DEX* a_pObj);
@@ -66,8 +67,8 @@ public:
 struct STAGE_DATA {
 	int m_liveInPagination;
 	int appearTime;
-	MAPOBJ_TYPE mapObjType;
-	DRAW_DIRECTION drawDirection;
+	M_TYPE mapObjType;
+	M_DRAW drawDirection;
 	Vector3 pos;
 	bool isHitAble;
 	Vector3 size;
@@ -84,7 +85,7 @@ struct STAGE_DATA {
 	a_concentraction:		濃度
 	a_pfMove:				このObjを動かす関数ポインタ
 	*/
-	STAGE_DATA(int a_liveInPagination, int a_appearTime, MAPOBJ_TYPE a_mapObjType, DRAW_DIRECTION a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
+	STAGE_DATA(int a_liveInPagination, int a_appearTime, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
 		m_liveInPagination(a_liveInPagination),
 		appearTime(a_appearTime),
 		mapObjType(a_mapObjType),

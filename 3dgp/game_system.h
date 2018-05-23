@@ -261,14 +261,20 @@ class View
 {
 private:
 	RenderTarget *m_pRenderTarget;
+	int m_drawX, m_drawY, m_drawWidth, m_drawHeight, m_srcX, m_srcY, m_srcWidth, m_srcHeight;
+	float m_rotateAngle;
+	UINTCOLOR m_blendColor;
 
 public:
 	View(int a_viewWidth, int a_viewHeight);
+	View(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF);
 	~View();
 
 	CUSTOM3D m_custom3d;
 
+	void set();
 	void set(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF);
+	
 	static void clear();
 };
 
