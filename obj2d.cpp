@@ -72,6 +72,12 @@ void OBJ2D::draw()
 {
 	if (m_pSprData)
 	{
+		if (m_alpha > 255) {
+			m_alpha = 255;
+		}
+		if (m_alpha < 0) {
+			m_alpha = 0;
+		}
 		m_custom.rgba = m_custom.rgba >> 8 << 8 | m_alpha;
 		m_pSprData->draw(m_pos.x, m_pos.y, &m_custom);
 	}
@@ -149,11 +155,18 @@ void OBJ2DEX::animation()
 
 void OBJ2DEX::draw() 
 {
-	if (m_pSprData)
+	OBJ2D::draw();
+	/*if (m_pSprData)
 	{
+		if (m_alpha > 255) {
+			m_alpha = 255;
+		}
+		if (m_alpha < 0) {
+			m_alpha = 0;
+		}
 		m_custom.rgba = m_custom.rgba >> 8 << 8 | m_alpha;
 		m_pSprData->draw(m_pos, &m_custom);
-	}
+	}*/
 }
 /////////////////////////////////////////////////////////////////
 // Class ObjManager Function

@@ -9,6 +9,8 @@ enum UI_NO
 	GAGE_FRAME,
 	GAGE_LEFT,
 	GAGE_RIGHT,
+	PLAYER_LEFT,
+	PLAYER_RIGHT,
 };
 
 
@@ -17,8 +19,11 @@ class GameUI:public OBJ2DEX
 private:
 
 public:
+	virtual void memberCopy(const GameUI& a_inputObj);
 	GameUI();
-	~GameUI();
+	GameUI(const GameUI& a_inputObj);
+	virtual ~GameUI();
+	const GameUI& operator=(const GameUI& a_right);
 
 	bool m_isVisible;
 
