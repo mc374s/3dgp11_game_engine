@@ -75,10 +75,10 @@ struct STAGE_DATA {
 	int concentration;
 	void(*pfMove)(MapObj*);
 	/**
-	a_ppearTime:			出現のフレーム数
+	a_liveInPagination:		このObjはどのページに所属するのか
+	a_appearTime:			出現のフレーム数
 	a_mapObjType:			Objの種類(MAPOBJ_***)
 	a_drawDirection:		描画の方向(DRAW_***)
-	a_liveInPagination:		このObjはどのページに所属するのか
 	a_pos:					ページ内での描画の位置(Objの左上が基準点)
 	a_isHitAble:			判定があるかどうか
 	a_size:					判定サイズ(描画方向と無関係)
