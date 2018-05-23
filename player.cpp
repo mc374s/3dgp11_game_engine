@@ -77,7 +77,7 @@ void Player::normalMove()
 		m_mode = P_MODE::DEAD;
 	}
 	// 濃度計算：動いてるときに減っていく
-	if (m_speed.x != 0 || m_speed.y != 0)
+	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON || fabsf(m_speed.y - 0.0f) > FLT_EPSILON)
 	{
 		m_timer++;
 		if (m_timer > P_CONCENTRATION_DECREASE_FRAME)
@@ -98,7 +98,7 @@ void Player::normalMove()
 	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 
 	// プレーヤーの状態判断
-	if (m_speed.y == 0 && m_montionState != P_STATE::JUMPING && !m_isOnGround)
+	if (fabsf(m_speed.y - 0.0f) < FLT_EPSILON && m_montionState != P_STATE::JUMPING && !m_isOnGround)
 	{
 		m_isOnGround = true;
 	}
@@ -246,7 +246,7 @@ void Player::normalMove()
 	}
 
 	// アニメーションデータ
-	if (m_speed.x != 0 && m_isOnGround && m_pAnimeData != e_pAnimePlayerRun)
+	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON && m_isOnGround && m_pAnimeData != e_pAnimePlayerRun)
 	{
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerRun;
@@ -263,7 +263,7 @@ void Player::normalMove()
 	}
 
 	// 待機アニメショーン
-	if (m_speed.x == 0 && m_isOnGround)
+	if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && m_isOnGround)
 	{
 		// 待機からあくびに切り替え
 		static int waitFrame = 0, yawnFrame = 64, standyFrame = 300, randInteger = 0;
@@ -344,7 +344,7 @@ void Player::blur()
 	Vector3 randAdjust;
 	for (int i = 0, maxInOnce = 3; i < maxInOnce; i++) {
 		randAdjust = { (float)(rand() % (int)(fabsf(m_speed.x) + m_size.x)), (float)(rand() % (int)(fabsf(m_speed.y) + m_size.y)),0 };
-		if (m_speed.x == 0 && !m_isOnGround)
+		if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && !m_isOnGround)
 		{
 			randAdjust.x -= m_size.x / 2;
 			randAdjust.y -= m_size.y / 2;
@@ -354,11 +354,11 @@ void Player::blur()
 			randAdjust.x += m_size.x / 2;
 		}
 
-		if (m_speed.x != 0)
+		if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON)
 		{
 			randAdjust.x *= (m_speed.x / fabsf(m_speed.x));
 		}
-		if (m_speed.y != 0)
+		if (fabsf(m_speed.y - 0.0f) > FLT_EPSILON)
 		{
 			randAdjust.y *= (m_speed.y / fabsf(m_speed.y));
 		}

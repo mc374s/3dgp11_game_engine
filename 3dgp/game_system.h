@@ -34,7 +34,7 @@ public:
 	void Normalize()
 	{
 		float l = Length();
-		if (l != .0f) { x /= l; y /= l; z /= l; }
+		if (fabsf(l - 0.0f) > FLT_EPSILON) { x /= l; y /= l; z /= l; }
 	}
 
 	//	オペレーター
@@ -52,8 +52,8 @@ public:
 	inline Vector3 operator * (float v) const { Vector3 ret(x*v, y*v, z*v); return ret; }
 	inline Vector3 operator / (float v) const { Vector3 ret(x / v, y / v, z / v); return ret; }
 
-	bool operator == (const Vector3& v) const { return (x == v.x) && (y == v.y) && (z == v.z); }
-	bool operator != (const Vector3& v) const { return (x != v.x) || (y != v.y) || (z != v.z); }
+	bool operator == (const Vector3& v) const { return (fabsf(x - v.x) < FLT_EPSILON) && (fabsf(y - v.y) < FLT_EPSILON) && (fabsf(z - v.z) < FLT_EPSILON); }
+	bool operator != (const Vector3& v) const { return (fabsf(x - v.x) > FLT_EPSILON) || (fabsf(y - v.y) > FLT_EPSILON) || (fabsf(z - v.z) > FLT_EPSILON); }
 
 } Vector3;
 

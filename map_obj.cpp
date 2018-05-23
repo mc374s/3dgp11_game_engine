@@ -319,7 +319,7 @@ bool MapObjManager::isAlive()
 	return false;
 }
 
-void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination)
+void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart)
 {
 	for (auto &it : m_ppMapObjs)
 	{
@@ -336,7 +336,7 @@ void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination)
 	for (auto &it : pObjManager->m_blurAreaList)
 	{
 		it.m_pos.y -= a_speed.y;
-		/*if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y)
+		/*if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
 		{
 			it.m_pos.y = it.m_initPos.y;
 		}*/
@@ -345,7 +345,7 @@ void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination)
 	for (auto &it : pObjManager->m_transcriptionList)
 	{
 		it.m_pos.y -= a_speed.y;
-		/*if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y)
+		/*if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
 		{
 			it.m_pos.y = it.m_initPos.y;
 		}*/

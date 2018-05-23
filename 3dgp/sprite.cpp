@@ -233,7 +233,7 @@ void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float 
 
 void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, UINTCOLOR a_blendColor, float a_rotateAngle, bool a_doCenterRotation, float a_rotatePosX, float a_rotatePosY, bool a_doReflection, int a_scaleMode)
 {
-	if (a_srcWidth == 0 || a_srcHeight == 0)
+	if ((int)a_srcWidth == 0 || (int)a_srcHeight == 0)
 	{
 		a_srcWidth = a_drawWidth;
 		a_srcHeight = a_drawHeight;

@@ -223,7 +223,7 @@ void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, vertex a_pCoord
 
 void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor)
 {
-	if (a_srcWidth == 0 || a_srcHeight == 0)
+	if ((int)a_srcWidth == 0 || (int)a_srcHeight == 0)
 	{
 		a_srcWidth = a_drawWidth;
 		a_srcHeight = a_drawHeight;

@@ -120,7 +120,7 @@ public:
 
 	bool isAlive();
 
-	void setScroll(Vector3 a_speed, int a_liveInPagination);
+	void setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart);
 
 };
 
