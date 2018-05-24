@@ -33,7 +33,7 @@ SceneMain::SceneMain()
 
 void SceneMain::init()
 {
-	MFAudioPlay(BGM_TITLE, true);
+	//MFAudioPlay(BGM_TITLE, true);
 	/*MFAudioStop(BGM_TITLE);
 	MFAudioPause(BGM_TITLE);
 	MFAudioContinue(BGM_TITLE);*/

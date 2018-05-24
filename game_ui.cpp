@@ -81,7 +81,7 @@ GameUIManager::~GameUIManager()
 		{
 			delete pObj;
 			pObj = nullptr;
-		}
+}
 	}
 }
 
@@ -155,7 +155,7 @@ void GameUIManager::init()
 		if (pObj)
 		{
 			pObj->clear();
-		}
+}
 		if (!pObj)
 		{
 			pObj = new Numbers();
@@ -174,7 +174,7 @@ void GameUIManager::init()
 
 void GameUIManager::update()
 {
-	
+
 }
 
 void GameUIManager::draw()

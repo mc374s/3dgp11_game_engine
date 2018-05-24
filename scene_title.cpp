@@ -43,15 +43,15 @@ void SceneTitle::update()
 	switch (m_step) {
 	case STEP::INIT:
 
-		MFAudioPlay(BGM_TITLE, true);
-		m_step = STEP::BEGIN;
+		//MFAudioPlay(BGM_TITLE, true);
+		m_step++;
 		//break;
 
 	case STEP::BEGIN:
 		if (KEY_TRACKER.pressed.Z || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
 		{
-			MFAudioStop(BGM_TITLE);
-			MFAudioPlay(SE_SHOT);
+			//MFAudioStop(BGM_TITLE);
+			MFAudioPlay(SE_START);
 			changeScene(SCENE_MAIN); 
 		}
 		break;
@@ -65,5 +65,5 @@ void SceneTitle::draw()
 	View::clear();
 
 	m_bg.draw();
-	
+
 }
