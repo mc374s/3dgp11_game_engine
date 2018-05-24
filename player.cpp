@@ -467,11 +467,14 @@ PlayerManager::~PlayerManager()
 void PlayerManager::init() {
 	if (!m_pPlayer)
 	{
-		m_pPlayer = new Player;
+		m_pPlayer = new Player();
+		m_pPlayer->clear();
+		m_pPlayer->init();
 		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = m_pPlayer;
 	}
 	else
 	{
+		m_pPlayer->clear();
 		m_pPlayer->init();
 	}
 }

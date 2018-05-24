@@ -92,12 +92,6 @@
     <ClInclude Include="game.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="page_left.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="page_right.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="stage_data.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -167,12 +161,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="tools.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="page_left.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="page_right.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="stage00_data.cpp">

@@ -34,7 +34,7 @@ enum TEX_NO {
 // 2D画像ロードデータ
 LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_WHITE,			"./DATA/Images/white.png" },
-	{ TEX_TITLE,			"./DATA/Images/default_bg.jpg"},
+	{ TEX_TITLE,			"./DATA/Images/taitoru_02.png"},
 	{ TEX_MAIN,				"./DATA/Images/default_bg.jpg"},
 	{ TEX_PLAYER,			"./DATA/Images/character.png"},
 

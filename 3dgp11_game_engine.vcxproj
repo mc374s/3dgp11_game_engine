@@ -145,9 +145,7 @@
     <ClInclude Include="judge.h" />
     <ClInclude Include="map_obj.h" />
     <ClInclude Include="page.h" />
-    <ClInclude Include="page_left.h" />
     <ClInclude Include="obj2d.h" />
-    <ClInclude Include="page_right.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="scene_main.h" />
     <ClInclude Include="scene_title.h" />
@@ -172,9 +170,7 @@
     <ClCompile Include="judge.cpp" />
     <ClCompile Include="map_obj.cpp" />
     <ClCompile Include="page.cpp" />
-    <ClCompile Include="page_left.cpp" />
     <ClCompile Include="obj2d.cpp" />
-    <ClCompile Include="page_right.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scene_main.cpp" />
     <ClCompile Include="scene_title.cpp" />

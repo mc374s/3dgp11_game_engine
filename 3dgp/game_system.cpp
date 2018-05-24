@@ -62,10 +62,10 @@ int  getInputKey()
 	if (KEY_BOARD.S) {
 		command |= PAD_DOWN;
 	}
-	if (KEY_BOARD.A){
+	if (KEY_BOARD.A || GAME_PAD.IsLeftThumbStickLeft()){
 		command |= PAD_LEFT;
 	}
-	if (KEY_BOARD.D){
+	if (KEY_BOARD.D || GAME_PAD.IsLeftThumbStickRight()){
 		command |= PAD_RIGHT;
 	}
 	if (KEY_BOARD.Space) {
@@ -74,7 +74,7 @@ int  getInputKey()
 	if (KEY_BOARD.Enter) { 
 		command |= PAD_ENTER;
 	}
-	if (KEY_BOARD.Z) {
+	if (KEY_BOARD.Z || GAME_PAD.IsAPressed()) {
 		command |= PAD_TRG1;
 	}
 	if (KEY_BOARD.X) {

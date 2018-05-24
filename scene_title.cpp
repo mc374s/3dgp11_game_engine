@@ -2,6 +2,7 @@
 #include "sprite_data.h"
 #include "scene_main.h"
 
+#include "sound_data.h"
 #include "scene_title.h"
 
 
@@ -38,8 +39,9 @@ SceneTitle::SceneTitle()
 
 void SceneTitle::update()
 {
-	if (KEY_BOARD.Space)
+	if (KEY_BOARD.Space || GAME_PAD.IsAPressed())
 	{
+		MFAudioPlay(SE_SHOT);
 		changeScene(SCENE_MAIN); 
 	}
 }

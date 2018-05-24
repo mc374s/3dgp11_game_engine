@@ -9,6 +9,7 @@
 
 #include "game_ui.h"
 #include "player.h"
+#include "sound_data.h"
 
 #include "scene_main.h"
 
@@ -21,19 +22,21 @@ SceneMain::SceneMain()
 	m_bg.m_pSprData = &e_sprMainBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 
-	pObjManager->init();
-	pPlayerManager->init();
-	pMapObjManager->init(0);
+	//pObjManager->init();
+	//pPlayerManager->init();
+	//pMapObjManager->init(0);
 
-	pGameUIManager->init();
+	//pGameUIManager->init();
 
 	m_pStr = "";
-
 }
 
 void SceneMain::init()
 {
-
+	MFAudioPlay(BGM_TITLE, true);
+	/*MFAudioStop(BGM_TITLE);
+	MFAudioPause(BGM_TITLE);
+	MFAudioContinue(BGM_TITLE);*/
 	Scene::init();
 }
 
@@ -54,6 +57,14 @@ void SceneMain::update()
 	case STEP::INIT:
 		//init();
 		//pMapObjManager->init(0);
+		pObjManager->init();
+		pPlayerManager->init();
+		pMapObjManager->init(0);
+
+		pGameUIManager->init();
+
+		m_pStr = "";
+
 		m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
@@ -102,7 +113,7 @@ void SceneMain::update()
 		break;
 	}
 
-	if (GetAsyncKeyState(VK_HOME) & 0xF000)
+	if (KEY_BOARD.Home || GAME_PAD.IsBackPressed())
 	{
 		m_step = STEP::INIT;
 		changeScene(SCENE_TITLE);

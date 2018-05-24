@@ -19,6 +19,7 @@
 #include <DirectXMath.h>
 #include "WICTextureLoader.h"
 #include "Keyboard.h"
+#include "GamePad.h"
 
 #include "misc.h"
 #include "high_resolution_timer.h"
@@ -76,6 +77,9 @@ extern std::unique_ptr<DirectX::Keyboard> e_pKeyboard;
 extern DirectX::Keyboard::State KEY_BOARD;
 extern DirectX::Keyboard::KeyboardStateTracker KEY_TRACKER;
 
+extern std::unique_ptr<DirectX::GamePad> e_pGamePad;
+extern DirectX::GamePad::State GAME_PAD;
+extern DirectX::GamePad::ButtonStateTracker PAD_TRACKER;
 
 inline void setCamera(const CameraData &a_cameraData)
 {
