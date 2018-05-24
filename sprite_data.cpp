@@ -43,7 +43,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_PAGE_RIGHT,		"./DATA/Images/page_right.png" },
 	{ TEX_MAP_OBJECT,		"./DATA/Images/map_object.png" },
 	{ TEX_IVY_THICK,		"./DATA/Images/koma2.png" },
-	{ TEX_IVY_THIN,			"./DATA/Images/koma2_surinuke.png" },
+	//{ TEX_IVY_THIN,			"./DATA/Images/koma2_surinuke.png" },
+	{ TEX_IVY_THIN,			"./DATA/Images/koma1.png" },
 
 	{ TEX_GAGE_DIVISION,	"./DATA/Images/gage_division.png" },
 	{ TEX_SMOKE,			"./DATA/Images/particle-smoke2.png" },
@@ -122,7 +123,8 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 147, 0, 101, 122),// ITEM_TREE_A
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 248, 0,  99, 112),// M_TYPE::TREE_B
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 347, 0,  79,  47),// M_TYPE::IVY_BIG
-	SPRITE_LEFTTOP(TEX_IVY_THIN,	    0, 0, 125,  22),// M_TYPE::IVY_THIN
+	SPRITE_LEFTTOP(TEX_IVY_THIN,	  0, 0, 125,  22),// M_TYPE::IVY_THIN
+	//SPRITE_LEFTTOP(TEX_IVY_THIN,	  0, 0, 125,  22),// M_TYPE::IVY_THIN
 	SPRITE_LEFTTOP(TEX_IVY_THICK,    0, 0, 125,  17),// M_TYPE::IVY_THICK
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 715, 0,  51,  76),// M_TYPE::DOOR
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 802, 0,  36,  28),// M_TYPE::KEY
