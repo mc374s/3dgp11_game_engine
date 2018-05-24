@@ -10,7 +10,6 @@ OBJ2D::OBJ2D()
 	clear();
 }
 
-
 void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 {
 	m_pos = a_inputObj.m_pos;
@@ -168,6 +167,7 @@ void OBJ2DEX::draw()
 		m_pSprData->draw(m_pos, &m_custom);
 	}*/
 }
+
 /////////////////////////////////////////////////////////////////
 // Class ObjManager Function
 ObjManager::~ObjManager() 

@@ -11,6 +11,9 @@ std::unique_ptr<DirectX::Keyboard> e_pKeyboard = std::make_unique<Keyboard>();
 DirectX::Keyboard::State KEY_BOARD = Keyboard::State();
 DirectX::Keyboard::KeyboardStateTracker KEY_TRACKER = DirectX::Keyboard::KeyboardStateTracker();
 
+std::unique_ptr<DirectX::GamePad> e_pGamePad = std::make_unique<GamePad>();
+DirectX::GamePad::State GAME_PAD = GamePad::State();
+DirectX::GamePad::ButtonStateTracker PAD_TRACKER = DirectX::GamePad::ButtonStateTracker();
 
 Scene* framework::s_pScene = nullptr;
 
@@ -171,6 +174,7 @@ bool framework::initialize(HWND hwnd)
 	return true;
 }
 
+
 int framework::run()
 {
 	MSG msg = {};
@@ -182,6 +186,10 @@ int framework::run()
 	}*/
 	srand((unsigned int)time(NULL));
 
+	PAD_TRACKER.Reset();
+
+	KEY_TRACKER.Reset();
+
 	DWORD preTime;
 	while (WM_QUIT != msg.message)
 	{
@@ -191,17 +199,23 @@ int framework::run()
 			DispatchMessage(&msg);
 		} else
 		{
-
-			KEY_TRACKER.Reset();
+			
 			KEY_BOARD = e_pKeyboard->GetState();
 			KEY_TRACKER.Update(KEY_BOARD);
+
+			GAME_PAD = e_pGamePad->GetState(0);
+			PAD_TRACKER.Update(GAME_PAD);
 
 			preTime = timeGetTime();
 			m_timer.tick();
 			calculate_frame_stats();
 
-			update(m_timer.time_interval());
-			render(m_timer.time_interval());
+			MFAudioCheckLoops();
+			if (m_isFocused)
+			{
+				update(m_timer.time_interval());
+				render(m_timer.time_interval());
+			}
 
 			//Sleep(1000.0 / 60.0 - GetCurrentTime() + preTime);
 
@@ -230,15 +244,19 @@ LRESULT CALLBACK framework::handle_message(HWND hwnd, UINT msg, WPARAM wparam, L
 	}
 	case WM_ACTIVATEAPP:
 		Keyboard::ProcessMessage(msg, wparam, lparam);
+		e_pGamePad->Resume();
 		break;
 	case WM_KEYDOWN:
-		if (wparam == VK_ESCAPE) PostMessage(hwnd, WM_CLOSE, 0, 0);
+		if (wparam == VK_ESCAPE) {
+			PostMessage(hwnd, WM_CLOSE, 0, 0);
+		}
 	case WM_SYSKEYDOWN:
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		Keyboard::ProcessMessage(msg, wparam, lparam);
 		break;
 	case WM_DESTROY:
+		e_pGamePad->Suspend();
 		PostQuitMessage(0);
 		break;
 	case WM_CREATE:
@@ -251,6 +269,14 @@ LRESULT CALLBACK framework::handle_message(HWND hwnd, UINT msg, WPARAM wparam, L
 		// WM_EXITSIZEMOVE is sent when the user releases the resize bars.
 		// Here we reset everything based on the new window dimensions.
 		m_timer.start();
+		break;
+	case WM_KILLFOCUS:
+		m_isFocused = false;
+		e_pGamePad->Suspend();
+		break;
+	case WM_SETFOCUS:
+		m_isFocused = true;
+		e_pGamePad->Resume();
 		break;
 	default:
 		return DefWindowProc(hwnd, msg, wparam, lparam);

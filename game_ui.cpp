@@ -11,7 +11,6 @@
 GameUI::GameUI()
 {
 	clear();
-	init();
 }
 
 void GameUI::memberCopy(const GameUI& a_inputObj)
@@ -41,6 +40,7 @@ void GameUI::init()
 {
 	m_isInit = true;
 	m_isVisible = true;
+	m_custom.scaleMode = SCALE_MODE::CENTER;
 }
 
 void GameUI::update()
@@ -65,31 +65,30 @@ GameUIManager::GameUIManager()
 
 GameUIManager::~GameUIManager()
 {
-	for (int i = 0; i < UI_OBJ_MAX_NUM; i++)
+	for (auto &pObj : m_ppGameUI)
 	{
-		if (m_ppGameUI[i])
+		if (pObj)
 		{
-			delete m_ppGameUI[i];
-			m_ppGameUI[i] = nullptr;
+			delete pObj;
+			pObj = nullptr;
 		}
 	}
 }
 
 void GameUIManager::init()
 {
-	for (int i = 0; i < UI_OBJ_MAX_NUM; i++)
+	for (auto &pObj : m_ppGameUI)
 	{
-		if (m_ppGameUI[i])
+		if (pObj)
 		{
-			delete m_ppGameUI[i];
-			m_ppGameUI[i] = nullptr;
+			pObj->clear();
+			pObj->init();
 		}
-		if (!m_ppGameUI[i])
+		if (!pObj)
 		{
-			m_ppGameUI[i] = new GameUI();
+			pObj = new GameUI();
+			pObj->init();
 		}
-
-		m_ppGameUI[i]->m_custom.scaleMode = SCALE_MODE::CENTER;
 	}
 	m_ppGameUI[GAGE_FRAME]->m_pSprData = &e_sprGageDivision;
 	m_ppGameUI[GAGE_FRAME]->m_isVisible = false;
@@ -134,6 +133,7 @@ void GameUIManager::init()
 
 void GameUIManager::update()
 {
+
 }
 
 void GameUIManager::draw()

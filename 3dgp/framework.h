@@ -20,6 +20,7 @@ class framework
 {
 private:
 	static Scene* s_pScene;
+	bool m_isFocused = true;
 
 public:
 	static void changeScene(Scene* a_pNextScene) {
