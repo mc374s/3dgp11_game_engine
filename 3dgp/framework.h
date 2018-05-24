@@ -114,8 +114,8 @@ private:
 			float mspf = 1000.0f / fps;
 			std::ostringstream outs;
 			outs.precision(6);
-			outs << "FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)";
-
+			//outs << "FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)";
+			outs << "トランペッタ";
 			/*outs.precision(4);
 			outs<< " #Blending Mode: " << strBlendMode[blendMode] << " #Alpha: " << alpha << " / 255.0f ( " << alpha / 255.0f * 100 << "% )";*/
 			SetWindowTextA(m_hWnd, outs.str().c_str());
