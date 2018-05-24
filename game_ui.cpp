@@ -129,6 +129,7 @@ void GameUIManager::init()
 		m_life_stamp[i].m_pSprData = &e_sprLifeStamp;
 		m_life_stamp[i].m_pos.y = 30;
 	}
+	pPlayerManager->m_pPlayer->
 }
 
 void GameUIManager::update()

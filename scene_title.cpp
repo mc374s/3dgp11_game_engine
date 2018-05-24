@@ -41,21 +41,23 @@ SceneTitle::SceneTitle()
 void SceneTitle::update()
 {
 	switch (m_step) {
-	case 0:
+	case STEP::INIT:
 
 		MFAudioPlay(BGM_TITLE, true);
 		m_step++;
 		//break;
 
-	case 1:
-		if (KEY_BOARD.Space)
-	if (KEY_BOARD.Space || GAME_PAD.IsAPressed())
-	{
-		MFAudioStop(BGM_TITLE);
-		MFAudioPlay(SE_SHOT);
-		changeScene(SCENE_MAIN); 
+	case STEP::BEGIN:
+		if (KEY_BOARD.Space || GAME_PAD.IsAPressed())
+		{
+			MFAudioStop(BGM_TITLE);
+			MFAudioPlay(SE_SHOT);
+			changeScene(SCENE_MAIN); 
+		}
+		break;
+	default:
+		break;
 	}
-}
 }
 
 void SceneTitle::draw()
