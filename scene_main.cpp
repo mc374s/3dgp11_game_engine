@@ -49,6 +49,7 @@ SceneMain::~SceneMain()
 
 void SceneMain::update()
 {	
+
 	switch (m_step)
 	{
 	case STEP::INIT:

@@ -1,5 +1,6 @@
 ﻿#include "game.h"
 #include "sprite_data.h"
+#include "sound_data.h"
 #include "scene_main.h"
 
 #include "scene_title.h"
@@ -12,10 +13,10 @@ void loadTextureProgress()
 {
 	pTextureManager->loadTexture(e_loadTexture);		// 2D画像の一括ロード
 }
-//void loadAudioProgress()
-//{
-//	pMFAudioManager->loadAudios(audio_data);			// 音声データの一括ロード
-//}
+void loadAudioProgress()
+{
+	pMFAudioManager->loadAudios(audio_data);			// 音声データの一括ロード
+}
 
 SceneTitle::SceneTitle()
 {
@@ -25,9 +26,8 @@ SceneTitle::SceneTitle()
 	loadThread_1.detach();
 	/*std::thread loadThread_2(loadAudioProgress);
 	loadThread_2.detach();*/
-	// pMFAudioManager->loadAudios(audio_data);
+	//pMFAudioManager->loadAudios(audio_data);
 
-	m_bg.m_pSprData = &e_sprTitleBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 
 	//pObjManager->init();
@@ -38,9 +38,20 @@ SceneTitle::SceneTitle()
 
 void SceneTitle::update()
 {
-	if (KEY_BOARD.Space)
-	{
-		changeScene(SCENE_MAIN); 
+	switch (m_step) {
+	case 0:
+		m_bg.m_pSprData = &e_sprTitleBG;
+
+		MFAudioPlay(BGM_TITLE, true);
+		m_step++;
+		//break;
+
+	case 1:
+		if (KEY_BOARD.Space)
+		{
+			MFAudioStop(BGM_TITLE);
+			changeScene(SCENE_MAIN);
+		}
 	}
 }
 
