@@ -43,15 +43,15 @@ void SceneTitle::update()
 	switch (m_step) {
 	case STEP::INIT:
 
-		MFAudioPlay(BGM_TITLE, true);
+		//MFAudioPlay(BGM_TITLE, true);
 		m_step++;
 		//break;
 
 	case STEP::BEGIN:
 		if (KEY_BOARD.Space || GAME_PAD.IsAPressed())
 		{
-			MFAudioStop(BGM_TITLE);
-			MFAudioPlay(SE_SHOT);
+			//MFAudioStop(BGM_TITLE);
+			MFAudioPlay(SE_START);
 			changeScene(SCENE_MAIN); 
 		}
 		break;

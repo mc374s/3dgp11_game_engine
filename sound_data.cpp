@@ -18,6 +18,9 @@ RESOURCE_DATA audio_data[] = {
 	{ SE_UFO1,		"./DATA/Sounds/SE/ufo_lowpitch.wav" },
 	{ SE_UFO2,		"./DATA/Sounds/SE/ufo_highpitch.wav" },
 	{ SE_EXPLOSION,	"./DATA/Sounds/SE/explosion.wav" },
+	{ SE_START,	"./DATA/Sounds/SE/start.wav" },
+	{ SE_FALL,	"./DATA/Sounds/SE/fall.mp3" },
+
 	{ -1, nullptr }
 };
 
