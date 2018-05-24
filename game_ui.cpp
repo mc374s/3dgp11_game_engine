@@ -225,6 +225,10 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 		m_ppNumbers[CURRENT_CONCENTRATION]->m_isVisible = false;
 
 		m_ppGameUI[GAGE_LEFT]->m_custom.rgba = m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x6F6060FF;
+		m_ppGameUI[PLAYER_LEFT]->m_custom.rgba = 0xFFFFFFFF;
+		m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0xFFFFFFFF;
+		m_ppNumbers[LEFT_CONCENTRATION]->m_custom.rgba = 0xFFFFFFFF;
+		m_ppNumbers[RIGHT_CONCENTRATION]->m_custom.rgba = 0xFFFFFFFF;
 
 		if (!a_isOnLeftPage)
 		{
@@ -241,7 +245,8 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 			m_ppGameUI[PLAYER_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
 
 			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_playerConcentration);
-			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_transferConcentration);
+			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_transferConcentration); 
+			m_ppNumbers[LEFT_CONCENTRATION]->m_custom.rgba = 0x00FFFFF;
 
 		} else
 		{
@@ -259,6 +264,7 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 
 			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_playerConcentration);
 			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_transferConcentration);
+			m_ppNumbers[RIGHT_CONCENTRATION]->m_custom.rgba = 0x00FFFFFF;
 		}
 		if (!a_isTranscriptAble)
 		{
