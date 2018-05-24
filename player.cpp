@@ -11,12 +11,51 @@ Player::Player()
 {
 	OBJ2DEX::clear();
 	init(); 
-	m_life = 4;
-	m_isOnGround = true;
-	m_isKeyHandled = false;
 	
 }
+
 void Player::init()
+{
+	m_pAnimeData = e_pAnimePlayerYawn;
+	//m_pAnimeData = e_pAnimePlayerJump;
+	m_size = Vector3(60, 45, 4);
+	m_command = 0x0;
+	m_pos = { 20,0,5 };
+	m_initPos = m_pos;
+	m_scrolledDistance = { 0,0,0 };
+	m_liveInPagination = 1;
+
+	m_pSprData = &m_pAnimeData[0];
+	m_step = STEP::INIT;
+	m_mode = P_MODE::NORMAL;
+	m_montionState = P_STATE::STANDBY;
+	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_alpha = 255;
+	m_transferConcentration = 0;
+	m_timer = 0;
+	m_isOnBlurArea = false;
+	m_isMoving = false;
+
+	m_speed = { 0,0,0 };
+	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
+	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
+	m_isOnScrollArea = false;
+
+	m_isOnGround = true;
+	m_isKeyHandled = false;
+	m_keyObj.clear();
+	m_life = P_LIFE_MAX;
+
+	m_isInit = true;
+
+}
+
+Player::~Player()
+{
+	m_pAnimeData = nullptr;
+}
+
+void Player::restart()
 {
 	m_pAnimeData = e_pAnimePlayerYawn;
 	//m_pAnimeData = e_pAnimePlayerJump;
@@ -47,12 +86,6 @@ void Player::init()
 	m_isOnScrollArea = false;
 
 	m_isInit = true;
-
-}
-
-Player::~Player()
-{
-	m_pAnimeData = nullptr;
 }
 
 void Player::normalMove()
@@ -295,9 +328,13 @@ void Player::normalMove()
 			}
 		}
 	}
+
+	pGameUIManager->showPlayerConcentration(m_concentration);
+	pGameUIManager->showPlayerLife(m_life);
+
 }
 
-void Player::initMove()
+void Player::restartMove()
 {
 
 	m_isMoving = false;
@@ -319,12 +356,15 @@ void Player::initMove()
 			if (m_scrolledDistance.y <= 0)
 			{
 				//m_speed.y = 0;
+				//m_isOnScrollArea = false;
 				m_step = STEP::END;
 			}
 		}
 		break;
 	case STEP::END:
-		init();
+		restart();
+		m_speed.y = 0;
+		//m_isOnScrollArea = false;
 		m_life--;
 		m_mode = P_MODE::NORMAL;
 
@@ -363,7 +403,7 @@ void Player::blur()
 			randAdjust.y *= (m_speed.y / fabsf(m_speed.y));
 		}
 		pObjManager->m_hitObj.m_pos = m_pos - randAdjust;
-		pObjManager->m_hitObj.m_initPos = pObjManager->m_hitObj.m_pos;
+		pObjManager->m_hitObj.m_initPos = pObjManager->m_hitObj.m_pos + m_scrolledDistance;
 		pObjManager->m_hitObj.m_custom.angle = rand() % 180;
 		pObjManager->m_hitObj.m_alpha = rand() % 20 + 20;
 		pObjManager->m_newblurAreaList.push_back(pObjManager->m_hitObj);
@@ -375,12 +415,13 @@ void Player::update()
 	switch (m_mode)
 	{
 	case P_MODE::CLEAR:
+		m_timer = 0;
 	case P_MODE::NORMAL:
 		normalMove();
 		animation();
 		break;
 	case P_MODE::RESTART:
-		initMove();
+		restartMove();
 		break;
 	default:
 		break;
@@ -503,11 +544,13 @@ void PlayerManager::manageConcentration()
 
 		if (m_isTranscriptAble)
 		{
-			if ((m_isPlayerOnLeft && KEY_DOWN('A')) || (!m_isPlayerOnLeft && KEY_DOWN('D'))) {
+			if ((m_isPlayerOnLeft && (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED)) 
+				|| (!m_isPlayerOnLeft && (KEY_TRACKER.pressed.D || PAD_TRACKER.leftStickRight == PAD_TRACKER.PRESSED))) {
 				m_pPlayer->m_transferConcentration++;
 				m_pPlayer->m_concentration--;
 			}
-			if ((!m_isPlayerOnLeft && KEY_DOWN('A')) || (m_isPlayerOnLeft && KEY_DOWN('D'))) {
+			if ((!m_isPlayerOnLeft && (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED)) 
+				|| (m_isPlayerOnLeft && (KEY_TRACKER.pressed.D || PAD_TRACKER.leftStickRight == PAD_TRACKER.PRESSED))) {
 				m_pPlayer->m_transferConcentration--;
 				m_pPlayer->m_concentration++;
 			}
@@ -533,7 +576,7 @@ void PlayerManager::manageConcentration()
 		break;
 	}
 
-	pGameUIManager->setInkGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble);
+	pGameUIManager->showInkTransferGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble);
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)
@@ -545,7 +588,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			// 転写元を作成
 			pObjManager->m_transcriptionObj.m_isInit = true;
 			pObjManager->m_transcriptionObj.m_pos = m_pPlayer->m_pos;
-			pObjManager->m_transcriptionObj.m_initPos = pObjManager->m_transcriptionObj.m_pos;
+			pObjManager->m_transcriptionObj.m_initPos = pObjManager->m_transcriptionObj.m_pos + m_pPlayer->m_scrolledDistance;
 			pObjManager->m_transcriptionObj.m_size = m_pPlayer->m_size;
 			pObjManager->m_transcriptionObj.m_pos.z--;
 			pObjManager->m_transcriptionObj.m_custom = m_pPlayer->m_custom;

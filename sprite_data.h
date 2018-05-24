@@ -33,6 +33,8 @@ extern SPRITE_CENTER e_sprGageDivision;
 extern SPRITE_CENTER e_sprLifeStamp;
 extern SPRITE_CENTER e_sprLargePlayer;
 
+extern SPRITE_CENTER e_sprNumbers;
+
 
 // Effect関係
 extern SPRITE_CENTER e_sprHitObj;

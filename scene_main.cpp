@@ -65,7 +65,7 @@ void SceneMain::update()
 		pGameUIManager->init();
 
 		m_pStr = "";
-
+		m_timer = 0;
 		m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
@@ -81,44 +81,44 @@ void SceneMain::update()
 			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode==P_MODE::RESTART);
 		}
 
+		pGameUIManager->update();
+
 		judgeAll();
 
 		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::CLEAR)
 		{
 			m_pStr = "GAME CLEAR";
 			m_timer++;
-			if (m_timer > 120)
+			if (m_timer > 300)
 			{
-				//m_state = STEP::RESTART;
-				//changeScene(SCENE_TITLE);
+				m_step = STEP::INIT;
+				changeScene(SCENE_TITLE);
 			}
 		}
 
 		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::DEAD)
 		{
 
-			m_pStr = "GAME OVER";
-			m_timer++;
-			if (m_timer > 120)
-			{
-				m_step = STEP::END;
-			}
+			m_pStr = "GAME OVER"; 
+			m_timer = 0;
+			m_step = STEP::END;
+
 		}
 
 		break;
 	case STEP::END:
-
-
+		m_timer++;
+		if (KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED || m_timer > 600)
+		{
+			m_timer = 0;
+			m_step = STEP::INIT;
+			changeScene(SCENE_TITLE);
+		}
 		break;
 	default:
 		break;
 	}
 
-	if (KEY_BOARD.Home || GAME_PAD.IsBackPressed())
-	{
-		m_step = STEP::INIT;
-		changeScene(SCENE_TITLE);
-	}
 
 }
 
@@ -132,8 +132,11 @@ void SceneMain::draw()
 
 	pGameUIManager->draw();
 
-	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0x80, STR_CENTER, 80, 80);
-	drawString(0, 0, "Click [HOME] to SCENE_TITLE", COLOR_RED >> 8 << 8 | 0x80, STR_LEFT, 32, 32);
+	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0xD0, STR_CENTER, 80, 80);
+	if (m_step==STEP::END && m_timer & 0x20)
+	{
+		drawString(SCREEN_WIDTH / 2, 400, "Click [x] to TITLE", COLOR_WHITE >> 8 << 8 | 0xA0, STR_CENTER, 40, 40);
+	}
 
 
 }

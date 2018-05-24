@@ -48,7 +48,7 @@ void SceneTitle::update()
 		//break;
 
 	case STEP::BEGIN:
-		if (KEY_BOARD.Space || GAME_PAD.IsAPressed())
+		if (KEY_TRACKER.pressed.Z || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
 		{
 			//MFAudioStop(BGM_TITLE);
 			MFAudioPlay(SE_START);
@@ -66,7 +66,4 @@ void SceneTitle::draw()
 
 	m_bg.draw();
 
-	drawString(SCREEN_WIDTH / 2, 100, "T I T L E", COLOR_YELLOW, STR_CENTER, 80, 80);
-	drawString(0, 0, "Click [SPACE] to SCENE_MAIN", COLOR_RED, STR_LEFT, 32, 32);
-	
 }

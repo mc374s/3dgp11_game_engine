@@ -29,6 +29,8 @@ enum TEX_NO {
 	TEX_LIFE_STAMP,
 	TEX_LARGE_PLAYER,
 
+	TEX_NUMBERS,
+
 };
 
 // 2D画像ロードデータ
@@ -49,6 +51,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_SMOKE,			"./DATA/Images/particle-smoke2.png" },
 	{ TEX_LIFE_STAMP,		"./DATA/Images/stamp.png"},
 	{ TEX_LARGE_PLAYER,		"./DATA/Images/kyara_gezi.png" },
+
+	{ TEX_NUMBERS,			"./DATA/Images/numbers.png" },
 	
 
 	{ -1, NULL },
@@ -138,6 +142,8 @@ SPRITE_CENTER e_sprGage = SPRITE_CENTER(TEX_WHITE, 0, 0, 388, 222);
 SPRITE_CENTER e_sprLifeStamp = SPRITE_CENTER(TEX_LIFE_STAMP, 0, 0, 36, 28);
 
 SPRITE_CENTER e_sprLargePlayer = SPRITE_CENTER(TEX_LARGE_PLAYER, 0, 0, 252, 231);
+
+SPRITE_CENTER e_sprNumbers = SPRITE_CENTER(TEX_NUMBERS, 0, 0, 76, 118);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);

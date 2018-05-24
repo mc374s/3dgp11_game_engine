@@ -1,6 +1,8 @@
 ﻿#ifndef _GAME_UI_H_
 #define _GAME_UI_H_
 
+#include "numbers.h"
+
 #define UI_OBJ_MAX_NUM	(36)
 #define UI_STAMP_MAX_NUM (5)
 
@@ -11,6 +13,19 @@ enum UI_NO
 	GAGE_RIGHT,
 	PLAYER_LEFT,
 	PLAYER_RIGHT,
+	PLAYER_CONCENTRATION,
+
+	STAMP,
+	STAMP_MAX = STAMP + UI_STAMP_MAX_NUM,
+};
+
+enum NUM_NO
+{
+	CURRENT_CONCENTRATION,
+	LEFT_CONCENTRATION,
+	RIGHT_CONCENTRATION,
+
+	NUM_NO_MAX,
 };
 
 
@@ -25,7 +40,9 @@ public:
 	virtual ~GameUI();
 	const GameUI& operator=(const GameUI& a_right);
 
+	bool m_isVisibleAlways;
 	bool m_isVisible;
+
 
 	//void(*m_pfMove)(GameUI*);
 
@@ -38,8 +55,6 @@ public:
 class GameUIManager:public Singleton<GameUIManager>, public Manager
 {
 private:
-	OBJ2D m_life_stamp[UI_STAMP_MAX_NUM];
-	int m_life;
 
 public:
 
@@ -47,12 +62,15 @@ public:
 	~GameUIManager();
 
 	GameUI* m_ppGameUI[UI_OBJ_MAX_NUM] = { nullptr };
+	Numbers* m_ppNumbers[NUM_NO_MAX + 1];
 
 	void init();
 	void update();
 	void draw();
 
-	void setInkGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
+	void showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
+	void showPlayerConcentration(int a_playerConcentration, Vector3 a_pos = Vector3(0, 0, 0));
+	void showPlayerLife(int a_playerLife);
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())

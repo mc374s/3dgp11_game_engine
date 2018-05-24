@@ -58,6 +58,7 @@ void OBJ2D::clear()
 	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
 	m_timer = 0;
 	m_step = 0;
+	m_custom.clear();
 	m_alpha = 255;
 	m_concentration = 0;
 	m_isInit = false;

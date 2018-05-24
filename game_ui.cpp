@@ -3,7 +3,6 @@
 #include "obj2d.h"
 
 #include "game_ui.h"
-#include "player.h"
 
 ////////////////////////////////////////////////////////
 // クラス: GameUI 関数
@@ -17,6 +16,7 @@ void GameUI::memberCopy(const GameUI& a_inputObj)
 {
 	OBJ2D::memberCopy(a_inputObj);
 	m_isVisible = a_inputObj.m_isVisible;
+	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
 
 }
 
@@ -40,6 +40,7 @@ void GameUI::init()
 {
 	m_isInit = true;
 	m_isVisible = true;
+	m_isVisibleAlways = true;
 	m_custom.scaleMode = SCALE_MODE::CENTER;
 }
 
@@ -73,10 +74,21 @@ GameUIManager::~GameUIManager()
 			pObj = nullptr;
 		}
 	}
+
+	for (auto &pObj : m_ppNumbers)
+	{
+		if (pObj)
+		{
+			delete pObj;
+			pObj = nullptr;
+}
+	}
 }
 
 void GameUIManager::init()
 {
+	/////////////////////////////////////////////////////////////////////////////////
+	// Initialize m_ppGameUI
 	for (auto &pObj : m_ppGameUI)
 	{
 		if (pObj)
@@ -123,12 +135,41 @@ void GameUIManager::init()
 	m_ppGameUI[PLAYER_RIGHT]->m_size= { m_ppGameUI[PLAYER_RIGHT]->m_pSprData->width,m_ppGameUI[PLAYER_RIGHT]->m_pSprData->height,0 };
 	m_ppGameUI[PLAYER_LEFT]->m_custom.reflectX = true;
 
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_pSprData = &e_sprLargePlayer;
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_pos = { SCREEN_WIDTH - 100,40,0 };
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_isVisibleAlways = false;
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_custom.scaleMode = SCALE_MODE::CENTER;
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_custom.scaleX = m_ppGameUI[PLAYER_CONCENTRATION]->m_custom.scaleY = 0.2;
 
-	m_life = pPlayerManager->m_pPlayer->getLife();
-	for (int i = 0; i < m_life - 1; i++) {
-		m_life_stamp[i].m_pSprData = &e_sprLifeStamp;
-		m_life_stamp[i].m_pos.y = 30;
+	// UI for life
+	for (int i = STAMP; i < STAMP_MAX; i++) {
+		m_ppGameUI[i]->m_pSprData = &e_sprLifeStamp;
+		m_ppGameUI[i]->m_pos.x = 45 * (i - STAMP) + 30;
+		m_ppGameUI[i]->m_pos.y = 30;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	// Initialize m_ppNumbers
+	for (auto &pObj : m_ppNumbers)
+	{
+		if (pObj)
+		{
+			pObj->clear();
+}
+		if (!pObj)
+		{
+			pObj = new Numbers();
+		}
+	}
+	m_ppNumbers[CURRENT_CONCENTRATION]->m_pos = { SCREEN_WIDTH - 30,80,0 };
+
+	m_ppNumbers[LEFT_CONCENTRATION]->m_isVisibleAlways = false;
+	m_ppNumbers[LEFT_CONCENTRATION]->m_pos = { SCREEN_WIDTH / 2 - 300,360,0 };
+	m_ppNumbers[RIGHT_CONCENTRATION]->m_isVisibleAlways = false;
+	m_ppNumbers[RIGHT_CONCENTRATION]->m_pos = { SCREEN_WIDTH / 2 + 300,360,0 };
+
+
+
 }
 
 void GameUIManager::update()
@@ -151,32 +192,47 @@ void GameUIManager::draw()
 		}
 	}
 
-	//プレイヤーのライフ数取得してはんこUI表示
-	m_life = pPlayerManager->m_pPlayer->getLife();
-	for (int i = 0; i < m_life - 1; i++) {
-		m_life_stamp[i].m_pos.x = 45 * i + 30;
-		m_life_stamp[i].draw();
+	for (auto &pObj : m_ppNumbers)
+	{
+		if (pObj && pObj->m_isVisible)
+		{
+			pObj->draw();
+			if (!pObj->m_isVisibleAlways)
+			{
+				pObj->m_isVisible = false;
+			}
+		}
 	}
+
+
 }
 
-void GameUIManager::setInkGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble)
+void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble)
 {
 	if (m_ppGameUI[GAGE_FRAME])
 	{
 
-		m_ppGameUI[GAGE_FRAME]->m_isVisible = true;
+		m_ppGameUI[GAGE_FRAME]->m_isVisible = false;
 		m_ppGameUI[GAGE_LEFT]->m_isVisible = true;
 		m_ppGameUI[GAGE_RIGHT]->m_isVisible = true;
 		m_ppGameUI[PLAYER_LEFT]->m_isVisible = true;
 		m_ppGameUI[PLAYER_RIGHT]->m_isVisible = true;
 
+		m_ppNumbers[LEFT_CONCENTRATION]->m_isVisible = true;
+		m_ppNumbers[RIGHT_CONCENTRATION]->m_isVisible = true;
+
+		m_ppGameUI[PLAYER_CONCENTRATION]->m_isVisible = false;
+		m_ppNumbers[CURRENT_CONCENTRATION]->m_isVisible = false;
+
+		m_ppGameUI[GAGE_LEFT]->m_custom.rgba = m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x6F6060FF;
+
 		if (!a_isOnLeftPage)
 		{
 			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
-			m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0404B4FF;
+			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0404B4FF;
 			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
 			m_ppGameUI[GAGE_RIGHT]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
-			m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xB18904FF;
+			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xB18904FF;
 			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
 
 			//m_ppGameUI[PLAYER_LEFT]->m_custom.rgba = 0x0404B4FF;
@@ -184,19 +240,25 @@ void GameUIManager::setInkGage(int a_playerConcentration, int a_transferConcentr
 			//m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0xB18904FF;
 			m_ppGameUI[PLAYER_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
 
+			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_playerConcentration);
+			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_transferConcentration);
+
 		} else
 		{
 			m_ppGameUI[GAGE_RIGHT]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
-			m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x0404B4FF;
+			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x0404B4FF;
 			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
 			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
-			m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xB18904FF;
+			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xB18904FF;
 			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
 
 			//m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0x0404B4FF;
 			m_ppGameUI[PLAYER_RIGHT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
 			//m_ppGameUI[PLAYER_LEFT]->m_custom.rgba = 0xB18904FF;
 			m_ppGameUI[PLAYER_LEFT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
+
+			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_playerConcentration);
+			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_transferConcentration);
 		}
 		if (!a_isTranscriptAble)
 		{
@@ -208,5 +270,28 @@ void GameUIManager::setInkGage(int a_playerConcentration, int a_transferConcentr
 			m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0xFF0000FF;
 		}
 
+	}
+}
+
+void GameUIManager::showPlayerConcentration(int a_playerConcentration, Vector3 a_pos)
+{
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_isVisible = true;
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
+	m_ppNumbers[CURRENT_CONCENTRATION]->m_isVisible = true;
+	m_ppNumbers[CURRENT_CONCENTRATION]->setValue(a_playerConcentration, Vector3(0.35, 0.35, 0));
+}
+
+void GameUIManager::showPlayerLife(int a_playerLife)
+{
+	--a_playerLife;
+	for (int i = STAMP; i < STAMP_MAX; i++) {
+		if (i - STAMP < a_playerLife)
+		{
+			m_ppGameUI[i]->m_isVisible = true;
+		}
+		else
+		{
+			m_ppGameUI[i]->m_isVisible = false;
+		}
 	}
 }

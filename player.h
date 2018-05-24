@@ -65,9 +65,12 @@ public:
 
 	Player();
 	~Player();
+
 	void init();
 	void update();
 	void draw();
+
+	void restart();
 
 	int getLife();
 	void addLife(int a_life);
@@ -75,7 +78,7 @@ public:
 	void blur();
 
 	void normalMove();
-	void initMove();
+	void restartMove();
 
 };
 
