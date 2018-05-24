@@ -190,7 +190,7 @@ struct SPRITE_DATA
 	float	width, height;
 	float	ofsX, ofsY;
 	int	frameNum;
-	SPRITE_DATA(int _texNum, float _left, float _top, float _width, float _height, float _ofsX = 0, float _ofsY = 0,int _frameNum = 1){
+	SPRITE_DATA(int _texNum = -1, float _left = 0, float _top = 0, float _width = 0, float _height = 0, float _ofsX = 0, float _ofsY = 0, int _frameNum = 1) {
 		texNum = _texNum;
 		left = _left;
 		top = _top;

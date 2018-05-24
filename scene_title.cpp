@@ -44,11 +44,11 @@ void SceneTitle::update()
 	case STEP::INIT:
 
 		MFAudioPlay(BGM_TITLE, true);
-		m_step++;
+		m_step = STEP::BEGIN;
 		//break;
 
 	case STEP::BEGIN:
-		if (KEY_BOARD.Space || GAME_PAD.IsAPressed())
+		if (KEY_TRACKER.pressed.Space || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
 		{
 			MFAudioStop(BGM_TITLE);
 			MFAudioPlay(SE_SHOT);
@@ -65,8 +65,5 @@ void SceneTitle::draw()
 	View::clear();
 
 	m_bg.draw();
-
-	drawString(SCREEN_WIDTH / 2, 100, "T I T L E", COLOR_YELLOW, STR_CENTER, 80, 80);
-	drawString(0, 0, "Click [SPACE] to SCENE_MAIN", COLOR_RED, STR_LEFT, 32, 32);
 	
 }

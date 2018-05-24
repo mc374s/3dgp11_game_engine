@@ -91,10 +91,18 @@ void Book::update()
 	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
 	// 原因はKEY_BOARDがexternで更新していることと予測
 	if (/*KEY_DOWN('C')*/ KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED/*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
-		if (m_pfMove == &Book::closeBook){
+		/*if (m_pfMove == &Book::closeBook){
 			m_pfMove = &Book::openBook;
 		} else {
 			m_pfMove = &Book::closeBook;
+		}*/
+		if (m_isOpened)
+		{
+			m_pfMove = &Book::closeBook;
+		}
+		if (m_isClosed)
+		{
+			m_pfMove = &Book::openBook;
 		}
 		g_keyCounter++;
 	}
@@ -175,11 +183,6 @@ void Book::draw()
 
 #ifdef DEBUG
 
-
-
-#endif // DEBUG
-
-
 	char buf[256];
 	sprintf_s(buf, "Key Counter: %d", g_keyCounter);
 	drawString(0, 300, buf);
@@ -187,6 +190,9 @@ void Book::draw()
 	{
 		g_keyCounter = 0;
 	}
+
+#endif // DEBUG
+
 
 
 }

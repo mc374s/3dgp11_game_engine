@@ -144,6 +144,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="judge.h" />
     <ClInclude Include="map_obj.h" />
+    <ClInclude Include="numbers.h" />
     <ClInclude Include="page.h" />
     <ClInclude Include="obj2d.h" />
     <ClInclude Include="player.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="book.cpp" />
     <ClCompile Include="judge.cpp" />
     <ClCompile Include="map_obj.cpp" />
+    <ClCompile Include="numbers.cpp" />
     <ClCompile Include="page.cpp" />
     <ClCompile Include="obj2d.cpp" />
     <ClCompile Include="player.cpp" />
