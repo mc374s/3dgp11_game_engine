@@ -437,7 +437,7 @@ void Player::draw()
 #endif // DEBUG
 
 	OBJ2DEX::draw();
-	if (m_isKeyHandled)
+	if (m_isKeyHandled && m_keyObj.m_pSprData)
 	{
 		m_keyObj.m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj.m_pSprData->width + m_size.x / 2, 2 * m_size.y, 0);
 		m_keyObj.draw();

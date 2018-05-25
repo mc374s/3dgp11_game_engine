@@ -81,14 +81,16 @@ void judgeAll()
 				pPlayer->m_isKeyHandled = true;
 				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
 				ppMapObj[i]->m_isHitAble = false;
-				ppMapObj[i]->m_alpha = 0;
+				ppMapObj[i]->m_concentration = LOW_CONCENTRATION;
 			}
 			if (ppMapObj[i]->m_type == M_TYPE::DOOR && pPlayer->m_isKeyHandled)
 			{
-				//pPlayer->m_isKeyHandled = false;
-				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
+				pPlayer->m_isKeyHandled = false;
+				//pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
+				pPlayer->m_keyObj.m_pSprData = nullptr;
 				pPlayer->m_mode = P_MODE::CLEAR;
-				//ppMapObj[i]->clear();
+				ppMapObj[i]->m_isHitAble = false;
+				ppMapObj[i]->m_concentration = P_CONCENTRATION_MAX_NUM;
 			}
 		}
 		if (isBookClosed && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_liveInPagination != ppMapObj[i]->m_liveInPagination

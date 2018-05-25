@@ -73,7 +73,7 @@ void MapObj::init()
 	case M_TYPE::HIGH_CONCENTRATION:
 		m_repeatDrawSize = m_size;
 		m_custom.rgba = 0x000000FF;
-		m_alpha = 255 * m_concentration / 10;
+		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 		break;
 	default:
 		break;
@@ -184,6 +184,8 @@ void MapObj::draw()
 
 #endif // DEBUG
 
+
+	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 
 	// 繰り返し描画のため、一旦SPRITE_BOTTOMの初期データを保存
 	int sprWidth = m_pSprData->width;
