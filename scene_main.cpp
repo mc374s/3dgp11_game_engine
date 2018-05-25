@@ -1,15 +1,14 @@
 ﻿#include "game.h"
 #include "sprite_data.h"
+#include "sound_data.h"
+#include "obj2d.h"
 #include "book.h"
 
-#include "scene_title.h"
-
 #include "map_obj.h"
-#include "judge.h"
-
-#include "game_ui.h"
 #include "player.h"
-#include "sound_data.h"
+#include "judge.h"
+#include "game_ui.h"
+#include "scene_title.h"
 
 #include "scene_main.h"
 
@@ -19,7 +18,8 @@ SceneMain::SceneMain()
 
 	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 40, 8);
 
-	m_bg.m_pSprData = &e_sprMainBG;
+	m_pBG = new OBJ2D;
+	m_pBG->m_pSprData = &e_sprMainBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 
 	//pObjManager->init();
@@ -48,6 +48,7 @@ SceneMain::~SceneMain()
 		m_pNextScene = nullptr;
 	}
 	SAFE_DELETE(m_pBook);
+	SAFE_DELETE(m_pBG);
 };
 
 void SceneMain::update()
@@ -126,7 +127,7 @@ void SceneMain::draw()
 {
 	View::clear();
 
-	m_bg.draw();
+	m_pBG->draw();
 
 	m_pBook->draw();
 

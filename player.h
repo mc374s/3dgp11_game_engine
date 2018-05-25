@@ -59,7 +59,7 @@ public:
 	bool m_isOnScrollArea;
 
 	bool m_isKeyHandled;
-	OBJ2D m_keyObj;
+	OBJ2D* m_keyObj;
 
 	Vector3 m_scrolledDistance;
 

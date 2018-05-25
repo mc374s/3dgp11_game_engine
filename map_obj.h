@@ -78,8 +78,8 @@ struct STAGE_DATA {
 	/**
 	a_liveInPagination:		このObjはどのページに所属するのか
 	a_appearTime:			出現のフレーム数
-	a_mapObjType:			Objの種類(MAPOBJ_***)
-	a_drawDirection:		描画の方向(DRAW_***)
+	a_mapObjType:			Objの種類(M_TYPE::***)
+	a_drawDirection:		描画の方向(M_DRAW::***)
 	a_pos:					ページ内での描画の位置(Objの左上が基準点)
 	a_isHitAble:			判定があるかどうか
 	a_size:					判定サイズ(描画方向と無関係)

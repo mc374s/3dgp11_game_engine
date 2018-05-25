@@ -3,7 +3,7 @@
 
 #include "stage_data.h"
 
-int STAGE_HEIGHT = (1150 - 76) - (PH + 100);
+int STAGE_HEIGHT = (1150 - 76) - (PH - 100);
 
 STAGE_DATA stage00_setData[] = {
 

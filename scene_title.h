@@ -1,22 +1,17 @@
 ﻿#ifndef _SCENE_TITLE_H_
 #define _SCENE_TITLE_H_
 
-#include "obj2d.h"
+class OBJ2D;
 
 // SceneTitleクラスの定義
 class SceneTitle :public Scene, public Singleton<SceneTitle>
 {
 private:
-	OBJ2D m_bg;
+	OBJ2D* m_pBG;
 public:
 	SceneTitle();
-	~SceneTitle() {
-		if (m_pNextScene)
-		{
-			//delete nextScene;
-			m_pNextScene = nullptr;
-		}
-	};
+	~SceneTitle();
+
 	void update();
 	void draw();
 

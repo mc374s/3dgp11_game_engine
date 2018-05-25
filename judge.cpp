@@ -79,7 +79,7 @@ void judgeAll()
 			if (ppMapObj[i]->m_type == M_TYPE::KEY)
 			{
 				pPlayer->m_isKeyHandled = true;
-				pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
+				pPlayer->m_keyObj->m_pSprData = ppMapObj[i]->m_pSprData;
 				ppMapObj[i]->m_isHitAble = false;
 				ppMapObj[i]->m_concentration = LOW_CONCENTRATION;
 			}
@@ -87,7 +87,7 @@ void judgeAll()
 			{
 				pPlayer->m_isKeyHandled = false;
 				//pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
-				pPlayer->m_keyObj.m_pSprData = nullptr;
+				pPlayer->m_keyObj->m_pSprData = nullptr;
 				pPlayer->m_mode = P_MODE::CLEAR;
 				ppMapObj[i]->m_isHitAble = false;
 				ppMapObj[i]->m_concentration = P_CONCENTRATION_MAX_NUM;

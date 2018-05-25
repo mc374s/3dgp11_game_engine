@@ -3,6 +3,7 @@
 
 #define PAGINATION_MAX (2)
 
+
 class Page;
 
 class Book
@@ -54,6 +55,7 @@ public:
 
 	void closeBook();
 	void openBook();
+
 };
 
 #endif // !_BOOK_H_

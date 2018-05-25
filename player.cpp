@@ -1,6 +1,5 @@
 ﻿#include "game.h"
 #include "sprite_data.h"
-#include "obj2d.h"
 #include "game_ui.h"
 
 //#include <list>
@@ -11,7 +10,6 @@ Player::Player()
 {
 	OBJ2DEX::clear();
 	init(); 
-	
 }
 
 void Player::init()
@@ -43,7 +41,15 @@ void Player::init()
 
 	m_isOnGround = true;
 	m_isKeyHandled = false;
-	m_keyObj.clear();
+	if (m_keyObj)
+	{
+		m_keyObj->clear();
+	}
+	else
+	{
+
+		m_keyObj = new OBJ2D;
+	}
 	m_life = P_LIFE_MAX;
 
 	m_isInit = true;
@@ -53,6 +59,7 @@ void Player::init()
 Player::~Player()
 {
 	m_pAnimeData = nullptr;
+	SAFE_DELETE(m_keyObj);
 }
 
 void Player::restart()
@@ -78,7 +85,7 @@ void Player::restart()
 	m_isMoving = false;
 	if (!m_isKeyHandled)
 	{
-		m_keyObj.clear();
+		m_keyObj->clear();
 	}
 	m_speed = { 0,0,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
@@ -104,10 +111,6 @@ void Player::normalMove()
 		m_speedAcc.y = P_JUMP_POWER;
 		m_speedMax.x = P_SPEED_X_MAX;
 		m_speedMax.y = P_SPEED_Y_MAX;
-	}
-	if (m_life <= 0)
-	{
-		m_mode = P_MODE::DEAD;
 	}
 	// 濃度計算：動いてるときに減っていく
 	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON || fabsf(m_speed.y - 0.0f) > FLT_EPSILON)
@@ -300,6 +303,10 @@ void Player::normalMove()
 		blur();
 	}
 
+	if (m_life <= 0)
+	{
+		m_mode = P_MODE::DEAD;
+	}
 	// 待機アニメショーン
 	if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && m_isOnGround)
 	{
@@ -442,10 +449,10 @@ void Player::draw()
 #endif // DEBUG
 
 	OBJ2DEX::draw();
-	if (m_isKeyHandled && m_keyObj.m_pSprData)
+	if (m_isKeyHandled && m_keyObj->m_pSprData)
 	{
-		m_keyObj.m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj.m_pSprData->width + m_size.x / 2, 2 * m_size.y, 0);
-		m_keyObj.draw();
+		m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, 2 * m_size.y, 0);
+		m_keyObj->draw();
 	}
 
 #ifdef DEBUG

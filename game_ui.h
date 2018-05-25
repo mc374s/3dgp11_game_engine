@@ -1,7 +1,7 @@
 ﻿#ifndef _GAME_UI_H_
 #define _GAME_UI_H_
 
-#include "numbers.h"
+#include "obj2d.h"
 
 #define UI_OBJ_MAX_NUM	(36)
 #define UI_STAMP_MAX_NUM (5)
@@ -28,6 +28,7 @@ enum NUM_NO
 	NUM_NO_MAX,
 };
 
+class Numbers;
 
 class GameUI:public OBJ2DEX
 {

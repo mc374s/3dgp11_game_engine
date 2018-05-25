@@ -1,8 +1,6 @@
 ﻿#ifndef _SCENE_MAIN_H_
 #define _SCENE_MAIN_H_
 
-#include "obj2d.h"
-
 #define CHILDREN_SCENE_MAX (2)
 enum CHILDREN_NO
 {
@@ -10,12 +8,13 @@ enum CHILDREN_NO
 	CHILD_RIGHT,
 };
 
+class OBJ2D;
 class Book;
 
 class SceneMain :public Scene, public Singleton<SceneMain>
 {
 private:
-	OBJ2D m_bg;
+	OBJ2D* m_pBG;
 	Book *m_pBook;
 	char *m_pStr;
 
