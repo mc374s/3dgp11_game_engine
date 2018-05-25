@@ -3,6 +3,8 @@
 
 #include "stage_data.h"
 
+int STAGE_HEIGHT = (1150 - 76) - (PH + 100);
+
 STAGE_DATA stage00_setData[] = {
 
 	//STAGE_DATA(1, 0, M_TYPE::IVY_THICK, M_DRAW::UP, v3(0,0,0),true, v3(PW,22,0), 10),

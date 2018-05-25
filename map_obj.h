@@ -5,7 +5,8 @@
 
 #define LOW_CONCENTRATION (4)
 
-#define MAPOBJ_MAX_NUM (64)
+#define MAPOBJ_MAX_NUM	(64)
+
 // MapObj Type
 enum M_TYPE
 {

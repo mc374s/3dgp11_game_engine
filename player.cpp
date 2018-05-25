@@ -239,7 +239,7 @@ void Player::normalMove()
 		m_isOnScrollArea = true;
 		m_type = 1;//debug
 	}
-	if (m_pos.y > P_SCROLL_Y_BOTTOM && m_pos.y - m_size.y < P_SCROLL_Y_BOTTOM && m_speed.y > 0)
+	if (m_pos.y > P_SCROLL_Y_BOTTOM && m_pos.y - m_size.y < P_SCROLL_Y_BOTTOM && m_speed.y > 0 && m_scrolledDistance.y < STAGE_HEIGHT)
 	{
 		m_pos.y = P_SCROLL_Y_BOTTOM;
 		m_isOnScrollArea = true;
@@ -252,6 +252,11 @@ void Player::normalMove()
 		if (m_scrolledDistance.y < 0)
 		{
 			m_scrolledDistance.y = 0;
+			m_speed.y = 0;
+		}
+		if (m_scrolledDistance.y > STAGE_HEIGHT)
+		{
+			m_scrolledDistance.y = STAGE_HEIGHT;
 			m_speed.y = 0;
 		}
 	}

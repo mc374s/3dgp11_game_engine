@@ -9,7 +9,7 @@
 #include "./3dgp/template.h"
 #include "./3dgp/scene.h"
 
-//#define DEBUG
+#define DEBUG
 
 
 #define PAGE_WIDTH	(620)
@@ -22,6 +22,8 @@
 
 
 #define P_CONCENTRATION_MAX_NUM			(10)
+
+extern int STAGE_HEIGHT;
 
 // TODO : Systemly Learn how Header.h and Source.cpp work
 
