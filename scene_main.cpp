@@ -56,7 +56,7 @@ void SceneMain::update()
 {	
 	if (KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED)
 	{
-		m_isPaused = !m_isPaused;
+		m_isPaused = true;
 	}
 
 	if (m_isPaused)
