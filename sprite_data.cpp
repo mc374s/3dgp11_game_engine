@@ -43,14 +43,14 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_PAGE_LEFT,		"./DATA/Images/page_left.png" },
 	{ TEX_PAGE_RIGHT,		"./DATA/Images/page_right.png" },
-	{ TEX_MAP_OBJECT,		"./DATA/Images/map_object.png" },
-	{ TEX_IVY_THICK,		"./DATA/Images/koma2.png" },
-	{ TEX_IVY_THIN,			"./DATA/Images/koma1.png" },
+	{ TEX_MAP_OBJECT,		"./DATA/Images/map_object_full.png" },
+	{ TEX_IVY_THICK,		"./DATA/Images/border_thick.png" },
+	{ TEX_IVY_THIN,			"./DATA/Images/border_thin.png" },
 
 	{ TEX_GAGE_DIVISION,	"./DATA/Images/gage_division.png" },
 	{ TEX_SMOKE,			"./DATA/Images/particle-smoke2.png" },
 	{ TEX_LIFE_STAMP,		"./DATA/Images/stamp.png"},
-	{ TEX_LARGE_PLAYER,		"./DATA/Images/kyara_gezi.png" },
+	{ TEX_LARGE_PLAYER,		"./DATA/Images/large_player.png" },
 
 	{ TEX_NUMBERS,			"./DATA/Images/numbers.png" },
 	
