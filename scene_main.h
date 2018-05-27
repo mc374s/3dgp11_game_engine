@@ -18,9 +18,10 @@ private:
 	Book *m_pBook;
 	char *m_pStr;
 
-
 	bool m_isPlayerOnLeftPage = true;
 
+	bool m_isPaused = false;
+	int m_pausedOption;
 	
 public:
 	SceneMain();

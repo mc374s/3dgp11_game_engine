@@ -35,6 +35,9 @@ extern SPRITE_CENTER e_sprLargePlayer;
 
 extern SPRITE_CENTER e_sprNumbers;
 
+extern SPRITE_CENTER e_sprPausePanel;
+extern SPRITE_CENTER e_sprPauseSelected;
+
 
 // Effect関係
 extern SPRITE_CENTER e_sprHitObj;

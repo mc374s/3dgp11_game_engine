@@ -28,8 +28,8 @@ public:
 	Cube *m_pCoverLeft;
 	Cube *m_pCoverRight;
 
-	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
-	float m_cameraDistance = 0.66f;
+	float m_cameraAngleXY, m_cameraAngleZY;
+	float m_cameraDistance;
 
 	Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth);
 	~Book();

@@ -22,13 +22,7 @@ m_coverDepth(a_coverDepth)
 	m_pCoverLeft = new Cube(XMFLOAT3(-coverWidth / 2, 0, a_bookDepth + a_coverDepth / 2), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
 	m_pCoverRight = new Cube(XMFLOAT3(coverWidth / 2, 0, a_bookDepth + a_coverDepth / 2), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
 
-	m_step = STEP::INIT;
-	m_timer = 0;
-	m_pfMove = nullptr;
-	m_pfMoveOld = nullptr;
-	m_isClosed = false;
-	m_isOpened = true;
-	m_openAngle = 0;
+	init();
 
 	// Page 0 is reserved
 	for (int i = 0, pagination = 1; i < PAGINATION_MAX; ++i, ++pagination)
@@ -56,7 +50,17 @@ Book::~Book()
 
 void Book::init()
 {
-
+	m_step = STEP::INIT;
+	m_timer = 0;
+	m_pfMove = nullptr;
+	m_pfMoveOld = nullptr;
+	m_isClosed = false;
+	m_isOpened = true;
+	m_openAngle = 0;
+	m_cameraAngleXY = 0.0f;
+	m_cameraAngleZY = 0.0f;
+	m_cameraDistance = CAMERA_BEST_DISTANCE;
+	m_position = { .0f,.0f,.0f };
 }
 
 int g_keyCounter = 0;

@@ -38,6 +38,7 @@ void SceneMain::init()
 	MFAudioPause(BGM_TITLE);
 	MFAudioContinue(BGM_TITLE);*/
 	Scene::init();
+	m_pausedOption = PAUSED_SELECTION::TO_GAME;
 }
 
 SceneMain::~SceneMain()
@@ -53,12 +54,46 @@ SceneMain::~SceneMain()
 
 void SceneMain::update()
 {	
+	if (KEY_TRACKER.pressed.Space)
+	{
+		m_isPaused = !m_isPaused;
+	}
+
+	if (m_isPaused)
+	{
+		pGameUIManager->showPausePanel(m_pausedOption);
+		if (KEY_TRACKER.pressed.S)
+		{
+			m_pausedOption++;
+		}
+		if (KEY_TRACKER.pressed.W)
+		{
+			m_pausedOption--;
+		}
+		m_pausedOption = abs(m_pausedOption) % (int)PAUSED_SELECTION::PAUSED_SELECTION_MAX_NUM;
+		if (KEY_TRACKER.released.Z)
+		{
+			if (m_pausedOption == PAUSED_SELECTION::TO_GAME)
+			{
+				m_isPaused = false;
+			}
+			if (m_pausedOption == PAUSED_SELECTION::TO_TITLE)
+			{
+				m_isPaused = false;
+				m_step = STEP::INIT;
+				changeScene(SCENE_TITLE);
+			}
+		}
+
+		return;
+	}
 
 	switch (m_step)
 	{
 	case STEP::INIT:
 		//init();
 		//pMapObjManager->init(0);
+		m_pBook->init();
 		pObjManager->init();
 		pPlayerManager->init();
 		pMapObjManager->init(0);
@@ -68,6 +103,7 @@ void SceneMain::update()
 		m_pStr = "";
 		m_timer = 0;
 		m_step = STEP::BEGIN;
+		m_pausedOption = PAUSED_SELECTION::TO_GAME;
 		//break;
 	case STEP::BEGIN:
 
