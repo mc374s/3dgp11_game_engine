@@ -93,27 +93,33 @@ void Book::update()
 		}
 	}
 
-	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
-	// 原因はKEY_BOARDがexternで更新していることと予測
+	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突。解決：winAPPスタート時に一回KEY_TRACKER.Reset()
 	if (/*KEY_DOWN('C')*/ KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED/*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
-		/*if (m_pfMove == &Book::closeBook){
-			m_pfMove = &Book::openBook;
-		} else {
-			m_pfMove = &Book::closeBook;
-		}*/
 		if (m_isOpened)
 		{
 			m_pfMove = &Book::closeBook;
 		}
+		/*if (m_isClosed)
+		{
+			m_pfMove = &Book::openBook;
+		}*/
+		g_keyCounter++;
+	}
+	if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED) {
 		if (m_isClosed)
 		{
 			m_pfMove = &Book::openBook;
 		}
-		g_keyCounter++;
 	}
+
+
 	if (m_pfMove)
 	{
 		(this->*m_pfMove)();
+		if (m_pfMove == &Book::closeBook && m_step == STEP::FINISH)
+		{
+			m_pfMove = &Book::openBook;
+		}
 	}
 
 	// 左右BookのYaw回転と位置を同調
@@ -221,13 +227,14 @@ void Book::closeBook()
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
-		m_openSpeedAcc += 0.005;
+		m_openSpeedAcc += 0.01;
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed;
 		m_cameraAngleZY -= m_openSpeed*0.01f;
 		m_position.z += m_openSpeed * 5.0f;
 		m_position.y += m_openSpeed * 3.0f;
 		if (m_openAngle <= -90) {
+			m_timer = 0;
 			m_isClosed = true;
 			m_openAngle = -90;
 			m_cameraAngleZY = -0.90f;
@@ -237,12 +244,17 @@ void Book::closeBook()
 		}
 		break;
 	case STEP::END:
+		m_timer++;
+		if (m_timer > 120)
+		{
+			m_timer = 0;
+			m_step = STEP::FINISH;
+		}
 		/*m_openAngle = -90;
 		m_cameraAngleZY = -0.90f;
 		m_position.z = 450;
 		m_position.y = 270;*/
 		//MFAudioPlay(SE_SHOT);
-		m_step = STEP::FINISH;
 		break;
 	case STEP::FINISH:
 		break;
@@ -273,10 +285,10 @@ void Book::openBook()
 		break;
 	case STEP::BEGIN:
 		m_isClosed = false;
-		m_openAngle += 3;
-		m_cameraAngleZY += 0.03f;
-		m_position.z -= 15;
-		m_position.y -= 9;
+		m_openAngle += 5;
+		m_cameraAngleZY += 0.05f;
+		m_position.z -= 25;
+		m_position.y -= 15;
 		if (m_openAngle > 0) {
 			m_isOpened = true;
 			m_openAngle = 0;

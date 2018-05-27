@@ -99,7 +99,7 @@ void judgeAll()
 			// 
 			//if ((pPlayer->m_concentration < ppMapObj[i]->m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && ppMapObj[i]->m_concentration > LOW_CONCENTRATION)
 			// プレイヤーの濃度より高いObjは転写できない
-			if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
+			if (pPlayer->m_concentration < ppMapObj[i]->m_concentration && (ppMapObj[i]->m_type != M_TYPE::KEY || ppMapObj[i]->m_type == M_TYPE::DOOR))
 			{
 				pPlayerManager->m_isTranscriptAble = false;
 				if (ppMapObj[i]->m_type == M_TYPE::HIGH_CONCENTRATION)
