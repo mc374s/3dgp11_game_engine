@@ -241,6 +241,7 @@ void Book::closeBook()
 			m_position.z = 450;
 			m_position.y = 270;
 			m_step = STEP::END;
+			MFAudioPlay(SE_CLOSE);
 		}
 		break;
 	case STEP::END:
@@ -254,7 +255,6 @@ void Book::closeBook()
 		m_cameraAngleZY = -0.90f;
 		m_position.z = 450;
 		m_position.y = 270;*/
-		//MFAudioPlay(SE_SHOT);
 		break;
 	case STEP::FINISH:
 		break;
@@ -282,6 +282,7 @@ void Book::openBook()
 		m_isClosed = false;
 		m_isOpened = false;
 		m_step = STEP::BEGIN;
+		MFAudioPlay(SE_OPEN);
 		break;
 	case STEP::BEGIN:
 		m_isClosed = false;

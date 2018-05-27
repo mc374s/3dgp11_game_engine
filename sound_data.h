@@ -12,7 +12,10 @@ enum AUDIO_NO
 	SE_UFO2,
 	SE_EXPLOSION,
 	SE_START,
-	SE_FALL
+	SE_FALL,
+	SE_OPEN,
+	SE_CLOSE,
+	SE_TURN,
 };
 
 extern RESOURCE_DATA audio_data[];
