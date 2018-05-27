@@ -112,29 +112,32 @@ void judgeAll()
 	}
 
 	// 転写元判定
-	for (auto &it : pObjManager->m_transcriptionList) {
+	if (isBookOpened)
+	{
+		for (auto &it : pObjManager->m_transcriptionList) {
 
-		if (pPlayer->m_liveInPagination == it.m_liveInPagination && checkObjOpened(pPlayer, &(it)) && it.m_concentration > 1)
-		{
-			// TODO : 関数化
-
-			if (pPlayer->m_concentration < P_CONCENTRATION_MAX_NUM)
+			if (pPlayer->m_liveInPagination == it.m_liveInPagination && checkObjOpened(pPlayer, &(it)) && it.m_concentration > 1)
 			{
-				if (it.m_concentration - 1 + pPlayer->m_concentration > P_CONCENTRATION_MAX_NUM)
-				{
-					it.m_concentration -= P_CONCENTRATION_MAX_NUM - pPlayer->m_concentration;
-					pPlayer->m_concentration = P_CONCENTRATION_MAX_NUM;
-				}
-				else
-				{
-					pPlayer->m_concentration += it.m_concentration - 1;
-					it.m_concentration = 1;
-				}
+				// TODO : 関数化
 
-				pPlayer->m_alpha = 255 * pPlayer->m_concentration / P_CONCENTRATION_MAX_NUM;
-				it.m_alpha = 255 * it.m_concentration / P_CONCENTRATION_MAX_NUM;
+				if (pPlayer->m_concentration < P_CONCENTRATION_MAX_NUM)
+				{
+					if (it.m_concentration - 1 + pPlayer->m_concentration > P_CONCENTRATION_MAX_NUM)
+					{
+						it.m_concentration -= P_CONCENTRATION_MAX_NUM - pPlayer->m_concentration;
+						pPlayer->m_concentration = P_CONCENTRATION_MAX_NUM;
+					}
+					else
+					{
+						pPlayer->m_concentration += it.m_concentration - 1;
+						it.m_concentration = 1;
+					}
+
+					pPlayer->m_alpha = 255 * pPlayer->m_concentration / P_CONCENTRATION_MAX_NUM;
+					it.m_alpha = 255 * it.m_concentration / P_CONCENTRATION_MAX_NUM;
+				}
+				break;
 			}
-			break;
 		}
 	}
 
