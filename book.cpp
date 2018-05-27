@@ -16,11 +16,27 @@ m_coverDepth(a_coverDepth)
 {
 
 	float coverWidth = a_width + a_marginLeft + a_marginRight;
-	float coverHeight = a_height + a_marginTop + a_marginBottom;
-	m_pBookLeft = new Cube(XMFLOAT3(-a_width / 2, 0, a_bookDepth / 2), XMFLOAT3(a_width, a_height, a_bookDepth), 0xF0FFFFFF);
-	m_pBookRight = new Cube(XMFLOAT3(a_width / 2, 0, a_bookDepth / 2), XMFLOAT3(a_width, a_height, a_bookDepth), 0xF0FFFFFF);
-	m_pCoverLeft = new Cube(XMFLOAT3(-coverWidth / 2, 0, a_bookDepth + a_coverDepth / 2), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
-	m_pCoverRight = new Cube(XMFLOAT3(coverWidth / 2, 0, a_bookDepth + a_coverDepth / 2), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
+	float coverHeight = a_height + a_marginTop + a_marginBottom;/*
+	m_pBookLeft = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(a_width, a_height, a_bookDepth), 0xF0FFFFFF);
+	m_pBookLeft->m_custom3d.position = XMFLOAT3(-a_width / 2, 0, a_bookDepth / 2);
+
+	m_pBookRight = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(a_width, a_height, a_bookDepth), 0xF0FFFFFF);
+	m_pBookRight->m_custom3d.position = XMFLOAT3(a_width / 2, 0, a_bookDepth / 2);*/
+
+	m_pCoverLeft = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
+	m_pCoverLeft->m_custom3d.position = XMFLOAT3(coverWidth / 2, 0, a_coverDepth / 2);
+
+	m_pCoverRight = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(coverWidth, coverHeight, a_coverDepth), 0xFF6100FF);
+	m_pCoverRight->m_custom3d.position = XMFLOAT3(coverWidth / 2, 0, a_bookDepth + a_coverDepth);
+
+	float paperWidth = a_width, paperHeight = a_height, paperDepth = a_bookDepth / (float)PAPER_MAX_NUM;
+	UINTCOLOR color = 0xFFFFFFFF;
+	for (size_t i = 0; i < PAPER_MAX_NUM; i++)
+	{
+		m_pPapers[i] = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(paperWidth, paperHeight, paperDepth), 0xF0F0FFFF);
+		//m_pPapers[i]->m_custom3d.position=XMFLOAT3()
+	}
+
 
 	m_step = STEP::INIT;
 	m_timer = 0;
@@ -112,20 +128,20 @@ void Book::update()
 	}
 
 	// 左右BookのYaw回転と位置を同調
-	m_pBookLeft->m_custom3d.angleYawPitchRoll.x = m_openAngle;
+	//m_pBookLeft->m_custom3d.angleYawPitchRoll.x = m_openAngle;
 	m_pCoverLeft->m_custom3d.angleYawPitchRoll.x = m_openAngle;
 
-	m_pBookRight->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
+	//m_pBookRight->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
 	m_pCoverRight->m_custom3d.angleYawPitchRoll.x = -m_openAngle;
 
-	m_pBookLeft->m_custom3d.position = m_position;
-	m_pCoverLeft->m_custom3d.position = m_position;
+	//m_pBookLeft->m_position = m_position;
+	m_pCoverLeft->m_position = m_position;
 
-	m_pBookRight->m_custom3d.position = m_position;
-	m_pCoverRight->m_custom3d.position = m_position;
+	//m_pBookRight->m_position = m_position;
+	m_pCoverRight->m_position = m_position;
 	// 本全体の回転はカメラワークに任せる
-	e_camera.upDirection = { sinf(m_cameraAngleZY)*sinf(m_cameraAngleXY), cosf(m_cameraAngleZY), sinf(m_cameraAngleZY)*cosf(m_cameraAngleXY), 0 };
-	e_camera.eyePosition = { -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*sinf(m_cameraAngleXY), fabs(m_cameraDistance)*sinf(m_cameraAngleZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*cosf(m_cameraAngleXY),0 };
+	//e_camera.upDirection = { sinf(m_cameraAngleZY)*sinf(m_cameraAngleXY), cosf(m_cameraAngleZY), sinf(m_cameraAngleZY)*cosf(m_cameraAngleXY), 0 };
+	//e_camera.eyePosition = { -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*sinf(m_cameraAngleXY), fabs(m_cameraDistance)*sinf(m_cameraAngleZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(m_cameraDistance)*cosf(m_cameraAngleZY)*cosf(m_cameraAngleXY),0 };
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -137,8 +153,8 @@ void Book::update()
 
 			// 本とページの位置を同調かねて座標系の違いによる修正
 
-			it->m_custom3d.position = m_position;
-			it->m_custom3d.position.y = -m_position.y;
+			it->m_custom3d.position += m_position;
+			it->m_custom3d.position.y = m_position.y;
 			it->m_custom3d.position.z = m_position.z - 0.1;
 			if (it->m_pagination % 2 != 0)
 			{// Page 1,3,5,7...
@@ -220,14 +236,14 @@ void Book::closeBook()
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed;
 		m_cameraAngleZY -= m_openSpeed*0.01f;
-		m_position.z += m_openSpeed * 5.0f;
-		m_position.y += m_openSpeed * 3.0f;
+		/*m_position.z += m_openSpeed * 5.0f;
+		m_position.y += m_openSpeed * 3.0f;*/
 		if (m_openAngle <= -90) {
 			m_isClosed = true;
 			m_openAngle = -90;
 			m_cameraAngleZY = -0.90f;
-			m_position.z = 450;
-			m_position.y = 270;
+			/*m_position.z = 450;
+			m_position.y = 270;*/
 			m_step = STEP::END;
 		}
 		break;
@@ -270,14 +286,14 @@ void Book::openBook()
 		m_isClosed = false;
 		m_openAngle += 3;
 		m_cameraAngleZY += 0.03f;
-		m_position.z -= 15;
-		m_position.y -= 9;
+		/*m_position.z -= 15;
+		m_position.y -= 9;*/
 		if (m_openAngle > 0) {
 			m_isOpened = true;
 			m_openAngle = 0;
 			m_cameraAngleZY = 0.0f;
-			m_position.z = 0;
-			m_position.y = 0;
+			/*m_position.z = 0;
+			m_position.y = 0;*/
 			m_step = STEP::END;
 		}
 		break;

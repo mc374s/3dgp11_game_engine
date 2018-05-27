@@ -76,6 +76,28 @@ inline float Vector3Dot(Vector& v1, Vector& v2)
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// edit by ChenYuezong 2018/05/25
+// operator " = [] () -> " must be defined as memeber operator
+
+XMFLOAT3& operator += (XMFLOAT3& lhv, const XMFLOAT3& rhv);
+XMFLOAT3& operator -= (XMFLOAT3& lhv, const XMFLOAT3& rhv);
+XMFLOAT3& operator *= (XMFLOAT3& lhv, float rhv);
+XMFLOAT3& operator /= (XMFLOAT3& lhv, float rhv);
+
+//inline XMFLOAT3 operator + () const { XMFLOAT3 ret(x, y, z); return ret; }
+//inline XMFLOAT3 operator - () const { XMFLOAT3 ret(-x, -y, -z); return ret; }
+
+const XMFLOAT3 operator + (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+const XMFLOAT3 operator - (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+const XMFLOAT3 operator * (const XMFLOAT3& lhv, float rhv);
+const XMFLOAT3 operator / (const XMFLOAT3& lhv, float rhv);
+
+bool const operator == (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+bool const operator != (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //*****************************************************************************************************************************
 //
 //	define’è‹`

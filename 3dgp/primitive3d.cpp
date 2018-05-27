@@ -146,11 +146,11 @@ void Primitive3D::initialize(ID3D11Device *a_pDevice, const int &a_type, const i
 		// Preset Value
 		int vertexCount = 0, indexCount = 0;
 		//int *latitudeOffSet = new int[m_latitudeNum + 2];
-		float wHalf = 0.2f, hHalf = 0.2f, dHalf = 0.2f;
+		float wHalf = 0.2f, hHalf = 0.25f, dHalf = 0.005f;
 		float angleHalf = XM_PI / (float)m_longitudeNum;
 		float angle = angleHalf * 2.0f;
 
-		float scaleAdjust = 0.5f;
+		float scaleAdjust = 1.0f;
 		float angleY = atanf((1.0f - scaleAdjust)*dHalf / (hHalf*2.0f));
 
 		vertex3D *vertices = new vertex3D[m_vertexCount];
@@ -332,20 +332,23 @@ void Primitive3D::setProjection(ID3D11DeviceContext *a_pDeviceContext, const XMF
 		CUSTOM3D init;
 		a_pCustom3D = &init;
 	}
-	namespace DX = DirectX;
+
 	static XMFLOAT3 position, rotationAxis;
 	position = toNDC(a_pCustom3D->position);
 	rotationAxis = toNDC(a_pCustom3D->rotationAxis);
 	static XMMATRIX S, R, T, W, V, P, WVP;
-	S = R = T = W = V = P = WVP = DX::XMMatrixIdentity();
+	S = R = T = W = V = P = WVP = DirectX::XMMatrixIdentity();
 	//R = DX::XMMatrixRotationAxis(XMVectorSet(rotationAxis.x, rotationAxis.y, rotationAxis.z, 0), _custom3D->angle*0.01745329251);
-	R = DX::XMMatrixRotationRollPitchYaw(a_pCustom3D->angleYawPitchRoll.y*0.01745, a_pCustom3D->angleYawPitchRoll.x*0.01745, a_pCustom3D->angleYawPitchRoll.z*0.01745);
-	S = DX::XMMatrixScaling(a_pCustom3D->scaling.x, a_pCustom3D->scaling.y, a_pCustom3D->scaling.z);
-	T = DX::XMMatrixTranslation(position.x, position.y, position.z);
-	W = S*R*T;
+	R = DirectX::XMMatrixRotationAxis(XMVectorSet(0, 1, 0, 0), a_pCustom3D->angleYawPitchRoll.x*0.01745)
+		*DirectX::XMMatrixRotationAxis(XMVectorSet(1, 0, 0, 0), a_pCustom3D->angleYawPitchRoll.y*0.01745)
+		*DirectX::XMMatrixRotationAxis(XMVectorSet(0, 0, 1, 0), a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	//R = DX::XMMatrixRotationRollPitchYaw(a_pCustom3D->angleYawPitchRoll.y*0.01745, a_pCustom3D->angleYawPitchRoll.x*0.01745, a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	S = DirectX::XMMatrixScaling(a_pCustom3D->scaling.x, a_pCustom3D->scaling.y, a_pCustom3D->scaling.z);
+	T = DirectX::XMMatrixTranslation(position.x, position.y, position.z);
+	W = T*R*S;
 
-	V = DX::XMMatrixLookAtLH(e_camera.eyePosition, e_camera.focusPosition, e_camera.upDirection);
-	P = DX::XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 100.0f);
+	V = DirectX::XMMatrixLookAtLH(e_camera.eyePosition, e_camera.focusPosition, e_camera.upDirection);
+	P = DirectX::XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 100.0f);
 	/*W = DX::XMMatrixTranspose(W);
 	V = DX::XMMatrixTranspose(V);
 	P = DX::XMMatrixTranspose(P);*/
@@ -428,7 +431,7 @@ void Primitive3D::drawCube(ID3D11DeviceContext *a_pDeviceContext, const XMFLOAT3
 
 void Primitive3D::drawCylinder(ID3D11DeviceContext *a_pDeviceContext, const XMFLOAT3 &a_position, const XMFLOAT3 &a_size,const CUSTOM3D* a_pCustom3D)
 {
-	setProjection(a_pDeviceContext, a_position, XMFLOAT4(0.8, 0.8, 0, 1), a_pCustom3D);
+	setProjection(a_pDeviceContext, a_position, XMFLOAT4(0.5, 0.5, 0.4, 1.0f), a_pCustom3D);
 	render(a_pDeviceContext, true);
 }
 

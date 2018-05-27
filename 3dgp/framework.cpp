@@ -162,7 +162,7 @@ bool framework::initialize(HWND hwnd)
 	m_pPrimitive3D[0] = new Primitive3D(s_pDevice);
 	m_pPrimitive3D[0]->initialize(s_pDevice, GEOMETRY_CUBE);
 	m_pPrimitive3D[1] = new Primitive3D(s_pDevice);
-	m_pPrimitive3D[1]->initialize(s_pDevice, GEOMETRY_CYLINDER);
+	m_pPrimitive3D[1]->initialize(s_pDevice, GEOMETRY_CYLINDER, 2, 24);
 
 	for (auto &p : m_pRenderTargets) {
 		p = new RenderTarget(s_pDevice, 900, 950);
@@ -305,9 +305,28 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	static double time;
 	static CUSTOM3D custom3DTemp;
 	static float aXY = 0.0f, aZY = 0.0f;
-	static float d = 0.65f;
+	static float d = 0.66f;
 	static XMFLOAT3 focusPos = { 0,0/* + 310 / (float)SCREEN_WIDTH*/,0 };
-
+	if (GetAsyncKeyState('J') < 0) {
+		aXY -= 0.01f;
+	}
+	if (GetAsyncKeyState('L') < 0) {
+		aXY += 0.01f;
+	}
+	if (GetAsyncKeyState('I') < 0) {
+		aZY += 0.01f;
+	}
+	if (GetAsyncKeyState('K') < 0) {
+		aZY -= 0.01f;
+	}
+	if (GetAsyncKeyState('O') < 0) {
+		d += 0.01f;
+	}
+	if (GetAsyncKeyState('U') < 0) {
+		d -= 0.01f;
+	}
+	e_camera.upDirection = { sinf(aZY)*sinf(aXY), cosf(aZY), sinf(aZY)*cosf(aXY), 0 };
+	e_camera.eyePosition = { -fabs(d)*cosf(aZY)*sinf(aXY), fabs(d)*sinf(aZY)/* + 310 / (float)SCREEN_WIDTH*/, -fabs(d)*cosf(aZY)*cosf(aXY),0 };
 
 	if (GetAsyncKeyState('1') < 0) {
 		e_camera.eyePosition = { 1, 0, 0, 0 };
@@ -325,6 +344,7 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 
 	if (GetAsyncKeyState('0') < 0) {
 		aXY = aZY = 0;
+		d = 0.66f;
 		custom3DTemp.clear();
 	}
 
@@ -355,6 +375,12 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	{
 		s_pScene->draw(/*elapsed_time*/);
 	}
+
+	MyBlending::setMode(s_pDeviceContext, BLEND_NONE);
+	m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(1024, 0, 0), XMFLOAT3(2048, 2, 2));
+	m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 1024, 0), XMFLOAT3(2, 2048, 2));
+	m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 0, 1024), XMFLOAT3(2, 2, 2048));
+	m_pPrimitive3D[1]->drawCylinder(s_pDeviceContext, XMFLOAT3(-310, 0, 10 + 0), XMFLOAT3(620, 700, 20), &custom3DTemp);
 
 	m_pSwapChain->Present(0, 0);
 }

@@ -50,6 +50,35 @@ void TextureManager::releaseTexture()
 	ZeroMemory(g_load_texture, sizeof(LOAD_TEXTURE)*i);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// edit by ChenYuezong 2018/05/25
+// operator " = [] () -> " must be defined as memeber operator
+
+XMFLOAT3& operator += (XMFLOAT3& lhv, const XMFLOAT3& rhv) { lhv.x += rhv.x; lhv.y += rhv.y; lhv.z += rhv.z; return lhv; }
+XMFLOAT3& operator -= (XMFLOAT3& lhv, const XMFLOAT3& rhv) { lhv.x -= rhv.x; lhv.y -= rhv.y; lhv.z -= rhv.z; return lhv; }
+XMFLOAT3& operator *= (XMFLOAT3& lhv, float rhv) { lhv.x *= rhv; lhv.y *= rhv; lhv.z *= rhv; return lhv; }
+XMFLOAT3& operator /= (XMFLOAT3& lhv, float rhv) { lhv.x /= rhv; lhv.y /= rhv; lhv.z /= rhv; return lhv; }
+
+//inline XMFLOAT3 operator + () const { XMFLOAT3 ret(x, y, z); return ret; }
+//inline XMFLOAT3 operator - () const { XMFLOAT3 ret(-x, -y, -z); return ret; }
+
+const XMFLOAT3 operator + (const XMFLOAT3& lhv, const XMFLOAT3& rhv) { return XMFLOAT3(lhv.x + rhv.x, lhv.y + rhv.y, lhv.z + rhv.z); }
+const XMFLOAT3 operator - (const XMFLOAT3& lhv, const XMFLOAT3& rhv) { return XMFLOAT3(lhv.x - rhv.x, lhv.y - rhv.y, lhv.z - rhv.z); }
+const XMFLOAT3 operator * (const XMFLOAT3& lhv, float rhv) { XMFLOAT3 ret(lhv.x*rhv, lhv.y*rhv, lhv.z*rhv); return ret; }
+const XMFLOAT3 operator / (const XMFLOAT3& lhv, float rhv) { XMFLOAT3 ret(lhv.x / rhv, lhv.y / rhv, lhv.z / rhv); return ret; }
+
+bool const operator == (const XMFLOAT3& lhv, const XMFLOAT3& rhv)
+{
+	return (fabsf(lhv.x - rhv.x) < FLT_EPSILON) && (fabsf(lhv.y - rhv.y) < FLT_EPSILON) && (fabsf(lhv.z - rhv.z) < FLT_EPSILON);
+}
+bool const operator != (const XMFLOAT3& lhv, const XMFLOAT3& rhv)
+{
+	return (fabsf(lhv.x - rhv.x) > FLT_EPSILON) || (fabsf(lhv.y - rhv.y) > FLT_EPSILON) || (fabsf(lhv.z - rhv.z) > FLT_EPSILON);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 int e_command = 0x0;
 
 int  getInputKey()

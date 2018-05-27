@@ -3,6 +3,7 @@
 
 #define PAGINATION_MAX (2)
 
+#define PAPER_MAX_NUM (20)
 
 class Page;
 
@@ -27,6 +28,8 @@ public:
 	Cube *m_pBookRight;
 	Cube *m_pCoverLeft;
 	Cube *m_pCoverRight;
+
+	Cube *m_pPapers[PAPER_MAX_NUM];
 
 	float m_cameraAngleXY = 0.0f, m_cameraAngleZY = 0.0f;
 	float m_cameraDistance = 0.66f;
