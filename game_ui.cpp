@@ -214,8 +214,8 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 	{
 
 		m_ppGameUI[GAGE_FRAME]->m_isVisible = false;
-		m_ppGameUI[GAGE_LEFT]->m_isVisible = true;
-		m_ppGameUI[GAGE_RIGHT]->m_isVisible = true;
+		//m_ppGameUI[GAGE_LEFT]->m_isVisible = true;
+		//m_ppGameUI[GAGE_RIGHT]->m_isVisible = true;
 		m_ppGameUI[PLAYER_LEFT]->m_isVisible = true;
 		m_ppGameUI[PLAYER_RIGHT]->m_isVisible = true;
 
@@ -230,20 +230,23 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 		m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0xFFFFFFFF;
 		m_ppNumbers[LEFT_CONCENTRATION]->m_custom.rgba = 0xFFFFFFFF;
 		m_ppNumbers[RIGHT_CONCENTRATION]->m_custom.rgba = 0xFFFFFFFF;
-
+		if (fabsf(a_transferConcentration-0.0f)<FLT_EPSILON)
+		{
+			a_isOnLeftPage = !a_isOnLeftPage;
+		}
 		if (!a_isOnLeftPage)
 		{
 			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0404B4FF;
-			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
+			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			m_ppGameUI[GAGE_RIGHT]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xB18904FF;
-			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
+			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			//m_ppGameUI[PLAYER_LEFT]->m_custom.rgba = 0x0404B4FF;
-			m_ppGameUI[PLAYER_LEFT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
+			m_ppGameUI[PLAYER_LEFT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0xB18904FF;
-			m_ppGameUI[PLAYER_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
+			m_ppGameUI[PLAYER_RIGHT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_playerConcentration);
 			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_transferConcentration); 
@@ -253,15 +256,15 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 		{
 			m_ppGameUI[GAGE_RIGHT]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x0404B4FF;
-			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
+			m_ppGameUI[GAGE_RIGHT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			m_ppGameUI[GAGE_LEFT]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xB18904FF;
-			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM+40;
+			m_ppGameUI[GAGE_LEFT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			//m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0x0404B4FF;
-			m_ppGameUI[PLAYER_RIGHT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
+			m_ppGameUI[PLAYER_RIGHT]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[PLAYER_LEFT]->m_custom.rgba = 0xB18904FF;
-			m_ppGameUI[PLAYER_LEFT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
+			m_ppGameUI[PLAYER_LEFT]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_playerConcentration);
 			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_transferConcentration);
@@ -283,7 +286,7 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 void GameUIManager::showPlayerConcentration(int a_playerConcentration, Vector3 a_pos)
 {
 	m_ppGameUI[PLAYER_CONCENTRATION]->m_isVisible = true;
-	m_ppGameUI[PLAYER_CONCENTRATION]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM + 40;
+	m_ppGameUI[PLAYER_CONCENTRATION]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 	m_ppNumbers[CURRENT_CONCENTRATION]->m_isVisible = true;
 	m_ppNumbers[CURRENT_CONCENTRATION]->setValue(a_playerConcentration, Vector3(0.35, 0.35, 0));
 }

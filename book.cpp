@@ -1,6 +1,7 @@
 ﻿#include "game.h"
 #include "player.h"
 #include "page.h"
+#include "sound_data.h"
 
 #include "book.h"
 
@@ -236,7 +237,7 @@ void Book::closeBook()
 		m_cameraAngleZY = -0.90f;
 		m_position.z = 450;
 		m_position.y = 270;*/
-
+		//MFAudioPlay(SE_SHOT);
 		m_step = STEP::FINISH;
 		break;
 	case STEP::FINISH:

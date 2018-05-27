@@ -43,9 +43,9 @@ void judgeAll()
 	isBookOpened = SCENE_MAIN->m_isBookOpened;
 	if (isBookClosed)
 	{
-		pPlayerManager->manageConcentration();
 		pPlayerManager->m_isTranscriptAble = true;
 		pPlayerManager->m_isTranscriptCanceled = false;
+		pPlayerManager->manageConcentration();
 	}
 	if (!isBookClosed)
 	{
