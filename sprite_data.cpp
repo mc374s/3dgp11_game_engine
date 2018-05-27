@@ -31,6 +31,9 @@ enum TEX_NO {
 
 	TEX_NUMBERS,
 
+	TEX_PAUSE_PANEL,
+	TEX_PAUSE_SELECTED,
+
 };
 
 // 2D画像ロードデータ
@@ -54,6 +57,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_NUMBERS,			"./DATA/Images/numbers.png" },
 	
+	{ TEX_PAUSE_PANEL,		"./DATA/Images/pause_panel.png" },
+	{ TEX_PAUSE_SELECTED,	"./DATA/Images/pause_selected.png" },
 
 	{ -1, NULL },
 };
@@ -144,6 +149,9 @@ SPRITE_CENTER e_sprLifeStamp = SPRITE_CENTER(TEX_LIFE_STAMP, 0, 0, 36, 28);
 SPRITE_CENTER e_sprLargePlayer = SPRITE_CENTER(TEX_LARGE_PLAYER, 0, 0, 252, 231);
 
 SPRITE_CENTER e_sprNumbers = SPRITE_CENTER(TEX_NUMBERS, 0, 0, 76, 118);
+
+SPRITE_CENTER e_sprPausePanel = SPRITE_CENTER(TEX_PAUSE_PANEL, 0, 0, 670, 380);
+SPRITE_CENTER e_sprPauseSelected = SPRITE_CENTER(TEX_PAUSE_SELECTED, 0, 0, 480, 68);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);

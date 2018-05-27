@@ -21,7 +21,7 @@ enum M_TYPE
 	KEY,
 	HIGH_CONCENTRATION,
 
-	MAX_NUM,
+	M_TYPE_MAX_NUM,
 };
 
 // MapObj Draw Direction

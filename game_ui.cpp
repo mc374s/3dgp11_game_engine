@@ -103,7 +103,9 @@ void GameUIManager::init()
 			pObj->init();
 		}
 	}
+	// UI for Ink Gage
 	m_ppGameUI[GAGE_FRAME]->m_pSprData = &e_sprGageDivision;
+	m_ppGameUI[GAGE_FRAME]->m_isVisibleAlways = false;
 	m_ppGameUI[GAGE_FRAME]->m_isVisible = false;
 	m_ppGameUI[GAGE_FRAME]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	m_ppGameUI[GAGE_FRAME]->m_size = { e_sprGageDivision.width,e_sprGageDivision.height,0 };
@@ -111,6 +113,7 @@ void GameUIManager::init()
 	//m_ppGameUI[GAGE_FRAME]->m_custom.scaleY = m_ppGameUI[GAGE_FRAME]->m_size.y / m_ppGameUI[GAGE_FRAME]->m_pSprData->height;
 
 	m_ppGameUI[GAGE_LEFT]->m_pSprData = &e_sprGage;
+	m_ppGameUI[GAGE_LEFT]->m_isVisibleAlways = false;
 	m_ppGameUI[GAGE_LEFT]->m_isVisible = false;
 	m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0000FFFF;
 	m_ppGameUI[GAGE_LEFT]->m_alpha = 180;
@@ -124,7 +127,9 @@ void GameUIManager::init()
 	m_ppGameUI[GAGE_RIGHT]->m_pos = { (SCREEN_WIDTH + m_ppGameUI[GAGE_LEFT]->m_pSprData->width) / 2,SCREEN_HEIGHT / 2,1 };
 	m_ppGameUI[GAGE_RIGHT]->m_custom.scaleMode = SCALE_MODE::LEFTCENTER;
 
+	// UI for transcription work
 	m_ppGameUI[PLAYER_LEFT]->m_pSprData = &e_sprLargePlayer;
+	m_ppGameUI[PLAYER_LEFT]->m_isVisibleAlways = false;
 	m_ppGameUI[PLAYER_LEFT]->m_isVisible = false;
 	m_ppGameUI[PLAYER_LEFT]->m_pos = { SCREEN_WIDTH / 2 - 300,SCREEN_HEIGHT / 2,1 };
 	m_ppGameUI[PLAYER_LEFT]->m_size = { m_ppGameUI[PLAYER_LEFT]->m_pSprData->width,m_ppGameUI[PLAYER_LEFT]->m_pSprData->height,0 };
@@ -138,7 +143,6 @@ void GameUIManager::init()
 
 	m_ppGameUI[PLAYER_CONCENTRATION]->m_pSprData = &e_sprLargePlayer;
 	m_ppGameUI[PLAYER_CONCENTRATION]->m_pos = { SCREEN_WIDTH - 100,40,0 };
-	m_ppGameUI[PLAYER_CONCENTRATION]->m_isVisibleAlways = false;
 	m_ppGameUI[PLAYER_CONCENTRATION]->m_custom.scaleMode = SCALE_MODE::CENTER;
 	m_ppGameUI[PLAYER_CONCENTRATION]->m_custom.scaleX = m_ppGameUI[PLAYER_CONCENTRATION]->m_custom.scaleY = 0.2;
 
@@ -148,6 +152,18 @@ void GameUIManager::init()
 		m_ppGameUI[i]->m_pos.x = 45 * (i - STAMP) + 30;
 		m_ppGameUI[i]->m_pos.y = 30;
 	}
+
+	// UI for Pause
+	m_ppGameUI[PAUSE_PANEL]->m_pSprData = &e_sprPausePanel;
+	m_ppGameUI[PAUSE_PANEL]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+	m_ppGameUI[PAUSE_PANEL]->m_isVisibleAlways = false;
+	m_ppGameUI[PAUSE_PANEL]->m_isVisible = false;
+
+	*m_ppGameUI[PAUSE_SELECTED] = *m_ppGameUI[PAUSE_PANEL];
+	m_ppGameUI[PAUSE_SELECTED]->m_pSprData = &e_sprPauseSelected;
+	m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 30;
+	
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
@@ -180,16 +196,15 @@ void GameUIManager::update()
 
 void GameUIManager::draw()
 {
-	for (int i = 0; i < UI_OBJ_MAX_NUM; i++)
+	for (auto &pObj : m_ppGameUI)
 	{
-		if (m_ppGameUI[i] && m_ppGameUI[i]->m_pSprData && m_ppGameUI[i]->m_isVisible)
+		if (pObj && pObj->m_pSprData && pObj->m_isVisible)
 		{
-			m_ppGameUI[i]->draw();
-			if (i >= GAGE_FRAME && i <= PLAYER_RIGHT)
+			pObj->draw();
+			if (!pObj->m_isVisibleAlways)
 			{
-				m_ppGameUI[i]->m_isVisible = false;
+				pObj->m_isVisible = false;
 			}
-
 		}
 	}
 
@@ -303,5 +318,16 @@ void GameUIManager::showPlayerLife(int a_playerLife)
 		{
 			m_ppGameUI[i]->m_isVisible = false;
 		}
+	}
+}
+
+void GameUIManager::showPausePanel(int a_slelectedNO)
+{
+	if (m_ppGameUI[PAUSE_PANEL])
+	{
+		m_ppGameUI[PAUSE_PANEL]->m_isVisible = true;
+		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
+
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 86;
 	}
 }

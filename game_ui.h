@@ -17,6 +17,9 @@ enum UI_NO
 
 	STAMP,
 	STAMP_MAX = STAMP + UI_STAMP_MAX_NUM,
+
+	PAUSE_PANEL,
+	PAUSE_SELECTED,
 };
 
 enum NUM_NO
@@ -26,6 +29,13 @@ enum NUM_NO
 	RIGHT_CONCENTRATION,
 
 	NUM_NO_MAX,
+};
+
+enum PAUSED_SELECTION
+{
+	TO_TITLE,
+	TO_GAME,
+	PAUSED_SELECTION_MAX_NUM,
 };
 
 class Numbers;
@@ -72,6 +82,7 @@ public:
 	void showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
 	void showPlayerConcentration(int a_playerConcentration, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPlayerLife(int a_playerLife);
+	void showPausePanel(int a_selectedNO = 0);
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())
