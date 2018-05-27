@@ -54,7 +54,7 @@ SceneMain::~SceneMain()
 
 void SceneMain::update()
 {	
-	if (KEY_TRACKER.pressed.Space)
+	if (KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED)
 	{
 		m_isPaused = !m_isPaused;
 	}
@@ -62,16 +62,16 @@ void SceneMain::update()
 	if (m_isPaused)
 	{
 		pGameUIManager->showPausePanel(m_pausedOption);
-		if (KEY_TRACKER.pressed.S)
+		if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED)
 		{
 			m_pausedOption++;
 		}
-		if (KEY_TRACKER.pressed.W)
+		if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED)
 		{
 			m_pausedOption--;
 		}
 		m_pausedOption = abs(m_pausedOption) % (int)PAUSED_SELECTION::PAUSED_SELECTION_MAX_NUM;
-		if (KEY_TRACKER.released.Z)
+		if (KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED)
 		{
 			if (m_pausedOption == PAUSED_SELECTION::TO_GAME)
 			{
