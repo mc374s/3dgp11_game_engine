@@ -162,7 +162,10 @@ void GameUIManager::init()
 	*m_ppGameUI[PAUSE_SELECTED] = *m_ppGameUI[PAUSE_PANEL];
 	m_ppGameUI[PAUSE_SELECTED]->m_pSprData = &e_sprPauseSelected;
 	m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 30;
-	
+
+	// UI for TEST PLAY
+	m_ppGameUI[TEST_PLAY_TEXT]->m_pSprData = &e_sprTestPlayText;
+	m_ppGameUI[TEST_PLAY_TEXT]->m_pos = { 0,SCREEN_HEIGHT - m_ppGameUI[TEST_PLAY_TEXT]->m_pSprData->height };
 
 
 	////////////////////////////////////////////////////////////////////////////////

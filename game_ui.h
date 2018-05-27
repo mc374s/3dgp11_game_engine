@@ -20,6 +20,8 @@ enum UI_NO
 
 	PAUSE_PANEL,
 	PAUSE_SELECTED,
+
+	TEST_PLAY_TEXT,
 };
 
 enum NUM_NO
