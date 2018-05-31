@@ -19,13 +19,13 @@ enum UI_NO
 	STAMP_MAX = STAMP + UI_STAMP_MAX_NUM,
 };
 
-enum NUM_NO
+enum NUMS_NO
 {
 	CURRENT_CONCENTRATION,
 	LEFT_CONCENTRATION,
 	RIGHT_CONCENTRATION,
 
-	NUM_NO_MAX,
+	MAX_NUMS_NO,
 };
 
 class Numbers;
@@ -63,7 +63,7 @@ public:
 	~GameUIManager();
 
 	GameUI* m_ppGameUI[UI_OBJ_MAX_NUM] = { nullptr };
-	Numbers* m_ppNumbers[NUM_NO_MAX + 1];
+	Numbers* m_ppNumbers[MAX_NUMS_NO + 1];
 
 	void init();
 	void update();

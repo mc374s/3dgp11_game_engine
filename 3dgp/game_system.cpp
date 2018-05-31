@@ -135,16 +135,17 @@ void drawRectangle(float _x, float _y, float _w, float _h, float _angle, UINTCOL
 
 ///////////////////////////////////////////////////////////////
 // Class View
-View::View(int a_viewWidth, int a_viewHeight) 
+View::View(int a_viewWidth, int a_viewHeight) :m_doReflection(false)
 {
 	m_pRenderTarget = new RenderTarget(framework::s_pDevice, a_viewWidth, a_viewHeight);
 }
 
-View::View(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor):
+View::View(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor, bool a_doReflection):
 m_drawX(a_drawX), m_drawY(a_drawY), m_drawWidth(a_drawWidth), m_drawHeight(a_drawHeight), 
 m_srcX(a_srcX), m_srcY(a_srcY), m_srcWidth(a_srcWidth), m_srcHeight(a_srcHeight),
 m_rotateAngle(a_rotateAngle),
-m_blendColor(a_blendColor)
+m_blendColor(a_blendColor),
+m_doReflection(a_doReflection)
 {
 	m_pRenderTarget = new RenderTarget(framework::s_pDevice, a_drawWidth, a_drawHeight);
 }
@@ -159,14 +160,14 @@ View::~View()
 }
 
 // View, looks like a textured sprite
-void View::set(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor)
+void View::set(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor, bool a_doReflection)
 {
-	m_pRenderTarget->render3D(framework::s_pDeviceContext, a_drawX, a_drawY, a_drawWidth, a_drawHeight, a_srcX, a_srcY, a_srcWidth, a_srcHeight, a_rotateAngle, a_blendColor, &m_custom3d);
+	m_pRenderTarget->render3D(framework::s_pDeviceContext, a_drawX, a_drawY, a_drawWidth, a_drawHeight, a_srcX, a_srcY, a_srcWidth, a_srcHeight, a_rotateAngle, a_blendColor, &m_custom3d, a_doReflection);
 }
 
 void View::set()
 {
-	m_pRenderTarget->render3D(framework::s_pDeviceContext, m_drawX, m_drawY, m_drawWidth, m_drawHeight, m_srcX, m_srcY, m_srcWidth, m_srcHeight, m_rotateAngle, m_blendColor, &m_custom3d);
+	m_pRenderTarget->render3D(framework::s_pDeviceContext, m_drawX, m_drawY, m_drawWidth, m_drawHeight, m_srcX, m_srcY, m_srcWidth, m_srcHeight, m_rotateAngle, m_blendColor, &m_custom3d, m_doReflection);
 }
 
 // Reset ViewPort to real screen

@@ -208,7 +208,7 @@ void ObjManager::update(int a_liveInPagination) {
 
 	for (auto &it : m_ppObjs)
 	{
-		if (it && it->m_liveInPagination == a_liveInPagination)
+		if (it && (it->m_liveInPagination == a_liveInPagination || it->m_liveInPagination == a_liveInPagination + 1))
 		{
 			it->update();
 		}

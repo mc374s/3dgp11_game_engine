@@ -11,10 +11,10 @@ Page::Page(int a_pageWidth, int a_pageHeight, int a_pagination) :m_pagination(a_
 	m_bg.m_pSprData = &e_sprPageLeft;
 
 	// Create a resize unable View
-	m_pView = new View(0, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height);
+	//m_pView = new View(0, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height);
 	if (m_pagination % 2 != 0)
 	{// Left View
-		m_pView->m_custom3d.position=(0,-m_height/2,Page)
+		m_pView = new View(-m_width, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height); 
 	} else
 	{// Right View
 		m_pView = new View(0, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height);
