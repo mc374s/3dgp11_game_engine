@@ -8,6 +8,7 @@
 #include "player.h"
 #include "judge.h"
 #include "game_ui.h"
+#include "effect.h"
 #include "scene_title.h"
 
 #include "scene_main.h"
@@ -99,6 +100,7 @@ void SceneMain::update()
 		pMapObjManager->init(0);
 
 		pGameUIManager->init();
+		pEffectManager->init();
 
 		m_pStr = "";
 		m_timer = 0;
@@ -119,6 +121,7 @@ void SceneMain::update()
 		}
 
 		pGameUIManager->update();
+		pEffectManager->update();
 
 		judgeAll();
 
@@ -168,6 +171,7 @@ void SceneMain::draw()
 	m_pBook->draw();
 
 	pGameUIManager->draw();
+	pEffectManager->draw();
 
 	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0xD0, STR_CENTER, 80, 80);
 	if (m_step==STEP::END && m_timer & 0x20)

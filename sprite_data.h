@@ -40,6 +40,8 @@ extern SPRITE_CENTER e_sprPauseSelected;
 
 extern SPRITE_LEFTTOP e_sprTestPlayText;
 
+extern SPRITE_CENTER e_pAnimeStamp[];
+
 // Effect関係
 extern SPRITE_CENTER e_sprHitObj;
 

@@ -110,6 +110,9 @@
     <ClInclude Include="numbers.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp">
@@ -185,6 +188,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="numbers.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
