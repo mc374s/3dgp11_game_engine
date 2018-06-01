@@ -73,7 +73,8 @@ void Book::init()
 	m_isClosed = false;
 	m_isOpened = true;
 	m_openAngle = 0;
-	m_position.z -= m_coverDepth;
+	m_position.z -= (m_coverDepth + 30 * PAPER_DEPTH);
+	m_centerPaper = 0.5;
 }
 
 int g_keyCounter = 0;
@@ -155,39 +156,74 @@ void Book::update()
 		m_angleChangeSpeed.z = -1;
 	}
 
-	static int paperNO = 0;
+	static int paperNO = 30;
 	float angle = 0;
 
 	if (KEY_TRACKER.pressed.D8){
 		paperNO++;
+		if (paperNO > PAPER_NO::MAX_PAPER_NO - 1)
+		{
+			paperNO = PAPER_NO::MAX_PAPER_NO - 1;
+		}
 		m_position.z -= m_ppPapers[paperNO]->m_depth;
 	}
 	if (KEY_TRACKER.pressed.D7){
 		m_position.z += m_ppPapers[paperNO]->m_depth;
 		paperNO--;
+		if (paperNO < 0)
+		{
+			paperNO = 0;
+		}
 	}
 	if (KEY_BOARD.Home){
-		angle = 1;
+		angle = 2;
 	}
 	if (KEY_BOARD.End) {
-		angle = -1;
+		angle = -2;
 	}
 
 	m_position += m_speed;
 	m_angleYawPitchRoll += m_angleChangeSpeed;
-
 	for (auto &it : m_ppPapers)
 	{
 		if (it)
 		{
 
-			if (it->m_paperNO == paperNO)
+			if (it->m_paperNO > paperNO - 5 && it->m_paperNO < paperNO + 5)
+			{
+				it->m_isActive = true;
+			}
+			else
+			{
+				it->m_isActive = false;
+			}
+
+			if (it->m_paperNO <= paperNO && angle > 0)
 			{
 				it->m_custom3d.angleYawPitchRoll.x += angle;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+			if (it->m_paperNO >= paperNO && angle < 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += angle;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
 			}
 			// 本とページの位置を同調かねて座標系の違いによる修正
 			it->m_custom3d.angleYawPitchRoll += m_angleChangeSpeed;
-			//angle -= 1;
 			it->m_custom3d.position = m_position;
 			//Always Need to Update Page View's m_custom3d
 
@@ -244,17 +280,38 @@ void Book::closeBook()
 		m_openSpeedAcc = 0;
 		m_isClosed = false;
 		m_isOpened = false;
+		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
+		m_openAngle = 180;
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
 		m_openSpeedAcc += 0.005;
 		m_openSpeed += m_openSpeedAcc;
-		m_openAngle -= m_openSpeed;
+		m_openAngle -= m_openSpeed * 2;
 		/*m_position.z += m_openSpeed * 5.0f;
 		m_position.y += m_openSpeed * 3.0f;*/
-		if (m_openAngle <= -90) {
+		for (auto &itPaper : m_ppPapers)
+		{
+			if (itPaper->m_paperNO < m_centerPaper)
+			{
+				itPaper->m_custom3d.angleYawPitchRoll.x -= m_openSpeed;
+				if (itPaper->m_custom3d.angleYawPitchRoll.x < 90)
+				{
+					itPaper->m_custom3d.angleYawPitchRoll.x = 90;
+				}
+			}
+			else
+			{
+				itPaper->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (itPaper->m_custom3d.angleYawPitchRoll.x > 90)
+				{
+					itPaper->m_custom3d.angleYawPitchRoll.x = 90;
+				}
+			}
+		}
+		if (m_openAngle < 0) {
 			m_isClosed = true;
-			m_openAngle = -90;
+			m_openAngle = 0;
 			/*m_position.z = 450;
 			m_position.y = 270;*/
 			m_step = STEP::END;
@@ -291,18 +348,40 @@ void Book::openBook()
 			pPlayerManager->transcriptPlayer();
 			pPlayerManager->m_step = STEP::INIT;
 		}
+		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
 		m_isClosed = false;
 		m_isOpened = false;
+		m_openAngle = 0;
+		m_openSpeed = 3;
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
 		m_isClosed = false;
-		m_openAngle += 3;
+		m_openAngle += m_openSpeed * 2;
 		/*m_position.z -= 15;
 		m_position.y -= 9;*/
-		if (m_openAngle > 0) {
+		for (auto &itPaper : m_ppPapers)
+		{
+			if (itPaper->m_paperNO < m_centerPaper)
+			{
+				itPaper->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (itPaper->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					itPaper->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+			}
+			else
+			{
+				itPaper->m_custom3d.angleYawPitchRoll.x -= m_openSpeed;
+				if (itPaper->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					itPaper->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+		}
+		if (m_openAngle > 180) {
 			m_isOpened = true;
-			m_openAngle = 0;
+			m_openAngle = 180;
 			/*m_position.z = 0;
 			m_position.y = 0;*/
 			m_step = STEP::END;

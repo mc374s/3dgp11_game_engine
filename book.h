@@ -53,6 +53,8 @@ public:
 	XMFLOAT3 m_angleChangeSpeed;
 	XMFLOAT3 m_angleYawPitchRoll;
 
+	float m_centerPaper;
+
 	bool m_isClosed;
 	bool m_isOpened;
 

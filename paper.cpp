@@ -59,8 +59,10 @@ void Paper::syncViewCustom3d()
 	m_pCube->m_custom3d = m_custom3d;
 	m_pViewFront->m_custom3d = m_custom3d;
 	m_pViewFront->m_custom3d.position.z -= 0.6;
+	m_pViewFront->m_custom3d.position.y = -m_pViewFront->m_custom3d.position.y;
 	m_pViewBack->m_custom3d = m_custom3d;
 	m_pViewBack->m_custom3d.position.z += 0.6;
+	m_pViewBack->m_custom3d.position.y = -m_pViewBack->m_custom3d.position.y;
 }
 
 void Paper::update()
@@ -96,8 +98,8 @@ void Paper::draw()
 #ifdef DEBUG
 
 		char buf[256];
-		sprintf_s(buf, "Pagination: %d", m_paginationFront);
-		drawString(m_width - 40, m_height - 40, buf);
+		sprintf_s(buf, "Front: %d", m_paginationFront);
+		drawString(m_width - 240, m_height - 40, buf);
 
 #endif // DEBUG
 
@@ -114,7 +116,7 @@ void Paper::draw()
 
 #ifdef DEBUG
 
-		sprintf_s(buf, "Pagination: %d", m_paginationBack);
+		sprintf_s(buf, "Back: %d", m_paginationBack);
 		drawString(0, m_height - 40, buf);
 
 #endif // DEBUG

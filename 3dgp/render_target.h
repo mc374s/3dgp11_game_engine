@@ -33,7 +33,8 @@ private:
 	HRESULT hr;
 	UINT m_vertexCount;
 
-	ID3D11RasterizerState*		m_pRasterizerState;
+	ID3D11RasterizerState*		m_pRasterizerStateCullBack;
+	ID3D11RasterizerState*		m_pRasterizerStateCullFront;
 
 	ID3D11Buffer*				m_pVertexBuffer;
 	ID3D11Buffer*				m_pVSProjectionCBuffer;
