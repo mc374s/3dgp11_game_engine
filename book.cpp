@@ -1,6 +1,7 @@
 ﻿#include "game.h"
 #include "player.h"
-#include "page.h"
+#include "paper.h"
+#include "sound_data.h"
 
 
 #include "book.h"
@@ -16,9 +17,9 @@ Book::Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_m
 {
 
 	float coverWidth = a_width + a_marginLeft + a_marginRight;
-	float coverHeight = a_height + a_marginTop + a_marginBottom;/*
-	m_pBookLeft = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(a_width, a_height, a_bookDepth), 0xF0FFFFFF);
-	m_pBookLeft->m_custom3d.position = XMFLOAT3(-a_width / 2, 0, a_bookDepth / 2);
+	float coverHeight = a_height + a_marginTop + a_marginBottom;
+	/*m_pBookLeft = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(a_width, a_height, a_bookDepth), 0xF0FFFFFF);
+	m_pBookLeft->m_custom3d.position = XMFLOAT3(-a_width / 2, 0, a_bookDepth / 2);*/
 
 	m_step = STEP::INIT;
 	m_timer = 0;
