@@ -17,7 +17,7 @@ SceneMain::SceneMain()
 {
 	//init();
 
-	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 40, 8);
+	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 8);
 
 	m_pBG = new OBJ2D;
 	m_pBG->m_pSprData = &e_sprMainBG;

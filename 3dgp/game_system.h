@@ -76,6 +76,28 @@ inline float Vector3Dot(Vector& v1, Vector& v2)
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// edit by ChenYuezong 2018/05/25
+// operator " = [] () -> " must be defined as memeber operator
+
+XMFLOAT3& operator += (XMFLOAT3& lhv, const XMFLOAT3& rhv);
+XMFLOAT3& operator -= (XMFLOAT3& lhv, const XMFLOAT3& rhv);
+XMFLOAT3& operator *= (XMFLOAT3& lhv, float rhv);
+XMFLOAT3& operator /= (XMFLOAT3& lhv, float rhv);
+
+//inline XMFLOAT3 operator + () const { XMFLOAT3 ret(x, y, z); return ret; }
+//inline XMFLOAT3 operator - () const { XMFLOAT3 ret(-x, -y, -z); return ret; }
+
+const XMFLOAT3 operator + (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+const XMFLOAT3 operator - (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+const XMFLOAT3 operator * (const XMFLOAT3& lhv, float rhv);
+const XMFLOAT3 operator / (const XMFLOAT3& lhv, float rhv);
+
+bool const operator == (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+bool const operator != (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //*****************************************************************************************************************************
 //
 //	define’è‹`
@@ -265,15 +287,17 @@ private:
 	float m_rotateAngle;
 	UINTCOLOR m_blendColor;
 
+
 public:
 	View(int a_viewWidth, int a_viewHeight);
-	View(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF);
+	View(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, bool a_doReflection = false);
 	~View();
 
+	bool m_doReflection;
 	CUSTOM3D m_custom3d;
 
 	void set();
-	void set(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF);
+	void set(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, bool a_doReflection = false);
 	
 	static void clear();
 };

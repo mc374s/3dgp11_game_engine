@@ -148,6 +148,7 @@
     <ClInclude Include="numbers.h" />
     <ClInclude Include="page.h" />
     <ClInclude Include="obj2d.h" />
+    <ClInclude Include="paper.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="scene_main.h" />
     <ClInclude Include="scene_title.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="numbers.cpp" />
     <ClCompile Include="page.cpp" />
     <ClCompile Include="obj2d.cpp" />
+    <ClCompile Include="paper.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scene_main.cpp" />
     <ClCompile Include="scene_title.cpp" />
