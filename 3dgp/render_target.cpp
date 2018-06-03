@@ -47,7 +47,9 @@ bool RenderTarget::initialize(ID3D11Device* a_pDevice)
 	rasterizerDesc.DepthBiasClamp = 0;
 	rasterizerDesc.SlopeScaledDepthBias = 0;
 
-	hr = a_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerState);
+	hr = a_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStateCullBack);
+	rasterizerDesc.CullMode = D3D11_CULL_FRONT;
+	hr = a_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStateCullFront);
 	if (FAILED(hr))
 	{
 		MessageBox(0, L"sprite: Initialize hr failed", 0, 0);
@@ -162,7 +164,8 @@ RenderTarget::RenderTarget(ID3D11Device* a_pDevice, int a_renderWidth, int a_ren
 RenderTarget::~RenderTarget()
 {
 
-	SAFE_RELEASE(m_pRasterizerState);
+	SAFE_RELEASE(m_pRasterizerStateCullBack);
+	SAFE_RELEASE(m_pRasterizerStateCullFront);
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pVSProjectionCBuffer);
 	
@@ -189,7 +192,6 @@ void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext)
 	a_pDeviceContext->IASetInputLayout(m_pInputLayout);
 	a_pDeviceContext->VSSetShader(m_pVertexShader, NULL, 0);
 	a_pDeviceContext->PSSetShader(m_pPixelShader, NULL, 0);
-	a_pDeviceContext->RSSetState(m_pRasterizerState);
 	a_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
 	a_pDeviceContext->Draw(m_vertexCount, 0);
 
@@ -221,7 +223,7 @@ void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, vertex a_pCoord
 
 }
 
-void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor)
+void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor, bool a_doReflection)
 {
 	if ((int)a_srcWidth == 0 || (int)a_srcHeight == 0)
 	{
@@ -250,6 +252,9 @@ void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, 
 			XMFLOAT2(a_srcX + a_srcWidth, a_srcY + a_srcHeight)
 		},
 	};
+
+
+
 	XMFLOAT3 center(a_drawX + a_drawWidth / 2, a_drawY + a_drawHeight / 2, 0);
 
 	// Rotation And Change to NDC coordinate
@@ -260,6 +265,27 @@ void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, 
 		vertices[i].position = toNDC(vertices[i].position);
 		vertices[i].texcoord = toNDC_UV(vertices[i].texcoord);
 		vertices[i].normal = { 0,0,-1 };
+		if (a_doReflection)
+		{
+			vertices[i].normal.x = -vertices[i].normal.x;
+			vertices[i].normal.y = -vertices[i].normal.y;
+			vertices[i].normal.z = -vertices[i].normal.z;
+		}
+	}
+	if (a_doReflection)
+	{
+		static XMFLOAT2 swapTemp;
+		swapTemp = vertices[0].texcoord;
+		vertices[0].texcoord = vertices[1].texcoord;
+		vertices[1].texcoord = swapTemp;
+		swapTemp = vertices[2].texcoord;
+		vertices[2].texcoord = vertices[3].texcoord;
+		vertices[3].texcoord = swapTemp;
+		a_pDeviceContext->RSSetState(m_pRasterizerStateCullFront);
+	}
+	else
+	{
+		a_pDeviceContext->RSSetState(m_pRasterizerStateCullBack);
 	}
 
 	render(a_pDeviceContext, vertices);
@@ -272,21 +298,28 @@ void RenderTarget::setProjection(ID3D11DeviceContext *a_pDeviceContext, const XM
 		CUSTOM3D init;
 		a_pCustom3D = &init;
 	}
-	namespace DX = DirectX;
 	static XMFLOAT3 position, rotationAxis;
 	position = toNDC(a_pCustom3D->position);
 	rotationAxis = toNDC(a_pCustom3D->rotationAxis);
 	static XMMATRIX S, R, T, W, V, P, WVP;
-	S = R = T = W = V = P = WVP = DX::XMMatrixIdentity();
-	S = DX::XMMatrixScaling(a_pCustom3D->scaling.x, a_pCustom3D->scaling.y, a_pCustom3D->scaling.z);
-	//R = DX::XMMatrixRotationAxis(XMVectorSet(rotationAxis.x, rotationAxis.y, rotationAxis.z, 0), a_pCustom3D->a_rotateAngle*0.01745329251);
-	R = DX::XMMatrixRotationRollPitchYaw(a_pCustom3D->angleYawPitchRoll.y*0.01745, a_pCustom3D->angleYawPitchRoll.x*0.01745, a_pCustom3D->angleYawPitchRoll.z*0.01745);
-	T = DX::XMMatrixTranslation(position.x, position.y, position.z);
-	W = S*R*T;
+	S = R = T = W = V = P = WVP = DirectX::XMMatrixIdentity();
+	//S = DirectX::XMMatrixScaling(a_pCustom3D->scaling.x, a_pCustom3D->scaling.y, a_pCustom3D->scaling.z);
+	////R = DirectX::XMMatrixRotationAxis(XMVectorSet(rotationAxis.x, rotationAxis.y, rotationAxis.z, 0), a_pCustom3D->a_rotateAngle*0.01745329251);
+	//R = DirectX::XMMatrixRotationRollPitchYaw(a_pCustom3D->angleYawPitchRoll.y*0.01745, a_pCustom3D->angleYawPitchRoll.x*0.01745, a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	//T = DirectX::XMMatrixTranslation(position.x, position.y, position.z);
+	//W = S*R*T;
+	//R = DirectX::XMMatrixRotationAxis(XMVectorSet(rotationAxis.x, rotationAxis.y, rotationAxis.z, 0), _custom3D->angle*0.01745329251);
+	R = DirectX::XMMatrixRotationAxis(XMVectorSet(0, 1, 0, 0), a_pCustom3D->angleYawPitchRoll.x*0.01745)
+		*DirectX::XMMatrixRotationAxis(XMVectorSet(1, 0, 0, 0), a_pCustom3D->angleYawPitchRoll.y*0.01745)
+		*DirectX::XMMatrixRotationAxis(XMVectorSet(0, 0, 1, 0), a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	//R = DX::XMMatrixRotationRollPitchYaw(a_pCustom3D->angleYawPitchRoll.y*0.01745, a_pCustom3D->angleYawPitchRoll.x*0.01745, a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	S = DirectX::XMMatrixScaling(a_pCustom3D->scaling.x, a_pCustom3D->scaling.y, a_pCustom3D->scaling.z);
+	T = DirectX::XMMatrixTranslation(position.x, position.y, position.z);
+	W = T*R*S;
 
 	//e_camera.clear();
-	V = DX::XMMatrixLookAtLH(e_camera.eyePosition, e_camera.focusPosition, e_camera.upDirection);
-	P = DX::XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 100.0f);
+	V = DirectX::XMMatrixLookAtLH(e_camera.eyePosition, e_camera.focusPosition, e_camera.upDirection);
+	P = DirectX::XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 100.0f);
 	WVP = W*V*P;
 	/*W = DX::XMMatrixTranspose(W);
 	V = DX::XMMatrixTranspose(V);
@@ -306,13 +339,13 @@ void RenderTarget::setProjection(ID3D11DeviceContext *a_pDeviceContext, const XM
 	a_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pVSProjectionCBuffer);
 }
 
-void RenderTarget::render3D(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor, const CUSTOM3D* a_pCustom3D)
+void RenderTarget::render3D(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor, const CUSTOM3D* a_pCustom3D, bool a_doReflection)
 {
 	// 
 	m_virtualWidth = a_srcWidth;
 	m_virtualHeight = a_srcHeight;
 	setProjection(a_pDeviceContext, XMFLOAT3(0, 0, 0), a_pCustom3D);
-	render(a_pDeviceContext, a_drawX, a_drawY, a_drawWidth, a_drawHeight, a_srcX, a_srcY, a_srcWidth, a_srcHeight, a_rotateAngle, a_blendColor);
+	render(a_pDeviceContext, a_drawX, a_drawY, a_drawWidth, a_drawHeight, a_srcX, a_srcY, a_srcWidth, a_srcHeight, a_rotateAngle, a_blendColor, a_doReflection);
 }
 
 XMFLOAT3 RenderTarget::toNDC(float a_screenX, float a_screenY)

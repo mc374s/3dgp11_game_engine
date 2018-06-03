@@ -11,6 +11,7 @@ public:
 	int m_height;
 	const int m_pagination;
 
+	XMFLOAT3 m_position;
 
 	OBJ2D m_bg;
 	const int m_isActive = true;

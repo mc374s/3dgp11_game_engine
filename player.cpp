@@ -22,7 +22,7 @@ void Player::init()
 	m_pos = { 80,140,5 };
 	m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
-	m_liveInPagination = 1;
+	m_liveInPagination = 61;
 
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
@@ -72,7 +72,7 @@ void Player::restart()
 	m_pos = { 80,140,5 };
 	m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
-	m_liveInPagination = 1;
+	m_liveInPagination = 61;
 
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;

@@ -1,10 +1,19 @@
 ﻿#ifndef _BOOK_H_
 #define _BOOK_H_
 
-#define PAGINATION_MAX (2)
+#define INNER_PAPER_MAX_NUM (80)
 
+enum PAPER_NO
+{
+	COVER_FRONT = 0,
+	PAPER_FIRST,
+	PAPER_LAST = INNER_PAPER_MAX_NUM,
+	COVER_BACK,
+	MAX_PAPER_NO,
+};
 
 class Page;
+class Paper;
 
 class Book
 {
@@ -14,24 +23,18 @@ public:
 	int m_step;
 	int m_timer;
 
-	int m_width;
-	int m_height;
-	int m_marginLeft;
-	int m_marginTop;
-	int m_marginRight;
-	int m_marginBottom;
-	int m_bookDepth;
-	int m_coverDepth;
+	float m_width;
+	float m_height;
+	float m_marginLeft;
+	float m_marginTop;
+	float m_marginRight;
+	float m_marginBottom;
+	float m_bookDepth;
+	float m_coverDepth;
 
-	Cube *m_pBookLeft;
-	Cube *m_pBookRight;
-	Cube *m_pCoverLeft;
-	Cube *m_pCoverRight;
+	Paper *m_ppPapers[PAPER_NO::MAX_PAPER_NO] = { nullptr };
 
-	float m_cameraAngleXY, m_cameraAngleZY;
-	float m_cameraDistance;
-
-	Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_bookDepth, int a_coverDepth);
+	Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_marginRight, int a_marginBottom, int a_coverDepth);
 	~Book();
 
 
@@ -42,12 +45,18 @@ public:
 	float m_openAngle = 0;
 	float m_openSpeed = 0;
 	float m_openSpeedAcc = 0;
-	XMFLOAT3 m_position = { 0,0,0 };
+	XMFLOAT3 m_position;
+	XMFLOAT3 m_initPos;
+	XMFLOAT3 m_speed;
+	XMFLOAT3 m_speedAcc;
+	XMFLOAT3 m_speedMax;
+	XMFLOAT3 m_angleChangeSpeed;
+	XMFLOAT3 m_angleYawPitchRoll;
+
+	float m_centerPaper;
+
 	bool m_isClosed;
 	bool m_isOpened;
-
-	// Page 0 is reserved
-	Page* m_ppPages[PAGINATION_MAX] = { nullptr };
 
 	void init();
 	void update();

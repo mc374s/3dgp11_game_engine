@@ -33,7 +33,8 @@ private:
 	HRESULT hr;
 	UINT m_vertexCount;
 
-	ID3D11RasterizerState*		m_pRasterizerState;
+	ID3D11RasterizerState*		m_pRasterizerStateCullBack;
+	ID3D11RasterizerState*		m_pRasterizerStateCullFront;
 
 	ID3D11Buffer*				m_pVertexBuffer;
 	ID3D11Buffer*				m_pVSProjectionCBuffer;
@@ -66,10 +67,10 @@ public:
 
 	void render(ID3D11DeviceContext* a_pDeviceContext);
 	void render(ID3D11DeviceContext* a_pDeviceContext, vertex a_pCoordNDC[]);
-	void render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF);
+	void render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, bool a_doReflection = false);
 
 	void setProjection(ID3D11DeviceContext *a_pDeviceContext, const XMFLOAT3 &a_position, const CUSTOM3D* a_pCustom3D = nullptr);
-	void render3D(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, const CUSTOM3D* _custom3D = nullptr);
+	void render3D(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, float a_rotateAngle = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, const CUSTOM3D* _custom3D = nullptr, bool a_doReflection = false);
 };
 
 
