@@ -27,6 +27,7 @@
 // Player Update Mode
 enum P_MODE
 {
+	START,
 	RESTART,
 	NORMAL,
 	CLEAR,

@@ -96,11 +96,12 @@ void SceneMain::update()
 		//pMapObjManager->init(0);
 		m_pBook->init();
 		pObjManager->init();
+		pEffectManager->init();
+
 		pPlayerManager->init();
 		pMapObjManager->init(0);
 
 		pGameUIManager->init();
-		pEffectManager->init();
 
 		m_pStr = "";
 		m_timer = 0;
