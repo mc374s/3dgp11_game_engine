@@ -27,7 +27,7 @@ Book::Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_m
 	m_pfMove = nullptr;
 	m_pfMoveOld = nullptr;
 	m_isClosed = false;
-	m_isOpened = true;
+	m_isOpened = false;
 	m_openAngle = 0;
 
 
@@ -78,7 +78,7 @@ void Book::init()
 	m_timer = 0;
 	m_pfMove = nullptr;
 	m_pfMoveOld = nullptr;
-	m_isClosed = true;
+	m_isClosed = false;
 	m_isOpened = false;
 	m_openAngle = 0;
 	m_position.z -= (m_coverDepth + 30 * PAPER_DEPTH);
