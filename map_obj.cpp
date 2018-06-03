@@ -248,6 +248,7 @@ void MapObjManager::init(int a_stageNo)
 	m_stageNo = a_stageNo;
 	m_timer = 0;
 	m_pStageData = stageSetData[m_stageNo];
+	STAGE_HEIGHT = e_stage_height[m_stageNo];
 
 	for (auto &it:m_ppMapObjs){
 		if (it){
@@ -260,7 +261,7 @@ void MapObjManager::update()
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove && m_ppMapObjs[i]->m_step >= STEP::END + 2)
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove)
 		{
 			m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
 		}

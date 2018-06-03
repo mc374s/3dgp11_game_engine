@@ -3,7 +3,17 @@
 
 #include "stage_data.h"
 
-int STAGE_HEIGHT = (1150 - 76) - (PH - 100);
+int e_stage_height[STAGE_MAX_NUM] =
+{
+	(1150 - 76) - (PH - 100),
+	100,
+};
+
+int START_PAGINATION = 61;
+
+int STAGE_HEIGHT = e_stage_height[0];
+
+
 
 STAGE_DATA stage00_setData[] = {
 

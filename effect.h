@@ -1,4 +1,4 @@
-#ifndef _EFFECT_H_
+﻿#ifndef _EFFECT_H_
 #define _EFFECT_H_
 
 #include "obj2d.h"

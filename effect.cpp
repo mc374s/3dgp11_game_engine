@@ -1,9 +1,9 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "sprite_data.h"
 #include "effect.h"
 
 ////////////////////////////////////////////////////////
-// ƒNƒ‰ƒX: Effect ŠÖ”
+// ã‚¯ãƒ©ã‚¹: Effect é–¢æ•°
 
 Effect::Effect()
 {
@@ -60,7 +60,7 @@ void Effect::draw()
 
 
 ////////////////////////////////////////////////////////
-// ƒNƒ‰ƒX: EffectManager ŠÖ”
+// ã‚¯ãƒ©ã‚¹: EffectManager é–¢æ•°
 EffectManager::EffectManager()
 {
 

@@ -1,4 +1,5 @@
 ﻿#include "game.h"
+#include "sprite_data.h"
 #include "player.h"
 #include "paper.h"
 #include "sound_data.h"
@@ -16,8 +17,8 @@ Book::Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_m
 	m_coverDepth(a_coverDepth)
 {
 
-	float coverWidth = a_width + a_marginLeft + a_marginRight;
-	float coverHeight = a_height + a_marginTop + a_marginBottom;
+	m_coverWidth = a_width + a_marginLeft + a_marginRight;
+	m_coverHeight = a_height + a_marginTop + a_marginBottom;
 	/*m_pBookLeft = new Cube(XMFLOAT3(0, 0, 0), XMFLOAT3(a_width, a_height, a_bookDepth), 0xF0FFFFFF);
 	m_pBookLeft->m_custom3d.position = XMFLOAT3(-a_width / 2, 0, a_bookDepth / 2);*/
 
@@ -30,13 +31,15 @@ Book::Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_m
 	m_openAngle = 0;
 
 
-	m_ppPapers[COVER_FRONT] = new Paper(COVER_FRONT, coverWidth, coverHeight, m_coverDepth, 0x664029FF);
-	m_ppPapers[COVER_FRONT]->m_custom3d.position = m_ppPapers[COVER_FRONT]->m_initPos = { coverWidth / 2, 0, m_coverDepth / 2 };
+	m_ppPapers[COVER_FRONT] = new Paper(COVER_FRONT, m_coverWidth, m_coverHeight, m_coverDepth, 0x664029FF);
+	m_ppPapers[COVER_FRONT]->m_custom3d.position = m_ppPapers[COVER_FRONT]->m_initPos = { m_coverWidth / 2, 0, m_coverDepth / 2 };
+	m_ppPapers[COVER_FRONT]->m_pBG->m_pSprData = &e_sprCoverFront;
 	m_ppPapers[COVER_FRONT]->m_isActive = true;
 
-	m_ppPapers[COVER_BACK] = new Paper(COVER_BACK, coverWidth, coverHeight, m_coverDepth, 0x664029FF);
-	m_ppPapers[COVER_BACK]->m_custom3d.position = m_ppPapers[COVER_BACK]->m_initPos = { coverWidth / 2, 0, m_coverDepth + PAPER_LAST*PAPER_DEPTH + m_coverDepth / 2 };
-	m_ppPapers[COVER_FRONT]->m_isActive = true;
+	m_ppPapers[COVER_BACK] = new Paper(COVER_BACK, m_coverWidth, m_coverHeight, m_coverDepth, 0x664029FF);
+	m_ppPapers[COVER_BACK]->m_custom3d.position = m_ppPapers[COVER_BACK]->m_initPos = { m_coverWidth / 2, 0, m_coverDepth + PAPER_LAST*PAPER_DEPTH + m_coverDepth / 2 };
+	m_ppPapers[COVER_BACK]->m_pBG->m_pSprData = &e_sprCoverBack;
+	m_ppPapers[COVER_BACK]->m_isActive = true;
 
 	for (int i = 0; i < PAPER_NO::MAX_PAPER_NO; i++)
 	{
@@ -75,11 +78,32 @@ void Book::init()
 	m_timer = 0;
 	m_pfMove = nullptr;
 	m_pfMoveOld = nullptr;
-	m_isClosed = false;
-	m_isOpened = true;
+	m_isClosed = true;
+	m_isOpened = false;
 	m_openAngle = 0;
 	m_position.z -= (m_coverDepth + 30 * PAPER_DEPTH);
 	m_centerPaper = 0.5;
+	m_currentPaperNO = 30;
+
+	for (auto &it : m_ppPapers) {
+		if (it)
+		{
+			it->m_custom3d.clear();
+			it->m_custom3d.position = it->m_initPos;
+			it->m_isActive = false;
+		}
+	}
+	m_ppPapers[COVER_FRONT]->m_isActive = true;
+	m_ppPapers[COVER_BACK]->m_isActive = true;
+
+	m_posLookedByCamera = { 0.0f, 0.0f, 0.0f };
+	m_cameraAdjust = { m_coverWidth / 2, 0.0f, -CAMERA_BEST_DISTANCE_PX };
+	e_camera.focusPosition.vector4_f32[0] = -m_posLookedByCamera.x + m_cameraAdjust.x;
+	e_camera.focusPosition.vector4_f32[1] = -m_posLookedByCamera.y + m_cameraAdjust.y;
+	e_camera.eyePosition.vector4_f32[0] = e_camera.focusPosition.vector4_f32[0];
+	e_camera.eyePosition.vector4_f32[1] = e_camera.focusPosition.vector4_f32[1];
+	e_camera.eyePosition.vector4_f32[2] = -m_posLookedByCamera.z + m_cameraAdjust.z;
+
 }
 
 int g_keyCounter = 0;
@@ -92,14 +116,18 @@ void Book::update()
 	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
 	// 原因はKEY_BOARDがexternで更新していることと予測
 	if (/*KEY_DOWN('C')*/ KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED/*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
-		if (m_isOpened)
+		if (m_step == STEP::FINISH)
 		{
-			m_pfMove = &Book::closeBook;
+			m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
+			if (m_isOpened)
+			{
+				m_pfMove = &Book::closeBook;
+			}
+			/*if (m_isClosed)
+			{
+				m_pfMove = &Book::openBook;
+			}*/
 		}
-		/*if (m_isClosed)
-		{
-			m_pfMove = &Book::openBook;
-		}*/
 		g_keyCounter++;
 	}
 	if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED) {
@@ -118,19 +146,15 @@ void Book::update()
 			m_pfMove = &Book::openBook;
 		}
 	}
-
-
 	////////////////////////////////////////////////////////////////////////////////
 	// For Pages update
-	static int frame = 1;
-	m_speed.x = m_speed.y = m_speed.z = 0;
-	m_angleChangeSpeed.x = m_angleChangeSpeed.y = m_angleChangeSpeed.z = 0;
+	//m_speed.x = m_speed.y = m_speed.z = 0;
 	/*if (frame==1)
 	{
 		m_speed.z = -m_bookDepth - 2 * m_coverDepth;
 		frame++;
 	}*/
-	if (KEY_BOARD.Up){
+	/*if (KEY_BOARD.Up){
 		m_speed.y = 4;
 	}
 	if (KEY_BOARD.Down){
@@ -141,7 +165,7 @@ void Book::update()
 	}
 	if (KEY_BOARD.Right){
 		m_speed.x = 4;
-	}
+	}*/
 	/*if (KEY_BOARD.PageUp){
 		m_speed.z = 4;
 	}
@@ -149,18 +173,19 @@ void Book::update()
 		m_speed.z = -4;
 	}*/
 
+	/*m_angleChangeSpeed.x = m_angleChangeSpeed.y = */m_angleChangeSpeed.z = 0;
 	if (KEY_BOARD.T) {
 		m_angleChangeSpeed.y = 1;
 	}
 	if (KEY_BOARD.G) {
 		m_angleChangeSpeed.y = -1;
 	}
-	if (KEY_BOARD.F) {
+	/*if (KEY_BOARD.F) {
 		m_angleChangeSpeed.x = 1;
 	}
 	if (KEY_BOARD.H) {
 		m_angleChangeSpeed.x = -1;
-	}
+	}*/
 	if (KEY_BOARD.R) {
 		m_angleChangeSpeed.z = 1;
 	}
@@ -168,77 +193,43 @@ void Book::update()
 		m_angleChangeSpeed.z = -1;
 	}
 
-	static int paperNO = 30;
-	float angle = 0;
 
 	if (KEY_TRACKER.pressed.D8){
-		paperNO++;
-		if (paperNO > PAPER_NO::MAX_PAPER_NO - 1)
+		m_currentPaperNO++;
+		if (m_currentPaperNO > PAPER_NO::MAX_PAPER_NO - 1)
 		{
-			paperNO = PAPER_NO::MAX_PAPER_NO - 1;
+			m_currentPaperNO = PAPER_NO::MAX_PAPER_NO - 1;
 		}
-		m_position.z -= m_ppPapers[paperNO]->m_depth;
+		m_position.z -= m_ppPapers[m_currentPaperNO]->m_depth;
 	}
 	if (KEY_TRACKER.pressed.D7){
-		m_position.z += m_ppPapers[paperNO]->m_depth;
-		paperNO--;
-		if (paperNO < 0)
+		m_position.z += m_ppPapers[m_currentPaperNO]->m_depth;
+		m_currentPaperNO--;
+		if (m_currentPaperNO < 0)
 		{
-			paperNO = 0;
+			m_currentPaperNO = 0;
 		}
 	}
 	if (KEY_BOARD.Home){
-		angle = 2;
+		m_pfMove = &Book::startReading;
 	}
 	if (KEY_BOARD.End) {
-		angle = -2;
+		m_pfMove = &Book::finishReading;
 	}
-
-	m_position += m_speed;
-	m_angleYawPitchRoll += m_angleChangeSpeed;
+	//m_posLookedByCamera += m_speed;
+	//m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
+	m_angleYawPitchRoll.z += m_angleChangeSpeed.z;
 	for (auto &it : m_ppPapers)
 	{
 		if (it)
 		{
-
-			if (it->m_paperNO > paperNO - 5 && it->m_paperNO < paperNO + 5)
-			{
-				it->m_isActive = true;
-			}
-			else
-			{
-				it->m_isActive = false;
-			}
-
-			if (it->m_paperNO <= paperNO && angle > 0)
-			{
-				it->m_custom3d.angleYawPitchRoll.x += angle;
-				if (it->m_custom3d.angleYawPitchRoll.x > 180)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 180;
-				}
-				if (it->m_custom3d.angleYawPitchRoll.x < 0)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 0;
-				}
-			}
-			if (it->m_paperNO >= paperNO && angle < 0)
-			{
-				it->m_custom3d.angleYawPitchRoll.x += angle;
-				if (it->m_custom3d.angleYawPitchRoll.x > 180)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 180;
-				}
-				if (it->m_custom3d.angleYawPitchRoll.x < 0)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 0;
-				}
-			}
 			// 本とページの位置を同調かねて座標系の違いによる修正
-			it->m_custom3d.angleYawPitchRoll += m_angleChangeSpeed;
+			it->m_custom3d.angleYawPitchRoll.x += m_angleChangeSpeed.x;
+			it->m_custom3d.angleYawPitchRoll.y = m_angleYawPitchRoll.y;
+			it->m_custom3d.angleYawPitchRoll.z = m_angleYawPitchRoll.z;
 			it->m_custom3d.position = m_position;
-			//Always Need to Update Page View's m_custom3d
 
+			//Always Need to Update Page View's m_custom3d
 			it->syncViewCustom3d();
 			if (m_isOpened)
 			{
@@ -247,6 +238,13 @@ void Book::update()
 		}
 	}
 
+	// Move camera As moved Book is self
+	e_camera.focusPosition.vector4_f32[0] = -m_posLookedByCamera.x + m_cameraAdjust.x;
+	e_camera.focusPosition.vector4_f32[1] = -m_posLookedByCamera.y + m_cameraAdjust.y;
+	e_camera.eyePosition.vector4_f32[0] = e_camera.focusPosition.vector4_f32[0];
+	e_camera.eyePosition.vector4_f32[1] = e_camera.focusPosition.vector4_f32[1];
+	e_camera.eyePosition.vector4_f32[2] = -m_posLookedByCamera.z + m_cameraAdjust.z;
+	e_camera.toNDC();
 
 }
 
@@ -263,7 +261,7 @@ void Book::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, "Key Counter: %d", g_keyCounter);
+	sprintf_s(buf, "Key Counter: %d \nCameraDis: %.1lf px", g_keyCounter, e_camera.eyePosition.vector4_f32[2] * SCREEN_WIDTH);
 	drawString(0, 300, buf);
 	if (KEY_DOWN('0'))
 	{
@@ -293,6 +291,17 @@ void Book::closeBook()
 		m_isClosed = false;
 		m_isOpened = false;
 		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
+		for (auto &it : m_ppPapers)
+		{
+			if (it && it->m_paperNO > m_centerPaper - 1 && it->m_paperNO < m_centerPaper + 1)
+			{
+				it->m_isActive = true;
+			}
+			else
+			{
+				it->m_isActive = false;
+			}
+		}
 		m_openAngle = 180;
 		m_step = STEP::BEGIN;
 		break;
@@ -302,22 +311,22 @@ void Book::closeBook()
 		m_openAngle -= m_openSpeed * 2;
 		/*m_position.z += m_openSpeed * 5.0f;
 		m_position.y += m_openSpeed * 3.0f;*/
-		for (auto &itPaper : m_ppPapers)
+		for (auto &it : m_ppPapers)
 		{
-			if (itPaper->m_paperNO < m_centerPaper)
+			if (it->m_paperNO < m_centerPaper)
 			{
-				itPaper->m_custom3d.angleYawPitchRoll.x -= m_openSpeed;
-				if (itPaper->m_custom3d.angleYawPitchRoll.x < 90)
+				it->m_custom3d.angleYawPitchRoll.x -= m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x < 90)
 				{
-					itPaper->m_custom3d.angleYawPitchRoll.x = 90;
+					it->m_custom3d.angleYawPitchRoll.x = 90;
 				}
 			}
 			else
 			{
-				itPaper->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
-				if (itPaper->m_custom3d.angleYawPitchRoll.x > 90)
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 90)
 				{
-					itPaper->m_custom3d.angleYawPitchRoll.x = 90;
+					it->m_custom3d.angleYawPitchRoll.x = 90;
 				}
 			}
 		}
@@ -366,10 +375,24 @@ void Book::openBook()
 			pPlayerManager->m_step = STEP::INIT;
 		}
 		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
+		for (auto &it : m_ppPapers)
+		{
+			if (it && it->m_paperNO > m_centerPaper - 1 && it->m_paperNO < m_centerPaper + 1)
+			{
+				it->m_isActive = true;
+			}
+			else
+			{
+				it->m_isActive = false;
+			}
+		}
 		m_isClosed = false;
 		m_isOpened = false;
 		m_openAngle = 0;
 		m_openSpeed = 3;
+		m_speed.y = -90.0f * m_openSpeed / 90.0f;
+		m_speed.z = -90.0f * m_openSpeed / 90.0f;
+		m_angleChangeSpeed.y = -45.0f * m_openSpeed / 90.0f;
 		m_step = STEP::BEGIN;
 		MFAudioPlay(SE_OPEN);
 		break;
@@ -378,22 +401,23 @@ void Book::openBook()
 		m_openAngle += m_openSpeed * 2;
 		/*m_position.z -= 15;
 		m_position.y -= 9;*/
-		for (auto &itPaper : m_ppPapers)
+
+		for (auto &it : m_ppPapers)
 		{
-			if (itPaper->m_paperNO < m_centerPaper)
+			if (it->m_paperNO < m_centerPaper)
 			{
-				itPaper->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
-				if (itPaper->m_custom3d.angleYawPitchRoll.x > 180)
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
 				{
-					itPaper->m_custom3d.angleYawPitchRoll.x = 180;
+					it->m_custom3d.angleYawPitchRoll.x = 180;
 				}
 			}
 			else
 			{
-				itPaper->m_custom3d.angleYawPitchRoll.x -= m_openSpeed;
-				if (itPaper->m_custom3d.angleYawPitchRoll.x < 0)
+				it->m_custom3d.angleYawPitchRoll.x -= m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
 				{
-					itPaper->m_custom3d.angleYawPitchRoll.x = 0;
+					it->m_custom3d.angleYawPitchRoll.x = 0;
 				}
 			}
 		}
@@ -411,6 +435,170 @@ void Book::openBook()
 		m_position.z = 0;
 		m_position.y = 0;*/
 		m_step = STEP::FINISH;
+		break;
+	case STEP::FINISH:
+
+		break;
+	default:
+		break;
+	}
+}
+
+void Book::turnPages()
+{
+	switch (m_step)
+	{
+	case STEP::INIT:
+
+		for (auto &it: m_ppPapers)
+		{
+			if ((m_openSpeed <= 0 && it->m_paperNO > m_currentPaperNO - 2 && it->m_paperNO < m_currentPaperNO + 12) || (m_openSpeed >= 0 && it->m_paperNO < m_currentPaperNO + 2 && it->m_paperNO > m_currentPaperNO - 12))
+			{
+				it->m_isActive = true;
+			}
+			else
+			{
+				it->m_isActive = false;
+			}
+
+			if (it->m_paperNO <= m_currentPaperNO && m_openSpeed > 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+			if (it->m_paperNO >= m_currentPaperNO && m_openSpeed < 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+		}
+
+		break;
+	case STEP::BEGIN:
+		for (auto &it : m_ppPapers)
+		{
+			if (it->m_paperNO <= m_currentPaperNO && m_openSpeed > 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+			if (it->m_paperNO >= m_currentPaperNO && m_openSpeed < 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+		}
+		break;
+	case STEP::END:
+
+		break;
+	case STEP::FINISH:
+
+		break;
+	default:
+		break;
+	}
+}
+
+void Book::startReading()
+{
+	if (m_pfMoveOld != &Book::startReading)
+	{
+		m_pfMoveOld = m_pfMove;
+		m_step = STEP::INIT;
+	}
+	switch (m_step)
+	{
+	case STEP::INIT:
+		m_speed.x = 6.4f;
+		m_angleChangeSpeed.x = 90.0f * m_speed.x * 2 / m_coverWidth;
+		m_step = STEP::BEGIN;
+		m_ppPapers[COVER_FRONT]->m_isActive = true;
+		m_ppPapers[COVER_BACK]->m_isActive = true;
+		break;
+	case STEP::BEGIN:
+		m_angleYawPitchRoll.x += m_angleChangeSpeed.x;
+		m_posLookedByCamera.x += m_speed.x;
+		
+		if (m_posLookedByCamera.x > m_coverWidth / 2) {
+			m_posLookedByCamera.x = m_coverWidth / 2;
+			m_speed.x = 0;
+			for (auto &it : m_ppPapers) {
+				it->m_custom3d.angleYawPitchRoll.x = 90;
+			}
+			m_angleChangeSpeed.x = 0;
+			m_step = STEP::END;
+		}
+		m_ppPapers[COVER_FRONT]->m_isActive = true;
+		m_ppPapers[COVER_BACK]->m_isActive = true;
+		break;
+	case STEP::END:
+
+		m_isClosed = false;
+		m_isOpened = false;
+		m_pfMove = &Book::openBook;
+
+		break;
+	case STEP::FINISH:
+
+		break;
+	default:
+		break;
+	}
+}
+
+void Book::finishReading()
+{
+	if (m_pfMoveOld != &Book::finishReading)
+	{
+		m_pfMoveOld = m_pfMove;
+		m_step = STEP::INIT;
+	}
+	switch (m_step)
+	{
+	case STEP::INIT:
+		m_speed.x = -6.4f;
+
+		m_step = STEP::BEGIN;
+		break;
+	case STEP::BEGIN:
+		m_posLookedByCamera.x += m_speed.x;
+		if (m_posLookedByCamera.x < 0) {
+			m_posLookedByCamera.x = 0;
+			m_step = STEP::END;
+		}
+
+		break;
+	case STEP::END:
+
 		break;
 	case STEP::FINISH:
 

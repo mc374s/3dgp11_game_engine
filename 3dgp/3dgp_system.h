@@ -69,6 +69,10 @@ struct CameraData
 		focusPosition = { 0, 0, 0 ,0 };
 		upDirection = { 0, 1, 0, 0 };
 	};
+	void toNDC() {
+		eyePosition /= SCREEN_WIDTH;
+		focusPosition /= SCREEN_WIDTH;
+	};
 };
 
 extern CameraData e_camera;
