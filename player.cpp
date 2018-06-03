@@ -10,7 +10,7 @@
 Player::Player()
 {
 	OBJ2DEX::clear();
-	init(); 
+	//init(); 
 }
 
 void Player::init()
@@ -431,6 +431,9 @@ void Player::update()
 {
 	switch (m_mode)
 	{
+	case P_MODE::START:
+		if (pEffectManager->isStampDown) m_mode = P_MODE::NORMAL;
+		break;
 	case P_MODE::CLEAR:
 		m_timer = 0;
 	case P_MODE::NORMAL:
@@ -510,7 +513,7 @@ void Player::addLife(int a_life)
 // Player Manager Class
 PlayerManager::PlayerManager()
 {
-	init();
+	//init();
 }
 
 PlayerManager::~PlayerManager()
@@ -528,6 +531,8 @@ void PlayerManager::init() {
 		m_pPlayer = new Player();
 		m_pPlayer->clear();
 		m_pPlayer->init();
+		pEffectManager->setPlayerInitAnimation(m_pPlayer->m_pos);
+		m_pPlayer->m_mode = P_MODE::START;
 		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = m_pPlayer;
 	}
 	else
