@@ -12,7 +12,7 @@
 
 #pragma comment(lib, "winmm")
 
-#define N 60
+#define FPS (60)
 
 class Scene;
 
@@ -30,7 +30,14 @@ public:
 		}
 	};
 
-	
+	const float MIN_FRAME_TIME_DAFAULT = 1.0f / FPS;
+	float m_minFrameTime = MIN_FRAME_TIME_DAFAULT;
+	float m_frameTime = 0;
+	LARGE_INTEGER m_timeStart;
+	LARGE_INTEGER m_timeEnd;
+	LARGE_INTEGER m_timeFreq;
+
+	void slowGame(int a_FPS = 20);
 
 public:
 	HWND m_hWnd = NULL;

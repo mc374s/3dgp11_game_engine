@@ -174,6 +174,10 @@ bool framework::initialize(HWND hwnd)
 	return true;
 }
 
+void framework::slowGame(int a_FPS)
+{
+	m_minFrameTime = 1.0f / a_FPS;
+}
 
 int framework::run()
 {
@@ -190,7 +194,19 @@ int framework::run()
 
 	KEY_TRACKER.Reset();
 
-	DWORD preTime;
+	//DWORD preTime;
+	DWORD sleepTime;
+
+	//////////////////////////////////////////////////////////////////////
+	// FPS locker
+	if (QueryPerformanceFrequency(&m_timeFreq) == false)
+	{
+		MessageBox(0, L"This Device is too old, QueryPerformanceFrequency failed", L"framework", MB_OK);
+		exit(-1);
+	}
+	QueryPerformanceCounter(&m_timeStart);
+	//////////////////////////////////////////////////////////////////////
+
 	while (WM_QUIT != msg.message)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -199,16 +215,34 @@ int framework::run()
 			DispatchMessage(&msg);
 		} else
 		{
-			
+			//////////////////////////////////////////////////////////////////////
+			// FPS locker
+			QueryPerformanceCounter(&m_timeEnd);
+			m_frameTime = static_cast<float>(m_timeEnd.QuadPart - m_timeStart.QuadPart) / static_cast<float>(m_timeFreq.QuadPart);
+			if (m_frameTime < m_minFrameTime) { // ŽžŠÔ‚É—]—T‚ª‚ ‚é
+												// ƒ~ƒŠ•b‚É•ÏŠ·
+				sleepTime = static_cast<DWORD>((m_minFrameTime - m_frameTime) * 1000);
+
+				timeBeginPeriod(1);		// •ª‰ð”\‚ðã‚°‚é(‚±‚¤‚µ‚È‚¢‚ÆSleep‚Ì¸“x‚ÍƒKƒ^ƒKƒ^)
+				Sleep(sleepTime);
+				timeEndPeriod(1);		// –ß‚·
+
+				// ŽŸT‚ÉŽ‚¿‰z‚µ(‚±‚¤‚µ‚È‚¢‚Æfps‚ª•Ï‚É‚È‚é?)
+				continue;
+			}
+			m_timeStart = m_timeEnd;
+			//////////////////////////////////////////////////////////////////////
+
+
 			KEY_BOARD = e_pKeyboard->GetState();
 			KEY_TRACKER.Update(KEY_BOARD);
 
 			GAME_PAD = e_pGamePad->GetState(0);
 			PAD_TRACKER.Update(GAME_PAD);
 
-			preTime = timeGetTime();
+			//preTime = timeGetTime();
 			m_timer.tick();
-			calculate_frame_stats();
+
 
 			MFAudioCheckLoops();
 			if (m_isFocused)
@@ -217,15 +251,20 @@ int framework::run()
 				render(m_timer.time_interval());
 			}
 
-			//Sleep(1000.0 / 60.0 - GetCurrentTime() + preTime);
+			calculate_frame_stats();
 
-			//lastTime = GetTickCount()*6;
-			while ((timeGetTime() - preTime) * 6 < 100 /*0.0 / 60.0*/) {
-				Sleep(1);		// ƒtƒŒ[ƒ€ŽžŠÔ‚ð‰z‚¦‚é‚Ü‚Å‘Ò‚Â
+			m_minFrameTime = MIN_FRAME_TIME_DAFAULT;
+			if (KEY_BOARD.LeftControl)
+			{
+				slowGame(5);
 			}
+
+			//while ((timeGetTime() - preTime) * 6 < 100 /*0.0 / 60.0*/) {
+			//	Sleep(1);		// ƒtƒŒ[ƒ€ŽžŠÔ‚ð‰z‚¦‚é‚Ü‚Å‘Ò‚Â
+			//}
 			
-			//preTime += 100;
 		}
+		
 	}
 	return static_cast<int>(msg.wParam);
 }
