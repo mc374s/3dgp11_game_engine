@@ -93,7 +93,7 @@ void Paper::draw()
 		m_pBG->draw();
 
 		pObjManager->draw(m_paginationFront);
-		drawRectangle(0, 0, 4, m_height, 0, 0x000000FF);
+		//drawRectangle(0, 0, 4, m_height, 0, 0x000000FF);
 
 #ifdef DEBUG
 
@@ -111,7 +111,7 @@ void Paper::draw()
 		m_pBG->draw();
 
 		pObjManager->draw(m_paginationBack);
-		drawRectangle(m_width - 4, 0, 4, m_height, 0, 0x000000FF);
+		//drawRectangle(m_width - 4, 0, 4, m_height, 0, 0x000000FF);
 
 
 #ifdef DEBUG

@@ -30,10 +30,13 @@ extern SPRITE_LEFTTOP e_pSprItem[];
 
 // UI関係
 extern SPRITE_LEFTTOP e_sprWhite;
-extern SPRITE_CENTER e_sprGage;
-extern SPRITE_CENTER e_sprGageDivision;
+extern SPRITE_CENTER e_sprGageTranscription;
+extern SPRITE_CENTER e_sprGageDivisionTranscription;
 extern SPRITE_CENTER e_sprLifeStamp;
 extern SPRITE_CENTER e_sprLargePlayer;
+
+extern SPRITE_LEFTTOP e_sprGage;
+extern SPRITE_LEFTTOP e_sprGageDivision;
 
 extern SPRITE_CENTER e_sprNumbers;
 

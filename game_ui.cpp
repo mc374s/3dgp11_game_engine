@@ -104,21 +104,21 @@ void GameUIManager::init()
 		}
 	}
 	// UI for Ink Gage
-	m_ppGameUI[GAGE_FRAME]->m_pSprData = &e_sprGageDivision;
+	m_ppGameUI[GAGE_FRAME]->m_pSprData = &e_sprGageDivisionTranscription;
 	m_ppGameUI[GAGE_FRAME]->m_isVisibleAlways = false;
 	m_ppGameUI[GAGE_FRAME]->m_isVisible = false;
 	m_ppGameUI[GAGE_FRAME]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
-	m_ppGameUI[GAGE_FRAME]->m_size = { e_sprGageDivision.width,e_sprGageDivision.height,0 };
+	m_ppGameUI[GAGE_FRAME]->m_size = { e_sprGageDivisionTranscription.width,e_sprGageDivisionTranscription.height,0 };
 	//m_ppGameUI[GAGE_FRAME]->m_custom.scaleX = m_ppGameUI[GAGE_FRAME]->m_size.x / m_ppGameUI[GAGE_FRAME]->m_pSprData->width;
 	//m_ppGameUI[GAGE_FRAME]->m_custom.scaleY = m_ppGameUI[GAGE_FRAME]->m_size.y / m_ppGameUI[GAGE_FRAME]->m_pSprData->height;
 
-	m_ppGameUI[GAGE_LEFT]->m_pSprData = &e_sprGage;
+	m_ppGameUI[GAGE_LEFT]->m_pSprData = &e_sprGageTranscription;
 	m_ppGameUI[GAGE_LEFT]->m_isVisibleAlways = false;
 	m_ppGameUI[GAGE_LEFT]->m_isVisible = false;
 	m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0000FFFF;
 	m_ppGameUI[GAGE_LEFT]->m_alpha = 180;
 	m_ppGameUI[GAGE_LEFT]->m_pos = { (SCREEN_WIDTH - m_ppGameUI[GAGE_LEFT]->m_pSprData->width) / 2,SCREEN_HEIGHT / 2,1 };
-	m_ppGameUI[GAGE_LEFT]->m_size = { e_sprGageDivision.width,e_sprGageDivision.height,0 };
+	m_ppGameUI[GAGE_LEFT]->m_size = { e_sprGageDivisionTranscription.width,e_sprGageDivisionTranscription.height,0 };
 	m_ppGameUI[GAGE_LEFT]->m_custom.scaleMode = SCALE_MODE::RIGHTCENTER;
 
 	*m_ppGameUI[GAGE_RIGHT] = *m_ppGameUI[GAGE_LEFT];
@@ -231,7 +231,7 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 	if (m_ppGameUI[GAGE_FRAME])
 	{
 
-		m_ppGameUI[GAGE_FRAME]->m_isVisible = false;
+		//m_ppGameUI[GAGE_FRAME]->m_isVisible = true;
 		//m_ppGameUI[GAGE_LEFT]->m_isVisible = true;
 		//m_ppGameUI[GAGE_RIGHT]->m_isVisible = true;
 		m_ppGameUI[PLAYER_LEFT]->m_isVisible = true;
