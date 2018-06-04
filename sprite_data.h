@@ -8,6 +8,8 @@ extern SPRITE_LEFTTOP	e_sprTitleBG;
 extern SPRITE_LEFTTOP	e_sprMainBG;
 
 // Book texture
+extern SPRITE_LEFTTOP e_sprCoverFront;
+extern SPRITE_LEFTTOP e_sprCoverBack;
 extern SPRITE_LEFTTOP e_sprPageLeft;
 extern SPRITE_LEFTTOP e_sprPageRight;
 

@@ -71,7 +71,7 @@ void SceneMain::update()
 		{
 			m_pausedOption--;
 		}
-		m_pausedOption = abs(m_pausedOption) % (int)PAUSED_SELECTION::PAUSED_SELECTION_MAX_NUM;
+		m_pausedOption = abs(m_pausedOption) % (int)PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM;
 		if (KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED)
 		{
 			if (m_pausedOption == PAUSED_SELECTION::TO_GAME)

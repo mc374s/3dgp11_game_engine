@@ -12,4 +12,11 @@ typedef Vector3 v3;
 #define PW (PAGE_WIDTH)
 #define PH (PAGE_HEIGHT)
 
+#define STAGE_MAX_NUM (20)
+
+
+extern int e_stage_height[STAGE_MAX_NUM];
+extern int e_start_pagination[STAGE_MAX_NUM];
+
+
 #endif // !_STAGE_DATA_H_

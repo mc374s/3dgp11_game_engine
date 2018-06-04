@@ -20,6 +20,8 @@ enum TEX_NO {
 
 	TEX_PAGE_LEFT,
 	TEX_PAGE_RIGHT,
+	TEX_COVER_FRONT,
+	TEX_COVER_BACK,
 	TEX_MAP_OBJECT,
 	TEX_IVY_THICK,
 	TEX_IVY_THIN,
@@ -50,6 +52,9 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_PAGE_LEFT,		"./DATA/Images/page_left.png" },
 	{ TEX_PAGE_RIGHT,		"./DATA/Images/page_right.png" },
+	{ TEX_COVER_FRONT,		"./DATA/Images/cover_front.png" },
+	{ TEX_COVER_BACK,		"./DATA/Images/cover_back.png" },
+
 	{ TEX_MAP_OBJECT,		"./DATA/Images/map_object_full.png" },
 	{ TEX_IVY_THICK,		"./DATA/Images/border_thick.png" },
 	{ TEX_IVY_THIN,			"./DATA/Images/border_thin.png" },
@@ -66,7 +71,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_TEST_PLAY_TEXT,	"./DATA/Images/test_play_text.png" },
 
-	{ TEX_ANIME_STAMP,	"./DATA/Images/hanko_motion.png" },
+	{ TEX_ANIME_STAMP,		"./DATA/Images/hanko_motion.png" },
 
 	{ -1, NULL },
 };
@@ -78,6 +83,10 @@ SPRITE_LEFTTOP	e_sprMainBG = SPRITE_LEFTTOP(TEX_MAIN, 0, 0, SCREEN_WIDTH, SCREEN
 // Book texture
 SPRITE_LEFTTOP e_sprPageLeft = SPRITE_LEFTTOP(TEX_PAGE_LEFT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 SPRITE_LEFTTOP e_sprPageRight = SPRITE_LEFTTOP(TEX_PAGE_RIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+
+
+SPRITE_LEFTTOP e_sprCoverFront = SPRITE_LEFTTOP(TEX_COVER_FRONT, 0, 0, PAGE_WIDTH + 0 + 20, PAGE_HEIGHT + 10 + 10);
+SPRITE_LEFTTOP e_sprCoverBack = SPRITE_LEFTTOP(TEX_COVER_BACK, 0, 0, PAGE_WIDTH + 0 + 20, PAGE_HEIGHT + 10 + 10);
 
 // キャラなど
 

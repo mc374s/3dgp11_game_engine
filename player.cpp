@@ -22,7 +22,7 @@ void Player::init()
 	m_pos = { 80,140,5 };
 	m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
-	m_liveInPagination = 61;
+	m_liveInPagination = START_PAGINATION;
 
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
@@ -72,7 +72,7 @@ void Player::restart()
 	m_pos = { 80,140,5 };
 	m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
-	m_liveInPagination = 61;
+	m_liveInPagination = START_PAGINATION;
 
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
@@ -466,8 +466,8 @@ void Player::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, " scrolledDisY: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d",
-		m_scrolledDistance.y, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration,m_life);
+	sprintf_s(buf, " scrolledDisY: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d\n STAGE_HEIGHT: %d",
+		m_scrolledDistance.y, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration, m_life, STAGE_HEIGHT);
 	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
 	if (m_type == 0)
 	{

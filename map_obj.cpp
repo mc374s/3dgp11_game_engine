@@ -234,6 +234,7 @@ void MapObj::draw()
 STAGE_DATA* stageSetData[] = {
 	stage00_setData,
 	stage01_setData,
+
 };
 
 
@@ -260,7 +261,8 @@ void MapObjManager::init(int a_stageNo)
 	m_stageNo = a_stageNo;
 	m_timer = 0;
 	m_pStageData = stageSetData[m_stageNo];
-
+	STAGE_HEIGHT = e_stage_height[m_stageNo];
+	START_PAGINATION = e_start_pagination[m_stageNo];
 	for (auto &it:m_ppMapObjs){
 		if (it){
 			it->clear();
@@ -275,10 +277,10 @@ void MapObjManager::update()
 		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pAnimeData) {
 			m_ppMapObjs[i]->animation();
 		}
-		//if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove && m_ppMapObjs[i]->m_step >= STEP::END + 2)
-		//{
-		//	m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
-		//}
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove)
+		{
+			m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
+		}
 	}
 }
 

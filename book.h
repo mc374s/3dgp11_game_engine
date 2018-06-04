@@ -12,7 +12,6 @@ enum PAPER_NO
 	MAX_PAPER_NO,
 };
 
-class Page;
 class Paper;
 
 class Book
@@ -31,6 +30,8 @@ public:
 	float m_marginBottom;
 	float m_bookDepth;
 	float m_coverDepth;
+	float m_coverWidth;
+	float m_coverHeight;
 
 	Paper *m_ppPapers[PAPER_NO::MAX_PAPER_NO] = { nullptr };
 
@@ -52,11 +53,15 @@ public:
 	XMFLOAT3 m_speedMax;
 	XMFLOAT3 m_angleChangeSpeed;
 	XMFLOAT3 m_angleYawPitchRoll;
-
-	float m_centerPaper;
+	XMFLOAT3 m_posLookedByCamera;
+	XMFLOAT3 m_cameraAdjust;
 
 	bool m_isClosed;
 	bool m_isOpened;
+	int m_targetPaperNO;
+	float m_centerPaper;
+	int m_currentPaperNO;
+
 
 	void init();
 	void update();
@@ -64,7 +69,9 @@ public:
 
 	void closeBook();
 	void openBook();
-
+	void turnPages();
+	void startReading();
+	void finishReading();
 };
 
 #endif // !_BOOK_H_

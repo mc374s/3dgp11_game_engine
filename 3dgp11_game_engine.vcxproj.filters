@@ -104,16 +104,13 @@
     <ClInclude Include="game_ui.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="page.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="numbers.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="paper.h">
+    <ClInclude Include="effect.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="effect.h">
+    <ClInclude Include="paper.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -187,10 +184,13 @@
     <ClCompile Include="game_ui.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="page.cpp">
+    <ClCompile Include="numbers.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="numbers.cpp">
+    <ClCompile Include="effect.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="paper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

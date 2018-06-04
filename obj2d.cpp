@@ -215,24 +215,25 @@ void ObjManager::update(int a_liveInPagination) {
 	}
 
 	// 描画順番を並び替え　pos.z : 小さい順から描画していく 
-	OBJ2D* temp = nullptr;
-	for (int i = 1; i < OBJ_MAX_NUM; i++)
-	{
-		if (m_ppObjs[i - 1] && m_ppObjs[i] && (m_ppObjs[i - 1]->m_liveInPagination == m_ppObjs[i]->m_liveInPagination))
-		{
-			if (m_ppObjs[i - 1]->m_pos.z > m_ppObjs[i]->m_pos.z)
-			{
-				int j = i;
-				do
-				{
-					temp = m_ppObjs[j - 1];
-					m_ppObjs[j - 1] = m_ppObjs[j];
-					m_ppObjs[j] = temp;
-					j--;
-				} while (j > 0 && m_ppObjs[j - 1]->m_pos.z < m_ppObjs[j]->m_pos.z);
-			}
-		}
-	}
+	//OBJ2D* temp = nullptr;
+
+	//for (int i = 1; i < OBJ_MAX_NUM; i++)
+	//{
+	//	if (m_ppObjs[i - 1] && m_ppObjs[i] && (m_ppObjs[i - 1]->m_liveInPagination == m_ppObjs[i]->m_liveInPagination))
+	//	{
+	//		if (m_ppObjs[i - 1]->m_pos.z > m_ppObjs[i]->m_pos.z)
+	//		{
+	//			int j = i;
+	//			do
+	//			{
+	//				temp = m_ppObjs[j - 1];
+	//				m_ppObjs[j - 1] = m_ppObjs[j];
+	//				m_ppObjs[j] = temp;
+	//				j--;
+	//			} while (j > 0 && m_ppObjs[j - 1]->m_pos.z < m_ppObjs[j]->m_pos.z);
+	//		}
+	//	}
+	//}
 
 }
 

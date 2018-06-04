@@ -2,7 +2,6 @@
 
 #include "sprite_data.h"
 #include "obj2d.h"
-#include "page.h"
 
 #include "paper.h"
 
@@ -19,13 +18,14 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 	m_pViewFront = new View(-m_width / 2, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height);
 	m_pViewBack = new View(-m_width / 2, -m_height / 2, m_width, m_height, 0, 0, m_width, m_height);
 	m_pViewBack->m_doReflection = true;
+	m_viewAdjust = m_depth / 2.0f + 0.6f;
 
 	m_initPos = { 0,0,0 };
 	m_pCube->m_custom3d = m_custom3d;
 	m_pViewFront->m_custom3d = m_custom3d;
-	m_pViewFront->m_custom3d.position.z -= 0.6;
+	m_pViewFront->m_custom3d.position.z -= m_viewAdjust;
 	m_pViewBack->m_custom3d = m_custom3d;
-	m_pViewBack->m_custom3d.position.z += 0.6;
+	m_pViewBack->m_custom3d.position.z += m_viewAdjust;
 
 
 	m_paginationFront = m_paperNO * 2;
@@ -35,7 +35,7 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 
 void Paper::init()
 {
-
+	m_isActive = false;
 }
 
 Paper::~Paper()
@@ -58,15 +58,16 @@ void Paper::syncViewCustom3d()
 	m_custom3d.position += m_initPos;
 	m_pCube->m_custom3d = m_custom3d;
 	m_pViewFront->m_custom3d = m_custom3d;
-	m_pViewFront->m_custom3d.position.z -= 0.6;
+	m_pViewFront->m_custom3d.position.z -= m_viewAdjust;
 	m_pViewFront->m_custom3d.position.y = -m_pViewFront->m_custom3d.position.y;
 	m_pViewBack->m_custom3d = m_custom3d;
-	m_pViewBack->m_custom3d.position.z += 0.6;
+	m_pViewBack->m_custom3d.position.z += m_viewAdjust;
 	m_pViewBack->m_custom3d.position.y = -m_pViewBack->m_custom3d.position.y;
 }
 
 void Paper::update()
 {
+
 	//ページの内容を更新
 	if (m_isActive)
 	{
@@ -75,15 +76,14 @@ void Paper::update()
 	}
 
 
-
 }
 
 void Paper::draw()
 {
 	View::clear();
 
-	m_pCube->draw();
 
+	m_pCube->draw();
 	if (m_isActive)
 	{
 

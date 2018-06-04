@@ -28,6 +28,7 @@ public:
 	Paper(int a_papeNO = 1, int a_pageWidth = PAGE_WIDTH, int a_pageHeight = PAGE_HEIGHT, int a_paperDepth = PAPER_DEPTH, UINTCOLOR a_materialColor = 0xC1A566FF);
 	~Paper();
 
+	float m_viewAdjust;
 	void syncViewCustom3d();
 
 	void init();

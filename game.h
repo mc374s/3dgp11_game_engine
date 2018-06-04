@@ -17,12 +17,16 @@
 
 #define GROUND_HEIGHT (600)
 
-#define CAMERA_BEST_DISTANCE (0.66)
-#define CAMERA_MAX_DISTANCE (1.45)
+
+#define CAMERA_BEST_DISTANCE (0.66f)
+#define CAMERA_MAX_DISTANCE (1.45f)
+
+#define CAMERA_BEST_DISTANCE_PX (CAMERA_BEST_DISTANCE*SCREEN_WIDTH)
 
 
 #define P_CONCENTRATION_MAX_NUM			(10)
 
+extern int START_PAGINATION;
 extern int STAGE_HEIGHT;
 
 // TODO : Systemly Learn how Header.h and Source.cpp work
