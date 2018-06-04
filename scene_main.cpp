@@ -116,6 +116,7 @@ void SceneMain::update()
 		m_isBookOpened = m_pBook->m_isOpened;
 
 		pMapObjManager->stageUpdate();
+		pMapObjManager->update();
 		if (pPlayerManager->m_pPlayer->m_isOnScrollArea && m_isBookOpened)
 		{
 			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode==P_MODE::RESTART);

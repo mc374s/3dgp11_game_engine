@@ -60,11 +60,12 @@ void judgeAll()
 		{
 			//ppMapObj[i]->clear();
 			if (ppMapObj[i]->m_type != M_TYPE::HIGH_CONCENTRATION && ppMapObj[i]->m_type != M_TYPE::NONE
-				&& ppMapObj[i]->m_type != M_TYPE::DOOR && ppMapObj[i]->m_type != M_TYPE::KEY
+				&& ppMapObj[i]->m_type != M_TYPE::DOOR && ppMapObj[i]->m_type != M_TYPE::KEY && ppMapObj[i]->m_type != M_TYPE::RECOVERY_UP && ppMapObj[i]->m_type != M_TYPE::RECOVERY_DOWN
 				&& (pPlayer->m_concentration <= ppMapObj[i]->m_concentration/*ppMapObj[i]->m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION*/))
 			{
 				ppMapObj[i]->hitAdjust(pPlayer);
 			}
+
 
 			if (ppMapObj[i]->m_type == M_TYPE::HIGH_CONCENTRATION)
 			{
@@ -72,6 +73,28 @@ void judgeAll()
 				{
 					pPlayer->m_mode = P_MODE::RESTART;
 				}
+			}
+
+			if (ppMapObj[i]->m_type == M_TYPE::RECOVERY_UP)
+			{
+				if (pPlayer->m_speed.y < 0) {
+					//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
+					if (pPlayer->m_pos.y < ppMapObj[i]->m_pos.y + ppMapObj[i]->m_size.y) {
+						pPlayer->m_concentration = 10;
+					}
+				}
+				else ppMapObj[i]->hitAdjust(pPlayer);
+			}
+
+			if (ppMapObj[i]->m_type == M_TYPE::RECOVERY_DOWN)
+			{
+				if (pPlayer->m_speed.y >= 0) {
+					//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
+					if (pPlayer->m_pos.y - pPlayer->m_size.y > ppMapObj[i]->m_pos.y) {
+						pPlayer->m_concentration = 10;
+					}
+				}
+				else ppMapObj[i]->hitAdjust(pPlayer);
 			}
 
 

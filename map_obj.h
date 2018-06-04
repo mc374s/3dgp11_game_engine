@@ -17,6 +17,8 @@ enum M_TYPE
 	IVY_BIG,
 	IVY_THIN,
 	IVY_THICK,
+	RECOVERY_UP,
+	RECOVERY_DOWN,
 	DOOR,
 	KEY,
 	HIGH_CONCENTRATION,
@@ -47,6 +49,9 @@ public:
 	const MapObj& operator=(const MapObj& a_right);
 
 	void clear();
+
+	bool m_isVisibleAlways;
+	bool m_isVisible;
 
 	int m_command; //プレイヤーのキー入力
 	int m_drawDirection;
