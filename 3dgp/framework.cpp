@@ -223,7 +223,7 @@ int framework::run()
 			while ((timeGetTime() - preTime) * 6 < 100 /*0.0 / 60.0*/) {
 				Sleep(1);		// ƒtƒŒ[ƒ€ŽžŠÔ‚ð‰z‚¦‚é‚Ü‚Å‘Ò‚Â
 			}
-
+			
 			//preTime += 100;
 		}
 	}

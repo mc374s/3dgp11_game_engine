@@ -96,8 +96,13 @@ void Book::init()
 	m_ppPapers[COVER_FRONT]->m_isActive = true;
 	m_ppPapers[COVER_BACK]->m_isActive = true;
 
-	m_posLookedByCamera = { 0.0f, 0.0f, 0.0f };
-	m_cameraAdjust = { m_coverWidth / 2, 0.0f, -CAMERA_BEST_DISTANCE_PX };
+
+
+
+
+	m_position.y = m_coverHeight / 2;
+	m_posLookedByCamera = { 0.0f, 0.0f, 200.0f };
+	m_cameraAdjust = { m_coverWidth / 2, m_coverHeight / 2, -CAMERA_BEST_DISTANCE_PX };
 	e_camera.focusPosition.vector4_f32[0] = -m_posLookedByCamera.x + m_cameraAdjust.x;
 	e_camera.focusPosition.vector4_f32[1] = -m_posLookedByCamera.y + m_cameraAdjust.y;
 	e_camera.eyePosition.vector4_f32[0] = e_camera.focusPosition.vector4_f32[0];
@@ -218,7 +223,7 @@ void Book::update()
 	}
 	//m_posLookedByCamera += m_speed;
 	//m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
-	m_angleYawPitchRoll.z += m_angleChangeSpeed.z;
+	//m_angleYawPitchRoll.z += m_angleChangeSpeed.z;
 	for (auto &it : m_ppPapers)
 	{
 		if (it)
@@ -261,7 +266,7 @@ void Book::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, "Key Counter: %d \nCameraDis: %.1lf px", g_keyCounter, e_camera.eyePosition.vector4_f32[2] * SCREEN_WIDTH);
+	sprintf_s(buf, "Key Counter: %d \nm_posLookedByCameraY: %.1lf px \nm_posLookedByCameraZ: %.1lf px", g_keyCounter, m_posLookedByCamera.y, m_posLookedByCamera.z);
 	drawString(0, 300, buf);
 	if (KEY_DOWN('0'))
 	{
@@ -288,6 +293,7 @@ void Book::closeBook()
 		m_timer = 0;
 		m_openSpeed = 0;
 		m_openSpeedAcc = 0;
+		//m_angleChangeSpeed.y = -45.0f * m_openSpeed / 90.0f;
 		m_isClosed = false;
 		m_isOpened = false;
 		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
@@ -306,11 +312,30 @@ void Book::closeBook()
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
-		m_openSpeedAcc += 0.01;
+		m_openSpeedAcc += 0.018;
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed * 2;
 		/*m_position.z += m_openSpeed * 5.0f;
 		m_position.y += m_openSpeed * 3.0f;*/
+		m_angleChangeSpeed.y = 45.0f * m_openSpeed / 90.0f;
+		m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
+		if (m_angleYawPitchRoll.y > 45.0f) {
+			m_angleYawPitchRoll.y = 45.0f;
+			m_angleChangeSpeed.y = 0;
+		}
+
+		m_speed.y = -100.0f * m_openSpeed / 90.0f;
+		m_posLookedByCamera.y += m_speed.y;
+		if (m_posLookedByCamera.y < -100.0f) {
+			m_posLookedByCamera.y = -100.0f;
+			m_speed.y = 0.0f;
+		}
+		m_speed.z = 450.0f * m_openSpeed / 90.0f;
+		m_posLookedByCamera.z += m_speed.z;
+		if (m_posLookedByCamera.z > 450.0f) {
+			m_posLookedByCamera.z = 450.0f;
+			m_speed.z = 0.0f;
+		}
 		for (auto &it : m_ppPapers)
 		{
 			if (it->m_paperNO < m_centerPaper)
@@ -330,6 +355,7 @@ void Book::closeBook()
 				}
 			}
 		}
+
 		if (m_openAngle < 0) {
 			m_isClosed = true;
 			m_openAngle = 0;
@@ -389,19 +415,36 @@ void Book::openBook()
 		m_isClosed = false;
 		m_isOpened = false;
 		m_openAngle = 0;
-		m_openSpeed = 3;
-		m_speed.y = -90.0f * m_openSpeed / 90.0f;
-		m_speed.z = -90.0f * m_openSpeed / 90.0f;
+		m_openSpeed = 4;
+		m_speed.y = 100.0f * m_openSpeed / 90.0f;
+		m_speed.z = -440.0f * m_openSpeed / 90.0f;
 		m_angleChangeSpeed.y = -45.0f * m_openSpeed / 90.0f;
+		
 		m_step = STEP::BEGIN;
 		MFAudioPlay(SE_OPEN);
 		break;
 	case STEP::BEGIN:
 		m_isClosed = false;
 		m_openAngle += m_openSpeed * 2;
-		/*m_position.z -= 15;
-		m_position.y -= 9;*/
+		m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
+		if (m_angleYawPitchRoll.y < 0.0f) {
+			m_angleYawPitchRoll.y = 0.0f;
+			m_angleChangeSpeed.y = 0; 
+		}
 
+		m_posLookedByCamera.y += m_speed.y;
+		if (m_posLookedByCamera.y > 0.0f) {
+			m_posLookedByCamera.y = 0.0f;
+			m_speed.y = 0.0f;
+		}
+		m_posLookedByCamera.z += m_speed.z;
+		if (m_posLookedByCamera.z < 0.0f) {
+			m_posLookedByCamera.z = 0.0f;
+			m_speed.z = 0.0f;
+
+			m_step = STEP::END;
+		}
+		
 		for (auto &it : m_ppPapers)
 		{
 			if (it->m_paperNO < m_centerPaper)
@@ -426,7 +469,7 @@ void Book::openBook()
 			m_openAngle = 180;
 			/*m_position.z = 0;
 			m_position.y = 0;*/
-			m_step = STEP::END;
+			//m_step = STEP::END;
 		}
 		break;
 	case STEP::END:
@@ -489,6 +532,7 @@ void Book::turnPages()
 
 		break;
 	case STEP::BEGIN:
+
 		for (auto &it : m_ppPapers)
 		{
 			if (it->m_paperNO <= m_currentPaperNO && m_openSpeed > 0)
@@ -540,6 +584,8 @@ void Book::startReading()
 	case STEP::INIT:
 		m_speed.x = 6.4f;
 		m_angleChangeSpeed.x = 90.0f * m_speed.x * 2 / m_coverWidth;
+		m_openSpeedAcc = m_openSpeed = 0;
+
 		m_step = STEP::BEGIN;
 		m_ppPapers[COVER_FRONT]->m_isActive = true;
 		m_ppPapers[COVER_BACK]->m_isActive = true;
@@ -557,13 +603,41 @@ void Book::startReading()
 			m_angleChangeSpeed.x = 0;
 			m_step = STEP::END;
 		}
+
+		m_openSpeedAcc += 0.01;
+		m_openSpeed += m_openSpeedAcc;
+		m_angleChangeSpeed.y = 45.0f * m_openSpeed / 90.0f;
+		m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
+		if (m_angleYawPitchRoll.y > 45.0f) {
+			m_angleYawPitchRoll.y = 45.0f;
+			m_angleChangeSpeed.y = 0;
+		}
+
+		/*m_speed.y = -200.0f * m_openSpeed / 90.0f;
+		m_posLookedByCamera.y += m_speed.y;
+		if (m_posLookedByCamera.y < -200.0f) {
+			m_posLookedByCamera.y = -200.0f;
+			m_speed.y = 0.0f;
+		}*/
+		m_speed.z = 450.0f * m_openSpeed / 90.0f;
+		m_posLookedByCamera.z += m_speed.z;
+		if (m_posLookedByCamera.z > 450.0f) {
+			m_posLookedByCamera.z = 450.0f;
+			m_speed.z = 0.0f;
+		}
+
 		m_ppPapers[COVER_FRONT]->m_isActive = true;
 		m_ppPapers[COVER_BACK]->m_isActive = true;
+
+
+
 		break;
 	case STEP::END:
 
 		m_isClosed = false;
 		m_isOpened = false;
+		m_ppPapers[COVER_FRONT]->m_isActive = false;
+		m_ppPapers[COVER_BACK]->m_isActive = false;
 		m_pfMove = &Book::openBook;
 
 		break;

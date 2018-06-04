@@ -222,6 +222,7 @@ void MapObj::draw()
 STAGE_DATA* stageSetData[] = {
 	stage00_setData,
 	stage01_setData,
+
 };
 
 
@@ -249,7 +250,7 @@ void MapObjManager::init(int a_stageNo)
 	m_timer = 0;
 	m_pStageData = stageSetData[m_stageNo];
 	STAGE_HEIGHT = e_stage_height[m_stageNo];
-
+	START_PAGINATION = e_start_pagination[m_stageNo];
 	for (auto &it:m_ppMapObjs){
 		if (it){
 			it->clear();

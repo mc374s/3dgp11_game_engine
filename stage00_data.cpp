@@ -6,10 +6,17 @@
 int e_stage_height[STAGE_MAX_NUM] =
 {
 	(1150 - 76) - (PH - 100),
-	100,
+	(1150 - 76) - (PH - 100),
+	(1150 - 76) - (PH - 100),
 };
 
-int START_PAGINATION = 61;
+int e_start_pagination[STAGE_MAX_NUM]=
+{
+	61,
+	67,
+};
+
+int START_PAGINATION = e_start_pagination[0];
 
 int STAGE_HEIGHT = e_stage_height[0];
 
