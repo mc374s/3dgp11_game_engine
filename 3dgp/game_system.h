@@ -147,7 +147,7 @@ extern int e_command;
 enum STEP
 {
 	INIT = 0,
-	BEGIN,
+	BEGIN = 5,
 
 	END = 20,
 

@@ -4,7 +4,14 @@
 #include "framework.h"
 #include "../game.h"
 #include "../sound_data.h"
+#include "../sprite_data.h"
 #include "../scene_title.h"
+#include <thread>
+
+void loadTextureProgress()
+{
+	pTextureManager->loadTexture(e_loadTexture);		// 2D‰æ‘œ‚ÌˆêŠ‡ƒ[ƒh
+}
 
 LRESULT CALLBACK fnWndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -39,16 +46,20 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	RECT rc = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	HWND hwnd = CreateWindow(_T("3dgp"), _T(""), WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX ^ WS_THICKFRAME | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, instance, NULL);
-	ShowWindow(hwnd, cmd_show);
 
 	framework f(hwnd);
 
 	srand(unsigned int(time(NULL)));
 
+	std::thread loadThread_1(loadTextureProgress);
+	loadThread_1.detach();
+	//pTextureManager->loadTexture(e_loadTexture);
+
 	// Set the Init Scene
 	framework::changeScene(SCENE_TITLE);
 
 
+	ShowWindow(hwnd, cmd_show);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&f));
 	return f.run();
 }

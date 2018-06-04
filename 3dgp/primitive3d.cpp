@@ -372,8 +372,8 @@ void Primitive3D::setProjection(ID3D11DeviceContext *a_pDeviceContext, const XMF
 	updateCbuffer.view = V;
 	updateCbuffer.projection = P;
 	updateCbuffer.worldViewProjection = WVP;
-	static XMVECTOR lightV;
-	lightV = (e_camera.focusPosition - e_camera.eyePosition);
+	static XMVECTOR lightV{ 0, -0.2, 1, 0 };
+	//lightV = (e_camera.focusPosition - e_camera.eyePosition);
 	updateCbuffer.lightDirection = XMFLOAT4(lightV.vector4_f32[0], lightV.vector4_f32[1], lightV.vector4_f32[2], 0.0f);
 	updateCbuffer.materialColor = a_materialColor;
 

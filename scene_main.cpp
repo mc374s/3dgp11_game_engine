@@ -17,7 +17,7 @@ SceneMain::SceneMain()
 {
 	//init();
 
-	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 8);
+	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 14);
 
 	m_pBG = new OBJ2D;
 	m_pBG->m_pSprData = &e_sprMainBG;
@@ -96,18 +96,32 @@ void SceneMain::update()
 		//pMapObjManager->init(0);
 		m_pBook->init();
 		pObjManager->init();
+		pGameUIManager->init();
 		pEffectManager->init();
 
-		pPlayerManager->init();
 		pMapObjManager->init(0);
-
-		pGameUIManager->init();
+		pPlayerManager->init();
 
 		m_pStr = "";
 		m_timer = 0;
-		m_step = STEP::BEGIN;
+		m_step = STEP::INIT + 1;
 		m_pausedOption = PAUSED_SELECTION::TO_GAME;
 		//break;
+	case STEP::INIT+1:
+		m_pBook->update();
+		m_isBookClosed = m_pBook->m_isClosed;
+		m_isBookOpened = m_pBook->m_isOpened;
+		if (KEY_TRACKER.pressed.Z || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
+		{
+			m_pBook->m_pfMove = &Book::startReading;
+		}
+		if (m_isBookOpened)
+		{
+			m_step = STEP::BEGIN;
+		}
+		pMapObjManager->stageUpdate();
+		pMapObjManager->update();
+		break;
 	case STEP::BEGIN:
 
 		m_pBook->update();
@@ -172,8 +186,10 @@ void SceneMain::draw()
 
 	m_pBook->draw();
 
-	pGameUIManager->draw();
-	pEffectManager->draw();
+	if (m_step >= STEP::BEGIN) {
+		pGameUIManager->draw();
+		pEffectManager->draw();
+	}
 
 	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0xD0, STR_CENTER, 80, 80);
 	if (m_step==STEP::END && m_timer & 0x20)

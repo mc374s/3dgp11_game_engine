@@ -83,7 +83,6 @@ void Paper::draw()
 	View::clear();
 
 
-	m_pCube->draw();
 	if (m_isActive)
 	{
 
@@ -124,6 +123,8 @@ void Paper::draw()
 		View::clear();
 	}
 
+
+	m_pCube->draw();
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Scene Main View
 

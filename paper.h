@@ -25,7 +25,7 @@ public:
 	XMFLOAT3 m_initPos;
 	CUSTOM3D m_custom3d;
 
-	Paper(int a_papeNO = 1, int a_pageWidth = PAGE_WIDTH, int a_pageHeight = PAGE_HEIGHT, int a_paperDepth = PAPER_DEPTH, UINTCOLOR a_materialColor = 0xC1A566FF);
+	Paper(int a_papeNO = 1, int a_pageWidth = PAGE_WIDTH, int a_pageHeight = PAGE_HEIGHT, int a_paperDepth = PAPER_DEPTH, UINTCOLOR a_materialColor = 0xC5B596FF/*0xd8ceb9FF*/);
 	~Paper();
 
 	float m_viewAdjust;

@@ -116,14 +116,10 @@ void MapObj::init()
 
 void MapObj::update()
 {
-	if (m_pfMove)
-	{
+	if (m_pfMove){
 		m_pfMove(this);
-
-		animation();
-
-
 	}
+	animation();
 }
 int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
 {
@@ -272,7 +268,7 @@ void MapObjManager::init(int a_stageNo)
 }
 void MapObjManager::update()
 {
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	/*for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
 		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pAnimeData) {
 			m_ppMapObjs[i]->animation();
@@ -281,7 +277,7 @@ void MapObjManager::update()
 		{
 			m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
 		}
-	}
+	}*/
 }
 
 void MapObjManager::draw()

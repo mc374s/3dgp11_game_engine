@@ -31,12 +31,12 @@ Book::Book(int a_width, int a_height, int a_marginLeft, int a_marginTop, int a_m
 	m_openAngle = 0;
 
 
-	m_ppPapers[COVER_FRONT] = new Paper(COVER_FRONT, m_coverWidth, m_coverHeight, m_coverDepth, 0x664029FF);
+	m_ppPapers[COVER_FRONT] = new Paper(COVER_FRONT, m_coverWidth, m_coverHeight, m_coverDepth, 0xD65856FF);
 	m_ppPapers[COVER_FRONT]->m_custom3d.position = m_ppPapers[COVER_FRONT]->m_initPos = { m_coverWidth / 2, 0, m_coverDepth / 2 };
 	m_ppPapers[COVER_FRONT]->m_pBG->m_pSprData = &e_sprCoverFront;
 	m_ppPapers[COVER_FRONT]->m_isActive = true;
 
-	m_ppPapers[COVER_BACK] = new Paper(COVER_BACK, m_coverWidth, m_coverHeight, m_coverDepth, 0x664029FF);
+	m_ppPapers[COVER_BACK] = new Paper(COVER_BACK, m_coverWidth, m_coverHeight, m_coverDepth, 0xD65856FF);
 	m_ppPapers[COVER_BACK]->m_custom3d.position = m_ppPapers[COVER_BACK]->m_initPos = { m_coverWidth / 2, 0, m_coverDepth + PAPER_LAST*PAPER_DEPTH + m_coverDepth / 2 };
 	m_ppPapers[COVER_BACK]->m_pBG->m_pSprData = &e_sprCoverBack;
 	m_ppPapers[COVER_BACK]->m_isActive = true;
@@ -249,6 +249,7 @@ void Book::update()
 	e_camera.eyePosition.vector4_f32[0] = e_camera.focusPosition.vector4_f32[0];
 	e_camera.eyePosition.vector4_f32[1] = e_camera.focusPosition.vector4_f32[1];
 	e_camera.eyePosition.vector4_f32[2] = -m_posLookedByCamera.z + m_cameraAdjust.z;
+	//e_camera.upDirection = { 0, 1, 0, 0 };
 	e_camera.toNDC();
 
 }
