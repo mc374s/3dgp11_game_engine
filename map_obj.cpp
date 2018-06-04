@@ -70,6 +70,18 @@ void MapObj::init()
 	case M_TYPE::IVY_THICK:
 		m_repeatDrawSize = m_size;
 		break;
+	case M_TYPE::RECOVERY_UP:
+		m_repeatDrawSize = m_size;
+		m_pAnimeData = e_pAnimeRecoveryUp;
+		m_isVisibleAlways = true;
+		m_isVisible = true;
+		break;
+	case M_TYPE::RECOVERY_DOWN:
+		m_repeatDrawSize = m_size;
+		m_pAnimeData = e_pAnimeRecoveryDown;
+		m_isVisibleAlways = true;
+		m_isVisible = true;
+		break;
 	case M_TYPE::HIGH_CONCENTRATION:
 		m_repeatDrawSize = m_size;
 		m_custom.rgba = 0x000000FF;
@@ -260,10 +272,13 @@ void MapObjManager::update()
 {
 	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
 	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove && m_ppMapObjs[i]->m_step >= STEP::END + 2)
-		{
-			m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
+		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pAnimeData) {
+			m_ppMapObjs[i]->animation();
 		}
+		//if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove && m_ppMapObjs[i]->m_step >= STEP::END + 2)
+		//{
+		//	m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
+		//}
 	}
 }
 
