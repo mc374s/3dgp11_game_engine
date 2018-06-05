@@ -19,7 +19,7 @@ void Player::init()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
-	m_pos = { 80,140,5 };
+	m_pos = { 80,400,5 };
 	m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
 	m_liveInPagination = START_PAGINATION;
@@ -70,7 +70,7 @@ void Player::restart()
 	//m_pAnimeData = e_pAnimePlayerJump;
 	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
-	m_pos = { 80,140,5 };
+	m_pos = { 80,400,5 };
 	m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
 	m_liveInPagination = START_PAGINATION;
@@ -366,7 +366,7 @@ void Player::restartMove()
 				//m_isOnScrollArea = false;
 				m_step = STEP::END;
 				m_pos.x = 80;
-				m_pos.y = 140;
+				m_pos.y = 400;
 				pEffectManager->setPlayerInitAnimation(m_pos);
 			}
 		}

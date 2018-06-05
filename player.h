@@ -18,7 +18,7 @@
 #define P_LIFE_MAX		(4)
 
 #define P_SCROLL_Y_TOP		(200)
-#define P_SCROLL_Y_BOTTOM	(330)
+#define P_SCROLL_Y_BOTTOM	(430)
 
 // Player Update Mode
 enum P_MODE
