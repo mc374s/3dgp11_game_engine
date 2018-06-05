@@ -101,19 +101,29 @@ void SceneMain::update()
 
 		pMapObjManager->init(0);
 		pPlayerManager->init();
+		//break;
+	case STEP::INIT+1:
 
 		m_pStr = "";
 		m_timer = 0;
-		m_step = STEP::INIT + 1;
+		m_step = STEP::INIT + 2;
 		m_pausedOption = PAUSED_SELECTION::TO_GAME;
 		//break;
-	case STEP::INIT+1:
+	case STEP::INIT+2:
+
 		m_pBook->update();
 		m_isBookClosed = m_pBook->m_isClosed;
 		m_isBookOpened = m_pBook->m_isOpened;
 		if (KEY_TRACKER.pressed.Z || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
 		{
 			m_pBook->m_pfMove = &Book::startReading;
+			pObjManager->init();
+			pGameUIManager->init();
+			pEffectManager->init();
+
+			pMapObjManager->init(0);
+			pPlayerManager->init();
+
 		}
 		if (m_isBookOpened)
 		{
@@ -173,6 +183,15 @@ void SceneMain::update()
 		break;
 	default:
 		break;
+	}
+
+	if (KEY_TRACKER.pressed.End || PAD_TRACKER.back == PAD_TRACKER.PRESSED)
+	{
+		if (m_pBook->m_step>STEP::END)
+		{
+			m_pBook->m_pfMove = &Book::finishReading;
+			m_step = STEP::INIT + 1;
+		}
 	}
 
 

@@ -539,6 +539,8 @@ void PlayerManager::init() {
 	{
 		m_pPlayer->clear();
 		m_pPlayer->init();
+		pEffectManager->setPlayerInitAnimation(m_pPlayer->m_pos);
+		m_pPlayer->m_mode = P_MODE::START;
 	}
 }
 

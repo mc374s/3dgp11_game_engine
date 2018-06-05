@@ -215,12 +215,12 @@ void Book::update()
 			m_currentPaperNO = 0;
 		}
 	}
-	if (KEY_BOARD.Home){
+	/*if (KEY_BOARD.Home){
 		m_pfMove = &Book::startReading;
 	}
 	if (KEY_BOARD.End) {
 		m_pfMove = &Book::finishReading;
-	}
+	}*/
 	//m_posLookedByCamera += m_speed;
 	//m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
 	//m_angleYawPitchRoll.z += m_angleChangeSpeed.z;
@@ -368,7 +368,7 @@ void Book::closeBook()
 		break;
 	case STEP::END:
 		m_timer++;
-		if (m_timer > 120)
+		if (m_timer > 40)
 		{
 			m_timer = 0;
 			m_step = STEP::FINISH;
@@ -488,91 +488,6 @@ void Book::openBook()
 	}
 }
 
-void Book::turnPages()
-{
-	switch (m_step)
-	{
-	case STEP::INIT:
-
-		for (auto &it: m_ppPapers)
-		{
-			if ((m_openSpeed <= 0 && it->m_paperNO > m_currentPaperNO - 2 && it->m_paperNO < m_currentPaperNO + 12) || (m_openSpeed >= 0 && it->m_paperNO < m_currentPaperNO + 2 && it->m_paperNO > m_currentPaperNO - 12))
-			{
-				it->m_isActive = true;
-			}
-			else
-			{
-				it->m_isActive = false;
-			}
-
-			if (it->m_paperNO <= m_currentPaperNO && m_openSpeed > 0)
-			{
-				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
-				if (it->m_custom3d.angleYawPitchRoll.x > 180)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 180;
-				}
-				if (it->m_custom3d.angleYawPitchRoll.x < 0)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 0;
-				}
-			}
-			if (it->m_paperNO >= m_currentPaperNO && m_openSpeed < 0)
-			{
-				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
-				if (it->m_custom3d.angleYawPitchRoll.x > 180)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 180;
-				}
-				if (it->m_custom3d.angleYawPitchRoll.x < 0)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 0;
-				}
-			}
-		}
-
-		break;
-	case STEP::BEGIN:
-
-		for (auto &it : m_ppPapers)
-		{
-			if (it->m_paperNO <= m_currentPaperNO && m_openSpeed > 0)
-			{
-				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
-				if (it->m_custom3d.angleYawPitchRoll.x > 180)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 180;
-				}
-				if (it->m_custom3d.angleYawPitchRoll.x < 0)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 0;
-				}
-			}
-			if (it->m_paperNO >= m_currentPaperNO && m_openSpeed < 0)
-			{
-				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
-				if (it->m_custom3d.angleYawPitchRoll.x > 180)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 180;
-				}
-				if (it->m_custom3d.angleYawPitchRoll.x < 0)
-				{
-					it->m_custom3d.angleYawPitchRoll.x = 0;
-				}
-			}
-		}
-		break;
-	case STEP::END:
-
-		break;
-	case STEP::FINISH:
-
-		break;
-	default:
-		break;
-	}
-}
-
 void Book::startReading()
 {
 	if (m_pfMoveOld != &Book::startReading)
@@ -652,25 +567,167 @@ void Book::startReading()
 
 void Book::finishReading()
 {
-	if (m_pfMoveOld != &Book::finishReading)
+	static int step = STEP::INIT;
+	if (m_pfMoveOld != &Book::finishReading && m_pfMoveOld != &Book::closeBook)
 	{
 		m_pfMoveOld = m_pfMove;
-		m_step = STEP::INIT;
+		step = STEP::INIT;
 	}
-	switch (m_step)
+	switch (step)
 	{
 	case STEP::INIT:
+		closeBook();
+		m_pfMoveOld = &Book::closeBook;
+		if (m_step == STEP::END)
+		{
+			step = STEP::INIT + 1;
+		}
+		break;
+	case STEP::INIT+1:
+		m_isClosed = false;
+		m_isOpened = false;
 		m_speed.x = -6.4f;
+		m_speed.y = -100.0f * m_speed.x * 2 / m_coverWidth;
+		m_speed.z = 200.0f * m_speed.x * 2 / m_coverWidth;
+		m_angleChangeSpeed.x = 90.0f * m_speed.x * 2 / m_coverWidth;
+		m_angleChangeSpeed.y = 45.0f * m_speed.x * 2 / m_coverWidth;
 
-		m_step = STEP::BEGIN;
+		for (auto &it : m_ppPapers){
+			it->m_isActive = false;
+		}
+		m_ppPapers[COVER_FRONT]->m_isActive = true;
+		m_ppPapers[COVER_BACK]->m_isActive = true;
+
+		step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
+
+		m_ppPapers[COVER_FRONT]->m_isActive = true;
+		m_ppPapers[COVER_BACK]->m_isActive = true;
+
+		m_angleYawPitchRoll.x += m_angleChangeSpeed.x;
+		m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
+		if (m_angleYawPitchRoll.y < 0.0f) {
+			m_angleYawPitchRoll.y = 0.0f;
+			m_angleChangeSpeed.y = 0;
+		}
+
 		m_posLookedByCamera.x += m_speed.x;
 		if (m_posLookedByCamera.x < 0) {
 			m_posLookedByCamera.x = 0;
-			m_step = STEP::END;
+			m_speed.x = 0;
+			for (auto &it : m_ppPapers) {
+				it->m_custom3d.angleYawPitchRoll.x = 0;
+			}
+			m_angleChangeSpeed.x = 0;
+			step = STEP::END;
 		}
 
+		m_posLookedByCamera.y += m_speed.y;
+		if (m_posLookedByCamera.y > 0.0f) {
+			m_posLookedByCamera.y = 0.0f;
+			m_speed.y = 0.0f;
+		}
+
+		m_posLookedByCamera.z += m_speed.z;
+		if (m_posLookedByCamera.z < 200.0f) {
+			m_posLookedByCamera.z = 200.0f;
+			m_speed.z = 0.0f;
+		}
+
+		break;
+	case STEP::END:
+
+		m_isClosed = false;
+		m_isOpened = false;
+		m_pfMove = nullptr;
+		m_pfMoveOld = nullptr;
+		m_ppPapers[COVER_FRONT]->m_isActive = true;
+		m_ppPapers[COVER_BACK]->m_isActive = true;
+		step = STEP::FINISH;
+		break;
+	case STEP::FINISH:
+
+		break;
+	default:
+		break;
+	}
+}
+
+
+void Book::turnPages()
+{
+	switch (m_step)
+	{
+	case STEP::INIT:
+
+		for (auto &it : m_ppPapers)
+		{
+			if ((m_openSpeed <= 0 && it->m_paperNO > m_currentPaperNO - 2 && it->m_paperNO < m_currentPaperNO + 12) || (m_openSpeed >= 0 && it->m_paperNO < m_currentPaperNO + 2 && it->m_paperNO > m_currentPaperNO - 12))
+			{
+				it->m_isActive = true;
+			}
+			else
+			{
+				it->m_isActive = false;
+			}
+
+			if (it->m_paperNO <= m_currentPaperNO && m_openSpeed > 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+			if (it->m_paperNO >= m_currentPaperNO && m_openSpeed < 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+		}
+
+		break;
+	case STEP::BEGIN:
+
+		for (auto &it : m_ppPapers)
+		{
+			if (it->m_paperNO <= m_currentPaperNO && m_openSpeed > 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+			if (it->m_paperNO >= m_currentPaperNO && m_openSpeed < 0)
+			{
+				it->m_custom3d.angleYawPitchRoll.x += m_openSpeed;
+				if (it->m_custom3d.angleYawPitchRoll.x > 180)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 180;
+				}
+				if (it->m_custom3d.angleYawPitchRoll.x < 0)
+				{
+					it->m_custom3d.angleYawPitchRoll.x = 0;
+				}
+			}
+		}
 		break;
 	case STEP::END:
 

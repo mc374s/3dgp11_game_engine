@@ -89,6 +89,7 @@ void Paper::draw()
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		// Front View
 		m_pViewFront->set();
+		m_pBG->m_custom.reflectX = false;
 		m_pBG->draw();
 
 		pObjManager->draw(m_paginationFront);
@@ -107,6 +108,7 @@ void Paper::draw()
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// Back View
 		m_pViewBack->set();
+		m_pBG->m_custom.reflectX = true;
 		m_pBG->draw();
 
 		pObjManager->draw(m_paginationBack);
