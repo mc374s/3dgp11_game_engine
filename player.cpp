@@ -228,7 +228,7 @@ void Player::normalMove()
 	m_isOnScrollArea = false;
 	m_type = 0;//debug
 	// TODO : スピードが高い場合の判定
-	if (m_pos.y - m_size.y < P_SCROLL_Y_TOP && m_pos.y/* - m_speed.y */> P_SCROLL_Y_TOP && m_speed.y < 0 && m_scrolledDistance.y > 0)
+	if (m_pos.y - m_size.y < P_SCROLL_Y_TOP && m_pos.y/* - m_speed.y */> P_SCROLL_Y_TOP && m_speed.y <= 0 && m_scrolledDistance.y > 0)
 	{
 		/*if (m_scrolledDistance.y > -P_JUMP_POWER_BLUR)
 		{
@@ -251,12 +251,12 @@ void Player::normalMove()
 		if (m_scrolledDistance.y < 0)
 		{
 			m_scrolledDistance.y = 0;
-			m_speed.y = 0;
+			//m_speed.y = 0;
 		}
 		if (m_scrolledDistance.y > STAGE_HEIGHT)
 		{
 			m_scrolledDistance.y = STAGE_HEIGHT;
-			m_speed.y = 0;
+			//m_speed.y = 0;
 		}
 	}
 
@@ -459,27 +459,27 @@ void Player::draw()
 #ifdef DEBUG
 
 	char buf[512];
-	sprintf_s(buf, "ScrolledDisY: %f \nPosY: %f \n\nConcentration: %lf \nBlurSpeed: %lf \n\nLife: %d \nSTAGE_HEIGHT: %d",
-		m_scrolledDistance.y, m_pos.y, m_concentration, m_blurSpeed, m_life, STAGE_HEIGHT);
+	sprintf_s(buf, "ScrolledDisY: %f \nPosY: %f \nSpeedY: %f \nConcentration: %lf \nBlurSpeed: %lf \n\nLife: %d \nSTAGE_HEIGHT: %d \nState: %d",
+		m_scrolledDistance.y, m_pos.y, m_speed.y, m_concentration, m_blurSpeed, m_life, STAGE_HEIGHT, m_montionState);
 	drawString(0, 200, buf, 0x000000FF, STR_LEFT, 24, 24);
 
 
-	//if (m_type == 0)
-	//{
-	//	drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
-	//	drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
-	//}
-	//else
-	//{
-	//	if (m_type == 1)
-	//	{
-	//		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
-	//	}
-	//	if (m_type == 2)
-	//	{
-	//		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
-	//	}
-	//} 
+	if (m_type == 0)
+	{
+		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
+		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
+	}
+	else
+	{
+		if (m_type == 1)
+		{
+			drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
+		}
+		if (m_type == 2)
+		{
+			drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
+		}
+	} 
 
 #endif // DEBUG
 }

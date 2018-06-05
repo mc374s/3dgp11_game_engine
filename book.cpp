@@ -121,7 +121,7 @@ void Book::update()
 	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
 	// 原因はKEY_BOARDがexternで更新していることと予測
 	if (/*KEY_DOWN('C')*/ KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED/*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
-		if (m_step == STEP::FINISH)
+		if (m_step == STEP::FINISH && pPlayerManager->m_pPlayer->m_mode == P_MODE::NORMAL)
 		{
 			m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
 			if (m_isOpened)
