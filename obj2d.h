@@ -32,7 +32,7 @@ public:
 	int m_step;
 	int m_alpha;
 	int m_type;
-	int m_concentration; //濃度
+	float m_concentration; //濃度
 
 	bool m_isInit;
 	int m_liveInPagination; //所属しているページナンバー

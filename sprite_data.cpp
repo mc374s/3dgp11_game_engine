@@ -22,11 +22,11 @@ enum TEX_NO {
 	TEX_PAGE_RIGHT,
 	TEX_COVER_FRONT,
 	TEX_COVER_BACK,
+
 	TEX_MAP_OBJECT,
 	TEX_IVY_THICK,
 	TEX_IVY_THIN,
 
-	TEX_GAGE_DIVISION,
 	TEX_SMOKE,
 	TEX_LIFE_STAMP,
 	TEX_LARGE_PLAYER,
@@ -36,42 +36,51 @@ enum TEX_NO {
 	TEX_PAUSE_PANEL,
 	TEX_PAUSE_SELECTED,
 
-	TEX_TEST_PLAY_TEXT,
-
 	TEX_ANIME_STAMP,
+
+	TEX_GAGE_DIVISION_ALLOCATION,
+	TEX_GAGE_DIVISION,
+	TEX_GAGE,
+	TEX_PLAYER_FACE,
+
+	TEX_TEST_PLAY_TEXT,
 
 };
 
 // 2D画像ロードデータ
 LOAD_TEXTURE e_loadTexture[] = {
-	{ TEX_WHITE,			"./DATA/Images/white.png" },
-	{ TEX_TITLE,			"./DATA/Images/title_bg.png" },
-	{ TEX_MAIN,				"./DATA/Images/default_bg.jpg"},
-	{ TEX_PLAYER,			"./DATA/Images/character.png"},
+	{ TEX_WHITE,					"./DATA/Images/white.png" },
+	{ TEX_TITLE,					"./DATA/Images/title_bg.png" },
+	{ TEX_MAIN,						"./DATA/Images/default_bg.jpg"},
+	{ TEX_PLAYER,					"./DATA/Images/character.png"},
 
+	{ TEX_PAGE_LEFT,				"./DATA/Images/page_left.png" },
+	{ TEX_PAGE_RIGHT,				"./DATA/Images/page_right.png" },
+	{ TEX_COVER_FRONT,				"./DATA/Images/cover_front.png" },
+	{ TEX_COVER_BACK,				"./DATA/Images/cover_back.png" },
 
-	{ TEX_PAGE_LEFT,		"./DATA/Images/page_left.png" },
-	{ TEX_PAGE_RIGHT,		"./DATA/Images/page_right.png" },
-	{ TEX_COVER_FRONT,		"./DATA/Images/cover_front.png" },
-	{ TEX_COVER_BACK,		"./DATA/Images/cover_back.png" },
+	{ TEX_MAP_OBJECT,				"./DATA/Images/map_object_full.png" },
+	{ TEX_IVY_THICK,				"./DATA/Images/border_thick.png" },
+	{ TEX_IVY_THIN,					"./DATA/Images/border_thin.png" },
 
-	{ TEX_MAP_OBJECT,		"./DATA/Images/map_object_full.png" },
-	{ TEX_IVY_THICK,		"./DATA/Images/border_thick.png" },
-	{ TEX_IVY_THIN,			"./DATA/Images/border_thin.png" },
+	{ TEX_SMOKE,					"./DATA/Images/particle-smoke2.png" },
+	{ TEX_LIFE_STAMP,				"./DATA/Images/stamp.png"},
+	{ TEX_LARGE_PLAYER,				"./DATA/Images/large_player.png" },
 
-	{ TEX_GAGE_DIVISION,	"./DATA/Images/gage_division.png" },
-	{ TEX_SMOKE,			"./DATA/Images/particle-smoke2.png" },
-	{ TEX_LIFE_STAMP,		"./DATA/Images/stamp.png"},
-	{ TEX_LARGE_PLAYER,		"./DATA/Images/large_player.png" },
-
-	{ TEX_NUMBERS,			"./DATA/Images/numbers.png" },
+	{ TEX_NUMBERS,					"./DATA/Images/numbers.png" },
 	
-	{ TEX_PAUSE_PANEL,		"./DATA/Images/pause_panel.png" },
-	{ TEX_PAUSE_SELECTED,	"./DATA/Images/pause_selected.png" },
+	{ TEX_PAUSE_PANEL,				"./DATA/Images/pause_panel.png" },
+	{ TEX_PAUSE_SELECTED,			"./DATA/Images/pause_selected.png" },
 
-	{ TEX_TEST_PLAY_TEXT,	"./DATA/Images/test_play_text.png" },
+	{ TEX_ANIME_STAMP,				"./DATA/Images/hanko_motion.png" },
 
-	{ TEX_ANIME_STAMP,		"./DATA/Images/hanko_motion.png" },
+	{ TEX_GAGE_DIVISION_ALLOCATION,	"./DATA/Images/gage_division_allocation.png" },
+	{ TEX_GAGE_DIVISION,			"./DATA/Images/gage_division.png" },
+	{ TEX_GAGE,						"./DATA/Images/gage_ink_white.png" },
+	{ TEX_PLAYER_FACE,				"./DATA/Images/player_face.png" },
+
+
+	{ TEX_TEST_PLAY_TEXT,			"./DATA/Images/test_play_text.png" },
 
 	{ -1, NULL },
 };
@@ -148,10 +157,10 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 147, 0, 101, 122),// ITEM_TREE_A
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 248, 0,  99, 112),// M_TYPE::TREE_B
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 347, 0,  79,  47),// M_TYPE::IVY_BIG
-	SPRITE_LEFTTOP(TEX_IVY_THIN,	  0, 0, 125,  22),// M_TYPE::IVY_THIN
+	SPRITE_LEFTTOP(TEX_IVY_THIN,	 0, 0, 125,  22),// M_TYPE::IVY_THIN
 	SPRITE_LEFTTOP(TEX_IVY_THICK,    0, 0, 125,  17),// M_TYPE::IVY_THICK
-	SPRITE_LEFTTOP(TEX_IVY_THIN,	  0, 0, 125,  22),// M_TYPE::RECOVERY_UP
-	SPRITE_LEFTTOP(TEX_IVY_THIN,	  0, 0, 125,  22),// M_TYPE::RECOVERY_DOWN
+	SPRITE_LEFTTOP(TEX_IVY_THIN,	 0, 0, 125,  22),// M_TYPE::RECOVERY_UP
+	SPRITE_LEFTTOP(TEX_IVY_THIN,	 0, 0, 125,  22),// M_TYPE::RECOVERY_DOWN
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 715, 0,  51,  76),// M_TYPE::DOOR
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 802, 0,  36,  28),// M_TYPE::KEY
 	e_sprWhite,// M_TYPE::HIGH_CONCENTRATION
@@ -175,9 +184,8 @@ SPRITE_LEFTTOP e_pAnimeRecoveryDown[] =
 
 // UI関係
 SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
-SPRITE_CENTER e_sprGageDivisionTranscription = SPRITE_CENTER(TEX_GAGE_DIVISION, 0, 0, 775, 222);
-SPRITE_CENTER e_sprGageTranscription = SPRITE_CENTER(TEX_WHITE, 0, 0, 388, 222);
-SPRITE_CENTER e_sprLifeStamp = SPRITE_CENTER(TEX_LIFE_STAMP, 0, 0, 36, 28);
+SPRITE_CENTER e_sprGageDivisionAllocation = SPRITE_CENTER(TEX_GAGE_DIVISION_ALLOCATION, 0, 0, 775, 222);
+SPRITE_CENTER e_sprGageAllocation = SPRITE_CENTER(TEX_WHITE, 0, 0, 388, 222);
 
 SPRITE_CENTER e_sprLargePlayer = SPRITE_CENTER(TEX_LARGE_PLAYER, 0, 0, 252, 231);
 
@@ -202,6 +210,26 @@ SPRITE_CENTER e_pAnimeStamp[] =
 	SPRITE_CENTER(TEX_ANIME_STAMP,122 * 9,0,122,138,50),
 	SPRITE_CENTER(-1, 0, 0, 0, 0),
 };
+
+
+SPRITE_LEFTTOP e_pSprPlayerFace[] = {
+	SPRITE_LEFTTOP(TEX_PLAYER_FACE, 0  , 0, 90, 90),
+	SPRITE_LEFTTOP(TEX_PLAYER_FACE, 90 , 0, 90, 90),
+	SPRITE_LEFTTOP(TEX_PLAYER_FACE, 180, 0, 90, 90),
+};
+
+SPRITE_LEFTTOP e_sprGageDivision= SPRITE_LEFTTOP(TEX_GAGE_DIVISION, 0, 0, 456, 128);
+SPRITE_LEFTTOP e_sprGage = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 34 * 10, 30);
+SPRITE_LEFTTOP e_pAnimeGage[] = {
+	SPRITE_LEFTTOP(TEX_GAGE,  0, 0, 10, 30, 0, 0, 10),
+	SPRITE_LEFTTOP(TEX_GAGE, 10, 0, 10, 30, 0, 0, 10),
+	SPRITE_LEFTTOP(TEX_GAGE, 20, 0, 10, 30, 0, 0, 10),
+	SPRITE_LEFTTOP(TEX_GAGE, 30, 0, 10, 30, 0, 0, 10),
+	SPRITE_LEFTTOP(TEX_GAGE, 40, 0, 10, 30, 0, 0, 10),
+	SPRITE_LEFTTOP(-1, 0, 0, 0, 0),
+};
+
+SPRITE_LEFTTOP e_sprLifeStamp = SPRITE_LEFTTOP(TEX_LIFE_STAMP, 0, 0, 36, 28);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);

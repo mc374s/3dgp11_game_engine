@@ -32,13 +32,16 @@ extern SPRITE_LEFTTOP e_pAnimeRecoveryDown[];
 
 // UI関係
 extern SPRITE_LEFTTOP e_sprWhite;
-extern SPRITE_CENTER e_sprGageTranscription;
-extern SPRITE_CENTER e_sprGageDivisionTranscription;
-extern SPRITE_CENTER e_sprLifeStamp;
+extern SPRITE_CENTER e_sprGageAllocation;
+extern SPRITE_CENTER e_sprGageDivisionAllocation;
 extern SPRITE_CENTER e_sprLargePlayer;
 
-extern SPRITE_LEFTTOP e_sprGage;
+extern SPRITE_LEFTTOP e_pSprPlayerFace[];
 extern SPRITE_LEFTTOP e_sprGageDivision;
+extern SPRITE_LEFTTOP e_sprGage;
+extern SPRITE_LEFTTOP e_pAnimeGage[];
+extern SPRITE_LEFTTOP e_sprLifeStamp;
+
 
 extern SPRITE_CENTER e_sprNumbers;
 

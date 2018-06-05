@@ -4,20 +4,16 @@
 #include "obj2d.h"
 
 #define P_SPEED_AX			(0.5)
-#define P_SPEED_X_MAX		(2)
-#define P_SPEED_AX_BLUR		(0.7)
-#define P_SPEED_X_MAX_BLUR	(5)
+#define P_SPEED_X_MAX		(3.5)
+
+#define P_BLUR_SPEED				(0.006)
+#define P_BLUR_SPEED_ON_BLUR_AREA	(0.004)
 
 #define GRIVATY				(0.15f)
 #define P_SPEED_Y_MAX		(12)
 #define P_JUMP_POWER		(-16)
 
-#define P_SPEED_Y_MAX_BLUR	(18)
-#define P_JUMP_POWER_BLUR	(-18)
-
 #define P_JUMP_MAX_NUM	(1)
-
-#define P_CONCENTRATION_DECREASE_FRAME	(100)
 
 #define P_LIFE_MAX		(4)
 
@@ -63,6 +59,7 @@ public:
 	OBJ2D* m_keyObj;
 
 	Vector3 m_scrolledDistance;
+	float m_blurSpeed;
 
 	Player();
 	~Player();

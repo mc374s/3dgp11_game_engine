@@ -99,7 +99,7 @@ void Paper::draw()
 
 		char buf[256];
 		sprintf_s(buf, "Front: %d", m_paginationFront);
-		drawString(m_width - 240, m_height - 40, buf);
+		drawString(m_width - 240, m_height - 40, buf, 0x000000FF, STR_LEFT, 16, 16);
 
 #endif // DEBUG
 
@@ -118,7 +118,7 @@ void Paper::draw()
 #ifdef DEBUG
 
 		sprintf_s(buf, "Back: %d", m_paginationBack);
-		drawString(0, m_height - 40, buf);
+		drawString(0, m_height - 40, buf, 0x000000FF, STR_LEFT, 18, 18);
 
 #endif // DEBUG
 

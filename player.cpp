@@ -29,6 +29,7 @@ void Player::init()
 	m_mode = P_MODE::NORMAL;
 	m_montionState = P_STATE::STANDBY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_blurSpeed = P_BLUR_SPEED;
 	m_alpha = 255;
 	m_transferConcentration = 0;
 	m_timer = 0;
@@ -79,6 +80,7 @@ void Player::restart()
 	m_mode = P_MODE::NORMAL;
 	m_montionState = P_STATE::STANDBY;
 	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_blurSpeed = P_BLUR_SPEED;
 	m_alpha = 255;
 	m_transferConcentration = 0;
 	m_timer = 0;
@@ -103,25 +105,18 @@ void Player::normalMove()
 
 	// 滲む範囲でのスピード入れ替え
 	if (m_isOnBlurArea) {
-		m_speedAcc.x = P_SPEED_AX_BLUR;
-		m_speedAcc.y = P_JUMP_POWER_BLUR;
-		m_speedMax.x = P_SPEED_X_MAX_BLUR;
-		m_speedMax.y = P_SPEED_Y_MAX_BLUR;
+		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
 	} else {
-		m_speedAcc.x = P_SPEED_AX;
-		m_speedAcc.y = P_JUMP_POWER;
-		m_speedMax.x = P_SPEED_X_MAX;
-		m_speedMax.y = P_SPEED_Y_MAX;
+		m_blurSpeed = P_BLUR_SPEED;
 	}
 	// 濃度計算：動いてるときに減っていく
 	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON || fabsf(m_speed.y - 0.0f) > FLT_EPSILON)
 	{
-		m_timer++;
-		if (m_timer > P_CONCENTRATION_DECREASE_FRAME)
+
+		m_concentration -= m_blurSpeed;
+		if (m_concentration < 0)
 		{
-			m_timer = 0;
-			m_concentration--;
-			if (m_concentration < 1)
+			if (m_mode != P_MODE::CLEAR)
 			{
 				m_mode = P_MODE::RESTART;
 			}
@@ -281,9 +276,9 @@ void Player::normalMove()
 		m_mode = P_MODE::RESTART;
 	}
 
-	if (m_pos.y < - m_size.y - 100)
+	if (m_pos.y < m_size.y)
 	{
-		m_pos.y = -m_size.y - 100;
+		m_pos.y = m_size.y;
 		m_speed.y = 0;
 	}
 
@@ -342,8 +337,7 @@ void Player::normalMove()
 		}
 	}
 
-	pGameUIManager->showPlayerConcentration(m_concentration);
-	pGameUIManager->showPlayerLife(m_life);
+	//pGameUIManager->showPlayerConcentration(m_concentration, m_life);
 
 }
 
@@ -435,7 +429,6 @@ void Player::update()
 		if (pEffectManager->isStampDown) m_mode = P_MODE::NORMAL;
 		break;
 	case P_MODE::CLEAR:
-		m_timer = 0;
 	case P_MODE::NORMAL:
 		normalMove();
 		animation();
@@ -465,26 +458,28 @@ void Player::draw()
 
 #ifdef DEBUG
 
-	char buf[256];
-	sprintf_s(buf, " scrolledDisY: %f\n posY: %f\n speedX: %f\n speedY: %f\n State: %d\n Concentration: %d\n TransferConcen: %d\n Life: %d\n STAGE_HEIGHT: %d",
-		m_scrolledDistance.y, m_pos.y, m_speed.x, m_speed.y, m_montionState, m_concentration, m_transferConcentration, m_life, STAGE_HEIGHT);
-	drawString(0, 0, buf, 0x000000FF, STR_LEFT);
-	if (m_type == 0)
-	{
-		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
-		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
-	}
-	else
-	{
-		if (m_type == 1)
-		{
-			drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
-		}
-		if (m_type == 2)
-		{
-			drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
-		}
-	} 
+	char buf[512];
+	sprintf_s(buf, "ScrolledDisY: %f \nPosY: %f \n\nConcentration: %lf \nBlurSpeed: %lf \n\nLife: %d \nSTAGE_HEIGHT: %d",
+		m_scrolledDistance.y, m_pos.y, m_concentration, m_blurSpeed, m_life, STAGE_HEIGHT);
+	drawString(0, 200, buf, 0x000000FF, STR_LEFT, 24, 24);
+
+
+	//if (m_type == 0)
+	//{
+	//	drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
+	//	drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
+	//}
+	//else
+	//{
+	//	if (m_type == 1)
+	//	{
+	//		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
+	//	}
+	//	if (m_type == 2)
+	//	{
+	//		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
+	//	}
+	//} 
 
 #endif // DEBUG
 }

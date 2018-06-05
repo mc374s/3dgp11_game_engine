@@ -268,7 +268,7 @@ void Book::draw()
 
 	char buf[256];
 	sprintf_s(buf, "Key Counter: %d \nm_posLookedByCameraY: %.1lf px \nm_posLookedByCameraZ: %.1lf px", g_keyCounter, m_posLookedByCamera.y, m_posLookedByCamera.z);
-	drawString(0, 300, buf);
+	drawString(0, 460, buf, 0x000000FF, STR_LEFT, 18, 18);
 	if (KEY_DOWN('0'))
 	{
 		g_keyCounter = 0;

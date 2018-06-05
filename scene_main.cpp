@@ -141,12 +141,17 @@ void SceneMain::update()
 
 		pMapObjManager->stageUpdate();
 		pMapObjManager->update();
-		if (pPlayerManager->m_pPlayer->m_isOnScrollArea && m_isBookOpened)
+		if (m_isBookOpened)
 		{
-			pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode==P_MODE::RESTART);
+
+			pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife());
+			if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
+			{
+				pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
+			}
 		}
 
-		pGameUIManager->update();
+		//pGameUIManager->update();
 		pEffectManager->update();
 
 		judgeAll();

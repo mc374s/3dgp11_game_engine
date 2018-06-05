@@ -245,8 +245,11 @@ void ObjManager::draw(int a_liveInPagination)
 		if (it.m_liveInPagination == a_liveInPagination)
 		{
 			it.draw();
-			sprintf_s(pConcentration, "%d", it.m_concentration);
-			drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, pConcentration, 0x00000060, STR_CENTER, 32, 20, -20);
+			if (it.m_concentration > 0)
+			{
+				sprintf_s(pConcentration, "%d", (int)it.m_concentration);
+				drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, pConcentration, 0x00000060, STR_CENTER, 32, 20, -20);
+			}
 		}
 	}
 	for (auto &it : m_blurAreaList) {
@@ -269,7 +272,7 @@ void ObjManager::draw(int a_liveInPagination)
 
 	char buf[256];
 	sprintf_s(buf, "Obj Num: %d\nBlurObjNum: %d", num, m_blurAreaList.size());
-	drawString(0, PAGE_HEIGHT - 60, buf, 0x000000FF, STR_LEFT);
+	drawString(0, PAGE_HEIGHT - 40, buf, 0x000000FF, STR_LEFT, 18, 18);
 
 #endif // DEBUG
 
