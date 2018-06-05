@@ -58,6 +58,7 @@ public:
 
 	bool m_isClosed;
 	bool m_isOpened;
+	bool m_isReadyed;
 	int m_targetPaperNO;
 	float m_centerPaper;
 	int m_currentPaperNO;

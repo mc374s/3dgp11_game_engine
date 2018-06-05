@@ -96,7 +96,7 @@ void Book::init()
 	m_ppPapers[COVER_FRONT]->m_isActive = true;
 	m_ppPapers[COVER_BACK]->m_isActive = true;
 
-
+	m_isReadyed = true;
 
 
 
@@ -571,6 +571,7 @@ void Book::finishReading()
 	if (m_pfMoveOld != &Book::finishReading && m_pfMoveOld != &Book::closeBook)
 	{
 		m_pfMoveOld = m_pfMove;
+		m_isReadyed = false;
 		step = STEP::INIT;
 	}
 	switch (step)
@@ -647,7 +648,6 @@ void Book::finishReading()
 		step = STEP::FINISH;
 		break;
 	case STEP::FINISH:
-
 		break;
 	default:
 		break;
