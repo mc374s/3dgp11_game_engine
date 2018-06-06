@@ -12,6 +12,8 @@ void MapObj::memberCopy(const MapObj& a_inputObj)
 	bool m_isHitAble = a_inputObj.m_isHitAble;
 	m_repeatDrawSize = a_inputObj.m_repeatDrawSize;
 	m_pfMove = a_inputObj.m_pfMove;
+
+	m_initConcentration = a_inputObj.m_initConcentration;
 }
 
 MapObj::MapObj()
@@ -54,6 +56,7 @@ void MapObj::init()
 	m_isInit = true;
 	m_initPos = m_pos;
 	m_pSprData = &e_pSprItem[m_type];
+	m_initConcentration = m_concentration;
 
 	switch (m_type)
 	{
@@ -73,14 +76,14 @@ void MapObj::init()
 	case M_TYPE::RECOVERY_UP:
 		m_repeatDrawSize = m_size;
 		m_pAnimeData = e_pAnimeRecoveryUp;
-		m_isVisibleAlways = true;
-		m_isVisible = true;
+		//m_isVisibleAlways = true;
+		//m_isVisible = true;
 		break;
 	case M_TYPE::RECOVERY_DOWN:
 		m_repeatDrawSize = m_size;
 		m_pAnimeData = e_pAnimeRecoveryDown;
-		m_isVisibleAlways = true;
-		m_isVisible = true;
+		//m_isVisibleAlways = true;
+		//m_isVisible = true;
 		break;
 	case M_TYPE::HIGH_CONCENTRATION:
 		m_repeatDrawSize = m_size;
@@ -192,8 +195,12 @@ void MapObj::draw()
 
 #endif // DEBUG
 
-
-	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
+	if (m_type == M_TYPE::RECOVERY_DOWN || m_type == M_TYPE::RECOVERY_UP) {
+		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM + 180;
+	}
+	else{
+		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
+	}
 
 	// 繰り返し描画のため、一旦SPRITE_BOTTOMの初期データを保存
 	int sprWidth = m_pSprData->width;
@@ -225,6 +232,21 @@ void MapObj::draw()
 #endif // DEBUG
 
 }
+
+
+void recoveryControl(MapObj* a_pObj)
+{
+	if (a_pObj->m_concentration <= 0)
+	{
+		a_pObj->m_timer++;
+	}
+	if (a_pObj->m_timer > 180)
+	{
+		a_pObj->m_timer = 0;
+		a_pObj->m_concentration = a_pObj->m_initConcentration;
+	}
+}
+
 
 
 STAGE_DATA* stageSetData[] = {

@@ -52,6 +52,7 @@ public:
 
 	bool m_isVisibleAlways;
 	bool m_isVisible;
+	int m_initConcentration;
 
 	int m_command; //プレイヤーのキー入力
 	int m_drawDirection;
@@ -67,8 +68,11 @@ public:
 
 
 	void hitAdjust(OBJ2DEX* a_pObj);
-	//void judgePlayer(OBJ2DEX* a_pObj);
 };
+
+
+void recoveryControl(MapObj* a_pObj);
+
 
 struct STAGE_DATA {
 	int m_liveInPagination;
@@ -102,6 +106,7 @@ struct STAGE_DATA {
 		concentration(a_concentration),
 		pfMove(a_pfMove) {};
 };
+
 
 class MapObjManager : public Singleton<MapObjManager>, public Manager
 {

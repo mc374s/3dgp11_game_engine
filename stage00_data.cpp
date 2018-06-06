@@ -26,7 +26,7 @@ STAGE_DATA stage00_setData[] = {
 
 	// ページ１
 	STAGE_DATA(61, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,220,1),		true, v3(470,17,0), 10),
-	STAGE_DATA(61, 0, M_TYPE::RECOVERY_UP,				M_DRAW::UP,		v3(470,220,1),		true, v3(150,22,0), 10),
+	STAGE_DATA(61, 0, M_TYPE::RECOVERY_UP,				M_DRAW::UP,		v3(470,220,1),		true, v3(150,22,0), 3, recoveryControl),
 
 	STAGE_DATA(61, 0, M_TYPE::IVY_THICK,				M_DRAW::LEFT,		v3(PW / 2,0,1),		true, v3(17,220,0), 10),
 
@@ -34,8 +34,8 @@ STAGE_DATA stage00_setData[] = {
 	STAGE_DATA(61, 0, M_TYPE::IVY_THICK,				M_DRAW::LEFT,	v3(PW / 2,420,1),		true, v3(17,260,0), 10),
 	STAGE_DATA(61, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,680,1),		true, v3(155,17,0), 10),
 	STAGE_DATA(61, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(PW / 2,680,1),		true, v3(155,17,0), 10),
-	STAGE_DATA(61, 0, M_TYPE::RECOVERY_UP,				M_DRAW::UP,		v3(155,680,1),		true, v3(155,22,0), 10),
-	STAGE_DATA(61, 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(465,680,1),		true, v3(155,22,0), 10),
+	STAGE_DATA(61, 0, M_TYPE::RECOVERY_UP,				M_DRAW::UP,		v3(155,680,1),		true, v3(155,22,0), 3, recoveryControl),
+	STAGE_DATA(61, 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(465,680,1),		true, v3(155,22,0), 3, recoveryControl),
 
 
 
@@ -54,8 +54,8 @@ STAGE_DATA stage00_setData[] = {
 	STAGE_DATA(62, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,540,1),		true, v3(500,17,0), 10),
 	STAGE_DATA(62, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,900,1),		true, v3(PW,17,0), 10),
 
-	STAGE_DATA(62, 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(PW / 2,215,1),		true, v3(160,22,0), 10),
-	STAGE_DATA(62, 0, M_TYPE::RECOVERY_UP,				M_DRAW::UP,		v3(500,540,1),		true, v3(120,22,0), 10),
+	STAGE_DATA(62, 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(PW / 2,215,1),		true, v3(160,22,0), 3, recoveryControl),
+	STAGE_DATA(62, 0, M_TYPE::RECOVERY_UP,				M_DRAW::UP,		v3(500,540,1),		true, v3(120,22,0), 3, recoveryControl),
 
 	STAGE_DATA(62, 0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,220,0),		true, v3(PW / 2,320,0), 3),
 
