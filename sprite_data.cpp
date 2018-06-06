@@ -43,6 +43,10 @@ enum TEX_NO {
 	TEX_GAGE,
 	TEX_PLAYER_FACE,
 
+	TEX_EFF_DISAPPEAR,
+	TEX_EFF_JUMP,
+	TEX_EFF_MAKE_TRANSCRIPTION,
+
 	TEX_TEST_PLAY_TEXT,
 
 };
@@ -64,21 +68,24 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_IVY_THIN,					"./DATA/Images/border_thin.png" },
 
 	{ TEX_SMOKE,					"./DATA/Images/particle-smoke2.png" },
-	{ TEX_LIFE_STAMP,				"./DATA/Images/stamp.png"},
-	{ TEX_LARGE_PLAYER,				"./DATA/Images/large_player.png" },
+	{ TEX_LIFE_STAMP,				"./DATA/Images/ui_stamp.png"},
+	{ TEX_LARGE_PLAYER,				"./DATA/Images/ui_large_player.png" },
 
-	{ TEX_NUMBERS,					"./DATA/Images/numbers.png" },
+	{ TEX_NUMBERS,					"./DATA/Images/ui_numbers.png" },
 	
-	{ TEX_PAUSE_PANEL,				"./DATA/Images/pause_panel.png" },
-	{ TEX_PAUSE_SELECTED,			"./DATA/Images/pause_selected.png" },
+	{ TEX_PAUSE_PANEL,				"./DATA/Images/ui_pause_panel.png" },
+	{ TEX_PAUSE_SELECTED,			"./DATA/Images/ui_pause_selected.png" },
 
-	{ TEX_ANIME_STAMP,				"./DATA/Images/hanko_motion.png" },
+	{ TEX_ANIME_STAMP,				"./DATA/Images/eff_hanko_motion.png" },
 
-	{ TEX_GAGE_DIVISION_ALLOCATION,	"./DATA/Images/gage_division_allocation.png" },
-	{ TEX_GAGE_DIVISION,			"./DATA/Images/gage_division.png" },
-	{ TEX_GAGE,						"./DATA/Images/gage_ink_white.png" },
-	{ TEX_PLAYER_FACE,				"./DATA/Images/player_face.png" },
+	{ TEX_GAGE_DIVISION_ALLOCATION,	"./DATA/Images/ui_gage_division_allocation.png" },
+	{ TEX_GAGE_DIVISION,			"./DATA/Images/ui_gage_division.png" },
+	{ TEX_GAGE,						"./DATA/Images/ui_gage_ink_white.png" },
+	{ TEX_PLAYER_FACE,				"./DATA/Images/ui_player_face.png" },
 
+	{ TEX_EFF_DISAPPEAR,			"./DATA/Images/eff_disappear.png" },
+	{ TEX_EFF_JUMP,					"./DATA/Images/eff_jump.png" },
+	{ TEX_EFF_MAKE_TRANSCRIPTION,	"./DATA/Images/eff_make_transcription.png" },
 
 	{ TEX_TEST_PLAY_TEXT,			"./DATA/Images/test_play_text.png" },
 
@@ -233,5 +240,27 @@ SPRITE_LEFTTOP e_sprLifeStamp = SPRITE_LEFTTOP(TEX_LIFE_STAMP, 0, 0, 36, 28);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);
+
+SPRITE_BOTTOM e_pAnimeEffDisappear[] = {
+	SPRITE_BOTTOM(TEX_EFF_DISAPPEAR, 84*0, 0, 84, 75, 6),
+	SPRITE_BOTTOM(TEX_EFF_DISAPPEAR, 84*1, 0, 84, 75, 6),
+	SPRITE_BOTTOM(TEX_EFF_DISAPPEAR, 84*2, 0, 84, 75, 6),
+	SPRITE_BOTTOM(TEX_EFF_DISAPPEAR, 84*3, 0, 84, 75, 6),
+	SPRITE_BOTTOM(TEX_EFF_DISAPPEAR, 84*4, 0, 84, 75, 6),
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
+};
+SPRITE_BOTTOM e_pAnimeEffJump[] = {
+	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 0, 0, 112, 13, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 1, 0, 112, 13, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 2, 0, 112, 13, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 3, 0, 112, 13, 6),
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
+};
+SPRITE_BOTTOM e_pAnimeEffMakeTranscription[] = {
+	SPRITE_BOTTOM(TEX_EFF_MAKE_TRANSCRIPTION, 81 * 0, 0, 81, 75, 6),
+	SPRITE_BOTTOM(TEX_EFF_MAKE_TRANSCRIPTION, 81 * 1, 0, 81, 75, 6),
+	SPRITE_BOTTOM(TEX_EFF_MAKE_TRANSCRIPTION, 81 * 2, 0, 81, 75, 6),
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
+};
 
 //******************************************************************************

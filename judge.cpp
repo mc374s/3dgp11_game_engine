@@ -69,10 +69,11 @@ void judgeAll()
 
 			if (ppMapObj[i]->m_type == M_TYPE::HIGH_CONCENTRATION)
 			{
-				if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
+				pPlayer->m_concentration -= P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA;
+				/*if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
 				{
 					pPlayer->m_mode = P_MODE::RESTART;
-				}
+				}*/
 			}
 
 			if (ppMapObj[i]->m_type == M_TYPE::RECOVERY_UP)
@@ -128,7 +129,7 @@ void judgeAll()
 				if (ppMapObj[i]->m_type == M_TYPE::HIGH_CONCENTRATION)
 				{
 					pPlayerManager->m_isTranscriptAble = true;
-					pPlayerManager->m_isTranscriptCanceled = true;
+					//pPlayerManager->m_isTranscriptCanceled = true;
 				}
 			}
 		}

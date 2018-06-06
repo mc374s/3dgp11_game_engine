@@ -195,10 +195,10 @@ int framework::run()
 	KEY_TRACKER.Reset();
 
 	//DWORD preTime;
-	DWORD sleepTime;
 
 	//////////////////////////////////////////////////////////////////////
 	// FPS locker
+	DWORD sleepTime;
 	if (QueryPerformanceFrequency(&m_timeFreq) == false)
 	{
 		MessageBox(0, L"This Device is too old, QueryPerformanceFrequency failed", L"framework", MB_OK);

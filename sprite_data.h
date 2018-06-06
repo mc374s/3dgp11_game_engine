@@ -50,9 +50,13 @@ extern SPRITE_CENTER e_sprPauseSelected;
 
 extern SPRITE_LEFTTOP e_sprTestPlayText;
 
-extern SPRITE_CENTER e_pAnimeStamp[];
 
 // Effect関係
 extern SPRITE_CENTER e_sprHitObj;
+
+extern SPRITE_CENTER e_pAnimeStamp[];
+extern SPRITE_BOTTOM e_pAnimeEffDisappear[];
+extern SPRITE_BOTTOM e_pAnimeEffJump[];
+extern SPRITE_BOTTOM e_pAnimeEffMakeTranscription[];
 
 #endif // !_SPRDATA_H_
