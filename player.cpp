@@ -548,8 +548,10 @@ void PlayerManager::manageConcentration()
 		m_concentration = m_pPlayer->m_concentration;
 		if (m_concentration >= 2)
 		{
-			m_pPlayer->m_concentration /= 2;
-			m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
+			//m_pPlayer->m_concentration /= 2;
+			m_pPlayer->m_concentration -= 2;
+			//m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
+			m_pPlayer->m_transferConcentration = 2;
 			m_step = STEP::BEGIN;
 		} 
 		else

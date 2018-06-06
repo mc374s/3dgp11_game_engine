@@ -79,9 +79,9 @@ void judgeAll()
 			{
 				if (pPlayer->m_speed.y < 0) {
 					//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
-					if (pPlayer->m_pos.y < ppMapObj[i]->m_pos.y + ppMapObj[i]->m_size.y) {
+					/*if (pPlayer->m_pos.y < ppMapObj[i]->m_pos.y + ppMapObj[i]->m_size.y) {
 						pPlayer->m_concentration = 10;
-					}
+					}*/
 				}
 				else ppMapObj[i]->hitAdjust(pPlayer);
 			}
@@ -90,9 +90,9 @@ void judgeAll()
 			{
 				if (pPlayer->m_speed.y >= 0) {
 					//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
-					if (pPlayer->m_pos.y - pPlayer->m_size.y > ppMapObj[i]->m_pos.y) {
-						pPlayer->m_concentration = 10;
-					}
+					//if (pPlayer->m_pos.y - pPlayer->m_size.y > ppMapObj[i]->m_pos.y) {
+					//	pPlayer->m_concentration = 10;
+					//}
 				}
 				else ppMapObj[i]->hitAdjust(pPlayer);
 			}
