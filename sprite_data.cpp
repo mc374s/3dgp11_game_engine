@@ -58,36 +58,36 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_MAIN,						"./DATA/Images/default_bg.jpg"},
 	{ TEX_PLAYER,					"./DATA/Images/character.png"},
 
-	{ TEX_PAGE_LEFT,				"./DATA/Images/page_left.png" },
-	{ TEX_PAGE_RIGHT,				"./DATA/Images/page_right.png" },
-	{ TEX_COVER_FRONT,				"./DATA/Images/cover_front.png" },
-	{ TEX_COVER_BACK,				"./DATA/Images/cover_back.png" },
+	{ TEX_PAGE_LEFT,				"./DATA/Images/Book/page_left.png" },
+	{ TEX_PAGE_RIGHT,				"./DATA/Images/Book/page_right.png" },
+	{ TEX_COVER_FRONT,				"./DATA/Images/Book/cover_front.png" },
+	{ TEX_COVER_BACK,				"./DATA/Images/Book/cover_back.png" },
 
-	{ TEX_MAP_OBJECT,				"./DATA/Images/map_object_full.png" },
-	{ TEX_IVY_THICK,				"./DATA/Images/border_thick.png" },
-	{ TEX_IVY_THIN,					"./DATA/Images/border_thin.png" },
+	{ TEX_MAP_OBJECT,				"./DATA/Images/Map/map_object_full.png" },
+	{ TEX_IVY_THICK,				"./DATA/Images/Map/border_thick.png" },
+	{ TEX_IVY_THIN,					"./DATA/Images/Map/border_thin.png" },
 
 	{ TEX_SMOKE,					"./DATA/Images/particle-smoke2.png" },
-	{ TEX_LIFE_STAMP,				"./DATA/Images/ui_stamp.png"},
-	{ TEX_LARGE_PLAYER,				"./DATA/Images/ui_large_player.png" },
+	{ TEX_LIFE_STAMP,				"./DATA/Images/UI/stamp.png"},
+	{ TEX_LARGE_PLAYER,				"./DATA/Images/UI/large_player.png" },
 
-	{ TEX_NUMBERS,					"./DATA/Images/ui_numbers.png" },
+	{ TEX_NUMBERS,					"./DATA/Images/UI/numbers.png" },
 	
-	{ TEX_PAUSE_PANEL,				"./DATA/Images/ui_pause_panel.png" },
-	{ TEX_PAUSE_SELECTED,			"./DATA/Images/ui_pause_selected.png" },
+	{ TEX_PAUSE_PANEL,				"./DATA/Images/UI/pause_panel.png" },
+	{ TEX_PAUSE_SELECTED,			"./DATA/Images/UI/pause_selected.png" },
 
-	{ TEX_ANIME_STAMP,				"./DATA/Images/eff_hanko_motion.png" },
+	{ TEX_ANIME_STAMP,				"./DATA/Images/Effect/hanko_motion.png" },
 
-	{ TEX_GAGE_DIVISION_ALLOCATION,	"./DATA/Images/ui_gage_division_allocation.png" },
-	{ TEX_GAGE_DIVISION,			"./DATA/Images/ui_gage_division.png" },
-	{ TEX_GAGE,						"./DATA/Images/ui_gage_ink_white.png" },
-	{ TEX_PLAYER_FACE,				"./DATA/Images/ui_player_face.png" },
+	{ TEX_GAGE_DIVISION_ALLOCATION,	"./DATA/Images/UI/gage_division_allocation.png" },
+	{ TEX_GAGE_DIVISION,			"./DATA/Images/UI/gage_division.png" },
+	{ TEX_GAGE,						"./DATA/Images/UI/gage_ink_white.png" },
+	{ TEX_PLAYER_FACE,				"./DATA/Images/UI/player_face.png" },
 
-	{ TEX_EFF_DISAPPEAR,			"./DATA/Images/eff_disappear.png" },
-	{ TEX_EFF_JUMP,					"./DATA/Images/eff_jump.png" },
-	{ TEX_EFF_MAKE_TRANSCRIPTION,	"./DATA/Images/eff_make_transcription.png" },
+	{ TEX_EFF_DISAPPEAR,			"./DATA/Images/Effect/disappear.png" },
+	{ TEX_EFF_JUMP,					"./DATA/Images/Effect/jump.png" },
+	{ TEX_EFF_MAKE_TRANSCRIPTION,	"./DATA/Images/Effect/make_transcription.png" },
 
-	{ TEX_TEST_PLAY_TEXT,			"./DATA/Images/test_play_text.png" },
+	{ TEX_TEST_PLAY_TEXT,			"./DATA/Images/UI/test_play_text.png" },
 
 	{ -1, NULL },
 };

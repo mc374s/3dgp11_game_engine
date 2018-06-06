@@ -80,9 +80,12 @@ void judgeAll()
 			{
 				if (pPlayer->m_speed.y < 0) {
 					//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
-					/*if (pPlayer->m_pos.y < ppMapObj[i]->m_pos.y + ppMapObj[i]->m_size.y) {
-						pPlayer->m_concentration = 10;
-					}*/
+					if (pPlayer->m_pos.y < ppMapObj[i]->m_pos.y + ppMapObj[i]->m_size.y) {
+						pPlayer->m_concentration += 0.8;
+						if (pPlayer->m_concentration > 10) {
+							pPlayer->m_concentration = 10;
+						}
+					}
 				}
 				else ppMapObj[i]->hitAdjust(pPlayer);
 			}
@@ -91,9 +94,12 @@ void judgeAll()
 			{
 				if (pPlayer->m_speed.y >= 0) {
 					//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
-					//if (pPlayer->m_pos.y - pPlayer->m_size.y > ppMapObj[i]->m_pos.y) {
-					//	pPlayer->m_concentration = 10;
-					//}
+					if (pPlayer->m_pos.y - pPlayer->m_size.y > ppMapObj[i]->m_pos.y) {
+						pPlayer->m_concentration += 0.5;
+						if (pPlayer->m_concentration > 10) {
+							pPlayer->m_concentration = 10;
+						}
+					}
 				}
 				else ppMapObj[i]->hitAdjust(pPlayer);
 			}
@@ -136,34 +142,34 @@ void judgeAll()
 	}
 
 	// 転写元判定
-	if (isBookOpened)
-	{
-		for (auto &it : pObjManager->m_transcriptionList) {
+	//if (isBookOpened)
+	//{
+	//	for (auto &it : pObjManager->m_transcriptionList) {
 
-			if (pPlayer->m_liveInPagination == it.m_liveInPagination && checkObjOpened(pPlayer, &(it)) && it.m_concentration > 0)
-			{
-				// TODO : 関数化
+	//		if (pPlayer->m_liveInPagination == it.m_liveInPagination && checkObjOpened(pPlayer, &(it)) && it.m_concentration > 0)
+	//		{
+	//			// TODO : 関数化
 
-				if (pPlayer->m_concentration < P_CONCENTRATION_MAX_NUM)
-				{
-					if (it.m_concentration + pPlayer->m_concentration > P_CONCENTRATION_MAX_NUM)
-					{
-						it.m_concentration -= P_CONCENTRATION_MAX_NUM - pPlayer->m_concentration;
-						pPlayer->m_concentration = P_CONCENTRATION_MAX_NUM;
-					}
-					else
-					{
-						pPlayer->m_concentration += it.m_concentration;
-						it.m_concentration = 0;
-					}
+	//			if (pPlayer->m_concentration < P_CONCENTRATION_MAX_NUM)
+	//			{
+	//				if (it.m_concentration + pPlayer->m_concentration > P_CONCENTRATION_MAX_NUM)
+	//				{
+	//					it.m_concentration -= P_CONCENTRATION_MAX_NUM - pPlayer->m_concentration;
+	//					pPlayer->m_concentration = P_CONCENTRATION_MAX_NUM;
+	//				}
+	//				else
+	//				{
+	//					pPlayer->m_concentration += it.m_concentration;
+	//					it.m_concentration = 0;
+	//				}
 
-					pPlayer->m_alpha = 255 * pPlayer->m_concentration / P_CONCENTRATION_MAX_NUM;
-					it.m_alpha = 255 * it.m_concentration / P_CONCENTRATION_MAX_NUM;
-				}
-				break;
-			}
-		}
-	}
+	//				pPlayer->m_alpha = 255 * pPlayer->m_concentration / P_CONCENTRATION_MAX_NUM;
+	//				it.m_alpha = 255 * it.m_concentration / P_CONCENTRATION_MAX_NUM;
+	//			}
+	//			break;
+	//		}
+	//	}
+	//}
 
 
 	// 滲んだとこと判定

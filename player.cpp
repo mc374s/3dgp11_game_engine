@@ -549,9 +549,9 @@ void PlayerManager::manageConcentration()
 		if (m_concentration >= 2)
 		{
 			//m_pPlayer->m_concentration /= 2;
-			m_pPlayer->m_concentration -= 2;
+			m_pPlayer->m_concentration -= 1;
 			//m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
-			m_pPlayer->m_transferConcentration = 2;
+			m_pPlayer->m_transferConcentration = 1;
 			m_step = STEP::BEGIN;
 		} 
 		else
@@ -618,7 +618,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			pObjManager->m_transcriptionObj.m_pos.z--;
 			pObjManager->m_transcriptionObj.m_custom = m_pPlayer->m_custom;
 			pObjManager->m_transcriptionObj.m_concentration = m_pPlayer->m_transferConcentration;
-			pObjManager->m_transcriptionObj.m_alpha = 255 * pObjManager->m_transcriptionObj.m_concentration / 10;
+			pObjManager->m_transcriptionObj.m_alpha = 255 * pObjManager->m_transcriptionObj.m_concentration / 10 + 40;
 			pObjManager->m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
 			pObjManager->m_transcriptionObj.m_liveInPagination = m_pPlayer->m_liveInPagination;
 			pObjManager->m_transcriptionList.push_back(pObjManager->m_transcriptionObj);

@@ -245,11 +245,11 @@ void ObjManager::draw(int a_liveInPagination)
 		if (it.m_liveInPagination == a_liveInPagination)
 		{
 			it.draw();
-			if (it.m_concentration > 0)
+			/*if (it.m_concentration > 0)
 			{
 				sprintf_s(pConcentration, "%d", (int)it.m_concentration);
 				drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, pConcentration, 0x00000060, STR_CENTER, 32, 20, -20);
-			}
+			}*/
 		}
 	}
 	for (auto &it : m_blurAreaList) {
