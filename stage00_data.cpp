@@ -87,8 +87,6 @@ STAGE_DATA stage00_setData[] = {
 
 	STAGE_DATA(e_startPagination[0]+1, 0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,220,0),		true, v3(PW / 2,320,0), 3),
 
-	STAGE_DATA(e_startPagination[0]+1, 0, M_TYPE::KEY,						M_DRAW::UP,		v3(120,900 - 30,0),	true, v3(50,30,0), 10),
-
 	// END
 	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
 };
