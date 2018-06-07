@@ -254,7 +254,7 @@ void SceneMain::update()
 		m_timer++;
 		if (m_timer > 20)
 		{
-			if (KEY_BOARD.W)
+			if (KEY_BOARD.W || GAME_PAD.IsLeftThumbStickUp())
 			{
 				pMapObjManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 				pPlayerManager->m_pPlayer->m_pos.y += 10;
@@ -263,7 +263,7 @@ void SceneMain::update()
 					pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y + pPlayerManager->m_pPlayer->m_scrolledDistance.y;
 				}
 			}
-			if (KEY_BOARD.S)
+			if (KEY_BOARD.S || GAME_PAD.IsLeftThumbStickDown())
 			{
 				pMapObjManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 				pPlayerManager->m_pPlayer->m_pos.y -= 10;
