@@ -1,7 +1,6 @@
 ﻿#include "game.h"
 #include "player.h"
 #include "map_obj.h"
-#include "scene_main.h"
 
 #include "paper.h"
 #include "book.h"
@@ -32,10 +31,12 @@ bool checkHitPlayerToMapObjClosed(Player* a_pPlayer, MapObj* a_pMapObj)
 void judgeAll()
 {
 	static Player* pPlayer = pPlayerManager->m_pPlayer;
+	static std::vector<MapObj>* pMapObjList = nullptr;
+	pMapObjList = &(pBook->m_ppPapers[pPlayer->m_liveInPagination / 2]->m_mapObjList[pPlayer->m_liveInPagination % 2]);
 	static MapObj** ppMapObj = pMapObjManager->m_ppMapObjs;
 	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
-	static std::vector<OBJ2D*>* pBlurList = nullptr;
-	pBlurList = &(SCENE_MAIN->m_pBook->m_ppPapers[SCENE_MAIN->m_pBook->m_currentPaperNO]->m_pBlurAreaList[pPlayer->m_liveInPagination - SCENE_MAIN->m_pBook->m_currentPaperNO * 2]);
+	static std::vector<OBJ2D>* pBlurList = nullptr;
+	pBlurList = &(pBook->m_ppPapers[pPlayer->m_liveInPagination / 2]->m_blurAreaList[pPlayer->m_liveInPagination % 2]);
 	// When Restart, ignore Judgement
 	if (pPlayer->m_mode == P_MODE::RESTART)
 	{
@@ -43,8 +44,8 @@ void judgeAll()
 		return;
 	}
 
-	isBookClosed = SCENE_MAIN->m_isBookClosed;
-	isBookOpened = SCENE_MAIN->m_isBookOpened;
+	isBookClosed = pBook->m_isClosed;
+	isBookOpened = pBook->m_isOpened;
 	if (isBookClosed)
 	{
 		pPlayerManager->m_isTranscriptAble = true;
@@ -56,92 +57,89 @@ void judgeAll()
 		pPlayerManager->m_step = STEP::INIT;
 	}
 
-
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	for (MapObj &it : *pMapObjList)
 	{
-		if (isBookOpened && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_liveInPagination == ppMapObj[i]->m_liveInPagination 
-			&& checkHitPlayerToMapObjOpened(pPlayer, ppMapObj[i]))
+		if (isBookOpened && it.m_isHitAble && checkHitPlayerToMapObjOpened(pPlayer, &it))
 		{
-			//ppMapObj[i]->clear();
-			if (ppMapObj[i]->m_type != M_TYPE::HIGH_CONCENTRATION && ppMapObj[i]->m_type != M_TYPE::NONE
-				&& ppMapObj[i]->m_type != M_TYPE::DOOR && ppMapObj[i]->m_type != M_TYPE::KEY && ppMapObj[i]->m_type != M_TYPE::RECOVERY_UP && ppMapObj[i]->m_type != M_TYPE::RECOVERY_DOWN
-				&& (pPlayer->m_concentration <= ppMapObj[i]->m_concentration/*ppMapObj[i]->m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION*/))
+			//it.clear();
+			if (it.m_type != M_TYPE::HIGH_CONCENTRATION && it.m_type != M_TYPE::NONE
+				&& it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::RECOVERY_UP && it.m_type != M_TYPE::RECOVERY_DOWN
+				&& (pPlayer->m_concentration <= it.m_concentration/*it.m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION*/))
 			{
-				ppMapObj[i]->hitAdjust(pPlayer);
+				it.hitAdjust(pPlayer);
 			}
 
 
-			if (ppMapObj[i]->m_type == M_TYPE::HIGH_CONCENTRATION)
+			if (it.m_type == M_TYPE::HIGH_CONCENTRATION)
 			{
 				pPlayer->m_concentration -= P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA;
-				/*if (pPlayer->m_concentration < ppMapObj[i]->m_concentration)
+				/*if (pPlayer->m_concentration < it.m_concentration)
 				{
 					pPlayer->m_mode = P_MODE::RESTART;
 				}*/
 			}
 
-			if (ppMapObj[i]->m_type == M_TYPE::RECOVERY_UP)
+			if (it.m_type == M_TYPE::RECOVERY_UP)
 			{
 				if (pPlayer->m_speed.y < 0) {
 					//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
-					if (pPlayer->m_pos.y < ppMapObj[i]->m_pos.y + ppMapObj[i]->m_size.y) {
-						if (ppMapObj[i]->m_concentration > 0)
+					if (pPlayer->m_pos.y < it.m_pos.y + it.m_size.y) {
+						if (it.m_concentration > 0)
 						{
-							pPlayer->m_concentration += ppMapObj[i]->m_concentration;
-							ppMapObj[i]->m_concentration = 0;
+							pPlayer->m_concentration += it.m_concentration;
+							it.m_concentration = 0;
 							if (pPlayer->m_concentration > 10) {
 								pPlayer->m_concentration = 10;
 							}
 						}
 					}
 				}
-				else ppMapObj[i]->hitAdjust(pPlayer);
+				else it.hitAdjust(pPlayer);
 			}
 
-			if (ppMapObj[i]->m_type == M_TYPE::RECOVERY_DOWN)
+			if (it.m_type == M_TYPE::RECOVERY_DOWN)
 			{
 				if (pPlayer->m_speed.y >= 0) {
 					//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
-					if (pPlayer->m_pos.y - pPlayer->m_size.y > ppMapObj[i]->m_pos.y) {
-						pPlayer->m_concentration += ppMapObj[i]->m_concentration;
-						ppMapObj[i]->m_concentration = 0;
+					if (pPlayer->m_pos.y - pPlayer->m_size.y > it.m_pos.y) {
+						pPlayer->m_concentration += it.m_concentration;
+						it.m_concentration = 0;
 						if (pPlayer->m_concentration > 10) {
 							pPlayer->m_concentration = 10;
 						}
 					}
 				}
-				else ppMapObj[i]->hitAdjust(pPlayer);
+				else it.hitAdjust(pPlayer);
 			}
 
 
 			// 鍵関係
-			if (ppMapObj[i]->m_type == M_TYPE::KEY)
+			if (it.m_type == M_TYPE::KEY)
 			{
 				pPlayer->m_isKeyHandled = true;
-				pPlayer->m_keyObj->m_pSprData = ppMapObj[i]->m_pSprData;
-				ppMapObj[i]->m_isHitAble = false;
-				ppMapObj[i]->m_concentration = LOW_CONCENTRATION;
+				pPlayer->m_keyObj->m_pSprData = it.m_pSprData;
+				it.m_isHitAble = false;
+				it.m_concentration = LOW_CONCENTRATION;
 			}
-			if (ppMapObj[i]->m_type == M_TYPE::DOOR && pPlayer->m_isKeyHandled)
+			if (it.m_type == M_TYPE::DOOR && pPlayer->m_isKeyHandled)
 			{
 				pPlayer->m_isKeyHandled = false;
-				//pPlayer->m_keyObj.m_pSprData = ppMapObj[i]->m_pSprData;
+				//pPlayer->m_keyObj.m_pSprData = it.m_pSprData;
 				pPlayer->m_keyObj->m_pSprData = nullptr;
 				pPlayer->m_mode = P_MODE::CLEAR;
-				ppMapObj[i]->m_isHitAble = false;
-				ppMapObj[i]->m_concentration = P_CONCENTRATION_MAX_NUM;
+				it.m_isHitAble = false;
+				it.m_concentration = P_CONCENTRATION_MAX_NUM;
 			}
 		}
-		if (isBookClosed && ppMapObj[i] && ppMapObj[i]->m_isHitAble && pPlayer->m_liveInPagination != ppMapObj[i]->m_liveInPagination
-			&& checkHitPlayerToMapObjClosed(pPlayer, ppMapObj[i]))
+		if (isBookClosed && it.m_isHitAble && checkHitPlayerToMapObjClosed(pPlayer, &it))
 		{
 			// 
-			//if ((pPlayer->m_concentration < ppMapObj[i]->m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && ppMapObj[i]->m_concentration > LOW_CONCENTRATION)
+			//if ((pPlayer->m_concentration < it.m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && it.m_concentration > LOW_CONCENTRATION)
 			// プレイヤーの濃度より高いObjは転写できない
-			if (pPlayer->m_concentration < ppMapObj[i]->m_concentration && (ppMapObj[i]->m_type != M_TYPE::KEY && ppMapObj[i]->m_type != M_TYPE::DOOR))
+			if (pPlayer->m_concentration < it.m_concentration && (it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR))
 			{
 				pPlayerManager->m_isTranscriptAble = false;
-				if (ppMapObj[i]->m_type == M_TYPE::HIGH_CONCENTRATION)
+				if (it.m_type == M_TYPE::HIGH_CONCENTRATION)
 				{
 					pPlayerManager->m_isTranscriptAble = true;
 					//pPlayerManager->m_isTranscriptCanceled = true;
@@ -187,7 +185,7 @@ void judgeAll()
 	{
 		for (auto &it : *pBlurList) {
 
-			if (checkObjOpened(pPlayer, it))
+			if (checkObjOpened(pPlayer, &(it)))
 			{
 				pPlayer->m_isOnBlurArea = true;
 				break;
@@ -200,9 +198,9 @@ void judgeAll()
 	bool isRepeated = false;
 	for (auto &newIt : pObjManager->m_newblurAreaList) {
 		isRepeated = false;
-		for (auto it : *pBlurList) {
+		for (auto &it : *pBlurList) {
 
-			if (checkObjOpened(&(newIt), it))
+			if (checkObjOpened(&newIt, &(it)))
 			{
 				isRepeated = true;
 				break;
@@ -210,7 +208,7 @@ void judgeAll()
 		}
 		if (!isRepeated)
 		{
-			(*pBlurList)->push_back(newIt);
+			pBlurList->push_back(newIt);
 		}
 	}
 	pObjManager->m_newblurAreaList.clear();

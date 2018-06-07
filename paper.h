@@ -3,7 +3,9 @@
 
 #define PAPER_DEPTH (1)
 
+class OBJ2D;
 class MapObj;
+
 
 class Paper :public Scene, public Singleton<Paper>
 {
@@ -33,18 +35,20 @@ public:
 	XMFLOAT3 m_initPos;
 	CUSTOM3D m_custom3d;
 
-	std::vector<MapObj*> m_pMapObjList[2];
-	std::vector<OBJ2D*> m_pBlurAreaList[2];
-	std::vector<OBJ2D*> m_pTranscriptionList[2];
+	std::vector<MapObj> m_mapObjList[2];
+	std::vector<OBJ2D> m_blurAreaList[2];
+	std::vector<OBJ2D> m_transcriptionList[2];
 
 	float m_viewAdjust;
 	void syncViewCustom3d();
 
 	void clear();
+	void clearAll();
 	void init();
 	void update();
 	void draw();
 
+	void setScroll(Vector3 a_speed, int a_scrollNO, bool a_isRestart);
 };
 
 

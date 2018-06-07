@@ -3,7 +3,6 @@
 #include "game_ui.h"
 #include "effect.h"
 
-#include "scene_main.h"
 #include "book.h"
 #include "paper.h"
 
@@ -625,8 +624,10 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			pObjManager->m_transcriptionObj.m_alpha = 255 * pObjManager->m_transcriptionObj.m_concentration / 10 + 40;
 			pObjManager->m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
 			pObjManager->m_transcriptionObj.m_liveInPagination = m_pPlayer->m_liveInPagination;
-			pObjManager->m_transcriptionList.push_back(pObjManager->m_transcriptionObj);
-			
+			//pObjManager->m_transcriptionList.push_back(pObjManager->m_transcriptionObj);
+
+
+			pBook->m_ppPapers[m_pPlayer->m_liveInPagination / 2]->m_blurAreaList[m_pPlayer->m_liveInPagination % 2].push_back(pObjManager->m_transcriptionObj);
 
 			if (m_isTranscriptCanceled)
 			{

@@ -9,7 +9,6 @@ enum CHILDREN_NO
 };
 
 class OBJ2D;
-class Book;
 
 class SceneMain :public Scene, public Singleton<SceneMain>
 {
@@ -27,7 +26,6 @@ public:
 	SceneMain();
 	~SceneMain();
 
-	Book *m_pBook;
 	bool m_isBookOpened;
 	bool m_isBookClosed;
 

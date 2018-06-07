@@ -2,6 +2,9 @@
 #include "sprite_data.h"
 #include "stage_data.h"
 
+#include "paper.h"
+#include "book.h"
+
 #include "map_obj.h"
 
 void MapObj::memberCopy(const MapObj& a_inputObj)
@@ -14,6 +17,10 @@ void MapObj::memberCopy(const MapObj& a_inputObj)
 	m_pfMove = a_inputObj.m_pfMove;
 
 	m_initConcentration = a_inputObj.m_initConcentration;
+
+	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
+	m_isVisible = a_inputObj.m_isVisible;
+
 }
 
 MapObj::MapObj()
@@ -48,6 +55,8 @@ void MapObj::clear()
 	m_drawDirection = M_DRAW::UP;
 	m_repeatDrawSize = Vector3(0, 0, 0);
 	m_isHitAble = false;
+	m_isVisibleAlways = true;
+	m_isVisible = true;
 }
 
 // stageData による初期化
@@ -124,32 +133,19 @@ void MapObj::update()
 	}
 	animation();
 }
-int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
+void MapObj::safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
 {
-	for (int i = 0; i < a_maxNum; i++)
-	{
-		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
-			continue;
-		}
-		if (!a_ppBegin[i]){
-			a_ppBegin[i] = new MapObj;
-		} else {
-			a_ppBegin[i]->clear();
-		}
-		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
-		a_ppBegin[i]->m_type = a_mapObjType;
-		a_ppBegin[i]->m_drawDirection = a_drawDirection;
-		a_ppBegin[i]->m_pos = a_pos;
-		a_ppBegin[i]->m_isHitAble = a_isHitAble;
-		a_ppBegin[i]->m_size = a_size;
-		a_ppBegin[i]->m_concentration = a_concentration;
-		a_ppBegin[i]->m_pfMove = a_pfMove;
-		a_ppBegin[i]->init();
 
-		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = a_ppBegin[i];
-		return i;
-	}
-	return -1;
+	a_objIn.clear();
+	a_objIn.m_liveInPagination = a_liveInPagination;
+	a_objIn.m_type = a_mapObjType;
+	a_objIn.m_drawDirection = a_drawDirection;
+	a_objIn.m_pos = a_pos;
+	a_objIn.m_isHitAble = a_isHitAble;
+	a_objIn.m_size = a_size;
+	a_objIn.m_concentration = a_concentration;
+	a_objIn.m_pfMove = a_pfMove;
+	a_objIn.init();
 }
 
 void MapObj::hitAdjust(OBJ2DEX* a_pObj)
@@ -324,7 +320,10 @@ void MapObjManager::stageUpdate()
 			m_timer = 0;
 			break;
 		}
-		MapObj::searchSet(m_ppMapObjs, MAPOBJ_MAX_NUM, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+		MapObj::safeInit(m_mapObj, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+
+		pBook->m_ppPapers[m_mapObj.m_liveInPagination / 2]->m_mapObjList[m_mapObj.m_liveInPagination % 2].push_back(m_mapObj);
+
 		m_pStageData++;
 	}
 }

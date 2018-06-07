@@ -240,18 +240,19 @@ void ObjManager::update(int a_liveInPagination) {
 void ObjManager::draw(int a_liveInPagination)
 {
 
-	char pConcentration[8];
-	for (auto &it : m_transcriptionList) {
-		if (it.m_liveInPagination == a_liveInPagination)
-		{
-			it.draw();
-			/*if (it.m_concentration > 0)
-			{
-				sprintf_s(pConcentration, "%d", (int)it.m_concentration);
-				drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, pConcentration, 0x00000060, STR_CENTER, 32, 20, -20);
-			}*/
-		}
-	}
+	//char pConcentration[8];
+	//for (auto &it : m_transcriptionList) {
+	//	if (it.m_liveInPagination == a_liveInPagination)
+	//	{
+	//		it.draw();
+	//		/*if (it.m_concentration > 0)
+	//		{
+	//			sprintf_s(pConcentration, "%d", (int)it.m_concentration);
+	//			drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, pConcentration, 0x00000060, STR_CENTER, 32, 20, -20);
+	//		}*/
+	//	}
+	//}
+
 	int num = 0;
 	for (auto &it : m_ppObjs)
 	{

@@ -64,6 +64,22 @@ Book::~Book()
 	}
 }
 
+void Book::clear()
+{
+	for (auto &it : m_ppPapers)
+	{
+		it->clear();
+	}
+}
+
+void Book::clearAll()
+{
+	for (auto &it : m_ppPapers)
+	{
+		it->clearAll();
+	}
+}
+
 void Book::init()
 {
 	m_initPos=m_position = { 0,0,0 };
@@ -273,9 +289,15 @@ void Book::draw()
 
 #endif // DEBUG
 
+}
 
+void Book::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart)
+{
+	m_ppPapers[m_currentPaperNO]->setScroll(a_speed, 1, a_isRestart);
+	m_ppPapers[m_currentPaperNO + 1]->setScroll(a_speed, 0, a_isRestart);
 
 }
+
 
 // Book move function
 void Book::closeBook()

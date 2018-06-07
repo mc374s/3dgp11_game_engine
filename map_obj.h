@@ -64,7 +64,7 @@ public:
 	void update();
 	void draw();
 
-	static int searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
+	static void safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
 
 
 	void hitAdjust(OBJ2DEX* a_pObj);
@@ -116,6 +116,7 @@ public:
 	STAGE_DATA* m_pStageData;
 	int m_stageNO;
 	int m_startPagination;
+	MapObj m_mapObj;
 
 	void init(int m_stageNO = 0);
 	void stageUpdate();
