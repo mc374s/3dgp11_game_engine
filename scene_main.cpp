@@ -150,6 +150,14 @@ void SceneMain::update()
 			{
 				pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
 			}
+
+			if (KEY_TRACKER.pressed.V || PAD_TRACKER.y == PAD_TRACKER.PRESSED)
+			{
+				m_step = STEP::BEGIN + 1;
+				m_timer = 0;
+				pPlayerManager->m_pPlayer->m_setPos.y = pPlayerManager->m_pPlayer->m_pos.y;
+				break;
+			}
 		}
 
 		//pGameUIManager->update();
@@ -175,13 +183,6 @@ void SceneMain::update()
 			m_timer = 0;
 			m_step = STEP::END;
 
-		}
-		if (KEY_TRACKER.pressed.V || PAD_TRACKER.y == PAD_TRACKER.PRESSED)
-		{
-			m_step = STEP::BEGIN + 1;
-			m_timer = 0;
-			pPlayerManager->m_pPlayer->m_setPos.y = pPlayerManager->m_pPlayer->m_pos.y;
-			break;
 		}
 
 		break;
@@ -286,6 +287,5 @@ void SceneMain::draw()
 	{
 		drawString(SCREEN_WIDTH / 2, 400, "Click [x] to TITLE", COLOR_WHITE >> 8 << 8 | 0xA0, STR_CENTER, 40, 40);
 	}
-
 
 }

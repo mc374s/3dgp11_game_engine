@@ -28,6 +28,7 @@
 
 extern int START_PAGINATION;
 extern int STAGE_HEIGHT;
+extern Vector3 INIT_POS;
 
 // TODO : Systemly Learn how Header.h and Source.cpp work
 

@@ -260,13 +260,14 @@ MapObjManager::~MapObjManager()
 }
 
 
-void MapObjManager::init(int a_stageNo)
+void MapObjManager::init(int a_stageNO)
 {
-	m_stageNo = a_stageNo;
+	m_stageNO = a_stageNO;
 	m_timer = 0;
-	m_pStageData = stageSetData[m_stageNo];
-	STAGE_HEIGHT = e_stage_height[m_stageNo];
-	START_PAGINATION = e_start_pagination[m_stageNo];
+	m_pStageData = stageSetData[m_stageNO];
+	STAGE_HEIGHT = e_stageHeight[m_stageNO];
+	START_PAGINATION = e_startPagination[m_stageNO];
+	INIT_POS = e_initPos[m_stageNO];
 	for (auto &it:m_ppMapObjs){
 		if (it){
 			it->clear();
@@ -315,9 +316,9 @@ void MapObjManager::stageUpdate()
 	{
 		if (m_pStageData->appearTime < 0) {
 			m_pStageData = nullptr;
-			if (m_stageNo > 0)
+			if (m_stageNO > 0)
 			{
-				m_pStageData = stageSetData[m_stageNo];
+				m_pStageData = stageSetData[m_stageNO];
 				m_timer = 0;
 			}
 			break;

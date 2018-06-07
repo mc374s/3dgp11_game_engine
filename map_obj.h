@@ -114,9 +114,9 @@ public:
 	MapObj* m_ppMapObjs[MAPOBJ_MAX_NUM] = {nullptr};
 
 	STAGE_DATA* m_pStageData;
-	int m_stageNo;
+	int m_stageNO;
 
-	void init(int m_stageNo = 0);
+	void init(int m_stageNO = 0);
 	void stageUpdate();
 	void update();
 	void draw();
