@@ -182,6 +182,10 @@
     <ClCompile Include="sprite_data.cpp" />
     <ClCompile Include="stage00_data.cpp" />
     <ClCompile Include="stage01_data.cpp" />
+    <ClCompile Include="stage02_data.cpp" />
+    <ClCompile Include="stage03_data.cpp" />
+    <ClCompile Include="stage04_data.cpp" />
+    <ClCompile Include="stage05_data.cpp" />
     <ClCompile Include="tools.cpp" />
     <ClCompile Include="game_ui.cpp" />
   </ItemGroup>

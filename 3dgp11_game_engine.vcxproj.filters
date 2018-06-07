@@ -193,6 +193,18 @@
     <ClCompile Include="paper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="stage02_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage03_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage04_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage05_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="3dgp\primitive3d.hlsli">

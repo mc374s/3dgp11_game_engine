@@ -17,6 +17,7 @@ private:
 	OBJ2D* m_pBG;
 	Book *m_pBook;
 	char *m_pStr;
+	int m_stageNO;
 
 	bool m_isPlayerOnLeftPage = true;
 

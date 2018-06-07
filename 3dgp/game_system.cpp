@@ -138,6 +138,7 @@ void drawRectangle(float _x, float _y, float _w, float _h, float _angle, UINTCOL
 View::View(int a_viewWidth, int a_viewHeight) :m_doReflection(false)
 {
 	m_pRenderTarget = new RenderTarget(framework::s_pDevice, a_viewWidth, a_viewHeight);
+	m_custom3d.clear();
 }
 
 View::View(float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, float a_rotateAngle, UINTCOLOR a_blendColor, bool a_doReflection):
@@ -148,6 +149,7 @@ m_blendColor(a_blendColor),
 m_doReflection(a_doReflection)
 {
 	m_pRenderTarget = new RenderTarget(framework::s_pDevice, a_drawWidth, a_drawHeight);
+	m_custom3d.clear();
 }
 
 View::~View()

@@ -40,6 +40,7 @@ void SceneMain::init()
 	MFAudioContinue(BGM_TITLE);*/
 	Scene::init();
 	m_pausedOption = PAUSED_SELECTION::TO_GAME;
+	m_stageNO = 0;
 }
 
 SceneMain::~SceneMain()
@@ -81,7 +82,7 @@ void SceneMain::update()
 			if (m_pausedOption == PAUSED_SELECTION::TO_TITLE)
 			{
 				m_isPaused = false;
-				m_step = STEP::INIT;
+				m_step = STEP::INIT + 1;
 				changeScene(SCENE_TITLE);
 			}
 		}
@@ -94,18 +95,18 @@ void SceneMain::update()
 	case STEP::INIT:
 		//init();
 		//pMapObjManager->init(0);
-		m_pBook->init();
 		pObjManager->init();
 		pGameUIManager->init();
 		pEffectManager->init();
-
-		pMapObjManager->init(0);
+		m_stageNO = 0;
+		pMapObjManager->init(m_stageNO);
 		pPlayerManager->init();
 		//break;
 	case STEP::INIT+1:
 
 		m_pStr = "";
 		m_timer = 0;
+		m_pBook->init();
 		m_step = STEP::INIT + 2;
 		m_pausedOption = PAUSED_SELECTION::TO_GAME;
 		//break;
@@ -119,13 +120,32 @@ void SceneMain::update()
 			if (!m_pBook->m_pfMove)
 			{
 				m_pBook->m_pfMove = &Book::startReading;
+				pMapObjManager->init(m_stageNO);
 				pObjManager->init();
 				pGameUIManager->init();
 				pEffectManager->init();
-
-				pMapObjManager->init(0);
 				pPlayerManager->init();
 			}
+		}
+		if (m_isBookOpened)
+		{
+			m_step = STEP::BEGIN;
+		}
+		pMapObjManager->stageUpdate();
+		pMapObjManager->update();
+		break;
+	case STEP::INIT + 3:
+		m_pStr = "";
+		m_pBook->update();
+		m_isBookClosed = m_pBook->m_isClosed;
+		m_isBookOpened = m_pBook->m_isOpened;
+		if (!m_pBook->m_pfMove)
+		{
+			//pObjManager->init();
+			pGameUIManager->init();
+			pEffectManager->init();
+
+			pPlayerManager->init();
 		}
 		if (m_isBookOpened)
 		{
@@ -171,9 +191,52 @@ void SceneMain::update()
 			m_timer++;
 			if (m_timer > 300 || KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
 			{
-				m_pBook->m_pfMove = &Book::finishReading;
-				m_step = STEP::INIT + 1;
+				m_stageNO++;
+				if (m_stageNO >= STAGE_MAX_NUM)
+				{
+					m_stageNO = 0;
+					pMapObjManager->init(m_stageNO);
+					m_pBook->m_pfMove = &Book::turnPages;
+					m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2 + 1;
+					m_step = STEP::INIT + 3;
+					/*m_pBook->m_pfMove = &Book::finishReading;
+					m_step = STEP::INIT + 1;*/
+				}
+				else
+				{
+					pMapObjManager->init(m_stageNO);
+					m_pBook->m_pfMove = &Book::turnPages;
+					m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2;
+					m_step = STEP::INIT + 3;
+				}
+				m_timer = 0;
 			}
+		}
+
+		if (KEY_TRACKER.pressed.B && m_pBook->m_step > STEP::END)
+		{
+			m_stageNO++;
+			if (m_stageNO >= STAGE_MAX_NUM)
+			{
+				/*m_stageNO = 0;
+				m_pBook->m_pfMove = &Book::finishReading;
+				m_step = STEP::INIT + 1;*/
+				m_stageNO = 0;
+				pMapObjManager->init(m_stageNO);
+				m_pBook->m_pfMove = &Book::turnPages;
+				m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2 + 1;
+				m_step = STEP::INIT + 3;
+				m_timer = 0;
+			}
+			else
+			{
+				pMapObjManager->init(m_stageNO);
+				m_pBook->m_pfMove = &Book::turnPages;
+				m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2;
+				m_step = STEP::INIT + 3;
+				m_timer = 0;
+			}
+
 		}
 
 		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::DEAD)
@@ -250,7 +313,7 @@ void SceneMain::update()
 		{
 			m_timer = 0;
 			m_pBook->m_pfMove = &Book::finishReading;
-			m_step = STEP::INIT + 1;
+			m_step = STEP::INIT + 2;
 		}
 		break;
 	default:
@@ -262,7 +325,7 @@ void SceneMain::update()
 		if (m_pBook->m_step>STEP::END)
 		{
 			m_pBook->m_pfMove = &Book::finishReading;
-			m_step = STEP::INIT + 1;
+			m_step = STEP::INIT + 2;
 		}
 	}
 
@@ -287,5 +350,12 @@ void SceneMain::draw()
 	{
 		drawString(SCREEN_WIDTH / 2, 400, "Click [x] to TITLE", COLOR_WHITE >> 8 << 8 | 0xA0, STR_CENTER, 40, 40);
 	}
+#ifdef  DEBUG
+	char buf[256];
+	sprintf_s(buf, "StageNO: %d", m_stageNO);
+	drawString(SCREEN_WIDTH / 2, 400, buf, COLOR_WHITE >> 8 << 8 | 0xA0, STR_CENTER, 40, 40);
+
+#endif //  DEBUG
+
 
 }

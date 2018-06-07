@@ -238,7 +238,10 @@ void MapObj::draw()
 STAGE_DATA* stageSetData[] = {
 	stage00_setData,
 	stage01_setData,
-
+	stage02_setData,
+	stage03_setData,
+	stage04_setData,
+	stage05_setData,
 };
 
 
@@ -268,11 +271,13 @@ void MapObjManager::init(int a_stageNO)
 	STAGE_HEIGHT = e_stageHeight[m_stageNO];
 	START_PAGINATION = e_startPagination[m_stageNO];
 	INIT_POS = e_initPos[m_stageNO];
-	for (auto &it:m_ppMapObjs){
+
+	m_startPagination = START_PAGINATION;
+	/*for (auto &it:m_ppMapObjs){
 		if (it){
 			it->clear();
 		}
-	}
+	}*/
 
 }
 void MapObjManager::update()
@@ -316,11 +321,7 @@ void MapObjManager::stageUpdate()
 	{
 		if (m_pStageData->appearTime < 0) {
 			m_pStageData = nullptr;
-			if (m_stageNO > 0)
-			{
-				m_pStageData = stageSetData[m_stageNO];
-				m_timer = 0;
-			}
+			m_timer = 0;
 			break;
 		}
 		MapObj::searchSet(m_ppMapObjs, MAPOBJ_MAX_NUM, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);

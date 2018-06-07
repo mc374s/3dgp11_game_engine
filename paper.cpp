@@ -11,6 +11,7 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 {
 	m_pBG = new OBJ2D;
 	m_pBG->m_pSprData = &e_sprPageLeft;
+	m_custom3d.clear();
 
 	m_pCube = new Cube(XMFLOAT3(.0f, .0f, .0f), XMFLOAT3(m_width, m_height, m_depth), m_materialColor);
 	//m_pCube->m_custom3d.position = XMFLOAT3(-m_width / 2, 0, m_paperNO*m_depth);

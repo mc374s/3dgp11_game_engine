@@ -5,7 +5,7 @@
 
 #define LOW_CONCENTRATION (4)
 
-#define MAPOBJ_MAX_NUM	(64)
+#define MAPOBJ_MAX_NUM	(256)
 
 // MapObj Type
 enum M_TYPE
@@ -115,13 +115,12 @@ public:
 
 	STAGE_DATA* m_pStageData;
 	int m_stageNO;
+	int m_startPagination;
 
 	void init(int m_stageNO = 0);
 	void stageUpdate();
 	void update();
 	void draw();
-
-	void mapScroll(float m_scrollHeight);
 
 	MapObjManager();
 	~MapObjManager();
