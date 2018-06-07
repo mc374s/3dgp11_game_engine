@@ -81,10 +81,13 @@ void judgeAll()
 				if (pPlayer->m_speed.y < 0) {
 					//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
 					if (pPlayer->m_pos.y < ppMapObj[i]->m_pos.y + ppMapObj[i]->m_size.y) {
-						pPlayer->m_concentration += ppMapObj[i]->m_concentration;
-						ppMapObj[i]->m_concentration = 0;
-						if (pPlayer->m_concentration > 10) {
-							pPlayer->m_concentration = 10;
+						if (ppMapObj[i]->m_concentration > 0)
+						{
+							pPlayer->m_concentration += ppMapObj[i]->m_concentration;
+							ppMapObj[i]->m_concentration = 0;
+							if (pPlayer->m_concentration > 10) {
+								pPlayer->m_concentration = 10;
+							}
 						}
 					}
 				}

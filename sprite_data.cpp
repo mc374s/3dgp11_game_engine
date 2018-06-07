@@ -67,7 +67,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_IVY_THICK,				"./DATA/Images/Map/border_thick.png" },
 	{ TEX_IVY_THIN,					"./DATA/Images/Map/border_thin.png" },
 
-	{ TEX_SMOKE,					"./DATA/Images/particle-smoke2.png" },
+	{ TEX_SMOKE,					"./DATA/Images/particle-smoke4.png" },
 	{ TEX_LIFE_STAMP,				"./DATA/Images/UI/stamp.png"},
 	{ TEX_LARGE_PLAYER,				"./DATA/Images/UI/large_player.png" },
 

@@ -153,7 +153,7 @@ void GameUIManager::init()
 	m_ppGameUI[C_GAGE]->m_pSprData = &e_sprGage;
 	m_ppGameUI[C_GAGE]->m_custom.scaleMode = SCALE_MODE::LEFTCENTER;
 	m_ppGameUI[C_GAGE]->m_custom.rgba = 0x000000FF;
-	m_ppGameUI[C_GAGE]->m_alpha = 180;
+	m_ppGameUI[C_GAGE]->m_alpha = 200;
 	m_ppGameUI[C_GAGE]->m_pos.x = m_ppGameUI[C_DIVISION]->m_pos.x + 93;
 	m_ppGameUI[C_GAGE]->m_pos.y = m_ppGameUI[C_DIVISION]->m_pos.y + 35;
 	m_ppGameUI[C_GAGE]->m_initPos = m_ppGameUI[C_GAGE]->m_pos;
@@ -346,7 +346,7 @@ void GameUIManager::showPlayerConcentration(float a_playerConcentration, int a_p
 	}
 	else
 	{
-		m_ppGameUI[C_GAGE]->m_custom.rgba = 0x000000FF;
+		m_ppGameUI[C_GAGE]->m_custom.rgba = 0x735E60FF;
 		m_ppGameUI[C_PLAYER_FACE]->m_pSprData = &e_pSprPlayerFace[1];
 	}
 

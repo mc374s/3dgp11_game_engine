@@ -34,6 +34,7 @@ const Effect& Effect::operator=(const Effect& a_right)
 	return *this;
 }
 
+
 void Effect::init()
 {
 	m_isInit = true;
@@ -54,6 +55,30 @@ void Effect::update()
 void Effect::draw()
 {
 	OBJ2DEX::draw();
+}
+
+int Effect::searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*))
+{
+	for (int i = 0; i < a_maxNum; i++)
+	{
+		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
+			continue;
+		}
+		if (!a_ppBegin[i]) {
+			a_ppBegin[i] = new Effect;
+		}
+		else {
+			a_ppBegin[i]->clear();
+		}
+		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
+		a_ppBegin[i]->m_pos = a_pos;
+		a_ppBegin[i]->m_pfMove = a_pfMove;
+		a_ppBegin[i]->init();
+
+		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = a_ppBegin[i];
+		return i;
+	}
+	return -1;
 }
 
 ////////////////////////////////////////////////////////

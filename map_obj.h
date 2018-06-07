@@ -71,9 +71,6 @@ public:
 };
 
 
-void recoveryControl(MapObj* a_pObj);
-
-
 struct STAGE_DATA {
 	int m_liveInPagination;
 	int appearTime;
@@ -134,6 +131,14 @@ public:
 	void setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart);
 
 };
+
+
+
+
+void recoveryControl(MapObj* a_pObj);
+
+
+
 
 #define pMapObjManager (MapObjManager::getInstance())
 

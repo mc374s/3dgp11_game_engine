@@ -61,6 +61,8 @@ public:
 
 	Vector3 m_scrolledDistance;
 	float m_blurSpeed;
+	Vector3 m_setPos;
+
 
 	Player();
 	~Player();

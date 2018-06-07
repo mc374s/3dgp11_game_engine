@@ -45,8 +45,6 @@ STAGE_DATA stage00_setData[] = {
 	STAGE_DATA(61, 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(50,220 - 76,0),	true, v3(51,76,0), LOW_CONCENTRATION),
 
 
-
-
 	//ページ２
 	STAGE_DATA(62, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,220,1),		true, v3(PW / 2,17,0), 10),
 	STAGE_DATA(62, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(470,220,1),		true, v3(150,17,0), 10),

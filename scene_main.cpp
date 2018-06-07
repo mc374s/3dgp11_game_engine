@@ -145,7 +145,6 @@ void SceneMain::update()
 		pMapObjManager->update();
 		if (m_isBookOpened)
 		{
-
 			pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife());
 			if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
 			{
@@ -177,7 +176,72 @@ void SceneMain::update()
 			m_step = STEP::END;
 
 		}
+		if (KEY_TRACKER.pressed.V || PAD_TRACKER.y == PAD_TRACKER.PRESSED)
+		{
+			m_step = STEP::BEGIN + 1;
+			m_timer = 0;
+			pPlayerManager->m_pPlayer->m_setPos.y = pPlayerManager->m_pPlayer->m_pos.y;
+			break;
+		}
 
+		break;
+
+	case STEP::BEGIN + 1:
+		m_timer++;
+		if (m_timer > 20)
+		{
+			if (KEY_BOARD.W)
+			{
+				pMapObjManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+				pPlayerManager->m_pPlayer->m_pos.y += 10;
+				if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y + pPlayerManager->m_pPlayer->m_scrolledDistance.y)
+				{
+					pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y + pPlayerManager->m_pPlayer->m_scrolledDistance.y;
+				}
+			}
+			if (KEY_BOARD.S)
+			{
+				pMapObjManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+				pPlayerManager->m_pPlayer->m_pos.y -= 10;
+				if (pPlayerManager->m_pPlayer->m_pos.y < pPlayerManager->m_pPlayer->m_setPos.y - STAGE_HEIGHT + pPlayerManager->m_pPlayer->m_scrolledDistance.y)
+				{
+					pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y - STAGE_HEIGHT + pPlayerManager->m_pPlayer->m_scrolledDistance.y;
+				}
+			}
+		}
+
+
+		if (KEY_TRACKER.pressed.V || PAD_TRACKER.y == PAD_TRACKER.PRESSED)
+		{
+			m_step = STEP::BEGIN + 2;
+			m_timer = 0;
+			break;
+		}
+		break;
+	case STEP::BEGIN+2:
+		if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y)
+		{
+			pMapObjManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+			pPlayerManager->m_pPlayer->m_pos.y -= 10;
+			if (pPlayerManager->m_pPlayer->m_pos.y <= pPlayerManager->m_pPlayer->m_setPos.y)
+			{
+				pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y;
+			}
+		}
+		if (pPlayerManager->m_pPlayer->m_pos.y < pPlayerManager->m_pPlayer->m_setPos.y)
+		{
+			pMapObjManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+			pPlayerManager->m_pPlayer->m_pos.y += 10;
+			if (pPlayerManager->m_pPlayer->m_pos.y >= pPlayerManager->m_pPlayer->m_setPos.y)
+			{
+				pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y;
+			}
+		}
+		if (fabsf(pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_setPos.y) < FLT_EPSILON)
+		{
+			m_step = STEP::BEGIN;
+			break;
+		}
 		break;
 	case STEP::END:
 		m_timer++;

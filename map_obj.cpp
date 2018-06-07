@@ -234,20 +234,6 @@ void MapObj::draw()
 }
 
 
-void recoveryControl(MapObj* a_pObj)
-{
-	if (a_pObj->m_concentration <= 0)
-	{
-		a_pObj->m_timer++;
-	}
-	if (a_pObj->m_timer > 180)
-	{
-		a_pObj->m_timer = 0;
-		a_pObj->m_concentration = a_pObj->m_initConcentration;
-	}
-}
-
-
 
 STAGE_DATA* stageSetData[] = {
 	stage00_setData,
@@ -367,6 +353,10 @@ void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_is
 			{
 				it->m_pos.y = it->m_initPos.y;
 			}
+			if (a_speed.y > 0 && it->m_pos.y < it->m_initPos.y - STAGE_HEIGHT)
+			{
+				it->m_pos.y = it->m_initPos.y - STAGE_HEIGHT;
+			}
 		}
 	}
 
@@ -377,6 +367,10 @@ void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_is
 		{
 			it.m_pos.y = it.m_initPos.y;
 		}
+		if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
+		{
+			it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
+		}
 	}
 
 	for (auto &it : pObjManager->m_transcriptionList)
@@ -386,6 +380,24 @@ void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_is
 		{
 			it.m_pos.y = it.m_initPos.y;
 		}
+		if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
+		{
+			it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
+		}
 	}
 
+}
+
+
+void recoveryControl(MapObj* a_pObj)
+{
+	if (a_pObj->m_concentration <= 0)
+	{
+		a_pObj->m_timer++;
+	}
+	if (a_pObj->m_timer > 180)
+	{
+		a_pObj->m_timer = 0;
+		a_pObj->m_concentration = a_pObj->m_initConcentration;
+	}
 }

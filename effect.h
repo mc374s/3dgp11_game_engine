@@ -41,6 +41,8 @@ public:
 	void update();
 	void draw();
 
+	static int searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*) = nullptr);
+
 };
 
 class EffectManager : public Singleton<EffectManager>, public Manager
@@ -68,6 +70,7 @@ public:
 #define pEffectManager	(EffectManager::getInstance())
 
 void movePlayerInitAnimation(Effect* obj);
+
 
 
 #endif // !_EFFECT_H_
