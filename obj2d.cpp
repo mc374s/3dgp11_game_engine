@@ -252,12 +252,6 @@ void ObjManager::draw(int a_liveInPagination)
 			}*/
 		}
 	}
-	for (auto &it : m_blurAreaList) {
-		if (it.m_liveInPagination == a_liveInPagination)
-		{
-			it.draw();
-		}
-	}
 	int num = 0;
 	for (auto &it : m_ppObjs)
 	{

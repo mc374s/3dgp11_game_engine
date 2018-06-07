@@ -1,7 +1,7 @@
 #include "game.h"
 
 #include "sprite_data.h"
-#include "obj2d.h"
+#include "map_obj.h"
 
 #include "paper.h"
 
@@ -32,6 +32,16 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 	m_paginationFront = m_paperNO * 2;
 	m_paginationBack = m_paperNO * 2 + 1;
 	m_isActive = false;
+}
+
+void Paper::clear()
+{
+	m_pMapObjList[0].clear();
+	m_pMapObjList[1].clear(); 
+	m_pBlurAreaList[0].clear();
+	m_pBlurAreaList[1].clear();
+	m_pTranscriptionList[0],clear();
+	m_pTranscriptionList[1], clear();
 }
 
 void Paper::init()
@@ -93,6 +103,10 @@ void Paper::draw()
 		m_pBG->m_custom.reflectX = false;
 		m_pBG->draw();
 
+		for (OBJ2D* &it : m_pBlurAreaList[0]) {
+			it->draw();
+		}
+
 		pObjManager->draw(m_paginationFront);
 		//drawRectangle(0, 0, 4, m_height, 0, 0x000000FF);
 
@@ -111,6 +125,9 @@ void Paper::draw()
 		m_pViewBack->set();
 		m_pBG->m_custom.reflectX = true;
 		m_pBG->draw();
+		for (OBJ2D* &it : m_pBlurAreaList[1]) {
+			it->draw();
+		}
 
 		pObjManager->draw(m_paginationBack);
 		//drawRectangle(m_width - 4, 0, 4, m_height, 0, 0x000000FF);

@@ -15,7 +15,6 @@ class SceneMain :public Scene, public Singleton<SceneMain>
 {
 private:
 	OBJ2D* m_pBG;
-	Book *m_pBook;
 	char *m_pStr;
 	int m_stageNO;
 
@@ -28,6 +27,7 @@ public:
 	SceneMain();
 	~SceneMain();
 
+	Book *m_pBook;
 	bool m_isBookOpened;
 	bool m_isBookClosed;
 

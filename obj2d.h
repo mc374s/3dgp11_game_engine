@@ -1,9 +1,6 @@
 ﻿#ifndef _OBJ2D_H_
 #define _OBJ2D_H_
 
-#include <list>
-#include <vector>
-
 #define OBJ_MAX_NUM	(256)
 
 class OBJ2D

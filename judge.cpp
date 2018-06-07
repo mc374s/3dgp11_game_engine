@@ -3,6 +3,9 @@
 #include "map_obj.h"
 #include "scene_main.h"
 
+#include "paper.h"
+#include "book.h"
+
 #include "obj2d.h"
 
 #include "judge.h"
@@ -31,7 +34,8 @@ void judgeAll()
 	static Player* pPlayer = pPlayerManager->m_pPlayer;
 	static MapObj** ppMapObj = pMapObjManager->m_ppMapObjs;
 	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
-
+	static std::vector<OBJ2D*>* pBlurList = nullptr;
+	pBlurList = &(SCENE_MAIN->m_pBook->m_ppPapers[SCENE_MAIN->m_pBook->m_currentPaperNO]->m_pBlurAreaList[pPlayer->m_liveInPagination - SCENE_MAIN->m_pBook->m_currentPaperNO * 2]);
 	// When Restart, ignore Judgement
 	if (pPlayer->m_mode == P_MODE::RESTART)
 	{
@@ -181,9 +185,9 @@ void judgeAll()
 	pPlayer->m_isOnBlurArea = false;
 	if (isBookOpened)
 	{
-		for (auto &it : pObjManager->m_blurAreaList) {
+		for (auto &it : *pBlurList) {
 
-			if (pPlayer->m_liveInPagination == it.m_liveInPagination && checkObjOpened(pPlayer, &(it)))
+			if (checkObjOpened(pPlayer, it))
 			{
 				pPlayer->m_isOnBlurArea = true;
 				break;
@@ -196,9 +200,9 @@ void judgeAll()
 	bool isRepeated = false;
 	for (auto &newIt : pObjManager->m_newblurAreaList) {
 		isRepeated = false;
-		for (auto it : pObjManager->m_blurAreaList) {
+		for (auto it : *pBlurList) {
 
-			if (newIt.m_liveInPagination == it.m_liveInPagination && checkObjOpened(&(newIt), &(it)))
+			if (checkObjOpened(&(newIt), it))
 			{
 				isRepeated = true;
 				break;
@@ -206,7 +210,7 @@ void judgeAll()
 		}
 		if (!isRepeated)
 		{
-			pObjManager->m_blurAreaList.push_back(newIt);
+			(*pBlurList)->push_back(newIt);
 		}
 	}
 	pObjManager->m_newblurAreaList.clear();
