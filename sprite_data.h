@@ -56,7 +56,8 @@ extern SPRITE_CENTER e_sprHitObj;
 
 extern SPRITE_CENTER e_pAnimeStamp[];
 extern SPRITE_BOTTOM e_pAnimeEffDisappear[];
-extern SPRITE_BOTTOM e_pAnimeEffJump[];
+extern SPRITE_BOTTOM e_pAnimeEffJumpUp[];
+extern SPRITE_BOTTOM e_pAnimeEffJumpDown[];
 extern SPRITE_BOTTOM e_pAnimeEffMakeTranscription[];
 
 #endif // !_SPRDATA_H_

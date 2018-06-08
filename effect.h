@@ -3,13 +3,8 @@
 
 #include "obj2d.h"
 
-#define EFFECT_OBJ_MAX_NUM	(36)
-#define EFFECT_STAMP_MAX_NUM (5)
-
-enum EFFECT_NO
-{
-	ANIME_STAMP,
-};
+#define EFF_OBJ_MAX_NUM	(36)
+#define EFF_STAMP_MAX_NUM (5)
 
 
 class Effect :public OBJ2DEX
@@ -31,9 +26,6 @@ public:
 	bool m_isVisibleAlways;
 	bool m_isVisible;
 
-	bool m_isAnimeOnce;
-	int recordedAnimeNO;
-
 
 	void(*m_pfMove)(Effect*);
 
@@ -41,7 +33,7 @@ public:
 	void update();
 	void draw();
 
-	static int searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*) = nullptr);
+	static int searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr);
 
 };
 
@@ -54,8 +46,7 @@ public:
 	EffectManager();
 	~EffectManager();
 
-	Effect* m_ppEffect[EFFECT_OBJ_MAX_NUM] = { nullptr };
-	Effect* recordedPTR;
+	Effect* m_ppEffect[EFF_OBJ_MAX_NUM] = { nullptr };
 
 	bool isStampDown;
 
@@ -63,15 +54,15 @@ public:
 	void update();
 	void draw();
 
-	void setPlayerInitAnimation(Vector3 a_pos);
-
 };
 
 #define pEffectManager	(EffectManager::getInstance())
 
-void movePlayerInitAnimation(Effect* obj);
+void effectPlayerInit(Effect* obj);
+void effectRecoverySplash(Effect* obj);
+void effectJumpUp(Effect* obj);
+void effectJumpDown(Effect* obj);
 
 
 
 #endif // !_EFFECT_H_
-

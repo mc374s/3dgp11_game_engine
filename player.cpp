@@ -133,6 +133,7 @@ void Player::normalMove()
 	if (fabsf(m_speed.y - 0.0f) < FLT_EPSILON && m_montionState != P_STATE::JUMPING && !m_isOnGround)
 	{
 		m_isOnGround = true;
+		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpDown);
 	}
 	if (m_speed.y < 0)
 	{
@@ -174,12 +175,14 @@ void Player::normalMove()
 	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
 	{
 		m_speed.y += m_speedAcc.y;
+		if (pressFrame <= 0) Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpUp);
 		pressFrame++;
 	}
 	if (KEY_UP('Z') && jumpCounter < P_JUMP_MAX_NUM)
 	{
 		pressFrame = 0;
 		jumpCounter++;
+
 	}
 
 	// 溜めジャンプ
@@ -367,7 +370,7 @@ void Player::restartMove()
 				m_step = STEP::END;
 				m_pos.x = 80;
 				m_pos.y = 400;
-				pEffectManager->setPlayerInitAnimation(m_pos);
+				Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
 			}
 		}
 		break;
@@ -526,7 +529,7 @@ void PlayerManager::init() {
 		m_pPlayer = new Player();
 		m_pPlayer->clear();
 		m_pPlayer->init();
-		pEffectManager->setPlayerInitAnimation(m_pPlayer->m_pos);
+		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
 		m_pPlayer->m_mode = P_MODE::START;
 		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = m_pPlayer;
 	}
@@ -534,7 +537,7 @@ void PlayerManager::init() {
 	{
 		m_pPlayer->clear();
 		m_pPlayer->init();
-		pEffectManager->setPlayerInitAnimation(m_pPlayer->m_pos);
+		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
 		m_pPlayer->m_mode = P_MODE::START;
 	}
 }

@@ -26,6 +26,8 @@ enum TEX_NO {
 	TEX_MAP_OBJECT,
 	TEX_IVY_THICK,
 	TEX_IVY_THIN,
+	TEX_RECOVERY_UP,
+	TEX_RECOVERY_DOWN,
 
 	TEX_SMOKE,
 	TEX_LIFE_STAMP,
@@ -44,7 +46,8 @@ enum TEX_NO {
 	TEX_PLAYER_FACE,
 
 	TEX_EFF_DISAPPEAR,
-	TEX_EFF_JUMP,
+	TEX_EFF_JUMP_UP,
+	TEX_EFF_JUMP_DOWN,
 	TEX_EFF_MAKE_TRANSCRIPTION,
 
 	TEX_TEST_PLAY_TEXT,
@@ -66,6 +69,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_MAP_OBJECT,				"./DATA/Images/Map/map_object_full.png" },
 	{ TEX_IVY_THICK,				"./DATA/Images/Map/border_thick.png" },
 	{ TEX_IVY_THIN,					"./DATA/Images/Map/border_thin.png" },
+	{ TEX_RECOVERY_UP,				"./DATA/Images/Map/koma_nami_sita.png" },
+	{ TEX_RECOVERY_DOWN,			"./DATA/Images/Map/koma_nami_ue.png" },
 
 	{ TEX_SMOKE,					"./DATA/Images/particle-smoke4.png" },
 	{ TEX_LIFE_STAMP,				"./DATA/Images/UI/stamp.png"},
@@ -84,7 +89,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_PLAYER_FACE,				"./DATA/Images/UI/player_face.png" },
 
 	{ TEX_EFF_DISAPPEAR,			"./DATA/Images/Effect/disappear.png" },
-	{ TEX_EFF_JUMP,					"./DATA/Images/Effect/jump.png" },
+	{ TEX_EFF_JUMP_UP,				"./DATA/Images/Effect/jump_up.png" },
+	{ TEX_EFF_JUMP_DOWN,			"./DATA/Images/Effect/jump_down.png" },
 	{ TEX_EFF_MAKE_TRANSCRIPTION,	"./DATA/Images/Effect/make_transcription.png" },
 
 	{ TEX_TEST_PLAY_TEXT,			"./DATA/Images/UI/test_play_text.png" },
@@ -177,15 +183,19 @@ SPRITE_LEFTTOP e_pSprItem[] =
 
 SPRITE_LEFTTOP e_pAnimeRecoveryUp[] =
 {
-	SPRITE_LEFTTOP(TEX_IVY_THICK,    0, 0, 125,  17,0,0,15),
-	SPRITE_LEFTTOP(TEX_IVY_THIN,	  0, 0, 125,  22,0,0,15),
+	SPRITE_LEFTTOP(TEX_RECOVERY_UP,    0, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_RECOVERY_UP,    130, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_RECOVERY_UP,    130*2, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_RECOVERY_UP,    130*3, 0, 130,  17,0,0,10),
 	SPRITE_LEFTTOP(-1,0,0,0,0),
 };
 
 SPRITE_LEFTTOP e_pAnimeRecoveryDown[] =
 {
-	SPRITE_LEFTTOP(TEX_IVY_THICK,    0, 0, 125,  17,0,0,15),
-	SPRITE_LEFTTOP(TEX_IVY_THIN,	  0, 0, 125,  22,0,0,15),
+	SPRITE_LEFTTOP(TEX_RECOVERY_DOWN,    0, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_RECOVERY_DOWN,    130, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_RECOVERY_DOWN,    130 * 2, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_RECOVERY_DOWN,    130 * 3, 0, 130,  17,0,0,10),
 	SPRITE_LEFTTOP(-1,0,0,0,0),
 };
 
@@ -249,11 +259,18 @@ SPRITE_BOTTOM e_pAnimeEffDisappear[] = {
 	SPRITE_BOTTOM(TEX_EFF_DISAPPEAR, 84*4, 0, 84, 75, 6),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
-SPRITE_BOTTOM e_pAnimeEffJump[] = {
-	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 0, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 1, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 2, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP, 112 * 3, 0, 112, 13, 6),
+SPRITE_BOTTOM e_pAnimeEffJumpUp[] = {
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 113 * 0, 0, 113, 18, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 113 * 1, 0, 113, 18, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 113 * 2, 0, 113, 18, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 113 * 3, 0, 113, 18, 6),
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0)
+};
+SPRITE_BOTTOM e_pAnimeEffJumpDown[] = {
+	SPRITE_BOTTOM(TEX_EFF_JUMP_DOWN, 143 * 0, 0, 143, 23, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_DOWN, 143 * 1, 0, 143, 23, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_DOWN, 143 * 2, 0, 143, 23, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_DOWN, 143 * 3, 0, 143, 23, 6),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
 SPRITE_BOTTOM e_pAnimeEffMakeTranscription[] = {
