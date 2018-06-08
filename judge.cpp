@@ -33,14 +33,15 @@ void judgeAll()
 	static Player* pPlayer = pPlayerManager->m_pPlayer;
 	static std::vector<MapObj>* pMapObjList = nullptr;
 	pMapObjList = &(pBook->m_ppPapers[pPlayer->m_liveInPagination / 2]->m_mapObjList[pPlayer->m_liveInPagination % 2]);
-	static MapObj** ppMapObj = pMapObjManager->m_ppMapObjs;
-	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
+
 	static std::vector<OBJ2D>* pBlurList = nullptr;
 	pBlurList = &(pBook->m_ppPapers[pPlayer->m_liveInPagination / 2]->m_blurAreaList[pPlayer->m_liveInPagination % 2]);
+
+	static bool isBookClosed = false, isBookOpened = true, isTrancriptAble = true;
 	// When Restart, ignore Judgement
 	if (pPlayer->m_mode == P_MODE::RESTART)
 	{
-		pObjManager->m_newblurAreaList.clear();
+		pPlayer->m_newblurAreaList.clear();
 		return;
 	}
 
@@ -196,7 +197,7 @@ void judgeAll()
 
 	// 被ってる滲むObjは作らない
 	bool isRepeated = false;
-	for (auto &newIt : pObjManager->m_newblurAreaList) {
+	for (auto &newIt : pPlayer->m_newblurAreaList) {
 		isRepeated = false;
 		for (auto &it : *pBlurList) {
 
@@ -211,7 +212,7 @@ void judgeAll()
 			pBlurList->push_back(newIt);
 		}
 	}
-	pObjManager->m_newblurAreaList.clear();
+	pPlayer->m_newblurAreaList.clear();
 
 }
 

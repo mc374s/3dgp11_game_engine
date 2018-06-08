@@ -2,7 +2,7 @@
 
 #include "sprite_data.h"
 #include "map_obj.h"
-
+#include "player.h"
 #include "paper.h"
 
 
@@ -91,19 +91,54 @@ void Paper::syncViewCustom3d()
 	m_pViewBack->m_custom3d.position.y = -m_pViewBack->m_custom3d.position.y;
 }
 
-void Paper::update()
+void Paper::updateFront()
 {
 
 	//ページの内容を更新
 	if (m_isActive)
 	{
-		pObjManager->update(m_paginationFront);
-	}
+		for (MapObj &it : m_mapObjList[0]) {
+			it.update();
+		}
+		for (OBJ2D &it : m_blurAreaList[0]) {
+			it.update();
+		}
+		for (OBJ2D &it : m_transcriptionList[0]) {
+			it.update();
+		}
 
+	}
+}
+
+void Paper::updateBack()
+{
+
+	//ページの内容を更新
+	if (m_isActive)
+	{
+		for (MapObj &it : m_mapObjList[1]) {
+			it.update();
+		}
+		for (OBJ2D &it : m_blurAreaList[1]) {
+			it.update();
+		}
+		for (OBJ2D &it : m_transcriptionList[1]) {
+			it.update();
+		}
+	}
+}
+
+void Paper::update()
+{
+
+	//ページの内容を更新
+	updateFront();
+	updateBack();
 
 }
 
-void Paper::draw()
+
+void Paper::drawFront()
 {
 	View::clear();
 
@@ -126,8 +161,7 @@ void Paper::draw()
 		for (OBJ2D &it : m_transcriptionList[0]) {
 			it.draw();
 		}
-
-		pObjManager->draw(m_paginationFront);
+		pPlayerManager->draw(m_paginationFront);
 		//drawRectangle(0, 0, 4, m_height, 0, 0x000000FF);
 
 #ifdef DEBUG
@@ -137,7 +171,17 @@ void Paper::draw()
 		drawString(m_width - 240, m_height - 40, buf, 0x000000FF, STR_LEFT, 16, 16);
 
 #endif // DEBUG
+	}
 
+}
+
+
+void Paper::drawBack()
+{
+	View::clear();
+
+	if (m_isActive)
+	{
 		View::clear();
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,22 +198,40 @@ void Paper::draw()
 		for (OBJ2D &it : m_transcriptionList[1]) {
 			it.draw();
 		}
-
-		pObjManager->draw(m_paginationBack);
+		pPlayerManager->draw(m_paginationBack);
 		//drawRectangle(m_width - 4, 0, 4, m_height, 0, 0x000000FF);
 
 
 #ifdef DEBUG
 
+		char buf[256];
 		sprintf_s(buf, "Back: %d \nBlurObjNum: %d", m_paginationBack, m_blurAreaList[1].size());
 		drawString(0, m_height - 40, buf, 0x000000FF, STR_LEFT, 18, 18);
 
 
 #endif // DEBUG
 
-		View::clear();
 	}
 
+}
+
+void Paper::draw()
+{
+	if (m_isActive)
+	{
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+		// Front View
+		drawFront();
+
+		View::clear();
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		// Back View
+		drawBack();
+
+		View::clear();
+	}
 
 	m_pCube->draw();
 	////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -57,6 +57,13 @@ void Player::init()
 	}
 	m_life = P_LIFE_MAX;
 
+	m_hitObj.m_pSprData = &e_sprHitObj;
+	//m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
+	m_hitObj.m_size = { 10,10,0 };
+	m_hitObj.m_custom.rgba = 0x000000FF;
+	m_hitObj.m_alpha = 10;
+	m_newblurAreaList.clear();
+
 	m_isInit = true;
 
 }
@@ -392,7 +399,7 @@ void Player::restartMove()
 // 滲む処理
 void Player::blur()
 {
-	pObjManager->m_hitObj.m_liveInPagination = m_liveInPagination;
+	m_hitObj.m_liveInPagination = m_liveInPagination;
 
 	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
 	Vector3 randAdjust;
@@ -416,11 +423,11 @@ void Player::blur()
 		{
 			randAdjust.y *= (m_speed.y / fabsf(m_speed.y));
 		}
-		pObjManager->m_hitObj.m_pos = m_pos - randAdjust;
-		pObjManager->m_hitObj.m_initPos = pObjManager->m_hitObj.m_pos + m_scrolledDistance;
-		pObjManager->m_hitObj.m_custom.angle = rand() % 180;
-		pObjManager->m_hitObj.m_alpha = rand() % 20 + 20;
-		pObjManager->m_newblurAreaList.push_back(pObjManager->m_hitObj);
+		m_hitObj.m_pos = m_pos - randAdjust;
+		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
+		m_hitObj.m_custom.angle = rand() % 180;
+		m_hitObj.m_alpha = rand() % 20 + 10;
+		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
 
@@ -531,7 +538,6 @@ void PlayerManager::init() {
 		m_pPlayer->init();
 		pEffectManager->setPlayerInitAnimation(m_pPlayer->m_pos);
 		m_pPlayer->m_mode = P_MODE::START;
-		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = m_pPlayer;
 	}
 	else
 	{
@@ -539,6 +545,22 @@ void PlayerManager::init() {
 		m_pPlayer->init();
 		pEffectManager->setPlayerInitAnimation(m_pPlayer->m_pos);
 		m_pPlayer->m_mode = P_MODE::START;
+	}
+}
+
+void PlayerManager::update()
+{
+	if (m_pPlayer)
+	{
+		m_pPlayer->update();
+	}
+}
+
+void PlayerManager::draw(int a_liveInPagination)
+{
+	if (m_pPlayer && m_pPlayer->m_liveInPagination == a_liveInPagination)
+	{
+		m_pPlayer->draw();
 	}
 }
 
@@ -614,20 +636,19 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 		if (m_isTranscriptAble)
 		{
 			// 転写元を作成
-			pObjManager->m_transcriptionObj.m_isInit = true;
-			pObjManager->m_transcriptionObj.m_pos = m_pPlayer->m_pos;
-			pObjManager->m_transcriptionObj.m_initPos = pObjManager->m_transcriptionObj.m_pos + m_pPlayer->m_scrolledDistance;
-			pObjManager->m_transcriptionObj.m_size = m_pPlayer->m_size;
-			pObjManager->m_transcriptionObj.m_pos.z--;
-			pObjManager->m_transcriptionObj.m_custom = m_pPlayer->m_custom;
-			pObjManager->m_transcriptionObj.m_concentration = m_pPlayer->m_transferConcentration;
-			pObjManager->m_transcriptionObj.m_alpha = 255 * pObjManager->m_transcriptionObj.m_concentration / 10 + 40;
-			pObjManager->m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
-			pObjManager->m_transcriptionObj.m_liveInPagination = m_pPlayer->m_liveInPagination;
-			//pObjManager->m_transcriptionList.push_back(pObjManager->m_transcriptionObj);
+			m_transcriptionObj.m_isInit = true;
+			m_transcriptionObj.m_pos = m_pPlayer->m_pos;
+			m_transcriptionObj.m_initPos = m_transcriptionObj.m_pos + m_pPlayer->m_scrolledDistance;
+			m_transcriptionObj.m_size = m_pPlayer->m_size;
+			m_transcriptionObj.m_pos.z--;
+			m_transcriptionObj.m_custom = m_pPlayer->m_custom;
+			m_transcriptionObj.m_concentration = m_pPlayer->m_transferConcentration;
+			m_transcriptionObj.m_alpha = 255 * m_transcriptionObj.m_concentration / 10 + 40;
+			m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
+			m_transcriptionObj.m_liveInPagination = m_pPlayer->m_liveInPagination;
 
 
-			pBook->m_ppPapers[m_pPlayer->m_liveInPagination / 2]->m_blurAreaList[m_pPlayer->m_liveInPagination % 2].push_back(pObjManager->m_transcriptionObj);
+			pBook->m_ppPapers[m_pPlayer->m_liveInPagination / 2]->m_blurAreaList[m_pPlayer->m_liveInPagination % 2].push_back(m_transcriptionObj);
 
 			if (m_isTranscriptCanceled)
 			{

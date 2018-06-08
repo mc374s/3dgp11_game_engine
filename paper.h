@@ -48,6 +48,11 @@ public:
 	void update();
 	void draw();
 
+	void updateFront();
+	void updateBack();
+	void drawFront();
+	void drawBack();
+
 	void setScroll(Vector3 a_speed, int a_scrollNO, bool a_isRestart);
 };
 

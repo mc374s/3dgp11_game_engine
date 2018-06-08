@@ -173,46 +173,15 @@ void OBJ2DEX::draw()
 // Class ObjManager Function
 ObjManager::~ObjManager() 
 {
-	ZeroMemory(m_ppObjs, sizeof(m_ppObjs));
 
-	m_blurAreaList.clear();
-	m_newblurAreaList.clear();
-	m_transcriptionList.clear();
+}
 
-};
-
-void ObjManager::init() {
-
-	for (auto &it:m_ppObjs){
-		if (it){
-			it->clear();
-		}
-	}
-
-	//ZeroMemory(pObj, sizeof(pObj));
-
-	m_hitObj.m_pSprData = &e_sprHitObj;
-	//m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
-	m_hitObj.m_size = { 10,10,0 };
-	m_hitObj.m_custom.rgba = 0x000000FF;
-	m_hitObj.m_alpha = 10;
-
-	m_blurAreaList.clear();
-	m_newblurAreaList.clear();
-	m_transcriptionList.clear();
+void ObjManager::init() 
+{
 
 }
 
 void ObjManager::update(int a_liveInPagination) {
-
-
-	for (auto &it : m_ppObjs)
-	{
-		if (it && (it->m_liveInPagination == a_liveInPagination || it->m_liveInPagination == a_liveInPagination + 1))
-		{
-			it->update();
-		}
-	}
 
 	// 描画順番を並び替え　pos.z : 小さい順から描画していく 
 	//OBJ2D* temp = nullptr;
@@ -239,37 +208,6 @@ void ObjManager::update(int a_liveInPagination) {
 
 void ObjManager::draw(int a_liveInPagination)
 {
-
-	//char pConcentration[8];
-	//for (auto &it : m_transcriptionList) {
-	//	if (it.m_liveInPagination == a_liveInPagination)
-	//	{
-	//		it.draw();
-	//		/*if (it.m_concentration > 0)
-	//		{
-	//			sprintf_s(pConcentration, "%d", (int)it.m_concentration);
-	//			drawString(it.m_pos.x, it.m_pos.y - it.m_size.y - 40, pConcentration, 0x00000060, STR_CENTER, 32, 20, -20);
-	//		}*/
-	//	}
-	//}
-
-	int num = 0;
-	for (auto &it : m_ppObjs)
-	{
-		if (it && it->m_isInit && it->m_liveInPagination == a_liveInPagination)
-		{
-			it->draw();
-			num++;
-		}
-	}
-
-#ifdef DEBUG
-
-	char buf[256];
-	sprintf_s(buf, "Obj Num: %d\nBlurObjNum: %d", num, m_blurAreaList.size());
-	drawString(0, PAGE_HEIGHT - 40, buf, 0x000000FF, STR_LEFT, 18, 18);
-
-#endif // DEBUG
 
 }
 //////////////////////////////////////////////////////////////////

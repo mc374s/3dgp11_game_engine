@@ -91,12 +91,11 @@ void SceneMain::update()
 	{
 	case STEP::INIT:
 		//init();
-		//pMapObjManager->init(0);
 		pObjManager->init();
 		pGameUIManager->init();
 		pEffectManager->init();
 		m_stageNO = 0;
-		pMapObjManager->init(m_stageNO);
+		pStageManager->init(m_stageNO);
 		pPlayerManager->init();
 		//break;
 	case STEP::INIT+1:
@@ -119,7 +118,7 @@ void SceneMain::update()
 				pBook->m_pfMove = &Book::startReading;
 
 				//pBook->clear();
-				pMapObjManager->init(m_stageNO);
+				pStageManager->init(m_stageNO);
 				pObjManager->init();
 				pGameUIManager->init();
 				pEffectManager->init();
@@ -130,8 +129,7 @@ void SceneMain::update()
 		{
 			m_step = STEP::BEGIN;
 		}
-		pMapObjManager->stageUpdate();
-		pMapObjManager->update();
+		pStageManager->update();
 		break;
 	case STEP::INIT + 3:
 		m_pStr = "";
@@ -149,8 +147,7 @@ void SceneMain::update()
 		{
 			m_step = STEP::BEGIN;
 		}
-		pMapObjManager->stageUpdate();
-		pMapObjManager->update();
+		pStageManager->update();
 		break;
 	case STEP::BEGIN:
 
@@ -158,9 +155,6 @@ void SceneMain::update()
 
 		m_isBookClosed = pBook->m_isClosed;
 		m_isBookOpened = pBook->m_isOpened;
-
-		pMapObjManager->stageUpdate();
-		pMapObjManager->update();
 		if (m_isBookOpened)
 		{
 			pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife());
@@ -176,11 +170,12 @@ void SceneMain::update()
 				pPlayerManager->m_pPlayer->m_setPos.y = pPlayerManager->m_pPlayer->m_pos.y;
 				break;
 			}
+			pPlayerManager->update();
 		}
-
-		//pGameUIManager->update();
+		pStageManager->update();
 		pEffectManager->update();
 
+		pGameUIManager->update();
 		judgeAll();
 
 		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::CLEAR)
@@ -194,9 +189,9 @@ void SceneMain::update()
 				{
 					//pBook->clear();
 					m_stageNO = 0;
-					pMapObjManager->init(m_stageNO);
+					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
-					pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2 + 1;
+					pBook->m_targetPaperNO = START_PAGINATION / 2;
 					m_step = STEP::INIT + 3;
 					/*pBook->m_pfMove = &Book::finishReading;
 					m_step = STEP::INIT + 1;*/
@@ -204,9 +199,9 @@ void SceneMain::update()
 				else
 				{
 					//pBook->clear();
-					pMapObjManager->init(m_stageNO);
+					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
-					pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2;
+					pBook->m_targetPaperNO = START_PAGINATION / 2;
 					m_step = STEP::INIT + 3;
 				}
 				m_timer = 0;
@@ -223,17 +218,17 @@ void SceneMain::update()
 				m_step = STEP::INIT + 1;*/
 				//pBook->clear();
 				m_stageNO = 0;
-				pMapObjManager->init(m_stageNO);
+				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::turnPages;
-				pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2 + 1;
+				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				m_step = STEP::INIT + 3;
 				m_timer = 0;
 			}
 			else
 			{
-				pMapObjManager->init(m_stageNO);
+				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::turnPages;
-				pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2;
+				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				m_step = STEP::INIT + 3;
 				m_timer = 0;
 			}

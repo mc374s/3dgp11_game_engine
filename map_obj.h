@@ -105,31 +105,22 @@ struct STAGE_DATA {
 };
 
 
-class MapObjManager : public Singleton<MapObjManager>, public Manager
+class StageManager : public Singleton<StageManager>, public Manager
 {
 private:
 
 public:
 
-	MapObj* m_ppMapObjs[MAPOBJ_MAX_NUM] = {nullptr};
-
 	STAGE_DATA* m_pStageData;
 	int m_stageNO;
-	int m_startPagination;
 	MapObj m_mapObj;
 
 	void init(int m_stageNO = 0);
-	void stageUpdate();
+
 	void update();
-	void draw();
 
-	MapObjManager();
-	~MapObjManager();
-
-	bool isAlive();
-
-	void setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart);
-
+	StageManager();
+	~StageManager();
 };
 
 
@@ -140,7 +131,7 @@ void recoveryControl(MapObj* a_pObj);
 
 
 
-#define pMapObjManager (MapObjManager::getInstance())
+#define pStageManager (StageManager::getInstance())
 
 
 

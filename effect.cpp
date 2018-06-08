@@ -5,16 +5,14 @@
 ////////////////////////////////////////////////////////
 // クラス: Effect 関数
 
-Effect::Effect()
-{
-	clear();
-}
-
 void Effect::memberCopy(const Effect& a_inputObj)
 {
-	OBJ2D::memberCopy(a_inputObj);
+	OBJ2DEX::memberCopy(a_inputObj);
+	
 	m_isVisible = a_inputObj.m_isVisible;
 	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
+	m_isAnimeOnce = a_inputObj.m_isAnimeOnce;
+	recordedAnimeNO = a_inputObj.recordedAnimeNO;
 
 }
 
@@ -34,13 +32,30 @@ const Effect& Effect::operator=(const Effect& a_right)
 	return *this;
 }
 
+void Effect::clear()
+{
+	OBJ2DEX::clear();
+	m_isVisible = false;
+	m_isVisibleAlways = false;
+	m_isAnimeOnce = false;
+	recordedAnimeNO = 0;
+	m_pfMove = nullptr;
+}
+
+Effect::Effect()
+{
+	clear();
+}
+
 
 void Effect::init()
 {
+
 	m_isInit = true;
 	m_isVisible = true;
 	m_isVisibleAlways = true;
 	m_isAnimeOnce = false;
+	recordedAnimeNO = 0;
 	m_custom.scaleMode = SCALE_MODE::CENTER;
 }
 
@@ -50,22 +65,27 @@ void Effect::update()
 	{
 		m_pfMove(this);
 	}
+	animation();
 }
 
 void Effect::draw()
 {
-	OBJ2DEX::draw();
+	if (m_isVisible)
+	{
+		OBJ2DEX::draw();
+		if (!m_isVisibleAlways)
+		{
+			m_isVisible = false;
+		}
+	}
 }
 
-int Effect::searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*))
+Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*))
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
-		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
+		if (a_ppBegin[i]->m_isInit) {
 			continue;
-		}
-		if (!a_ppBegin[i]) {
-			a_ppBegin[i] = new Effect;
 		}
 		else {
 			a_ppBegin[i]->clear();
@@ -75,10 +95,9 @@ int Effect::searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, 
 		a_ppBegin[i]->m_pfMove = a_pfMove;
 		a_ppBegin[i]->init();
 
-		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = a_ppBegin[i];
-		return i;
+		return a_ppBegin[i];
 	}
-	return -1;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////
@@ -113,12 +132,10 @@ void EffectManager::init()
 		if (pEff)
 		{
 			pEff->clear();
-			pEff->init();
 		}
 		if (!pEff)
 		{
 			pEff = new Effect();
-			pEff->init();
 		}
 	}
 
@@ -134,10 +151,12 @@ void EffectManager::update()
 	{
 		if (pEff)
 		{
+
+			pEff->update();
+
 			pEff->recordedAnimeNO = pEff->m_animeNO;
 			pEff->m_isVisible = true;
 
-			pEff->animation();
 			
 			if (pEff == recordedPTR && pEff->m_animeNO == 7)
 			{
@@ -147,7 +166,7 @@ void EffectManager::update()
 			{
 				pEff->clear();
 			}
-			if (pEff->m_pfMove) pEff->m_pfMove(pEff);
+
 		}
 	}
 }
@@ -159,10 +178,6 @@ void EffectManager::draw()
 		if (pEff && pEff->m_pSprData && pEff->m_isVisible)
 		{
 			pEff->draw();
-			if (!pEff->m_isVisibleAlways)
-			{
-				pEff->m_isVisible = false;
-			}
 		}
 	}
 

@@ -4,7 +4,7 @@
 #include "obj2d.h"
 
 #define UI_OBJ_MAX_NUM	(36)
-#define UI_STAMP_MAX_NUM (5)
+#define UI_STAMP_MAX_NUM (10)
 
 enum UI_NO
 {
@@ -92,7 +92,6 @@ public:
 
 	void showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, Vector3 a_pos = Vector3(0, 0, 0));
-	void showPlayerLife(int a_playerLife);
 	void showPausePanel(int a_selectedNO = 0);
 };
 

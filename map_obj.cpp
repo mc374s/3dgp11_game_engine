@@ -12,7 +12,7 @@ void MapObj::memberCopy(const MapObj& a_inputObj)
 	OBJ2DEX::memberCopy(a_inputObj);
 	m_command = a_inputObj.m_command;
 	m_drawDirection = a_inputObj.m_drawDirection;
-	bool m_isHitAble = a_inputObj.m_isHitAble;
+	m_isHitAble = a_inputObj.m_isHitAble;
 	m_repeatDrawSize = a_inputObj.m_repeatDrawSize;
 	m_pfMove = a_inputObj.m_pfMove;
 
@@ -241,25 +241,17 @@ STAGE_DATA* stageSetData[] = {
 };
 
 
-MapObjManager::MapObjManager()
+StageManager::StageManager()
 {
 
 }
 
-MapObjManager::~MapObjManager() 
+StageManager::~StageManager() 
 {
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObjs[i])
-		{
-			delete m_ppMapObjs[i];
-			m_ppMapObjs[i] = nullptr;
-		}
-	}
 }
 
 
-void MapObjManager::init(int a_stageNO)
+void StageManager::init(int a_stageNO)
 {
 	m_stageNO = a_stageNO;
 	m_timer = 0;
@@ -267,9 +259,6 @@ void MapObjManager::init(int a_stageNO)
 	STAGE_HEIGHT = e_stageHeight[m_stageNO];
 	START_PAGINATION = e_startPagination[m_stageNO];
 	INIT_POS = e_initPos[m_stageNO];
-
-	m_startPagination = START_PAGINATION;
-
 
 	for (auto &it : pBook->m_ppPapers[START_PAGINATION / 2]->m_mapObjList[1])
 	{
@@ -283,125 +272,27 @@ void MapObjManager::init(int a_stageNO)
 	}
 	pBook->m_ppPapers[START_PAGINATION / 2 + 1]->m_mapObjList[0].clear();
 
-	
-	/*for (auto &it:m_ppMapObjs){
-		if (it){
-			it->clear();
-		}
-	}*/
-
 }
-void MapObjManager::update()
+
+void StageManager::update()
 {
-	/*for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	if (m_pStageData)
 	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pAnimeData) {
-			m_ppMapObjs[i]->animation();
-		}
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove)
+		m_timer++;
+		while (m_pStageData && m_pStageData->appearTime <= m_timer)
 		{
-			m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
-		}
-	}*/
-}
-
-void MapObjManager::draw()
-{
-	int num = 0;
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit)
-		{
-			num++;
-	}
-	}
-#ifdef DEBUG
-
-	char buf[256];
-	sprintf_s(buf, "MapObj Num: %d\n", num);
-	drawString(0, 150, buf, 0x000000FF);
-
-#endif // DEBUG
-}
-
-void MapObjManager::stageUpdate()
-{
-	m_timer++;
-
-	while (m_pStageData && m_pStageData->appearTime <= m_timer)
-	{
-		if (m_pStageData->appearTime < 0) {
-			m_pStageData = nullptr;
-			m_timer = 0;
-			break;
-		}
-		MapObj::safeInit(m_mapObj, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
-
-		pBook->m_ppPapers[m_mapObj.m_liveInPagination / 2]->m_mapObjList[m_mapObj.m_liveInPagination % 2].push_back(m_mapObj);
-
-		m_pStageData++;
-	}
-}
-
-
-bool MapObjManager::isAlive()
-{
-	int num = 0;
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit)
-		{
-			num++;
-			return true;
-		}
-	}
-	return false;
-}
-
-void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart)
-{
-	for (auto &it : m_ppMapObjs)
-	{
-		if (it && it->m_isInit/* && m_ppMapObjs[i]->m_liveInPagination == a_liveInPagination*/)
-		{
-			it->m_pos.y -= a_speed.y;
-			if (a_speed.y < 0 && it->m_pos.y > it->m_initPos.y)
-			{
-				it->m_pos.y = it->m_initPos.y;
+			if (m_pStageData->appearTime < 0) {
+				m_pStageData = nullptr;
+				m_timer = 0;
+				break;
 			}
-			if (a_speed.y > 0 && it->m_pos.y < it->m_initPos.y - STAGE_HEIGHT)
-			{
-				it->m_pos.y = it->m_initPos.y - STAGE_HEIGHT;
-			}
+			MapObj::safeInit(m_mapObj, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+
+			pBook->m_ppPapers[m_mapObj.m_liveInPagination / 2]->m_mapObjList[m_mapObj.m_liveInPagination % 2].push_back(m_mapObj);
+
+			m_pStageData++;
 		}
 	}
-
-	for (auto &it : pObjManager->m_blurAreaList)
-	{
-		it.m_pos.y -= a_speed.y;
-		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
-		{
-			it.m_pos.y = it.m_initPos.y;
-		}
-		if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
-		{
-			it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
-		}
-	}
-
-	for (auto &it : pObjManager->m_transcriptionList)
-	{
-		it.m_pos.y -= a_speed.y;
-		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
-		{
-			it.m_pos.y = it.m_initPos.y;
-		}
-		if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
-		{
-			it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
-		}
-	}
-
 }
 
 
