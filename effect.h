@@ -18,10 +18,7 @@ public:
 	virtual ~Effect();
 	const Effect& operator=(const Effect& a_right);
 
-	void clear() {
-		OBJ2DEX::clear();
-		m_pfMove = nullptr;
-	};
+	void clear();
 
 	bool m_isVisibleAlways;
 	bool m_isVisible;
@@ -33,7 +30,7 @@ public:
 	void update();
 	void draw();
 
-	static int searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr);
+	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*) = nullptr);
 
 };
 

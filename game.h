@@ -11,6 +11,7 @@
 
 #define DEBUG
 
+#include <vector>
 
 #define PAGE_WIDTH	(620)
 #define PAGE_HEIGHT (700)

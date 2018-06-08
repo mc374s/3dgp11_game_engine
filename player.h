@@ -60,7 +60,8 @@ public:
 	Vector3 m_scrolledDistance;
 	float m_blurSpeed;
 	Vector3 m_setPos;
-
+	OBJ2D m_hitObj;
+	std::vector<OBJ2D> m_newblurAreaList;
 
 	Player();
 	~Player();
@@ -90,15 +91,20 @@ public:
 	~PlayerManager();
 
 	Player *m_pPlayer = nullptr;
+	OBJ2D m_hitObj;
+	OBJ2D m_transcriptionObj;
 	bool m_isPlayerOnLeft;
 	bool m_isTranscriptAble = true;
 	bool m_isTranscriptCanceled = false;
 
-	void init();
 	void transcriptPlayer(int a_concentration = 1);
 	void manageConcentration();
 
-	int m_concentration = 10;
+	int m_concentration = P_CONCENTRATION_MAX_NUM;
+
+	void init();
+	void update();
+	void draw(int a_liveInPagination = START_PAGINATION);
 
 };
 

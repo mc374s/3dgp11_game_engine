@@ -9,13 +9,11 @@ enum CHILDREN_NO
 };
 
 class OBJ2D;
-class Book;
 
 class SceneMain :public Scene, public Singleton<SceneMain>
 {
 private:
 	OBJ2D* m_pBG;
-	Book *m_pBook;
 	char *m_pStr;
 	int m_stageNO;
 

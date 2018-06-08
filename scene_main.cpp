@@ -16,9 +16,7 @@
 SceneMain::SceneMain()
 {
 	//init();
-
-	m_pBook = new Book(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 14);
-
+	pBook->init();
 	m_pBG = new OBJ2D;
 	m_pBG->m_pSprData = &e_sprMainBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
@@ -50,7 +48,6 @@ SceneMain::~SceneMain()
 		//delete nextScene;
 		m_pNextScene = nullptr;
 	}
-	SAFE_DELETE(m_pBook);
 	SAFE_DELETE(m_pBG);
 };
 
@@ -94,33 +91,34 @@ void SceneMain::update()
 	{
 	case STEP::INIT:
 		//init();
-		//pMapObjManager->init(0);
 		pObjManager->init();
 		pGameUIManager->init();
 		pEffectManager->init();
 		m_stageNO = 0;
-		pMapObjManager->init(m_stageNO);
+		pStageManager->init(m_stageNO);
 		pPlayerManager->init();
 		//break;
 	case STEP::INIT+1:
 
 		m_pStr = "";
 		m_timer = 0;
-		m_pBook->init();
+		//pBook->clearAll();
 		m_step = STEP::INIT + 2;
 		m_pausedOption = PAUSED_SELECTION::TO_GAME;
 		//break;
 	case STEP::INIT+2:
 
-		m_pBook->update();
-		m_isBookClosed = m_pBook->m_isClosed;
-		m_isBookOpened = m_pBook->m_isOpened;
+		pBook->update();
+		m_isBookClosed = pBook->m_isClosed;
+		m_isBookOpened = pBook->m_isOpened;
 		if (KEY_TRACKER.pressed.Z || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
 		{
-			if (!m_pBook->m_pfMove)
+			if (!pBook->m_pfMove)
 			{
-				m_pBook->m_pfMove = &Book::startReading;
-				pMapObjManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::startReading;
+
+				//pBook->clear();
+				pStageManager->init(m_stageNO);
 				pObjManager->init();
 				pGameUIManager->init();
 				pEffectManager->init();
@@ -131,17 +129,15 @@ void SceneMain::update()
 		{
 			m_step = STEP::BEGIN;
 		}
-		pMapObjManager->stageUpdate();
-		pMapObjManager->update();
+		pStageManager->update();
 		break;
 	case STEP::INIT + 3:
 		m_pStr = "";
-		m_pBook->update();
-		m_isBookClosed = m_pBook->m_isClosed;
-		m_isBookOpened = m_pBook->m_isOpened;
-		if (!m_pBook->m_pfMove)
+		pBook->update();
+		m_isBookClosed = pBook->m_isClosed;
+		m_isBookOpened = pBook->m_isOpened;
+		if (!pBook->m_pfMove)
 		{
-			//pObjManager->init();
 			pGameUIManager->init();
 			pEffectManager->init();
 
@@ -151,24 +147,20 @@ void SceneMain::update()
 		{
 			m_step = STEP::BEGIN;
 		}
-		pMapObjManager->stageUpdate();
-		pMapObjManager->update();
+		pStageManager->update();
 		break;
 	case STEP::BEGIN:
 
-		m_pBook->update();
+		pBook->update();
 
-		m_isBookClosed = m_pBook->m_isClosed;
-		m_isBookOpened = m_pBook->m_isOpened;
-
-		pMapObjManager->stageUpdate();
-		pMapObjManager->update();
+		m_isBookClosed = pBook->m_isClosed;
+		m_isBookOpened = pBook->m_isOpened;
 		if (m_isBookOpened)
 		{
 			pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife());
 			if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
 			{
-				pMapObjManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
+				pBook->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
 			}
 
 			if (KEY_TRACKER.pressed.V || PAD_TRACKER.y == PAD_TRACKER.PRESSED)
@@ -178,11 +170,12 @@ void SceneMain::update()
 				pPlayerManager->m_pPlayer->m_setPos.y = pPlayerManager->m_pPlayer->m_pos.y;
 				break;
 			}
+			pPlayerManager->update();
 		}
-
-		//pGameUIManager->update();
+		pStageManager->update();
 		pEffectManager->update();
 
+		pGameUIManager->update();
 		judgeAll();
 
 		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::CLEAR)
@@ -194,45 +187,48 @@ void SceneMain::update()
 				m_stageNO++;
 				if (m_stageNO >= STAGE_MAX_NUM)
 				{
+					//pBook->clear();
 					m_stageNO = 0;
-					pMapObjManager->init(m_stageNO);
-					m_pBook->m_pfMove = &Book::turnPages;
-					m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2 + 1;
+					pStageManager->init(m_stageNO);
+					pBook->m_pfMove = &Book::turnPages;
+					pBook->m_targetPaperNO = START_PAGINATION / 2;
 					m_step = STEP::INIT + 3;
-					/*m_pBook->m_pfMove = &Book::finishReading;
+					/*pBook->m_pfMove = &Book::finishReading;
 					m_step = STEP::INIT + 1;*/
 				}
 				else
 				{
-					pMapObjManager->init(m_stageNO);
-					m_pBook->m_pfMove = &Book::turnPages;
-					m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2;
+					//pBook->clear();
+					pStageManager->init(m_stageNO);
+					pBook->m_pfMove = &Book::turnPages;
+					pBook->m_targetPaperNO = START_PAGINATION / 2;
 					m_step = STEP::INIT + 3;
 				}
 				m_timer = 0;
 			}
 		}
 
-		if (KEY_TRACKER.pressed.B && m_pBook->m_step > STEP::END)
+		if (KEY_TRACKER.pressed.B && pBook->m_step > STEP::END)
 		{
 			m_stageNO++;
 			if (m_stageNO >= STAGE_MAX_NUM)
 			{
 				/*m_stageNO = 0;
-				m_pBook->m_pfMove = &Book::finishReading;
+				pBook->m_pfMove = &Book::finishReading;
 				m_step = STEP::INIT + 1;*/
+				//pBook->clear();
 				m_stageNO = 0;
-				pMapObjManager->init(m_stageNO);
-				m_pBook->m_pfMove = &Book::turnPages;
-				m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2 + 1;
+				pStageManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::turnPages;
+				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				m_step = STEP::INIT + 3;
 				m_timer = 0;
 			}
 			else
 			{
-				pMapObjManager->init(m_stageNO);
-				m_pBook->m_pfMove = &Book::turnPages;
-				m_pBook->m_targetPaperNO = pMapObjManager->m_startPagination / 2;
+				pStageManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::turnPages;
+				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				m_step = STEP::INIT + 3;
 				m_timer = 0;
 			}
@@ -256,7 +252,7 @@ void SceneMain::update()
 		{
 			if (KEY_BOARD.W || GAME_PAD.IsLeftThumbStickUp())
 			{
-				pMapObjManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+				pBook->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 				pPlayerManager->m_pPlayer->m_pos.y += 10;
 				if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y + pPlayerManager->m_pPlayer->m_scrolledDistance.y)
 				{
@@ -265,7 +261,7 @@ void SceneMain::update()
 			}
 			if (KEY_BOARD.S || GAME_PAD.IsLeftThumbStickDown())
 			{
-				pMapObjManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+				pBook->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 				pPlayerManager->m_pPlayer->m_pos.y -= 10;
 				if (pPlayerManager->m_pPlayer->m_pos.y < pPlayerManager->m_pPlayer->m_setPos.y - STAGE_HEIGHT + pPlayerManager->m_pPlayer->m_scrolledDistance.y)
 				{
@@ -285,7 +281,7 @@ void SceneMain::update()
 	case STEP::BEGIN+2:
 		if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y)
 		{
-			pMapObjManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+			pBook->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 			pPlayerManager->m_pPlayer->m_pos.y -= 10;
 			if (pPlayerManager->m_pPlayer->m_pos.y <= pPlayerManager->m_pPlayer->m_setPos.y)
 			{
@@ -294,7 +290,7 @@ void SceneMain::update()
 		}
 		if (pPlayerManager->m_pPlayer->m_pos.y < pPlayerManager->m_pPlayer->m_setPos.y)
 		{
-			pMapObjManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+			pBook->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 			pPlayerManager->m_pPlayer->m_pos.y += 10;
 			if (pPlayerManager->m_pPlayer->m_pos.y >= pPlayerManager->m_pPlayer->m_setPos.y)
 			{
@@ -312,7 +308,7 @@ void SceneMain::update()
 		if (KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED || m_timer > 600)
 		{
 			m_timer = 0;
-			m_pBook->m_pfMove = &Book::finishReading;
+			pBook->m_pfMove = &Book::finishReading;
 			m_step = STEP::INIT + 2;
 		}
 		break;
@@ -322,9 +318,9 @@ void SceneMain::update()
 
 	if (KEY_TRACKER.pressed.End || PAD_TRACKER.back == PAD_TRACKER.PRESSED)
 	{
-		if (m_pBook->m_step>STEP::END)
+		if (pBook->m_step>STEP::END)
 		{
-			m_pBook->m_pfMove = &Book::finishReading;
+			pBook->m_pfMove = &Book::finishReading;
 			m_step = STEP::INIT + 2;
 		}
 	}
@@ -338,7 +334,7 @@ void SceneMain::draw()
 
 	m_pBG->draw();
 
-	m_pBook->draw();
+	pBook->draw();
 
 	if (m_step >= STEP::BEGIN) {
 		pGameUIManager->draw();

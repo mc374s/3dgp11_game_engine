@@ -64,7 +64,7 @@ public:
 	void update();
 	void draw();
 
-	static int searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
+	static void safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
 
 
 	void hitAdjust(OBJ2DEX* a_pObj);
@@ -105,30 +105,22 @@ struct STAGE_DATA {
 };
 
 
-class MapObjManager : public Singleton<MapObjManager>, public Manager
+class StageManager : public Singleton<StageManager>, public Manager
 {
 private:
 
 public:
 
-	MapObj* m_ppMapObjs[MAPOBJ_MAX_NUM] = {nullptr};
-
 	STAGE_DATA* m_pStageData;
 	int m_stageNO;
-	int m_startPagination;
+	MapObj m_mapObj;
 
 	void init(int m_stageNO = 0);
-	void stageUpdate();
+
 	void update();
-	void draw();
 
-	MapObjManager();
-	~MapObjManager();
-
-	bool isAlive();
-
-	void setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart);
-
+	StageManager();
+	~StageManager();
 };
 
 
@@ -139,7 +131,7 @@ void recoveryControl(MapObj* a_pObj);
 
 
 
-#define pMapObjManager (MapObjManager::getInstance())
+#define pStageManager (StageManager::getInstance())
 
 
 

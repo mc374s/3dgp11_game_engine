@@ -1,10 +1,7 @@
 ﻿#ifndef _OBJ2D_H_
 #define _OBJ2D_H_
 
-#include <list>
-#include <vector>
-
-#define OBJ_MAX_NUM	(256)
+#define OBJ_MAX_NUM	(16)
 
 class OBJ2D
 {
@@ -94,21 +91,6 @@ class ObjManager : public Singleton<ObjManager>, public Manager
 private:
 
 public:
-
-
-	OBJ2D* m_ppObjs[OBJ_MAX_NUM] = { nullptr };
-
-	//std::vector<OBJ2D*> m_ppObjList = { nullptr };
-
-	// TODO : 途中insert()しないからstd::vectorがListよりが早い、要変更->変更済み
-	std::vector<OBJ2D> m_blurAreaList;
-	std::vector<OBJ2D> m_newblurAreaList;
-	std::vector<OBJ2D> m_transcriptionList;
-
-	OBJ2D m_hitObj;
-	OBJ2D m_transcriptionObj;
-
-
 	void init();
 	void update(int a_liveInPagination = 1);
 	void draw(int a_liveInPagination = 1);
@@ -120,7 +102,7 @@ public:
 
 #define pObjManager (ObjManager::getInstance())
 
-#define GET_IDLE_OBJ_NO (OBJ2D::searchSet(pObjManager->m_ppObjs, OBJ_MAX_NUM))
+//#define GET_IDLE_OBJ_NO (OBJ2D::searchSet(pObjManager->m_ppObjs, OBJ_MAX_NUM))
 
 
 #endif // !_OBJ2D_H_

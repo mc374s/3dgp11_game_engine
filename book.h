@@ -63,10 +63,18 @@ public:
 	float m_centerPaper;
 	int m_currentPaperNO;
 
+	static Book* getInstance() {
+		static Book instance(PAGE_WIDTH, PAGE_HEIGHT, 20, 10, 0, 10, 14);
+		return &instance;
+	};
 
+	void clear();
+	void clearAll();
 	void init();
 	void update();
 	void draw();
+
+	void setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart);
 
 	void closeBook();
 	void openBook();
@@ -74,5 +82,7 @@ public:
 	void startReading();
 	void finishReading();
 };
+
+#define pBook (Book::getInstance())
 
 #endif // !_BOOK_H_

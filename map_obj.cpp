@@ -2,6 +2,9 @@
 #include "sprite_data.h"
 #include "stage_data.h"
 
+#include "paper.h"
+#include "book.h"
+
 #include "map_obj.h"
 
 void MapObj::memberCopy(const MapObj& a_inputObj)
@@ -9,11 +12,15 @@ void MapObj::memberCopy(const MapObj& a_inputObj)
 	OBJ2DEX::memberCopy(a_inputObj);
 	m_command = a_inputObj.m_command;
 	m_drawDirection = a_inputObj.m_drawDirection;
-	bool m_isHitAble = a_inputObj.m_isHitAble;
+	m_isHitAble = a_inputObj.m_isHitAble;
 	m_repeatDrawSize = a_inputObj.m_repeatDrawSize;
 	m_pfMove = a_inputObj.m_pfMove;
 
 	m_initConcentration = a_inputObj.m_initConcentration;
+
+	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
+	m_isVisible = a_inputObj.m_isVisible;
+
 }
 
 MapObj::MapObj()
@@ -48,6 +55,8 @@ void MapObj::clear()
 	m_drawDirection = M_DRAW::UP;
 	m_repeatDrawSize = Vector3(0, 0, 0);
 	m_isHitAble = false;
+	m_isVisibleAlways = true;
+	m_isVisible = true;
 }
 
 // stageData による初期化
@@ -124,32 +133,19 @@ void MapObj::update()
 	}
 	animation();
 }
-int MapObj::searchSet(MapObj** a_ppBegin, int a_maxNum, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
+void MapObj::safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
 {
-	for (int i = 0; i < a_maxNum; i++)
-	{
-		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
-			continue;
-		}
-		if (!a_ppBegin[i]){
-			a_ppBegin[i] = new MapObj;
-		} else {
-			a_ppBegin[i]->clear();
-		}
-		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
-		a_ppBegin[i]->m_type = a_mapObjType;
-		a_ppBegin[i]->m_drawDirection = a_drawDirection;
-		a_ppBegin[i]->m_pos = a_pos;
-		a_ppBegin[i]->m_isHitAble = a_isHitAble;
-		a_ppBegin[i]->m_size = a_size;
-		a_ppBegin[i]->m_concentration = a_concentration;
-		a_ppBegin[i]->m_pfMove = a_pfMove;
-		a_ppBegin[i]->init();
 
-		pObjManager->m_ppObjs[GET_IDLE_OBJ_NO] = a_ppBegin[i];
-		return i;
-	}
-	return -1;
+	a_objIn.clear();
+	a_objIn.m_liveInPagination = a_liveInPagination;
+	a_objIn.m_type = a_mapObjType;
+	a_objIn.m_drawDirection = a_drawDirection;
+	a_objIn.m_pos = a_pos;
+	a_objIn.m_isHitAble = a_isHitAble;
+	a_objIn.m_size = a_size;
+	a_objIn.m_concentration = a_concentration;
+	a_objIn.m_pfMove = a_pfMove;
+	a_objIn.init();
 }
 
 void MapObj::hitAdjust(OBJ2DEX* a_pObj)
@@ -245,25 +241,17 @@ STAGE_DATA* stageSetData[] = {
 };
 
 
-MapObjManager::MapObjManager()
+StageManager::StageManager()
 {
 
 }
 
-MapObjManager::~MapObjManager() 
+StageManager::~StageManager() 
 {
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObjs[i])
-		{
-			delete m_ppMapObjs[i];
-			m_ppMapObjs[i] = nullptr;
-		}
-	}
 }
 
 
-void MapObjManager::init(int a_stageNO)
+void StageManager::init(int a_stageNO)
 {
 	m_stageNO = a_stageNO;
 	m_timer = 0;
@@ -273,122 +261,39 @@ void MapObjManager::init(int a_stageNO)
 	INIT_POS = e_initPos[m_stageNO];
 	P_LIFE_MAX = e_initLife[m_stageNO];
 
-	m_startPagination = START_PAGINATION;
-	/*for (auto &it:m_ppMapObjs){
-		if (it){
-			it->clear();
-		}
-	}*/
-
-}
-void MapObjManager::update()
-{
-	/*for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
+	for (auto &it : pBook->m_ppPapers[START_PAGINATION / 2]->m_mapObjList[1])
 	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pAnimeData) {
-			m_ppMapObjs[i]->animation();
-		}
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_pfMove)
-		{
-			m_ppMapObjs[i]->m_pfMove(m_ppMapObjs[i]);
-		}
-	}*/
-}
-
-void MapObjManager::draw()
-{
-	int num = 0;
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit)
-		{
-			num++;
+		it.clear();
 	}
+	pBook->m_ppPapers[START_PAGINATION / 2]->m_mapObjList[1].clear();
+
+	for (auto &it : pBook->m_ppPapers[START_PAGINATION / 2 + 1]->m_mapObjList[0])
+	{
+		it.clear();
 	}
-#ifdef DEBUG
+	pBook->m_ppPapers[START_PAGINATION / 2 + 1]->m_mapObjList[0].clear();
 
-	char buf[256];
-	sprintf_s(buf, "MapObj Num: %d\n", num);
-	drawString(0, 150, buf, 0x000000FF);
-
-#endif // DEBUG
 }
 
-void MapObjManager::stageUpdate()
+void StageManager::update()
 {
-	m_timer++;
-
-	while (m_pStageData && m_pStageData->appearTime <= m_timer)
+	if (m_pStageData)
 	{
-		if (m_pStageData->appearTime < 0) {
-			m_pStageData = nullptr;
-			m_timer = 0;
-			break;
-		}
-		MapObj::searchSet(m_ppMapObjs, MAPOBJ_MAX_NUM, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
-		m_pStageData++;
-	}
-}
-
-
-bool MapObjManager::isAlive()
-{
-	int num = 0;
-	for (int i = 0; i < MAPOBJ_MAX_NUM; i++)
-	{
-		if (m_ppMapObjs[i] && m_ppMapObjs[i]->m_isInit)
+		m_timer++;
+		while (m_pStageData && m_pStageData->appearTime <= m_timer)
 		{
-			num++;
-			return true;
-		}
-	}
-	return false;
-}
-
-void MapObjManager::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart)
-{
-	for (auto &it : m_ppMapObjs)
-	{
-		if (it && it->m_isInit/* && m_ppMapObjs[i]->m_liveInPagination == a_liveInPagination*/)
-		{
-			it->m_pos.y -= a_speed.y;
-			if (a_speed.y < 0 && it->m_pos.y > it->m_initPos.y)
-			{
-				it->m_pos.y = it->m_initPos.y;
+			if (m_pStageData->appearTime < 0) {
+				m_pStageData = nullptr;
+				m_timer = 0;
+				break;
 			}
-			if (a_speed.y > 0 && it->m_pos.y < it->m_initPos.y - STAGE_HEIGHT)
-			{
-				it->m_pos.y = it->m_initPos.y - STAGE_HEIGHT;
-			}
+			MapObj::safeInit(m_mapObj, m_pStageData->m_liveInPagination, m_pStageData->mapObjType, m_pStageData->drawDirection, m_pStageData->pos, m_pStageData->isHitAble, m_pStageData->size, m_pStageData->concentration, m_pStageData->pfMove);
+
+			pBook->m_ppPapers[m_mapObj.m_liveInPagination / 2]->m_mapObjList[m_mapObj.m_liveInPagination % 2].push_back(m_mapObj);
+
+			m_pStageData++;
 		}
 	}
-
-	for (auto &it : pObjManager->m_blurAreaList)
-	{
-		it.m_pos.y -= a_speed.y;
-		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
-		{
-			it.m_pos.y = it.m_initPos.y;
-		}
-		if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
-		{
-			it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
-		}
-	}
-
-	for (auto &it : pObjManager->m_transcriptionList)
-	{
-		it.m_pos.y -= a_speed.y;
-		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
-		{
-			it.m_pos.y = it.m_initPos.y;
-		}
-		if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
-		{
-			it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
-		}
-	}
-
 }
 
 

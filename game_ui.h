@@ -92,7 +92,6 @@ public:
 
 	void showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, Vector3 a_pos = Vector3(0, 0, 0));
-	void showPlayerLife(int a_playerLife);
 	void showPausePanel(int a_selectedNO = 0);
 };
 
