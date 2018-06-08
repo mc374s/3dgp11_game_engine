@@ -269,6 +269,21 @@ void MapObjManager::init(int a_stageNO)
 	INIT_POS = e_initPos[m_stageNO];
 
 	m_startPagination = START_PAGINATION;
+
+
+	for (auto &it : pBook->m_ppPapers[START_PAGINATION / 2]->m_mapObjList[1])
+	{
+		it.clear();
+	}
+	pBook->m_ppPapers[START_PAGINATION / 2]->m_mapObjList[1].clear();
+
+	for (auto &it : pBook->m_ppPapers[START_PAGINATION / 2 + 1]->m_mapObjList[0])
+	{
+		it.clear();
+	}
+	pBook->m_ppPapers[START_PAGINATION / 2 + 1]->m_mapObjList[0].clear();
+
+	
 	/*for (auto &it:m_ppMapObjs){
 		if (it){
 			it->clear();

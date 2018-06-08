@@ -59,7 +59,7 @@ void judgeAll()
 
 	for (MapObj &it : *pMapObjList)
 	{
-		if (isBookOpened && it.m_isHitAble && checkHitPlayerToMapObjOpened(pPlayer, &it))
+		if (isBookOpened && it.m_isHitAble && checkHitPlayerToMapObjOpened(pPlayer, &it) )
 		{
 			//it.clear();
 			if (it.m_type != M_TYPE::HIGH_CONCENTRATION && it.m_type != M_TYPE::NONE

@@ -66,6 +66,7 @@ Book::~Book()
 
 void Book::clear()
 {
+	
 	for (auto &it : m_ppPapers)
 	{
 		it->clear();

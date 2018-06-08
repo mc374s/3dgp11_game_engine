@@ -36,7 +36,16 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 
 void Paper::clear()
 {
+	for (auto &it : m_mapObjList[0])
+	{
+		it.clear();
+	}
 	m_mapObjList[0].clear();
+
+	for (auto &it : m_mapObjList[1])
+	{
+		it.clear();
+	}
 	m_mapObjList[1].clear();
 }
 
@@ -89,7 +98,6 @@ void Paper::update()
 	if (m_isActive)
 	{
 		pObjManager->update(m_paginationFront);
-		//pObjManager->update(m_paginationBack);
 	}
 
 
