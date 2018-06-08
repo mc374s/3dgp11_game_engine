@@ -16,8 +16,6 @@
 
 #define P_JUMP_MAX_NUM	(1)
 
-#define P_LIFE_MAX		(4)
-
 #define P_SCROLL_Y_TOP		(200)
 #define P_SCROLL_Y_BOTTOM	(430)
 

@@ -4,7 +4,7 @@
 #include "obj2d.h"
 
 #define UI_OBJ_MAX_NUM	(36)
-#define UI_STAMP_MAX_NUM (5)
+#define UI_STAMP_MAX_NUM (10)
 
 enum UI_NO
 {

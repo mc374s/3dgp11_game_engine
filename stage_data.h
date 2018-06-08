@@ -22,6 +22,7 @@ typedef Vector3 v3;
 extern int e_stageHeight[];
 extern int e_startPagination[];
 extern v3 e_initPos[];
+extern int e_initLife[];
 
 
 #endif // !_STAGE_DATA_H_

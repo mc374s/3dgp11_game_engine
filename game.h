@@ -30,6 +30,7 @@ extern int START_PAGINATION;
 extern int STAGE_HEIGHT;
 extern Vector3 INIT_POS;
 extern const int STAGE_MAX_NUM;
+extern int P_LIFE_MAX;
 
 // TODO : Systemly Learn how Header.h and Source.cpp work
 

@@ -30,6 +30,15 @@ v3 e_initPos[] = {
 	{ 80,400,5 },
 };
 
+int e_initLife[] = {
+	4,
+	5,
+	6,
+	7,
+	8,
+	9,
+};
+
 const int STAGE_MAX_NUM = ARRAYSIZE(e_startPagination)/*sizeof(e_startPagination) / sizeof(int)*/;
 
 
@@ -39,6 +48,7 @@ int STAGE_HEIGHT = e_stageHeight[0];
 
 v3 INIT_POS = e_initPos[0];
 
+int P_LIFE_MAX = e_initLife[0];
 
 STAGE_DATA stage00_setData[] = {
 

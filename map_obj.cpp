@@ -271,6 +271,7 @@ void MapObjManager::init(int a_stageNO)
 	STAGE_HEIGHT = e_stageHeight[m_stageNO];
 	START_PAGINATION = e_startPagination[m_stageNO];
 	INIT_POS = e_initPos[m_stageNO];
+	P_LIFE_MAX = e_initLife[m_stageNO];
 
 	m_startPagination = START_PAGINATION;
 	/*for (auto &it:m_ppMapObjs){
