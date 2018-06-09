@@ -31,7 +31,7 @@ void Player::init()
 	m_step = STEP::INIT;
 	m_mode = P_MODE::NORMAL;
 	m_montionState = P_STATE::STANDBY;
-	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_concentration = P_CONCENTRATION_MAX;
 	m_blurSpeed = P_BLUR_SPEED;
 	m_alpha = 255;
 	m_transferConcentration = 0;
@@ -89,7 +89,7 @@ void Player::restart()
 	m_step = STEP::INIT;
 	m_mode = P_MODE::NORMAL;
 	m_montionState = P_STATE::STANDBY;
-	m_concentration = P_CONCENTRATION_MAX_NUM;
+	m_concentration = P_CONCENTRATION_MAX;
 	m_blurSpeed = P_BLUR_SPEED;
 	m_alpha = 255;
 	m_transferConcentration = 0;
@@ -137,7 +137,7 @@ void Player::normalMove()
 			m_mode = P_MODE::RESTART;
 		}
 	}
-	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
+	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX;
 
 	// プレーヤーの状態判断
 	if (fabsf(m_speed.y - 0.0f) < FLT_EPSILON && m_montionState != P_STATE::JUMPING && !m_isOnGround)
@@ -575,71 +575,46 @@ void PlayerManager::manageConcentration()
 	switch (m_step)
 	{
 	case STEP::INIT:
+		m_isTranscriptAble = true;
+		m_isTranscriptCanceled = false;
+		m_step = STEP::INIT + 1;
+		break;
+	case STEP::INIT+1:
 		m_isPlayerOnLeft = m_pPlayer->m_liveInPagination % 2 != 0;
 		m_concentration = m_pPlayer->m_concentration;
 		transferSpeed = 0;
 		if (m_isTranscriptAble)
 		{
-			if (m_concentration > 1)
+			if (m_concentration > P_TRANSFER_CONCENTRATION_MAX)
 			{
 				//m_pPlayer->m_concentration /= 2;
 
 				//m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
-				transferConcentration = 1;
+				transferConcentration = P_TRANSFER_CONCENTRATION_MAX;
 				m_pPlayer->m_transferConcentration = m_concentration;
 				m_pPlayer->m_concentration = m_concentration - m_pPlayer->m_transferConcentration;
 				m_step = STEP::BEGIN;
 			}
 			else
 			{
-				transferConcentration = 0;
-				m_pPlayer->m_transferConcentration = 0;
-				m_isTranscriptAble = false;
 				m_step = STEP::END;
 			}
 		}
 		else
 		{
-			transferConcentration = 0;
-			m_pPlayer->m_transferConcentration = 0;
-			m_pPlayer->m_concentration = m_concentration;
-			m_isTranscriptAble = false;
-			m_step = STEP::FINISH;
+			m_step = STEP::END;
 		}
 		break;
 	case STEP::BEGIN:
-
-		if (m_isTranscriptAble)
+		transferSpeed += 0.05f;
+		m_pPlayer->m_transferConcentration -= transferSpeed;
+		if (m_pPlayer->m_transferConcentration < P_TRANSFER_CONCENTRATION_MAX)
 		{
-			transferSpeed += 0.03;
-			m_pPlayer->m_transferConcentration -= transferSpeed;
-			if (m_pPlayer->m_transferConcentration < 1)
-			{
-				m_pPlayer->m_transferConcentration = 1;
-				m_isTranscriptAble = true;
-				m_step = STEP::FINISH;
-			}
-			m_pPlayer->m_concentration = m_concentration - m_pPlayer->m_transferConcentration;
-			/*if ((m_isPlayerOnLeft && (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED)) 
-				|| (!m_isPlayerOnLeft && (KEY_TRACKER.pressed.D || PAD_TRACKER.leftStickRight == PAD_TRACKER.PRESSED))) {
-				m_pPlayer->m_transferConcentration++;
-				m_pPlayer->m_concentration--;
-			}
-			if ((!m_isPlayerOnLeft && (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED)) 
-				|| (m_isPlayerOnLeft && (KEY_TRACKER.pressed.D || PAD_TRACKER.leftStickRight == PAD_TRACKER.PRESSED))) {
-				m_pPlayer->m_transferConcentration--;
-				m_pPlayer->m_concentration++;
-			}*/
-
+			m_pPlayer->m_transferConcentration = P_TRANSFER_CONCENTRATION_MAX;
+			m_isTranscriptAble = true;
+			m_step = STEP::FINISH;
 		}
-		else
-		{
-			transferConcentration = 0;
-			m_pPlayer->m_transferConcentration = 0;
-			m_pPlayer->m_concentration = m_concentration;
-			m_isTranscriptAble = false;
-			m_step = STEP::END;
-		}
+		m_pPlayer->m_concentration = m_concentration - m_pPlayer->m_transferConcentration;
 		/*if (m_isTranscriptCanceled)
 		{
 			transferConcentration = 0;
@@ -676,10 +651,11 @@ void PlayerManager::manageConcentration()
 	default:
 		break;
 	}
+	if (m_step >= STEP::BEGIN)
+	{
+		pGameUIManager->showInkTransferGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble);
+	}
 
-	pGameUIManager->showInkTransferGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble);
-	m_isTranscriptAble = true;
-	m_isTranscriptCanceled = false;
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)

@@ -99,7 +99,7 @@ void Book::init()
 	m_isOpened = false;
 	m_openAngle = 0;
 	m_currentPaperNO = START_PAGINATION / 2;
-	m_centerPaper = m_currentPaperNO + 0.5;
+	m_centerPaper = m_currentPaperNO + 0.5f;
 	m_position.z -= (m_coverDepth + m_currentPaperNO * PAPER_DEPTH);
 	m_position.y = m_coverHeight / 2;
 
@@ -128,8 +128,6 @@ void Book::init()
 
 }
 
-int g_keyCounter = 0;
-
 void Book::update()
 {
 	//////////////////////////////////////////////////////////////
@@ -150,7 +148,6 @@ void Book::update()
 				m_pfMove = &Book::openBook;
 			}*/
 		}
-		g_keyCounter++;
 	}
 	/*if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED) {
 		if (m_isClosed)
@@ -281,12 +278,9 @@ void Book::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, "currentPaperNO: %d \ntargetPaperNO: %d \nSTART_PAGINATION: %d", m_currentPaperNO, m_targetPaperNO, START_PAGINATION);
+	sprintf_s(buf, "currentPaperNO: %d \ntargetPaperNO: %d \nSTART_PAGINATION: %d \nPlayerManagerStep: %d",
+		m_currentPaperNO, m_targetPaperNO, START_PAGINATION, pPlayerManager->m_step);
 	drawString(0, 460, buf, 0x000000FF, STR_LEFT, 18, 18);
-	if (KEY_DOWN('0'))
-	{
-		g_keyCounter = 0;
-	}
 
 #endif // DEBUG
 
@@ -317,7 +311,7 @@ void Book::closeBook()
 		//m_angleChangeSpeed.y = -45.0f * m_openSpeed / 90.0f;
 		m_isClosed = false;
 		m_isOpened = false;
-		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
+		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5f : 0.5f);
 		for (auto &it : m_ppPapers)
 		{
 			if (it && it->m_paperNO > m_centerPaper - 1 && it->m_paperNO < m_centerPaper + 1)
@@ -403,7 +397,13 @@ void Book::closeBook()
 		m_timer++;
 		if (m_timer > 30)
 		{
-			m_timer = 0; 
+			m_timer = 0;
+			if (m_isClosed)
+			{
+				pPlayerManager->transcriptPlayer();
+				pPlayerManager->m_step = STEP::INIT;
+			}
+			m_isClosed = false;
 			m_pfMove = &Book::openBook;
 			m_step = STEP::FINISH;
 		}
@@ -427,11 +427,6 @@ void Book::openBook()
 	{
 	case STEP::INIT:
 		m_timer = 0;
-		if (m_isClosed)
-		{
-			pPlayerManager->transcriptPlayer();
-			pPlayerManager->m_step = STEP::INIT;
-		}
 		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
 		for (auto &it : m_ppPapers)
 		{
@@ -551,7 +546,7 @@ void Book::startReading()
 			m_step = STEP::END;
 		}
 
-		m_openSpeedAcc += 0.01;
+		m_openSpeedAcc += 0.01f;
 		m_openSpeed += m_openSpeedAcc;
 		m_angleChangeSpeed.y = 45.0f * m_openSpeed / 90.0f;
 		m_angleYawPitchRoll.y += m_angleChangeSpeed.y;

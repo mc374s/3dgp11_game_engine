@@ -3,12 +3,12 @@
 
 #include "obj2d.h"
 
-#define P_SPEED_AX			(0.5)
-#define P_SPEED_X_MAX		(3.5)
+#define P_SPEED_AX			(0.5f)
+#define P_SPEED_X_MAX		(3.5f)
 
-#define P_BLUR_SPEED							(0.012)
-#define P_BLUR_SPEED_ON_BLUR_AREA				(0.006)
-#define P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA	(0.006)
+#define P_BLUR_SPEED							(0.012f)
+#define P_BLUR_SPEED_ON_BLUR_AREA				(0.006f)
+#define P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA	(0.006f)
 
 #define GRIVATY				(0.20f)
 #define P_SPEED_Y_MAX		(12)
@@ -100,7 +100,7 @@ public:
 	void transcriptPlayer(int a_concentration = 1);
 	void manageConcentration();
 
-	float m_concentration = P_CONCENTRATION_MAX_NUM;
+	float m_concentration = P_CONCENTRATION_MAX;
 
 	void init();
 	void update();

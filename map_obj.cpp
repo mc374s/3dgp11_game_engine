@@ -96,7 +96,7 @@ void MapObj::init()
 	case M_TYPE::HIGH_CONCENTRATION:
 		m_repeatDrawSize = m_size;
 		m_custom.rgba = 0xFF0000FF;
-		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
+		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX;
 		break;
 	default:
 		break;
@@ -191,10 +191,10 @@ void MapObj::draw()
 #endif // DEBUG
 
 	if (m_type == M_TYPE::RECOVERY_DOWN || m_type == M_TYPE::RECOVERY_UP) {
-		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM + 180;
+		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX + 180;
 	}
 	else{
-		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
+		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX;
 	}
 
 	// 繰り返し描画のため、一旦SPRITE_BOTTOMの初期データを保存

@@ -65,7 +65,7 @@ void judgeAll()
 		//pPlayerManager->m_isTranscriptCanceled = false;
 		pPlayerManager->manageConcentration();
 	}
-	if (isBookOpened)
+	else
 	{
 		pPlayerManager->m_step = STEP::INIT;
 	}
@@ -94,8 +94,7 @@ void judgeAll()
 					}*/
 				}
 
-				if (it.m_type == M_TYPE::RECOVERY_UP)
-				{
+				if (it.m_type == M_TYPE::RECOVERY_UP){
 					if (pPlayer->m_speed.y < 0) {
 						//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
 						if (pPlayer->m_pos.y < it.m_pos.y + it.m_size.y) {
@@ -109,11 +108,12 @@ void judgeAll()
 							}
 						}
 					}
-					else it.hitAdjust(pPlayer);
+					else {
+						it.hitAdjust(pPlayer);
+					}
 				}
 
-				if (it.m_type == M_TYPE::RECOVERY_DOWN)
-				{
+				if (it.m_type == M_TYPE::RECOVERY_DOWN){
 					if (pPlayer->m_speed.y >= 0) {
 						//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
 						if (pPlayer->m_pos.y - pPlayer->m_size.y > it.m_pos.y) {
@@ -124,7 +124,9 @@ void judgeAll()
 							}
 						}
 					}
-					else it.hitAdjust(pPlayer);
+					else {
+						it.hitAdjust(pPlayer);
+					}
 				}
 
 
@@ -143,7 +145,7 @@ void judgeAll()
 					pPlayer->m_keyObj->m_pSprData = nullptr;
 					pPlayer->m_mode = P_MODE::CLEAR;
 					it.m_isHitAble = false;
-					it.m_concentration = P_CONCENTRATION_MAX_NUM;
+					it.m_concentration = P_CONCENTRATION_MAX;
 				}
 			}
 			if (isBookClosed && it.m_isHitAble && checkHitPlayerToMapObjClosed(pPlayer, &it))
@@ -151,14 +153,10 @@ void judgeAll()
 				// 
 				//if ((pPlayer->m_concentration < it.m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && it.m_concentration > LOW_CONCENTRATION)
 				// プレイヤーの濃度より高いObjは転写できない
-				if (pPlayer->m_concentration < it.m_concentration && (it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR))
+				if (pPlayer->m_concentration <= it.m_concentration && (it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::HIGH_CONCENTRATION))
 				{
 					pPlayerManager->m_isTranscriptAble = false;
-					if (it.m_type == M_TYPE::HIGH_CONCENTRATION)
-					{
-						pPlayerManager->m_isTranscriptAble = true;
-						//pPlayerManager->m_isTranscriptCanceled = true;
-					}
+					break;
 				}
 			}
 		}
@@ -172,12 +170,12 @@ void judgeAll()
 		//		{
 		//			// TODO : 関数化
 
-		//			if (pPlayer->m_concentration < P_CONCENTRATION_MAX_NUM)
+		//			if (pPlayer->m_concentration < P_CONCENTRATION_MAX)
 		//			{
-		//				if (it.m_concentration + pPlayer->m_concentration > P_CONCENTRATION_MAX_NUM)
+		//				if (it.m_concentration + pPlayer->m_concentration > P_CONCENTRATION_MAX)
 		//				{
-		//					it.m_concentration -= P_CONCENTRATION_MAX_NUM - pPlayer->m_concentration;
-		//					pPlayer->m_concentration = P_CONCENTRATION_MAX_NUM;
+		//					it.m_concentration -= P_CONCENTRATION_MAX - pPlayer->m_concentration;
+		//					pPlayer->m_concentration = P_CONCENTRATION_MAX;
 		//				}
 		//				else
 		//				{
@@ -185,8 +183,8 @@ void judgeAll()
 		//					it.m_concentration = 0;
 		//				}
 
-		//				pPlayer->m_alpha = 255 * pPlayer->m_concentration / P_CONCENTRATION_MAX_NUM;
-		//				it.m_alpha = 255 * it.m_concentration / P_CONCENTRATION_MAX_NUM;
+		//				pPlayer->m_alpha = 255 * pPlayer->m_concentration / P_CONCENTRATION_MAX;
+		//				it.m_alpha = 255 * it.m_concentration / P_CONCENTRATION_MAX;
 		//			}
 		//			break;
 		//		}
