@@ -152,12 +152,12 @@ void Book::update()
 		}
 		g_keyCounter++;
 	}
-	if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED) {
+	/*if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED) {
 		if (m_isClosed)
 		{
 			m_pfMove = &Book::openBook;
 		}
-	}
+	}*/
 
 
 	if (m_pfMove)
@@ -382,13 +382,14 @@ void Book::closeBook()
 			m_openAngle = 0;
 			/*m_position.z = 450;
 			m_position.y = 270;*/
+			m_timer = 0;
 			m_step = STEP::END;
 			MFAudioPlay(SE_CLOSE);
 		}
 		break;
 	case STEP::END:
 		m_timer++;
-		if (m_timer > 40)
+		if (pPlayerManager->m_step == STEP::FINISH || m_timer > 120)
 		{
 			m_timer = 0;
 			m_step = STEP::END + 1;
@@ -399,8 +400,13 @@ void Book::closeBook()
 		m_position.y = 270;*/
 		break;
 	case STEP::END+1:
-		m_pfMove = &Book::openBook;
-		m_step = STEP::FINISH;
+		m_timer++;
+		if (m_timer > 30)
+		{
+			m_timer = 0; 
+			m_pfMove = &Book::openBook;
+			m_step = STEP::FINISH;
+		}
 		break;
 	case STEP::FINISH:
 

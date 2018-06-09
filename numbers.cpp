@@ -86,7 +86,7 @@ void Numbers::setValue(int a_value, Vector3 a_size)
 	--m_digitNum;
 	m_custom.scaleX = a_size.x;
 	m_custom.scaleY = a_size.y;
-	m_isVisible = true;
+	//m_isVisible = true;
 }
 
 void Numbers::update()

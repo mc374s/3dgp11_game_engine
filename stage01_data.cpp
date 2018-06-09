@@ -45,7 +45,7 @@ STAGE_DATA stage01_setData[] = {
 	STAGE_DATA(e_startPagination[1] + 1, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,1150,1),		true, v3(PW,17,0), 10),
 
 
-	STAGE_DATA(e_startPagination[1] + 1, 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::UP,	v3(PW / 2,220,1),		true, v3(160,22,0), 2, recoveryControl),
+	STAGE_DATA(e_startPagination[1] + 1, 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(PW / 2,220,1),		true, v3(160,22,0), 2, recoveryControl),
 	//STAGE_DATA(e_startPagination[1]+1, 0, M_TYPE::RECOVERY_UP,				M_DRAW::UP,		v3(500,540,1),		true, v3(120,22,0), 3, recoveryControl),
 
 	STAGE_DATA(e_startPagination[1] + 1, 0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,220,0),		true, v3(PW / 2,320,0), 3),

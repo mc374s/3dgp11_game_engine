@@ -65,7 +65,7 @@ void judgeAll()
 		//pPlayerManager->m_isTranscriptCanceled = false;
 		pPlayerManager->manageConcentration();
 	}
-	else
+	if (isBookOpened)
 	{
 		pPlayerManager->m_step = STEP::INIT;
 	}
@@ -228,7 +228,7 @@ void judgeAll()
 		}
 		pPlayer->m_newblurAreaList.clear();
 	}
-	
+
 
 }
 

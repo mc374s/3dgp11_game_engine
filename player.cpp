@@ -570,30 +570,56 @@ void PlayerManager::draw(int a_liveInPagination)
 
 void PlayerManager::manageConcentration()
 {
+	static float transferConcentration = 0, transferSpeed = 0;
+
 	switch (m_step)
 	{
 	case STEP::INIT:
 		m_isPlayerOnLeft = m_pPlayer->m_liveInPagination % 2 != 0;
 		m_concentration = m_pPlayer->m_concentration;
-		if (m_concentration > 1)
+		transferSpeed = 0;
+		if (m_isTranscriptAble)
 		{
-			//m_pPlayer->m_concentration /= 2;
-			m_pPlayer->m_concentration -= 1;
-			//m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
-			m_pPlayer->m_transferConcentration = 1;
-			m_step = STEP::BEGIN;
-		} 
+			if (m_concentration > 1)
+			{
+				//m_pPlayer->m_concentration /= 2;
+
+				//m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
+				transferConcentration = 1;
+				m_pPlayer->m_transferConcentration = m_concentration;
+				m_pPlayer->m_concentration = m_concentration - m_pPlayer->m_transferConcentration;
+				m_step = STEP::BEGIN;
+			}
+			else
+			{
+				transferConcentration = 0;
+				m_pPlayer->m_transferConcentration = 0;
+				m_isTranscriptAble = false;
+				m_step = STEP::END;
+			}
+		}
 		else
 		{
+			transferConcentration = 0;
 			m_pPlayer->m_transferConcentration = 0;
+			m_pPlayer->m_concentration = m_concentration;
 			m_isTranscriptAble = false;
-			m_step = STEP::END;
+			m_step = STEP::FINISH;
 		}
 		break;
 	case STEP::BEGIN:
 
 		if (m_isTranscriptAble)
 		{
+			transferSpeed += 0.03;
+			m_pPlayer->m_transferConcentration -= transferSpeed;
+			if (m_pPlayer->m_transferConcentration < 1)
+			{
+				m_pPlayer->m_transferConcentration = 1;
+				m_isTranscriptAble = true;
+				m_step = STEP::FINISH;
+			}
+			m_pPlayer->m_concentration = m_concentration - m_pPlayer->m_transferConcentration;
 			/*if ((m_isPlayerOnLeft && (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED)) 
 				|| (!m_isPlayerOnLeft && (KEY_TRACKER.pressed.D || PAD_TRACKER.leftStickRight == PAD_TRACKER.PRESSED))) {
 				m_pPlayer->m_transferConcentration++;
@@ -606,10 +632,22 @@ void PlayerManager::manageConcentration()
 			}*/
 
 		}
-		if (m_isTranscriptCanceled)
+		else
 		{
+			transferConcentration = 0;
+			m_pPlayer->m_transferConcentration = 0;
 			m_pPlayer->m_concentration = m_concentration;
+			m_isTranscriptAble = false;
+			m_step = STEP::END;
 		}
+		/*if (m_isTranscriptCanceled)
+		{
+			transferConcentration = 0;
+			m_pPlayer->m_transferConcentration = 0;
+			m_pPlayer->m_concentration = m_concentration;
+			m_isTranscriptAble = false;
+			m_step = STEP::INIT;
+		}*/
 
 		/*if (m_pPlayer->m_transferConcentration < 1) {
 			m_pPlayer->m_transferConcentration = 1;
@@ -626,8 +664,13 @@ void PlayerManager::manageConcentration()
 
 		break;
 	case STEP::END:
+		transferConcentration = 0;
 		m_pPlayer->m_transferConcentration = 0;
+		m_pPlayer->m_concentration = m_concentration;
 		m_isTranscriptAble = false;
+		m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
 
 		break;
 	default:

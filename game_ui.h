@@ -8,11 +8,12 @@
 
 enum UI_NO
 {
-	A_DIVISION,			//A::Allocation
-	A_LEFT_GAGE,		//A::Allocation
-	A_RIGHT_GAGE,		//A::Allocation
 	A_LEFT_PLAYER,		//A::Allocation
 	A_RIGHT_PLAYER,		//A::Allocation
+	A_LEFT_GAGE,		//A::Allocation
+	A_RIGHT_GAGE,		//A::Allocation
+	A_LEFT_DIVISION,	//A::Allocation
+	A_RIGHT_DIVISION,	//A::Allocation
 
 	C_GAGE_ANIME,		//C::Concentration
 	C_GAGE,				//C::Concentration
@@ -89,7 +90,7 @@ public:
 	void update();
 	void draw();
 
-	void showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
+	void showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
 	void showHelp();

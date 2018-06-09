@@ -87,14 +87,9 @@ void MapObj::init()
 		m_repeatDrawSize = m_size;
 		break;
 	case M_TYPE::RECOVERY_UP:
-		m_repeatDrawSize = m_size;
-		m_pAnimeData = e_pAnimeRecoveryUp;
-		//m_isVisibleAlways = true;
-		//m_isVisible = true;
-		break;
 	case M_TYPE::RECOVERY_DOWN:
 		m_repeatDrawSize = m_size;
-		m_pAnimeData = e_pAnimeRecoveryDown;
+		m_pAnimeData = e_pAnimeRecovery;
 		//m_isVisibleAlways = true;
 		//m_isVisible = true;
 		break;

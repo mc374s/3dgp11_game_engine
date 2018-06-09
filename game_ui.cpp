@@ -104,27 +104,30 @@ void GameUIManager::init()
 		}
 	}
 	// UI for Ink Gage
-	m_ppGameUI[A_DIVISION]->m_pSprData = &e_sprGageDivisionAllocation;
-	m_ppGameUI[A_DIVISION]->m_isVisibleAlways = false;
-	m_ppGameUI[A_DIVISION]->m_isVisible = false;
-	m_ppGameUI[A_DIVISION]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
-	m_ppGameUI[A_DIVISION]->m_size = { e_sprGageDivisionAllocation.width,e_sprGageDivisionAllocation.height,0 };
-	//m_ppGameUI[GAGE_FRAME]->m_custom.scaleX = m_ppGameUI[GAGE_FRAME]->m_size.x / m_ppGameUI[GAGE_FRAME]->m_pSprData->width;
-	//m_ppGameUI[GAGE_FRAME]->m_custom.scaleY = m_ppGameUI[GAGE_FRAME]->m_size.y / m_ppGameUI[GAGE_FRAME]->m_pSprData->height;
+	m_ppGameUI[A_LEFT_DIVISION]->m_pSprData = &e_sprGageDivisionAllocation;
+	m_ppGameUI[A_LEFT_DIVISION]->m_isVisibleAlways = false;
+	m_ppGameUI[A_LEFT_DIVISION]->m_isVisible = false;
+	m_ppGameUI[A_LEFT_DIVISION]->m_pos = { SCREEN_WIDTH / 2 - m_ppGameUI[A_LEFT_DIVISION]->m_pSprData->width / 2 - 100,SCREEN_HEIGHT / 2 - 250,0 };
+	m_ppGameUI[A_LEFT_DIVISION]->m_size = { e_sprGageDivisionAllocation.width,e_sprGageDivisionAllocation.height,0 };
+
+	*m_ppGameUI[A_RIGHT_DIVISION] = *m_ppGameUI[A_LEFT_DIVISION];
+	m_ppGameUI[A_RIGHT_DIVISION]->m_pos.x = SCREEN_WIDTH / 2 + m_ppGameUI[A_RIGHT_DIVISION]->m_pSprData->width / 2 + 100;
 
 	m_ppGameUI[A_LEFT_GAGE]->m_pSprData = &e_sprGageAllocation;
 	m_ppGameUI[A_LEFT_GAGE]->m_isVisibleAlways = false;
 	m_ppGameUI[A_LEFT_GAGE]->m_isVisible = false;
-	m_ppGameUI[A_LEFT_GAGE]->m_custom.rgba = 0x0000FFFF;
-	m_ppGameUI[A_LEFT_GAGE]->m_alpha = 180;
-	m_ppGameUI[A_LEFT_GAGE]->m_pos = { (SCREEN_WIDTH - m_ppGameUI[A_LEFT_GAGE]->m_pSprData->width) / 2,SCREEN_HEIGHT / 2,1 };
+	m_ppGameUI[A_LEFT_GAGE]->m_custom.rgba = 0x735E60FF;
+	m_ppGameUI[A_LEFT_GAGE]->m_alpha = 200;
+	m_ppGameUI[A_LEFT_GAGE]->m_pos.x = m_ppGameUI[A_LEFT_DIVISION]->m_pos.x;
+	m_ppGameUI[A_LEFT_GAGE]->m_pos.y = m_ppGameUI[A_LEFT_DIVISION]->m_pos.y;
 	m_ppGameUI[A_LEFT_GAGE]->m_size = { e_sprGageDivisionAllocation.width,e_sprGageDivisionAllocation.height,0 };
 	m_ppGameUI[A_LEFT_GAGE]->m_custom.scaleMode = SCALE_MODE::RIGHTCENTER;
 
 	*m_ppGameUI[A_RIGHT_GAGE] = *m_ppGameUI[A_LEFT_GAGE];
 
-	m_ppGameUI[A_RIGHT_GAGE]->m_custom.rgba = 0xDD0000FF;
-	m_ppGameUI[A_RIGHT_GAGE]->m_pos = { (SCREEN_WIDTH + m_ppGameUI[A_LEFT_GAGE]->m_pSprData->width) / 2,SCREEN_HEIGHT / 2,1 };
+	//m_ppGameUI[A_RIGHT_GAGE]->m_custom.rgba = 0xDD0000FF;
+	m_ppGameUI[A_RIGHT_GAGE]->m_pos.x = m_ppGameUI[A_RIGHT_DIVISION]->m_pos.x;
+	m_ppGameUI[A_RIGHT_GAGE]->m_pos.y = m_ppGameUI[A_RIGHT_DIVISION]->m_pos.y;
 	m_ppGameUI[A_RIGHT_GAGE]->m_custom.scaleMode = SCALE_MODE::LEFTCENTER;
 
 	// UI for transcription work
@@ -262,19 +265,20 @@ void GameUIManager::draw()
 
 }
 
-void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble)
+void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble)
 {
-	if (m_ppGameUI[A_DIVISION])
+	if (m_ppGameUI[A_LEFT_DIVISION])
 	{
 
-		//m_ppGameUI[A_DIVISION]->m_isVisible = true;
-		//m_ppGameUI[A_LEFT_GAGE]->m_isVisible = true;
-		//m_ppGameUI[A_RIGHT_GAGE]->m_isVisible = true;
+		m_ppGameUI[A_LEFT_DIVISION]->m_isVisible = true;
+		m_ppGameUI[A_RIGHT_DIVISION]->m_isVisible = true;
+		m_ppGameUI[A_LEFT_GAGE]->m_isVisible = true;
+		m_ppGameUI[A_RIGHT_GAGE]->m_isVisible = true;
 		m_ppGameUI[A_LEFT_PLAYER]->m_isVisible = true;
 		m_ppGameUI[A_RIGHT_PLAYER]->m_isVisible = true;
 
-		m_ppNumbers[LEFT_CONCENTRATION]->m_isVisible = true;
-		m_ppNumbers[RIGHT_CONCENTRATION]->m_isVisible = true;
+		//m_ppNumbers[LEFT_CONCENTRATION]->m_isVisible = true;
+		//m_ppNumbers[RIGHT_CONCENTRATION]->m_isVisible = true;
 
 
 		m_ppGameUI[A_LEFT_GAGE]->m_custom.rgba = m_ppGameUI[A_RIGHT_GAGE]->m_custom.rgba = 0x6F6060FF;
@@ -294,10 +298,8 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 		{
 			m_ppGameUI[A_LEFT_GAGE]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0404B4FF;
-			m_ppGameUI[A_LEFT_GAGE]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			m_ppGameUI[A_RIGHT_GAGE]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xB18904FF;
-			m_ppGameUI[A_RIGHT_GAGE]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			m_ppGameUI[A_LEFT_PLAYER]->m_custom.rgba = 0xFFFFFFFFFF;
 			m_ppGameUI[A_LEFT_PLAYER]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
@@ -312,10 +314,8 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 		{
 			m_ppGameUI[A_RIGHT_GAGE]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x0404B4FF;
-			m_ppGameUI[A_RIGHT_GAGE]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			m_ppGameUI[A_LEFT_GAGE]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xB18904FF;
-			m_ppGameUI[A_LEFT_GAGE]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			m_ppGameUI[A_RIGHT_PLAYER]->m_custom.rgba = 0xFFFFFFFF;
 			m_ppGameUI[A_RIGHT_PLAYER]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
