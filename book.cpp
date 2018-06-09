@@ -98,8 +98,8 @@ void Book::init()
 	m_isClosed = false;
 	m_isOpened = false;
 	m_openAngle = 0;
-	m_centerPaper = 0.5;
 	m_currentPaperNO = START_PAGINATION / 2;
+	m_centerPaper = m_currentPaperNO + 0.5;
 	m_position.z -= (m_coverDepth + m_currentPaperNO * PAPER_DEPTH);
 	m_position.y = m_coverHeight / 2;
 
@@ -281,7 +281,7 @@ void Book::draw()
 #ifdef DEBUG
 
 	char buf[256];
-	sprintf_s(buf, "Key Counter: %d \nm_posLookedByCameraY: %.1lf px \nm_posLookedByCameraZ: %.1lf px", g_keyCounter, m_posLookedByCamera.y, m_posLookedByCamera.z);
+	sprintf_s(buf, "currentPaperNO: %d \ntargetPaperNO: %d \nSTART_PAGINATION: %d", m_currentPaperNO, m_targetPaperNO, START_PAGINATION);
 	drawString(0, 460, buf, 0x000000FF, STR_LEFT, 18, 18);
 	if (KEY_DOWN('0'))
 	{
@@ -698,8 +698,10 @@ void Book::turnPages()
 		m_timer = 0;
 		m_isOpened = false;
 		m_isClosed = false;
+		m_openSpeed = 0;
 		m_angleChangeSpeed.y = 1;
-		m_speed.z = 70.0f*m_angleChangeSpeed.y / 30.0f;
+		m_speed.y = 30.0f*m_angleChangeSpeed.y / 30.0f;
+		m_speed.z = 100.0f*m_angleChangeSpeed.y / 30.0f;
 		/*for (auto &it : m_ppPapers)
 		{
 			if ((m_currentPaperNO < m_targetPaperNO && it->m_paperNO <= m_targetPaperNO + 1 && it->m_paperNO >= m_currentPaperNO) || (m_currentPaperNO > m_targetPaperNO && it->m_paperNO <= m_currentPaperNO + 1 && it->m_paperNO >= m_targetPaperNO))
@@ -714,18 +716,20 @@ void Book::turnPages()
 		}*/
 		if (m_currentPaperNO > m_targetPaperNO)
 		{
-			m_targetPaperNO += 1;
+			++m_targetPaperNO;
 		}
 		m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
+		m_posLookedByCamera.y += m_speed.y;
 		m_posLookedByCamera.z += m_speed.z;
 
 		m_angleYawPitchRoll.y += m_angleChangeSpeed.y;
 		if (m_angleYawPitchRoll.y > 30.0f)
 		{
-			m_angleYawPitchRoll.y = 30;
-			m_posLookedByCamera.z = 70.0f;
+			m_angleYawPitchRoll.y = 30.0f;
+			m_posLookedByCamera.y = 30.0f;
+			m_posLookedByCamera.z = 100.0f;
 			m_step = STEP::BEGIN + 1;
 		}
 		break;
@@ -815,6 +819,7 @@ void Book::turnPages()
 					{
 						if (m_ppPapers[i]->m_paperNO == m_targetPaperNO)
 						{
+							--m_targetPaperNO;
 							m_ppPapers[i]->m_isActive = true;
 							m_step = STEP::END;
 							break;
@@ -830,18 +835,19 @@ void Book::turnPages()
 
 		break;
 	case STEP::END:
+		m_posLookedByCamera.y -= m_speed.y;
 		m_posLookedByCamera.z -= m_speed.z;
 		m_angleYawPitchRoll.y -= m_angleChangeSpeed.y;
 		if (m_angleYawPitchRoll.y < 0)
 		{
 			m_angleYawPitchRoll.y = 0;
+			m_posLookedByCamera.y = 0.0f;
 			m_posLookedByCamera.z = 0.0f;
 			m_step = STEP::END + 1;
 		}
 		break;
 	case STEP::END+1:
 		m_currentPaperNO = m_targetPaperNO;
-
 		m_ppPapers[m_targetPaperNO]->m_isActive = true;
 		m_ppPapers[m_targetPaperNO + 1]->m_isActive = true;
 		m_pfMove = nullptr;

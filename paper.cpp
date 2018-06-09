@@ -10,7 +10,7 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 	:m_paperNO(a_paperNO), m_width(a_pageWidth), m_height(a_pageHeight), m_depth(a_paperDepth), m_materialColor(a_materialColor)
 {
 	m_pBG = new OBJ2D;
-	m_pBG->m_pSprData = &e_sprPageLeft;
+	m_pBG->m_pSprData = &e_sprPage;
 	m_custom3d.clear();
 
 	m_pCube = new Cube(XMFLOAT3(.0f, .0f, .0f), XMFLOAT3(m_width, m_height, m_depth), m_materialColor);
@@ -222,15 +222,19 @@ void Paper::draw()
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		// Front View
-		drawFront();
-
-		View::clear();
+		if (m_custom3d.angleYawPitchRoll.x < 90)
+		{
+			drawFront();
+			View::clear();
+		}
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// Back View
-		drawBack();
-
-		View::clear();
+		if (m_custom3d.angleYawPitchRoll.x > 90)
+		{
+			drawBack();
+			View::clear();
+		}
 	}
 
 	m_pCube->draw();

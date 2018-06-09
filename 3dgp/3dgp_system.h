@@ -31,6 +31,8 @@
 #define SCREEN_WIDTH (1280)
 #define SCREEN_HEIGHT (720)
 
+
+
 using namespace DirectX;
 
 struct CUSTOM3D

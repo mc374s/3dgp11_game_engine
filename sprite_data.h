@@ -10,8 +10,7 @@ extern SPRITE_LEFTTOP	e_sprMainBG;
 // Book texture
 extern SPRITE_LEFTTOP e_sprCoverFront;
 extern SPRITE_LEFTTOP e_sprCoverBack;
-extern SPRITE_LEFTTOP e_sprPageLeft;
-extern SPRITE_LEFTTOP e_sprPageRight;
+extern SPRITE_LEFTTOP e_sprPage;
 
 // キャラなど
 //extern SPRITE_BOTTOM e_pSprPlayerStandby[];
@@ -48,7 +47,8 @@ extern SPRITE_CENTER e_sprNumbers;
 extern SPRITE_CENTER e_sprPausePanel;
 extern SPRITE_CENTER e_sprPauseSelected;
 
-extern SPRITE_LEFTTOP e_sprTestPlayText;
+extern SPRITE_CENTER e_sprHelp;
+extern SPRITE_LEFTTOP e_sprHelpButton;
 
 
 // Effect関係

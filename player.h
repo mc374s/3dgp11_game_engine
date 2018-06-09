@@ -48,7 +48,7 @@ public:
 	int m_command;
 	int m_mode;
 	int m_montionState;
-	int m_transferConcentration;
+	float m_transferConcentration;
 	bool m_isOnGround;
 	bool m_isMoving;
 	bool m_isOnBlurArea;
@@ -100,7 +100,7 @@ public:
 	void transcriptPlayer(int a_concentration = 1);
 	void manageConcentration();
 
-	int m_concentration = P_CONCENTRATION_MAX_NUM;
+	float m_concentration = P_CONCENTRATION_MAX_NUM;
 
 	void init();
 	void update();

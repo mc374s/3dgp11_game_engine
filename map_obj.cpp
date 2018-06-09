@@ -54,6 +54,7 @@ void MapObj::clear()
 	m_concentration = 10;
 	m_drawDirection = M_DRAW::UP;
 	m_repeatDrawSize = Vector3(0, 0, 0);
+	m_size = Vector3(0, 0, 0);
 	m_isHitAble = false;
 	m_isVisibleAlways = true;
 	m_isVisible = true;
@@ -72,6 +73,9 @@ void MapObj::init()
 	case M_TYPE::HOUSE:
 	case M_TYPE::TREE_A:
 	case M_TYPE::TREE_B:
+
+	case M_TYPE::GAME_RULE_LEFT:
+	case M_TYPE::GAME_RULE_RIGHT:
 
 	case M_TYPE::IVY_BIG:
 	case M_TYPE::KEY:

@@ -124,18 +124,18 @@ void Player::normalMove()
 	{
 
 		m_concentration -= m_blurSpeed;
-		if (m_concentration < 0)
-		{
-			if (m_mode != P_MODE::CLEAR)
-			{
-				m_mode = P_MODE::RESTART;
-			}
-		}
 		m_isMoving = true;
 	}
 	else
 	{
 		m_isMoving = false;
+	}
+	if (m_concentration < 0)
+	{
+		if (m_mode != P_MODE::CLEAR)
+		{
+			m_mode = P_MODE::RESTART;
+		}
 	}
 	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX_NUM;
 
@@ -365,6 +365,7 @@ void Player::restartMove()
 		m_speed.y = -m_scrolledDistance.y / 10;
 		m_alpha = 0;
 		m_step = STEP::BEGIN;
+		m_liveInPagination = START_PAGINATION;
 		//break;
 	case STEP::BEGIN:
 		m_pos.y += m_speed.y;
@@ -574,7 +575,7 @@ void PlayerManager::manageConcentration()
 	case STEP::INIT:
 		m_isPlayerOnLeft = m_pPlayer->m_liveInPagination % 2 != 0;
 		m_concentration = m_pPlayer->m_concentration;
-		if (m_concentration >= 2)
+		if (m_concentration > 1)
 		{
 			//m_pPlayer->m_concentration /= 2;
 			m_pPlayer->m_concentration -= 1;
@@ -605,6 +606,10 @@ void PlayerManager::manageConcentration()
 			}*/
 
 		}
+		if (m_isTranscriptCanceled)
+		{
+			m_pPlayer->m_concentration = m_concentration;
+		}
 
 		/*if (m_pPlayer->m_transferConcentration < 1) {
 			m_pPlayer->m_transferConcentration = 1;
@@ -630,6 +635,8 @@ void PlayerManager::manageConcentration()
 	}
 
 	pGameUIManager->showInkTransferGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble);
+	m_isTranscriptAble = true;
+	m_isTranscriptCanceled = false;
 }
 
 void PlayerManager::transcriptPlayer(int a_concentration)

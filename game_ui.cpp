@@ -189,9 +189,14 @@ void GameUIManager::init()
 	m_ppGameUI[PAUSE_SELECTED]->m_pSprData = &e_sprPauseSelected;
 	m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 30;
 
-	// UI for TEST PLAY
-	m_ppGameUI[TEST_PLAY_TEXT]->m_pSprData = &e_sprTestPlayText;
-	m_ppGameUI[TEST_PLAY_TEXT]->m_pos = { 0,SCREEN_HEIGHT - m_ppGameUI[TEST_PLAY_TEXT]->m_pSprData->height };
+	// UI for HELP
+	m_ppGameUI[HELP]->m_pSprData = &e_sprHelp;
+	m_ppGameUI[HELP]->m_isVisibleAlways = false;
+	m_ppGameUI[HELP]->m_isVisible = false;
+	m_ppGameUI[HELP]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f };
+	m_ppGameUI[HELP_BUTTON]->m_pSprData = &e_sprHelpButton;
+	m_ppGameUI[HELP_BUTTON]->m_initPos = m_ppGameUI[HELP_BUTTON]->m_pos = { SCREEN_WIDTH - m_ppGameUI[HELP_BUTTON]->m_pSprData->width - 10.0f,10.0f,0.0f };
+	m_ppGameUI[HELP_BUTTON]->m_alpha = 200;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +286,7 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 		m_ppGameUI[C_DIVISION]->m_isVisible = m_ppGameUI[C_GAGE]->m_isVisible = m_ppGameUI[C_GAGE_ANIME]->m_isVisible = m_ppGameUI[C_PLAYER_FACE]->m_isVisible = false;
 
 
-		if (fabsf(a_transferConcentration-0.0f)<FLT_EPSILON)
+		if (fabsf(a_transferConcentration - 0.0f) < FLT_EPSILON)
 		{
 			a_isOnLeftPage = !a_isOnLeftPage;
 		}
@@ -294,9 +299,9 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xB18904FF;
 			m_ppGameUI[A_RIGHT_GAGE]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
-			//m_ppGameUI[PLAYER_LEFT]->m_custom.rgba = 0x0404B4FF;
+			m_ppGameUI[A_LEFT_PLAYER]->m_custom.rgba = 0xFFFFFFFFFF;
 			m_ppGameUI[A_LEFT_PLAYER]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
-			//m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0xB18904FF;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_custom.rgba = 0xFFFFFFFFFF;
 			m_ppGameUI[A_RIGHT_PLAYER]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_playerConcentration);
@@ -312,9 +317,9 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xB18904FF;
 			m_ppGameUI[A_LEFT_GAGE]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
-			//m_ppGameUI[PLAYER_RIGHT]->m_custom.rgba = 0x0404B4FF;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_custom.rgba = 0xFFFFFFFF;
 			m_ppGameUI[A_RIGHT_PLAYER]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX_NUM;
-			//m_ppGameUI[PLAYER_LEFT]->m_custom.rgba = 0xB18904FF;
+			m_ppGameUI[A_LEFT_PLAYER]->m_custom.rgba = 0xFFFFFFFF;
 			m_ppGameUI[A_LEFT_PLAYER]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX_NUM;
 
 			m_ppNumbers[RIGHT_CONCENTRATION]->setValue(a_playerConcentration);
@@ -329,6 +334,9 @@ void GameUIManager::showInkTransferGage(int a_playerConcentration, int a_transfe
 
 			m_ppGameUI[A_LEFT_PLAYER]->m_custom.rgba = 0xFF0000FF;
 			m_ppGameUI[A_RIGHT_PLAYER]->m_custom.rgba = 0xFF0000FF;
+
+			m_ppNumbers[LEFT_CONCENTRATION]->m_custom.rgba = 0xFF0000FF;
+			m_ppNumbers[RIGHT_CONCENTRATION]->m_custom.rgba = 0xFF0000FF;
 		}
 
 	}
@@ -370,7 +378,6 @@ void GameUIManager::showPlayerConcentration(float a_playerConcentration, int a_p
 
 }
 
-
 void GameUIManager::showPausePanel(int a_slelectedNO)
 {
 	if (m_ppGameUI[PAUSE_PANEL])
@@ -380,4 +387,9 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 
 		m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 86;
 	}
+}
+
+void GameUIManager::showHelp()
+{
+	m_ppGameUI[HELP]->m_isVisible = true;
 }

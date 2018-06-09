@@ -174,7 +174,7 @@ bool framework::initialize(HWND hwnd)
 	return true;
 }
 
-void framework::slowGame(int a_FPS)
+void framework::setFPS(int a_FPS)
 {
 	m_minFrameTime = 1.0f / a_FPS;
 }
@@ -256,7 +256,11 @@ int framework::run()
 			m_minFrameTime = MIN_FRAME_TIME_DAFAULT;
 			if (KEY_BOARD.LeftControl)
 			{
-				slowGame(5);
+				setFPS(5);
+			}
+			if (KEY_BOARD.LeftShift)
+			{
+				setFPS(2000);
 			}
 
 			//while ((timeGetTime() - preTime) * 6 < 100 /*0.0 / 60.0*/) {

@@ -18,8 +18,7 @@ enum TEX_NO {
 	TEX_MAIN,
 	TEX_PLAYER,
 
-	TEX_PAGE_LEFT,
-	TEX_PAGE_RIGHT,
+	TEX_PAGE,
 	TEX_COVER_FRONT,
 	TEX_COVER_BACK,
 
@@ -50,7 +49,11 @@ enum TEX_NO {
 	TEX_EFF_JUMP_DOWN,
 	TEX_EFF_MAKE_TRANSCRIPTION,
 
-	TEX_TEST_PLAY_TEXT,
+	TEX_GAME_RULE_LEFT,
+	TEX_GAME_RULE_RIGHT,
+
+	TEX_HELP,
+	TEX_HELP_BUTTON,
 
 };
 
@@ -61,8 +64,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_MAIN,						"./DATA/Images/default_bg.jpg"},
 	{ TEX_PLAYER,					"./DATA/Images/character.png"},
 
-	{ TEX_PAGE_LEFT,				"./DATA/Images/Book/page_left.png" },
-	{ TEX_PAGE_RIGHT,				"./DATA/Images/Book/page_right.png" },
+	{ TEX_PAGE,						"./DATA/Images/Book/page.png" },
 	{ TEX_COVER_FRONT,				"./DATA/Images/Book/cover_front.png" },
 	{ TEX_COVER_BACK,				"./DATA/Images/Book/cover_back.png" },
 
@@ -93,7 +95,11 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_EFF_JUMP_DOWN,			"./DATA/Images/Effect/jump_down.png" },
 	{ TEX_EFF_MAKE_TRANSCRIPTION,	"./DATA/Images/Effect/make_transcription.png" },
 
-	{ TEX_TEST_PLAY_TEXT,			"./DATA/Images/UI/test_play_text.png" },
+	{ TEX_GAME_RULE_LEFT,			"./DATA/Images/Book/game_rule_left.png" },
+	{ TEX_GAME_RULE_RIGHT,			"./DATA/Images/Book/game_rule_right.png" },
+
+	{ TEX_HELP,						"./DATA/Images/UI/help.png" },
+	{ TEX_HELP_BUTTON,				"./DATA/Images/UI/help_button.png" },
 
 	{ -1, NULL },
 };
@@ -103,8 +109,7 @@ SPRITE_LEFTTOP	e_sprTitleBG = SPRITE_LEFTTOP(TEX_TITLE, 0, 0, SCREEN_WIDTH, SCRE
 SPRITE_LEFTTOP	e_sprMainBG = SPRITE_LEFTTOP(TEX_MAIN, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 // Book texture
-SPRITE_LEFTTOP e_sprPageLeft = SPRITE_LEFTTOP(TEX_PAGE_LEFT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
-SPRITE_LEFTTOP e_sprPageRight = SPRITE_LEFTTOP(TEX_PAGE_RIGHT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+SPRITE_LEFTTOP e_sprPage = SPRITE_LEFTTOP(TEX_PAGE, 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 
 
 SPRITE_LEFTTOP e_sprCoverFront = SPRITE_LEFTTOP(TEX_COVER_FRONT, 0, 0, PAGE_WIDTH + 0 + 20, PAGE_HEIGHT + 10 + 10);
@@ -177,6 +182,8 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 715, 0,  51,  76),// M_TYPE::DOOR
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 802, 0,  36,  28),// M_TYPE::KEY
 	e_sprWhite,// M_TYPE::HIGH_CONCENTRATION
+	SPRITE_LEFTTOP(TEX_GAME_RULE_LEFT, 0, 0,  PAGE_WIDTH,  PAGE_HEIGHT),// M_TYPE::GAME_RULE_LEFT
+	SPRITE_LEFTTOP(TEX_GAME_RULE_RIGHT, 0, 0,  PAGE_WIDTH,  PAGE_HEIGHT),// M_TYPE::GAME_RULE_RIGHT
 
 	SPRITE_LEFTTOP(-1, 0, 0, 0, 0),
 };
@@ -211,7 +218,8 @@ SPRITE_CENTER e_sprNumbers = SPRITE_CENTER(TEX_NUMBERS, 0, 0, 76, 118);
 SPRITE_CENTER e_sprPausePanel = SPRITE_CENTER(TEX_PAUSE_PANEL, 0, 0, 670, 380);
 SPRITE_CENTER e_sprPauseSelected = SPRITE_CENTER(TEX_PAUSE_SELECTED, 0, 0, 480, 68);
 
-SPRITE_LEFTTOP e_sprTestPlayText = SPRITE_LEFTTOP(TEX_TEST_PLAY_TEXT, 0, 0, 231, 119);
+SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 231, 119);
+SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 128, 32);
 
 SPRITE_CENTER e_pAnimeStamp[] =
 {

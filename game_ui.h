@@ -26,9 +26,8 @@ enum UI_NO
 	PAUSE_SELECTED,
 
 
-
-
-	TEST_PLAY_TEXT,
+	HELP,
+	HELP_BUTTON,
 
 	MAX_UI_NO,
 };
@@ -93,6 +92,7 @@ public:
 	void showInkTransferGage(int a_playerConcentration, int a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
+	void showHelp();
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())

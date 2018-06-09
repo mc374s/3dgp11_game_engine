@@ -70,7 +70,7 @@ void SceneMain::update()
 			m_pausedOption--;
 		}
 		m_pausedOption = abs(m_pausedOption) % (int)PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM;
-		if (KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED)
+		if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED)
 		{
 			if (m_pausedOption == PAUSED_SELECTION::TO_GAME)
 			{
@@ -79,8 +79,10 @@ void SceneMain::update()
 			if (m_pausedOption == PAUSED_SELECTION::TO_TITLE)
 			{
 				m_isPaused = false;
+				m_stageNO = 0;
+				pStageManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::finishReading;
 				m_step = STEP::INIT + 1;
-				changeScene(SCENE_TITLE);
 			}
 		}
 
@@ -91,7 +93,7 @@ void SceneMain::update()
 	{
 	case STEP::INIT:
 		//init();
-		pObjManager->init();
+		pBook->clearAll();
 		pGameUIManager->init();
 		pEffectManager->init();
 		m_stageNO = 0;
@@ -102,7 +104,6 @@ void SceneMain::update()
 
 		m_pStr = "";
 		m_timer = 0;
-		//pBook->clearAll();
 		m_step = STEP::INIT + 2;
 		m_pausedOption = PAUSED_SELECTION::TO_GAME;
 		//break;
@@ -111,7 +112,7 @@ void SceneMain::update()
 		pBook->update();
 		m_isBookClosed = pBook->m_isClosed;
 		m_isBookOpened = pBook->m_isOpened;
-		if (KEY_TRACKER.pressed.Z || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
+		if (KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
 		{
 			if (!pBook->m_pfMove)
 			{
@@ -119,7 +120,6 @@ void SceneMain::update()
 
 				//pBook->clear();
 				pStageManager->init(m_stageNO);
-				pObjManager->init();
 				pGameUIManager->init();
 				pEffectManager->init();
 				pPlayerManager->init();
@@ -150,11 +150,23 @@ void SceneMain::update()
 		pStageManager->update();
 		break;
 	case STEP::BEGIN:
+		if (m_stageNO <= 0)
+		{
+			if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED))
+			{
+				m_stageNO++;
+				pStageManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::turnPages;
+				pBook->m_targetPaperNO = START_PAGINATION / 2;
+				m_step = STEP::INIT + 3;
+				break;
+			}
+		}
 
 		pBook->update();
-
 		m_isBookClosed = pBook->m_isClosed;
 		m_isBookOpened = pBook->m_isOpened;
+
 		if (m_isBookOpened)
 		{
 			pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife());
@@ -163,7 +175,7 @@ void SceneMain::update()
 				pBook->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
 			}
 
-			if (KEY_TRACKER.pressed.V || PAD_TRACKER.y == PAD_TRACKER.PRESSED)
+			if (KEY_TRACKER.pressed.E || PAD_TRACKER.rightShoulder == PAD_TRACKER.PRESSED)
 			{
 				m_step = STEP::BEGIN + 1;
 				m_timer = 0;
@@ -172,6 +184,7 @@ void SceneMain::update()
 			}
 			pPlayerManager->update();
 		}
+
 		pStageManager->update();
 		pEffectManager->update();
 
@@ -187,7 +200,7 @@ void SceneMain::update()
 				m_stageNO++;
 				if (m_stageNO >= STAGE_MAX_NUM)
 				{
-					//pBook->clear();
+					pBook->clear();
 					m_stageNO = 0;
 					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
@@ -213,25 +226,13 @@ void SceneMain::update()
 			m_stageNO++;
 			if (m_stageNO >= STAGE_MAX_NUM)
 			{
-				/*m_stageNO = 0;
-				pBook->m_pfMove = &Book::finishReading;
-				m_step = STEP::INIT + 1;*/
-				//pBook->clear();
 				m_stageNO = 0;
-				pStageManager->init(m_stageNO);
-				pBook->m_pfMove = &Book::turnPages;
-				pBook->m_targetPaperNO = START_PAGINATION / 2;
-				m_step = STEP::INIT + 3;
-				m_timer = 0;
 			}
-			else
-			{
-				pStageManager->init(m_stageNO);
-				pBook->m_pfMove = &Book::turnPages;
-				pBook->m_targetPaperNO = START_PAGINATION / 2;
-				m_step = STEP::INIT + 3;
-				m_timer = 0;
-			}
+			pStageManager->init(m_stageNO);
+			pBook->m_pfMove = &Book::turnPages;
+			pBook->m_targetPaperNO = START_PAGINATION / 2;
+			m_step = STEP::INIT + 3;
+			m_timer = 0;
 
 		}
 
@@ -243,6 +244,7 @@ void SceneMain::update()
 			m_step = STEP::END;
 
 		}
+
 
 		break;
 
@@ -269,9 +271,12 @@ void SceneMain::update()
 				}
 			}
 		}
+		pEffectManager->update();
+
+		pGameUIManager->update();
 
 
-		if (KEY_TRACKER.pressed.V || PAD_TRACKER.y == PAD_TRACKER.PRESSED)
+		if (KEY_TRACKER.pressed.E || PAD_TRACKER.rightShoulder == PAD_TRACKER.PRESSED)
 		{
 			m_step = STEP::BEGIN + 2;
 			m_timer = 0;
@@ -309,7 +314,7 @@ void SceneMain::update()
 		{
 			m_timer = 0;
 			pBook->m_pfMove = &Book::finishReading;
-			m_step = STEP::INIT + 2;
+			m_step = STEP::INIT + 1;
 		}
 		break;
 	default:
@@ -323,6 +328,10 @@ void SceneMain::update()
 			pBook->m_pfMove = &Book::finishReading;
 			m_step = STEP::INIT + 2;
 		}
+	}
+	if (KEY_BOARD.Q || GAME_PAD.IsLeftShoulderPressed())
+	{
+		pGameUIManager->showHelp();
 	}
 
 

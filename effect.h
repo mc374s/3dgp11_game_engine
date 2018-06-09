@@ -30,7 +30,7 @@ public:
 	void update();
 	void draw();
 
-	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*) = nullptr);
+	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr);
 
 };
 

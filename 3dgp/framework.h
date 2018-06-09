@@ -37,7 +37,7 @@ public:
 	LARGE_INTEGER m_timeEnd;
 	LARGE_INTEGER m_timeFreq;
 
-	void slowGame(int a_FPS = 20);
+	void setFPS(int a_FPS = 20);
 
 public:
 	HWND m_hWnd = NULL;

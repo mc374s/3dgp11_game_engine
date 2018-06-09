@@ -11,8 +11,6 @@ void Effect::memberCopy(const Effect& a_inputObj)
 	
 	m_isVisible = a_inputObj.m_isVisible;
 	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
-	m_isAnimeOnce = a_inputObj.m_isAnimeOnce;
-	recordedAnimeNO = a_inputObj.recordedAnimeNO;
 
 }
 
@@ -37,8 +35,6 @@ void Effect::clear()
 	OBJ2DEX::clear();
 	m_isVisible = false;
 	m_isVisibleAlways = false;
-	m_isAnimeOnce = false;
-	recordedAnimeNO = 0;
 	m_pfMove = nullptr;
 }
 
@@ -54,8 +50,6 @@ void Effect::init()
 	m_isInit = true;
 	m_isVisible = true;
 	m_isVisibleAlways = true;
-	m_isAnimeOnce = false;
-	recordedAnimeNO = 0;
 	m_custom.scaleMode = SCALE_MODE::CENTER;
 }
 
@@ -80,7 +74,7 @@ void Effect::draw()
 	}
 }
 
-Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPagination, Vector3 a_pos, void(*a_pfMove)(Effect*))
+Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*))
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
@@ -90,10 +84,18 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, int a_liveInPaginati
 		else {
 			a_ppBegin[i]->clear();
 		}
-		a_ppBegin[i]->m_pos = a_pos;
+		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
+		if (a_liveInPagination % 2 != 0)
+		{
+			a_ppBegin[i]->m_pos = a_pos;
+		}
+		else
+		{
+			a_ppBegin[i]->m_pos = a_pos;
+			a_ppBegin[i]->m_pos.x = SCREEN_WIDTH / 2 + a_ppBegin[i]->m_pos.x;
+		}
 		a_ppBegin[i]->m_pfMove = a_pfMove;
 		a_ppBegin[i]->init();
-		//a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
 
 		return a_ppBegin[i];
 	}
