@@ -29,11 +29,11 @@ void Player::init()
 
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
-	m_mode = P_MODE::NORMAL;
+	m_mode = P_MODE::RESTART;
 	m_montionState = P_STATE::STANDBY;
 	m_concentration = P_CONCENTRATION_MAX;
 	m_blurSpeed = P_BLUR_SPEED;
-	m_alpha = 255;
+	m_alpha = 0;
 	m_transferConcentration = 0;
 	m_timer = 0;
 	m_isOnBlurArea = false;
@@ -101,6 +101,10 @@ void Player::restart()
 	{
 		m_keyObj->clear();
 	}
+	else
+	{
+		m_keyObj->m_alpha = 200;
+	}
 	m_speed = { 0,0,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
 	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
@@ -143,7 +147,7 @@ void Player::normalMove()
 			m_mode = P_MODE::RESTART;
 		}
 	}
-	m_alpha = 255 * (m_concentration + 1.0f) / P_CONCENTRATION_MAX;
+	m_alpha = 255 * (m_concentration) / P_CONCENTRATION_MAX + 20;
 
 	// プレーヤーの状態判断
 	if (fabsf(m_speed.y - 0.0f) < FLT_EPSILON && m_montionState != P_STATE::JUMPING && !m_isOnGround)
@@ -370,11 +374,11 @@ void Player::restartMove()
 		m_speed.x = 0;
 		m_speed.y = 0;
 		m_alpha = 0;
+		m_keyObj->m_alpha = 0;
 		m_step = STEP::BEGIN;
 		m_liveInPagination = START_PAGINATION;
 		m_timer = 0;
 		m_isOnScrollArea = false;
-
 		//break;
 	case STEP::BEGIN:
 		m_isOnScrollArea = false;
@@ -400,7 +404,16 @@ void Player::restartMove()
 				m_step = STEP::END;
 				m_pos.x = 80;
 				m_pos.y = 400;
-				Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
+				--m_life;
+				if (m_life>0)
+				{
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
+				}
+				else
+				{
+					m_mode = P_MODE::DEAD;
+					break;
+				}
 			}
 		}
 		break;
@@ -409,7 +422,6 @@ void Player::restartMove()
 			restart();
 			m_speed.y = 0;
 			//m_isOnScrollArea = false;
-			m_life--;
 			m_mode = P_MODE::NORMAL;
 		}
 		break;

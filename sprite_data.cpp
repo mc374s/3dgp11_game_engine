@@ -23,6 +23,8 @@ enum TEX_NO {
 	TEX_COVER_BACK,
 
 	TEX_MAP_OBJECT,
+	TEX_KEY,
+	TEX_DOOR,
 	TEX_IVY_THICK,
 	TEX_IVY_THIN,
 	TEX_RECOVERY,
@@ -55,6 +57,8 @@ enum TEX_NO {
 	TEX_HELP,
 	TEX_HELP_BUTTON,
 
+	TEX_X_BUTTON,
+
 };
 
 // 2D画像ロードデータ
@@ -69,6 +73,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_COVER_BACK,				"./DATA/Images/Book/cover_back.png" },
 
 	{ TEX_MAP_OBJECT,				"./DATA/Images/Map/map_object_full.png" },
+	{ TEX_KEY,						"./DATA/Images/Map/key.png" },
+	{ TEX_DOOR,						"./DATA/Images/Map/door.png" },
 	{ TEX_IVY_THICK,				"./DATA/Images/Map/border_thick.png" },
 	{ TEX_IVY_THIN,					"./DATA/Images/Map/border_thin.png" },
 	{ TEX_RECOVERY,					"./DATA/Images/Map/recovery.png" },
@@ -100,6 +106,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_HELP,						"./DATA/Images/UI/help.png" },
 	{ TEX_HELP_BUTTON,				"./DATA/Images/UI/help_button.png" },
+
+	{ TEX_X_BUTTON,					"./DATA/Images/UI/x_button.png" },
 
 	{ -1, NULL },
 };
@@ -179,6 +187,11 @@ SPRITE_LEFTTOP e_pAnimeRecovery[] =
 	SPRITE_LEFTTOP(-1,0,0,0,0),
 };
 
+
+SPRITE_LEFTTOP e_sprDoor = SPRITE_LEFTTOP(TEX_DOOR, 0, 0, 70, 76);// M_TYPE::DOOR
+SPRITE_LEFTTOP e_sprKey = SPRITE_LEFTTOP(TEX_KEY, 0, 0, 70, 58);// M_TYPE::KEY
+
+
 SPRITE_LEFTTOP e_pSprItem[] =
 {
 	SPRITE_LEFTTOP(TEX_MAP_OBJECT,   0, 0, 147,  92),// ITEM_HOUSE
@@ -189,8 +202,8 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(TEX_IVY_THICK,    0, 0, 125,  17),// M_TYPE::IVY_THICK
 	e_pAnimeRecovery[0],							 // M_TYPE::RECOVERY_UP
 	e_pAnimeRecovery[0],							 // M_TYPE::RECOVERY_DOWN
-	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 715, 0,  51,  76),// M_TYPE::DOOR
-	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 802, 0,  36,  28),// M_TYPE::KEY
+	e_sprDoor,										 // M_TYPE::DOOR
+	e_sprKey,										 // M_TYPE::KEY
 	e_sprWhite,// M_TYPE::HIGH_CONCENTRATION
 	SPRITE_LEFTTOP(TEX_GAME_RULE_LEFT, 0, 0,  PAGE_WIDTH,  PAGE_HEIGHT),// M_TYPE::GAME_RULE_LEFT
 	SPRITE_LEFTTOP(TEX_GAME_RULE_RIGHT, 0, 0,  PAGE_WIDTH,  PAGE_HEIGHT),// M_TYPE::GAME_RULE_RIGHT
@@ -199,7 +212,7 @@ SPRITE_LEFTTOP e_pSprItem[] =
 };
 
 // UI関係
-SPRITE_LEFTTOP e_sprLifeStamp = SPRITE_LEFTTOP(TEX_LIFE_STAMP, 0, 0, 36, 28);
+SPRITE_LEFTTOP e_sprLifeStamp = SPRITE_LEFTTOP(TEX_LIFE_STAMP, 0, 0, 40, 32);
 
 SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
 SPRITE_CENTER e_sprGageDivisionAllocation = SPRITE_CENTER(TEX_GAGE_DIVISION_ALLOCATION, 0, 0, 362, 50);
@@ -232,8 +245,14 @@ SPRITE_CENTER e_sprNumbers = SPRITE_CENTER(TEX_NUMBERS, 0, 0, 76, 118);
 SPRITE_CENTER e_sprPausePanel = SPRITE_CENTER(TEX_PAUSE_PANEL, 0, 0, 670, 380);
 SPRITE_CENTER e_sprPauseSelected = SPRITE_CENTER(TEX_PAUSE_SELECTED, 0, 0, 480, 68);
 
-SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 231, 119);
-SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 128, 32);
+
+SPRITE_CENTER e_sprGameClear = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
+SPRITE_CENTER e_sprGameOver = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
+SPRITE_CENTER e_sprXButton = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
+
+SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 800, 600);
+//SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 150, 50);
+SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 132, 54);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);

@@ -126,21 +126,31 @@ void SceneMain::update()
 				m_step = STEP::INIT + 2;
 			}
 		}
+		if (!pBook->m_pfMove){
+			pGameUIManager->showXButton();
+		}
 		break;
 	case STEP::INIT + 2:
 		// Stage 00
 		m_pStr = "";
+		m_timer++;
+		if (m_timer > 300)
+		{
+			pGameUIManager->showXButton();
+		}
 		if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED) && pBook->m_step == STEP::FINISH)
 		{
 			m_stageNO++;
 			pStageManager->init(m_stageNO);
 			pBook->m_pfMove = &Book::turnPages;
 			pBook->m_targetPaperNO = START_PAGINATION / 2;
+			m_timer = 0;
 			m_step = STEP::INIT + 3;
 			break;
 		}
 		pBook->update();
 		pStageManager->update();
+		pEffectManager->update();
 		break;
 	case STEP::INIT + 3:
 		// Stage 01~??
@@ -148,6 +158,7 @@ void SceneMain::update()
 		m_timer = 0;
 		pBook->update();
 		pStageManager->update();
+		pEffectManager->update();
 		if (pBook->m_step == STEP::FINISH)
 		{
 			pGameUIManager->init();
@@ -333,6 +344,7 @@ void SceneMain::update()
 			pBook->m_pfMove = &Book::finishReading;
 			m_step = STEP::INIT + 1;
 		}
+		pGameUIManager->showXButton();
 		break;
 	default:
 		break;
@@ -363,15 +375,16 @@ void SceneMain::draw()
 	m_pBG->draw();
 
 	pBook->draw();
-
+	if (m_step >= STEP::BEGIN) {
+		pEffectManager->draw();
+	}
 	pGameUIManager->draw();
-	pEffectManager->draw();
 
 	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0xD0, STR_CENTER, 80, 80);
-	if (m_step==STEP::END && m_timer & 0x20)
+	/*if (m_step==STEP::END && m_timer & 0x20)
 	{
 		drawString(SCREEN_WIDTH / 2, 400, "Click [x] to TITLE", COLOR_WHITE >> 8 << 8 | 0xA0, STR_CENTER, 40, 40);
-	}
+	}*/
 #ifdef  DEBUG
 	char buf[256];
 	sprintf_s(buf, "StageNO: %d \nm_step %d", m_stageNO, m_step);

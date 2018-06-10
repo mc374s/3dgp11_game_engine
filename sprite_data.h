@@ -24,6 +24,8 @@ extern SPRITE_BOTTOM e_pAnimePlayerRun[];
 extern SPRITE_BOTTOM e_pAnimePlayerJump[];
 
 // マップ関係、アイテム
+extern SPRITE_LEFTTOP e_sprKey;
+extern SPRITE_LEFTTOP e_sprDoor;
 extern SPRITE_LEFTTOP e_pSprItem[];
 extern SPRITE_LEFTTOP e_pAnimeRecovery[];
 
@@ -48,8 +50,11 @@ extern SPRITE_CENTER e_sprNumbers;
 extern SPRITE_CENTER e_sprPausePanel;
 extern SPRITE_CENTER e_sprPauseSelected;
 
+extern SPRITE_CENTER e_sprGameClear;
+extern SPRITE_CENTER e_sprGameOver;
 extern SPRITE_CENTER e_sprHelp;
 extern SPRITE_LEFTTOP e_sprHelpButton;
+extern SPRITE_CENTER e_sprXButton;
 
 
 // Effect関係

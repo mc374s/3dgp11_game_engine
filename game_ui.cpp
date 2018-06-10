@@ -107,7 +107,7 @@ void GameUIManager::init()
 	m_ppGameUI[A_LEFT_DIVISION]->m_pSprData = &e_sprGageDivisionAllocation;
 	m_ppGameUI[A_LEFT_DIVISION]->m_isVisibleAlways = false;
 	m_ppGameUI[A_LEFT_DIVISION]->m_isVisible = false;
-	m_ppGameUI[A_LEFT_DIVISION]->m_pos = { SCREEN_WIDTH / 2 - m_ppGameUI[A_LEFT_DIVISION]->m_pSprData->width / 2 - 100,SCREEN_HEIGHT / 2 - 250,0 };
+	m_ppGameUI[A_LEFT_DIVISION]->m_pos = { SCREEN_WIDTH / 2 - m_ppGameUI[A_LEFT_DIVISION]->m_pSprData->width / 2 - 100,SCREEN_HEIGHT / 2 - 220,0 };
 	m_ppGameUI[A_LEFT_DIVISION]->m_size = { e_sprGageDivisionAllocation.width,e_sprGageDivisionAllocation.height,0 };
 
 	*m_ppGameUI[A_RIGHT_DIVISION] = *m_ppGameUI[A_LEFT_DIVISION];
@@ -133,11 +133,11 @@ void GameUIManager::init()
 	*m_ppGameUI[A_LEFT_GAGE_UNDER] = *m_ppGameUI[A_LEFT_GAGE];
 	*m_ppGameUI[A_RIGHT_GAGE_UNDER] = *m_ppGameUI[A_RIGHT_GAGE];
 	m_ppGameUI[A_LEFT_GAGE_UNDER]->m_pSprData = &sprGageAllocationUnder;
-	m_ppGameUI[A_LEFT_GAGE_UNDER]->m_custom.rgba = 0xF2CE6CFF;
-	m_ppGameUI[A_LEFT_GAGE_UNDER]->m_alpha = 200;
+	m_ppGameUI[A_LEFT_GAGE_UNDER]->m_custom.rgba = 0xFFFFFFFF;
+	m_ppGameUI[A_LEFT_GAGE_UNDER]->m_alpha = 160;
 	m_ppGameUI[A_RIGHT_GAGE_UNDER]->m_pSprData = &sprGageAllocationUnder;
-	m_ppGameUI[A_RIGHT_GAGE_UNDER]->m_custom.rgba = 0xF2CE6CFF;
-	m_ppGameUI[A_RIGHT_GAGE_UNDER]->m_alpha = 200;
+	m_ppGameUI[A_RIGHT_GAGE_UNDER]->m_custom.rgba = 0xFFFFFFFF;
+	m_ppGameUI[A_RIGHT_GAGE_UNDER]->m_alpha = 160;
 
 	// UI for transcription work
 	m_ppGameUI[A_LEFT_PLAYER]->m_pSprData = &e_sprLargePlayer;
@@ -214,8 +214,15 @@ void GameUIManager::init()
 	m_ppGameUI[HELP_BUTTON]->m_isVisibleAlways = false;
 	m_ppGameUI[HELP_BUTTON]->m_isVisible = false;
 	m_ppGameUI[HELP_BUTTON]->m_pSprData = &e_sprHelpButton;
-	m_ppGameUI[HELP_BUTTON]->m_initPos = m_ppGameUI[HELP_BUTTON]->m_pos = { SCREEN_WIDTH - m_ppGameUI[HELP_BUTTON]->m_pSprData->width - 10.0f,10.0f,0.0f };
-	m_ppGameUI[HELP_BUTTON]->m_alpha = 200;
+	m_ppGameUI[HELP_BUTTON]->m_initPos = m_ppGameUI[HELP_BUTTON]->m_pos = { 10.0f,SCREEN_HEIGHT - m_ppGameUI[HELP_BUTTON]->m_pSprData->height - 5.0f,0.0f };
+	//m_ppGameUI[HELP_BUTTON]->m_alpha = 200;
+
+	// UI X button
+	m_ppGameUI[X_BUTTON]->m_isVisibleAlways = false;
+	m_ppGameUI[X_BUTTON]->m_isVisible = false;
+	m_ppGameUI[X_BUTTON]->m_pSprData = &e_sprXButton;
+	m_ppGameUI[X_BUTTON]->m_initPos = m_ppGameUI[X_BUTTON]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT - 100,0.0f };
+	m_ppGameUI[X_BUTTON]->m_alpha = 255;
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -315,13 +322,13 @@ void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_tra
 		if (!a_isOnLeftPage)
 		{
 			m_ppGameUI[A_LEFT_GAGE]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX;
-			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0x0404B4FF;
+			//m_ppGameUI[A_LEFT]_GAGE->m_custom.rgba = 0x0404B4FF;
 			m_ppGameUI[A_RIGHT_GAGE]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX;
-			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0xB18904FF;
+			//m_ppGameUI[A_RIGHT_GAGE]->m_custom.rgba = 0xB18904FF;
 
-			m_ppGameUI[A_LEFT_PLAYER]->m_custom.rgba = 0xFFFFFFFFFF;
+			m_ppGameUI[A_LEFT_PLAYER]->m_custom.rgba = 0xFFFFFFFF;
 			m_ppGameUI[A_LEFT_PLAYER]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX;
-			m_ppGameUI[A_RIGHT_PLAYER]->m_custom.rgba = 0xFFFFFFFFFF;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_custom.rgba = 0xFFFFFFFF;
 			m_ppGameUI[A_RIGHT_PLAYER]->m_alpha = 255 * a_transferConcentration / (float)P_CONCENTRATION_MAX;
 
 			m_ppNumbers[LEFT_CONCENTRATION]->setValue(a_playerConcentration);
@@ -331,9 +338,9 @@ void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_tra
 		} else
 		{
 			m_ppGameUI[A_RIGHT_GAGE]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX;
-			//m_ppGameUI[GAGE_RIGHT]->m_custom.rgba = 0x0404B4FF;
+			//m_ppGameUI[A_RIGHT_GAGE]->m_custom.rgba = 0x0404B4FF;
 			m_ppGameUI[A_LEFT_GAGE]->m_custom.scaleX = a_transferConcentration / (float)P_CONCENTRATION_MAX;
-			//m_ppGameUI[GAGE_LEFT]->m_custom.rgba = 0xB18904FF;
+			//m_ppGameUI[A_LEFT_GAGE]->m_custom.rgba = 0xB18904FF;
 
 			m_ppGameUI[A_RIGHT_PLAYER]->m_custom.rgba = 0xFFFFFFFF;
 			m_ppGameUI[A_RIGHT_PLAYER]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX;
@@ -362,7 +369,7 @@ void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_tra
 
 void GameUIManager::showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged, Vector3 a_pos)
 {
-	m_ppGameUI[C_DIVISION]->m_isVisible = m_ppGameUI[C_GAGE]->m_isVisible = m_ppGameUI[C_GAGE_ANIME]->m_isVisible = m_ppGameUI[C_PLAYER_FACE]->m_isVisible = m_ppGameUI[C_GAGE_UNDER]->m_isVisible = true;
+	m_ppGameUI[C_DIVISION]->m_isVisible = m_ppGameUI[C_GAGE]->m_isVisible = m_ppGameUI[C_GAGE_ANIME]->m_isVisible = m_ppGameUI[C_PLAYER_FACE]->m_isVisible /*= m_ppGameUI[C_GAGE_UNDER]->m_isVisible*/ = true;
 
 	m_ppGameUI[C_GAGE]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX;
 	if (a_isDamaged)
@@ -415,4 +422,20 @@ void GameUIManager::showHelpButton()
 		m_ppGameUI[HELP]->m_isVisible = true;
 		m_ppGameUI[HELP_BUTTON]->m_isVisible = false;
 	}
+}
+
+void GameUIManager::showXButton()
+{
+	static float scaleSpeed = 0.008f;
+	m_ppGameUI[X_BUTTON]->m_isVisible = true;
+	m_ppGameUI[X_BUTTON]->m_custom.scaleX += scaleSpeed;
+	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX > 1.5f) {
+		m_ppGameUI[X_BUTTON]->m_custom.scaleX = 1.5f;
+		scaleSpeed = -scaleSpeed;
+	}
+	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX < 1.0f) {
+		m_ppGameUI[X_BUTTON]->m_custom.scaleX = 1.0f;
+		scaleSpeed = -scaleSpeed;
+	}
+	m_ppGameUI[X_BUTTON]->m_custom.scaleY = m_ppGameUI[X_BUTTON]->m_custom.scaleX;
 }

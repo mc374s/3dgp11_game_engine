@@ -33,6 +33,11 @@ enum UI_NO
 	HELP,
 	HELP_BUTTON,
 
+	X_BUTTON,
+
+	GAME_CLEAR_TEXT,
+	GAME_OVER_TEXT,
+
 	MAX_UI_NO,
 };
 
@@ -97,6 +102,7 @@ public:
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged = false, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
 	void showHelpButton();
+	void showXButton();
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())
