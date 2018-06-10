@@ -16,6 +16,7 @@ RESOURCE_DATA audio_data[] = {
 	{ SE_OPEN,		"./DATA/Sounds/SE/book_open.mp3" },
 	{ SE_CLOSE,		"./DATA/Sounds/SE/book_close.mp3" },
 	{ SE_TURN,		"./DATA/Sounds/SE/book_turn.mp3" },
+	{ SE_SPLASH,	"./DATA/Sounds/SE/splash.wav" },
 
 	{ -1, nullptr }
 };

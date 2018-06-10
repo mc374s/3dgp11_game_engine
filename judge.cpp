@@ -2,6 +2,7 @@
 #include "obj2d.h"
 #include "player.h"
 #include "map_obj.h"
+#include "sound_data.h"
 
 #include "paper.h"
 #include "book.h"
@@ -106,6 +107,7 @@ void judgeAll()
 									pPlayer->m_concentration = 10;
 								}
 								Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
+								MFAudioPlay(SE_SPLASH);
 							}
 						}
 					}
@@ -124,6 +126,7 @@ void judgeAll()
 								pPlayer->m_concentration = 10;
 							}
 							Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y + it.m_size.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 0);
+							MFAudioPlay(SE_SPLASH);
 						}
 					}
 					else {

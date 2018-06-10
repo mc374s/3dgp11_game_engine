@@ -9,6 +9,7 @@ enum AUDIO_NO
 	SE_OPEN,
 	SE_CLOSE,
 	SE_TURN,
+	SE_SPLASH,
 };
 
 extern RESOURCE_DATA audio_data[];
