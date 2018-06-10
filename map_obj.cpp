@@ -238,6 +238,7 @@ STAGE_DATA* stageSetData[] = {
 	stage03_setData,
 	stage04_setData,
 	stage05_setData,
+	stage06_setData,
 };
 
 

@@ -26,7 +26,7 @@ STAGE_DATA stage06_setData[] = {
 
 
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(PW / 2,220 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
-	STAGE_DATA(e_startPagination[6], 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(PW / 2,445 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
+	STAGE_DATA(e_startPagination[6], 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(PW / 2,440 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(0,850 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::RECOVERY_DOWN,			M_DRAW::DOWN,	v3(465,850 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
 
