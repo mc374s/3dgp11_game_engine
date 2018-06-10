@@ -5,6 +5,7 @@
 
 #include "paper.h"
 #include "effect.h"
+#include "sound_data.h"
 
 #include "book.h"
 
@@ -754,7 +755,6 @@ void Book::turnPages()
 		m_timer++;
 		if (m_timer > 10 && m_currentPaperNO != m_targetPaperNO)
 		{
-			
 			if (m_currentPaperNO < m_targetPaperNO)
 			{
 
@@ -780,6 +780,9 @@ void Book::turnPages()
 			}
 			m_ppPapers[m_currentPaperNO]->m_isActive = true;
 			m_timer = 0;
+
+
+			MFAudioPlay(SE_TURN);
 		}
 
 		for (int i = 0; i < PAPER_NO::MAX_PAPER_NO; ++i)

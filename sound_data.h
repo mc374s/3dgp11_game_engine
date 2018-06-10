@@ -10,6 +10,10 @@ enum AUDIO_NO
 	SE_CLOSE,
 	SE_TURN,
 	SE_SPLASH,
+
+	SE_KEY_GOT,
+	SE_DOOR_OPENED,
+	SE_DEAD,
 };
 
 extern RESOURCE_DATA audio_data[];

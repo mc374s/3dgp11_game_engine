@@ -6,6 +6,7 @@
 #include "book.h"
 #include "paper.h"
 
+#include "sound_data.h"
 //#include <list>
 
 #include "player.h"
@@ -379,6 +380,7 @@ void Player::restartMove()
 		m_liveInPagination = START_PAGINATION;
 		m_timer = 0;
 		m_isOnScrollArea = false;
+		MFAudioPlay(SE_DEAD);
 		//break;
 	case STEP::BEGIN:
 		m_isOnScrollArea = false;

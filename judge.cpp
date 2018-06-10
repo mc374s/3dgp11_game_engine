@@ -142,6 +142,7 @@ void judgeAll()
 					pPlayer->m_keyObj->m_pSprData = it.m_pSprData;
 					it.m_isHitAble = false;
 					it.m_concentration = LOW_CONCENTRATION;
+					MFAudioPlay(SE_KEY_GOT);
 				}
 				if (it.m_type == M_TYPE::DOOR && pPlayer->m_isKeyHandled)
 				{
@@ -151,6 +152,7 @@ void judgeAll()
 					pPlayer->m_mode = P_MODE::CLEAR;
 					it.m_isHitAble = false;
 					it.m_concentration = P_CONCENTRATION_MAX;
+					MFAudioPlay(SE_DOOR_OPENED);
 				}
 			}
 			if (isBookClosed && it.m_isHitAble && checkHitPlayerToMapObjClosed(pPlayer, &it))
