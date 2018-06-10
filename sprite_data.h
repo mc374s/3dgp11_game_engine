@@ -56,6 +56,8 @@ extern SPRITE_CENTER e_sprHelp;
 extern SPRITE_LEFTTOP e_sprHelpButton;
 extern SPRITE_CENTER e_sprXButton;
 
+extern SPRITE_LEFTTOP e_sprScrollMode;
+
 
 // Effect関係
 extern SPRITE_CENTER e_sprHitObj;

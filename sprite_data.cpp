@@ -59,6 +59,8 @@ enum TEX_NO {
 
 	TEX_X_BUTTON,
 
+	TEX_SCROLL_MODE,
+
 };
 
 // 2D画像ロードデータ
@@ -108,6 +110,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_HELP_BUTTON,				"./DATA/Images/UI/help_button.png" },
 
 	{ TEX_X_BUTTON,					"./DATA/Images/UI/x_button.png" },
+	
+	{ TEX_SCROLL_MODE,				"./DATA/Images/UI/scroll_mode.png" },
 
 	{ -1, NULL },
 };
@@ -253,6 +257,7 @@ SPRITE_CENTER e_sprXButton = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
 SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 800, 600);
 //SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 150, 50);
 SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 132, 54);
+SPRITE_LEFTTOP e_sprScrollMode = SPRITE_LEFTTOP(TEX_SCROLL_MODE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);

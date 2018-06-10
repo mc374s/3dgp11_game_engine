@@ -227,7 +227,7 @@ void SceneMain::update()
 			}
 		}
 
-		if ((KEY_TRACKER.pressed.PageUp || PAD_TRACKER.back == PAD_TRACKER.PRESSED || PAD_TRACKER.leftTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END)
+		if ((KEY_TRACKER.pressed.PageUp || PAD_TRACKER.back == PAD_TRACKER.PRESSED || PAD_TRACKER.leftTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END && pBook->m_isOpened)
 		{
 			--m_stageNO;
 			m_step = STEP::INIT + 3;
@@ -242,7 +242,7 @@ void SceneMain::update()
 			pBook->m_targetPaperNO = START_PAGINATION / 2;
 
 		}
-		if ((KEY_TRACKER.pressed.PageDown || PAD_TRACKER.rightTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END)
+		if ((KEY_TRACKER.pressed.PageDown || PAD_TRACKER.rightTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END && pBook->m_isOpened)
 		{
 			++m_stageNO;
 			m_step = STEP::INIT + 3;
@@ -296,7 +296,7 @@ void SceneMain::update()
 			}
 		}
 		pEffectManager->update();
-
+		pGameUIManager->showScrollMode();
 		pGameUIManager->update();
 		pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged);
 
@@ -333,6 +333,7 @@ void SceneMain::update()
 			m_step = STEP::BEGIN;
 			break;
 		}
+		pGameUIManager->showScrollMode();
 		pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged);
 		break;
 	case STEP::END:

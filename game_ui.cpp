@@ -217,13 +217,19 @@ void GameUIManager::init()
 	m_ppGameUI[HELP_BUTTON]->m_initPos = m_ppGameUI[HELP_BUTTON]->m_pos = { 10.0f,SCREEN_HEIGHT - m_ppGameUI[HELP_BUTTON]->m_pSprData->height - 5.0f,0.0f };
 	//m_ppGameUI[HELP_BUTTON]->m_alpha = 200;
 
-	// UI X button
+	// UI for X button
 	m_ppGameUI[X_BUTTON]->m_isVisibleAlways = false;
 	m_ppGameUI[X_BUTTON]->m_isVisible = false;
 	m_ppGameUI[X_BUTTON]->m_pSprData = &e_sprXButton;
 	m_ppGameUI[X_BUTTON]->m_initPos = m_ppGameUI[X_BUTTON]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT - 100,0.0f };
 	m_ppGameUI[X_BUTTON]->m_alpha = 255;
 
+	// UI for Scroll Mode
+	m_ppGameUI[SCROLL_MODE]->m_pSprData = &e_sprScrollMode;
+	m_ppGameUI[SCROLL_MODE]->m_isVisibleAlways = false;
+	m_ppGameUI[SCROLL_MODE]->m_isVisible = false;
+	m_ppGameUI[SCROLL_MODE]->m_initPos = m_ppGameUI[SCROLL_MODE]->m_pos = { 0.0f,0.0f,0.0f };
+	m_ppGameUI[SCROLL_MODE]->m_alpha = 40;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
@@ -438,4 +444,19 @@ void GameUIManager::showXButton()
 		scaleSpeed = -scaleSpeed;
 	}
 	m_ppGameUI[X_BUTTON]->m_custom.scaleY = m_ppGameUI[X_BUTTON]->m_custom.scaleX;
+}
+
+void GameUIManager::showScrollMode()
+{
+	static int alphaSpeed = 10, timer = 0;
+	timer++;
+	m_ppGameUI[SCROLL_MODE]->m_isVisible = true;
+	m_ppGameUI[SCROLL_MODE]->m_alpha += alphaSpeed;
+	if (m_ppGameUI[SCROLL_MODE]->m_alpha > 255) {
+		m_ppGameUI[SCROLL_MODE]->m_alpha = 255;
+	}
+	if ((KEY_TRACKER.released.E || PAD_TRACKER.rightShoulder == PAD_TRACKER.RELEASED) && timer > 30) {
+		m_ppGameUI[SCROLL_MODE]->m_alpha = 40;
+		timer = 0;
+	}
 }

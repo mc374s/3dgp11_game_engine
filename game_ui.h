@@ -35,6 +35,8 @@ enum UI_NO
 
 	X_BUTTON,
 
+	SCROLL_MODE,
+
 	GAME_CLEAR_TEXT,
 	GAME_OVER_TEXT,
 
@@ -103,6 +105,7 @@ public:
 	void showPausePanel(int a_selectedNO = 0);
 	void showHelpButton();
 	void showXButton();
+	void showScrollMode();
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())
