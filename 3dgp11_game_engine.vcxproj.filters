@@ -205,6 +205,9 @@
     <ClCompile Include="stage05_data.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="stage06_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="3dgp\primitive3d.hlsli">

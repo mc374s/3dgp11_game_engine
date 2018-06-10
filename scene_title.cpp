@@ -52,14 +52,14 @@ void SceneTitle::update()
 	switch (m_step) {
 	case STEP::INIT:
 
-		//MFAudioPlay(BGM_TITLE, true);
+		//MFAudioPlay(BGM_MAIN, true);
 		m_step = STEP::BEGIN;
 		//break;
 
 	case STEP::BEGIN:
 		if (KEY_TRACKER.pressed.Z || PAD_TRACKER.a == PAD_TRACKER.PRESSED)
 		{
-			//MFAudioStop(BGM_TITLE);
+			//MFAudioStop(BGM_MAIN);
 			MFAudioPlay(SE_START);
 			changeScene(SCENE_MAIN); 
 		}

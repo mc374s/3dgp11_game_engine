@@ -9,6 +9,7 @@ extern STAGE_DATA stage02_setData[];
 extern STAGE_DATA stage03_setData[];
 extern STAGE_DATA stage04_setData[];
 extern STAGE_DATA stage05_setData[];
+extern STAGE_DATA stage06_setData[];
 
 typedef Vector3 v3;
 

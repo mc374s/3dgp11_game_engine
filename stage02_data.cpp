@@ -27,5 +27,5 @@ STAGE_DATA stage02_setData[] = {
 	STAGE_DATA(e_startPagination[2] + 1, 0, M_TYPE::KEY,						M_DRAW::UP,		v3(PW / 2,500 - 58,0),	true, v3(70,58,0), 10),
 
 	// END
-	STAGE_DATA(6 - 1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
+	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
 };

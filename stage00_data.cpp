@@ -7,9 +7,11 @@ int e_stageHeight[] = {
 	0,
 	0,
 	0,
-	(850) - (PH - 100),
-	(680) - (PH - 100),
+	(840) - (PH - 100),
+	0,
 	(900) - (PH - 100),
+	(1039) - (PH - 100),
+
 };
 
 int e_startPagination[] = {
@@ -19,15 +21,18 @@ int e_startPagination[] = {
 	79,
 	85,
 	91,
+	97,
 };
 
 v3 e_initPos[] = {
-	{80,300,5 },//0
-{ 80,200,5 },//1
-{ 80,400,5 },//2
+{80,300,5 },//0
+{ 80,250,5 },//1
+{ 80,580,5 },//2
 { 80,180,5 },//3
 { 80,180,5 },//4
 { 80,400,5 },//5
+{ 80,400,5 },//6
+
 };
 
 int e_initLife[] = {
@@ -36,7 +41,8 @@ int e_initLife[] = {
 	2,
 	2,
 	2,
-	9,
+	2,
+	3,
 };
 
 const int STAGE_MAX_NUM = ARRAYSIZE(e_startPagination)/*sizeof(e_startPagination) / sizeof(int)*/;

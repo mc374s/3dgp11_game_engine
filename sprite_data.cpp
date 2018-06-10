@@ -61,6 +61,10 @@ enum TEX_NO {
 
 	TEX_SCROLL_MODE,
 
+	TEX_STAGE_CLEAR,
+	TEX_GAME_CLEAR,
+	TEX_GAME_OVER,
+
 };
 
 // 2D画像ロードデータ
@@ -112,6 +116,12 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_X_BUTTON,					"./DATA/Images/UI/x_button.png" },
 	
 	{ TEX_SCROLL_MODE,				"./DATA/Images/UI/scroll_mode.png" },
+
+	{ TEX_STAGE_CLEAR,				"./DATA/Images/UI/stage_clear.png" },
+	{ TEX_GAME_CLEAR,				"./DATA/Images/UI/game_clear.png" },
+	{ TEX_GAME_OVER,				"./DATA/Images/UI/game_over.png" },
+
+
 
 	{ -1, NULL },
 };
@@ -249,9 +259,9 @@ SPRITE_CENTER e_sprNumbers = SPRITE_CENTER(TEX_NUMBERS, 0, 0, 76, 118);
 SPRITE_CENTER e_sprPausePanel = SPRITE_CENTER(TEX_PAUSE_PANEL, 0, 0, 670, 380);
 SPRITE_CENTER e_sprPauseSelected = SPRITE_CENTER(TEX_PAUSE_SELECTED, 0, 0, 480, 68);
 
-
-SPRITE_CENTER e_sprGameClear = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
-SPRITE_CENTER e_sprGameOver = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
+SPRITE_CENTER e_sprStageClear = SPRITE_CENTER(TEX_STAGE_CLEAR, 0, 0, 800, 190);
+SPRITE_CENTER e_sprGameClear = SPRITE_CENTER(TEX_GAME_CLEAR, 0, 0, 800, 190);
+SPRITE_CENTER e_sprGameOver = SPRITE_CENTER(TEX_GAME_OVER, 0, 0, 800, 190);
 SPRITE_CENTER e_sprXButton = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
 
 SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 800, 600);

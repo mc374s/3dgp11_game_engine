@@ -8,11 +8,11 @@ STAGE_DATA stage03_setData[] = {
 	// ページ１
 	STAGE_DATA(e_startPagination[3], 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,250,1),		true, v3(PW,11,0), 10),
 	STAGE_DATA(e_startPagination[3], 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,560,1),		true, v3(PW,11,0), 10),
-	STAGE_DATA(e_startPagination[3], 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,850,1),		true, v3(PW,11,0), 10),
+	STAGE_DATA(e_startPagination[3], 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,840,1),		true, v3(PW,11,0), 10),
 	STAGE_DATA(e_startPagination[3], 0 , M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,260,0),		true, v3(PW ,310,0), 3),
 
 	STAGE_DATA(e_startPagination[3], 0, M_TYPE::KEY,						M_DRAW::UP,		v3(PW / 2,560 - 58,0),	true, v3(70,58,0), 10),
-	STAGE_DATA(e_startPagination[3],0  ,M_TYPE::DOOR,					M_DRAW::UP,		v3(60,850 - 76,0),	true, v3(70,76,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[3],0  ,M_TYPE::DOOR,					M_DRAW::UP,		v3(60,840 - 76,0),	true, v3(70,76,0), LOW_CONCENTRATION),
 
 
 
@@ -20,7 +20,7 @@ STAGE_DATA stage03_setData[] = {
 
 	//ページ２
 	STAGE_DATA(e_startPagination[3] + 1, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,410,1),		true, v3(PW,11,0), 10),
-	STAGE_DATA(e_startPagination[3] + 1, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,850,1),		true, v3(PW,11,0), 10),
+	STAGE_DATA(e_startPagination[3] + 1, 0, M_TYPE::IVY_THICK,				M_DRAW::UP,		v3(0,840,1),		true, v3(PW,11,0), 10),
 	STAGE_DATA(e_startPagination[3] + 1,0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,420,0),		true, v3(PW ,430,0), 3),
 
 
@@ -29,5 +29,5 @@ STAGE_DATA stage03_setData[] = {
 
 
 	// END
-	STAGE_DATA(6 - 1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
+	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
 };

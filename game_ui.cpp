@@ -231,6 +231,16 @@ void GameUIManager::init()
 	m_ppGameUI[SCROLL_MODE]->m_initPos = m_ppGameUI[SCROLL_MODE]->m_pos = { 0.0f,0.0f,0.0f };
 	m_ppGameUI[SCROLL_MODE]->m_alpha = 40;
 
+	// UI for Game Over & Clear & Stage Clear
+	m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisibleAlways = false;
+	m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = false;
+	m_ppGameUI[STAGE_CLEAR_TEXT]->m_initPos = m_ppGameUI[STAGE_CLEAR_TEXT]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f };
+
+	*m_ppGameUI[GAME_OVER_TEXT] = *m_ppGameUI[GAME_CLEAR_TEXT] = *m_ppGameUI[STAGE_CLEAR_TEXT];
+	m_ppGameUI[STAGE_CLEAR_TEXT]->m_pSprData = &e_sprStageClear;
+	m_ppGameUI[GAME_CLEAR_TEXT]->m_pSprData = &e_sprGameClear;
+	m_ppGameUI[GAME_OVER_TEXT]->m_pSprData = &e_sprGameOver;
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
 	for (auto &pObj : m_ppNumbers)
@@ -460,3 +470,5 @@ void GameUIManager::showScrollMode()
 		timer = 0;
 	}
 }
+
+

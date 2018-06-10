@@ -1,12 +1,6 @@
 ﻿#ifndef _SCENE_MAIN_H_
 #define _SCENE_MAIN_H_
 
-#define CHILDREN_SCENE_MAX (2)
-enum CHILDREN_NO
-{
-	CHILD_LEFT,
-	CHILD_RIGHT,
-};
 
 class OBJ2D;
 
@@ -18,7 +12,7 @@ private:
 	int m_stageNO;
 
 	bool m_isPlayerOnLeftPage = true;
-
+	bool m_stageClearFlag[30];
 	bool m_isPaused = false;
 	int m_pausedOption;
 	

@@ -20,7 +20,10 @@ SceneMain::SceneMain()
 	m_pBG = new OBJ2D;
 	m_pBG->m_pSprData = &e_sprMainBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
-
+	for (int i = 1; i < STAGE_MAX_NUM; i++) {
+		m_stageClearFlag[i] = false;
+	}
+	m_stageClearFlag[STAGE_MAX_NUM] = true;
 	//pObjManager->init();
 	//pPlayerManager->init();
 	//pMapObjManager->init(0);
@@ -32,10 +35,10 @@ SceneMain::SceneMain()
 
 void SceneMain::init()
 {
-	//MFAudioPlay(BGM_TITLE, true);
-	/*MFAudioStop(BGM_TITLE);
-	MFAudioPause(BGM_TITLE);
-	MFAudioContinue(BGM_TITLE);*/
+	//MFAudioPlay(BGM_MAIN, true);
+	/*MFAudioStop(BGM_MAIN);
+	MFAudioPause(BGM_MAIN);
+	MFAudioContinue(BGM_MAIN);*/
 	Scene::init();
 	m_pausedOption = PAUSED_SELECTION::TO_GAME;
 	m_stageNO = 0;
@@ -94,14 +97,19 @@ void SceneMain::update()
 	{
 	case STEP::INIT:
 		//init();
-		pBook->clearAll();
-		m_stageNO = 0;
-		m_pStr = "";
-		m_timer = 0;
-		pStageManager->init(m_stageNO);
-		pGameUIManager->init();
-		m_step = STEP::INIT + 1;
-		//break;
+		pBook->update();
+		if (!pBook->m_pfMove)
+		{
+			pBook->clearAll();
+			m_stageNO = 0;
+			m_pStr = "";
+			m_timer = 0;
+			pStageManager->init(m_stageNO);
+			pGameUIManager->init();
+
+			m_step = STEP::INIT + 1;
+		}
+		break;
 	case STEP::INIT + 1:
 		// Title Scene
 		m_pStr = "";
@@ -198,26 +206,47 @@ void SceneMain::update()
 
 		if (pPlayerManager->m_pPlayer->m_mode == P_MODE::CLEAR)
 		{
-			m_pStr = "GAME CLEAR";
 			m_timer++;
+			m_pStr = "GAME CLEAR";
+			m_stageClearFlag[m_stageNO] = true;
+
+			m_stageClearFlag[STAGE_MAX_NUM] = true;
+			for (int i = 1; i < STAGE_MAX_NUM; i++) {
+				m_stageClearFlag[STAGE_MAX_NUM] &= m_stageClearFlag[i];
+			}
+
 			if (m_timer > 300 || KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
 			{
 				m_stageNO++;
 				if (m_stageNO >= STAGE_MAX_NUM)
 				{
-					m_pStr = "";
-					//pBook->clear();
-					m_stageNO = 0;
+					m_stageNO = 1;
+				}
+				if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
+					for (int i = 1; i < STAGE_MAX_NUM; i++) {
+						m_stageClearFlag[i] = false;
+					}
+					/*m_stageNO = 0;
 					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
 					pBook->m_targetPaperNO = START_PAGINATION / 2;
-					m_step = STEP::INIT + 2;
-					/*pBook->m_pfMove = &Book::finishReading;
-					m_step = STEP::INIT + 1;*/
+					m_step = STEP::INIT + 2;*/
+					m_stageNO = 0;
+					pStageManager->init(m_stageNO);
+					pBook->m_pfMove = &Book::finishReading;
+					m_step = STEP::INIT/* + 1*/;
 				}
 				else
 				{
-					//pBook->clear();
+					if (m_stageClearFlag[m_stageNO]) {
+						for (int i = 1; i < STAGE_MAX_NUM; i++) {
+							if (!m_stageClearFlag[i]) {
+								m_stageNO = i;
+								break;
+							}
+						}
+					}
+
 					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
 					pBook->m_targetPaperNO = START_PAGINATION / 2;
@@ -225,6 +254,14 @@ void SceneMain::update()
 				}
 				m_timer = 0;
 			}
+			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
+
+				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
+			}
+			else {
+				pGameUIManager->m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = true;
+			}
+			pGameUIManager->showXButton();
 		}
 
 		if ((KEY_TRACKER.pressed.PageUp || PAD_TRACKER.back == PAD_TRACKER.PRESSED || PAD_TRACKER.leftTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END && pBook->m_isOpened)
@@ -346,6 +383,7 @@ void SceneMain::update()
 			m_step = STEP::INIT + 1;
 		}
 		pGameUIManager->showXButton();
+		pGameUIManager->m_ppGameUI[GAME_OVER_TEXT]->m_isVisible = true;
 		break;
 	default:
 		break;
@@ -381,7 +419,7 @@ void SceneMain::draw()
 	}
 	pGameUIManager->draw();
 
-	drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0xD0, STR_CENTER, 80, 80);
+	//drawString(SCREEN_WIDTH / 2, 100, m_pStr, COLOR_YELLOW >> 8 << 8 | 0xD0, STR_CENTER, 80, 80);
 	/*if (m_step==STEP::END && m_timer & 0x20)
 	{
 		drawString(SCREEN_WIDTH / 2, 400, "Click [x] to TITLE", COLOR_WHITE >> 8 << 8 | 0xA0, STR_CENTER, 40, 40);
