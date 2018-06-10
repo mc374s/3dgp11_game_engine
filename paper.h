@@ -44,6 +44,8 @@ public:
 
 	void clear();
 	void clearAll();
+	void reloadFrontOrBack(bool a_reloadFront = true);
+
 	void init();
 	void update();
 	void draw();

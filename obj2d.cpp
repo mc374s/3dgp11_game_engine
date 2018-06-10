@@ -108,6 +108,7 @@ void OBJ2DEX::memberCopy(const OBJ2DEX& a_inputObj)
 	OBJ2D::memberCopy(a_inputObj);
 	m_aframe = a_inputObj.m_aframe;
 	m_animeNO = a_inputObj.m_animeNO;
+	m_animeCounter = a_inputObj.m_animeCounter;
 	m_pAnimeData = a_inputObj.m_pAnimeData;
 }
 
@@ -132,6 +133,7 @@ void OBJ2DEX::clear()
 	OBJ2D::clear();
 	m_aframe = 0;
 	m_animeNO = 0;
+	m_animeCounter = 0;
 	m_pAnimeData = nullptr;
 }
 
@@ -139,17 +141,18 @@ void OBJ2DEX::animation()
 {
 	if (m_pAnimeData)
 	{
-		m_aframe++;
+		m_pSprData = &(m_pAnimeData[m_animeNO]);
+		++m_aframe;
 		if (m_aframe > (m_pAnimeData[m_animeNO]).frameNum)
 		{
 			m_aframe = 0;
 			m_animeNO++;
 			if ((m_pAnimeData[m_animeNO]).texNum < 0)
 			{
+				++m_animeCounter;
 				m_animeNO = 0;
 			}
 		}
-		m_pSprData = &(m_pAnimeData[m_animeNO]);
 	}
 }
 

@@ -10,11 +10,14 @@ enum UI_NO
 {
 	A_LEFT_PLAYER,		//A::Allocation
 	A_RIGHT_PLAYER,		//A::Allocation
+	A_LEFT_GAGE_UNDER,	//A::Allocation
+	A_RIGHT_GAGE_UNDER,	//A::Allocation
 	A_LEFT_GAGE,		//A::Allocation
 	A_RIGHT_GAGE,		//A::Allocation
 	A_LEFT_DIVISION,	//A::Allocation
 	A_RIGHT_DIVISION,	//A::Allocation
 
+	C_GAGE_UNDER,		//C::Concentration
 	C_GAGE_ANIME,		//C::Concentration
 	C_GAGE,				//C::Concentration
 	C_PLAYER_FACE,		//C::Concentration
@@ -91,9 +94,9 @@ public:
 	void draw();
 
 	void showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
-	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, Vector3 a_pos = Vector3(0, 0, 0));
+	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged = false, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
-	void showHelp();
+	void showHelpButton();
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())

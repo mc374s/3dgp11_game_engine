@@ -47,6 +47,7 @@ void Paper::clear()
 		it.clear();
 	}
 	m_mapObjList[1].clear();
+
 }
 
 void Paper::clearAll()
@@ -57,6 +58,28 @@ void Paper::clearAll()
 	m_blurAreaList[1].clear();
 	m_transcriptionList[0].clear();
 	m_transcriptionList[1].clear();
+}
+
+void Paper::reloadFrontOrBack(bool a_reloadFront)
+{
+	static int frontOrBack = 0;
+	if (a_reloadFront){
+		frontOrBack = 0;
+	}
+	else {
+		frontOrBack = 1;
+	}
+
+	for (auto &it : m_mapObjList[frontOrBack]) {
+		it.clear();
+	}
+	m_mapObjList[frontOrBack].clear();
+	for (auto &it : m_blurAreaList[frontOrBack]) {
+		it.m_pos = it.m_initPos;
+	}
+	for (auto &it : m_transcriptionList[frontOrBack]) {
+		it.m_pos = it.m_initPos;
+	}
 }
 
 void Paper::init()

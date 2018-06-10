@@ -1,11 +1,11 @@
 ﻿#include "game.h"
+#include "obj2d.h"
 #include "player.h"
 #include "map_obj.h"
 
 #include "paper.h"
 #include "book.h"
-
-#include "obj2d.h"
+#include "effect.h"
 
 #include "judge.h"
 
@@ -45,7 +45,7 @@ void judgeAll()
 		pPlayer->m_newblurAreaList.clear();
 		return;
 	}
-
+	pPlayer->m_isDamaged = false;
 	isBookClosed = pBook->m_isClosed;
 	isBookOpened = pBook->m_isOpened;
 	if (isBookOpened)
@@ -87,7 +87,7 @@ void judgeAll()
 
 				if (it.m_type == M_TYPE::HIGH_CONCENTRATION)
 				{
-					pPlayer->m_concentration -= P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA;
+					pPlayer->m_isDamaged = true;
 					/*if (pPlayer->m_concentration < it.m_concentration)
 					{
 					pPlayer->m_mode = P_MODE::RESTART;
@@ -105,6 +105,7 @@ void judgeAll()
 								if (pPlayer->m_concentration > 10) {
 									pPlayer->m_concentration = 10;
 								}
+								Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
 							}
 						}
 					}
@@ -122,6 +123,7 @@ void judgeAll()
 							if (pPlayer->m_concentration > 10) {
 								pPlayer->m_concentration = 10;
 							}
+							Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y + it.m_size.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 0);
 						}
 					}
 					else {
@@ -153,7 +155,9 @@ void judgeAll()
 				// 
 				//if ((pPlayer->m_concentration < it.m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && it.m_concentration > LOW_CONCENTRATION)
 				// プレイヤーの濃度より高いObjは転写できない
-				if (pPlayer->m_concentration <= it.m_concentration && (it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::HIGH_CONCENTRATION))
+				if (pPlayer->m_concentration <= it.m_concentration && 
+					(it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::HIGH_CONCENTRATION &&
+						it.m_type != M_TYPE::RECOVERY_UP && it.m_type != M_TYPE::RECOVERY_DOWN))
 				{
 					pPlayerManager->m_isTranscriptAble = false;
 					break;

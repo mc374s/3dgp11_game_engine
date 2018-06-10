@@ -70,6 +70,8 @@ public:
 
 	void clear();
 	void clearAll();
+	void initStartPaper(int a_StartPaperNO);
+
 	void init();
 	void update();
 	void draw();

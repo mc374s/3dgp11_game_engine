@@ -1,9 +1,10 @@
 ﻿#include "game.h"
 #include "sprite_data.h"
 #include "player.h"
-#include "paper.h"
 #include "sound_data.h"
 
+#include "paper.h"
+#include "effect.h"
 
 #include "book.h"
 
@@ -81,6 +82,16 @@ void Book::clearAll()
 	}
 }
 
+void Book::initStartPaper(int a_StartPaperNO)
+{
+	if (m_ppPapers[a_StartPaperNO]){
+		m_ppPapers[a_StartPaperNO]->reloadFrontOrBack(false);
+	}
+	if (m_ppPapers[a_StartPaperNO + 1]) {
+		m_ppPapers[a_StartPaperNO + 1]->reloadFrontOrBack(true);
+	}
+}
+
 void Book::init()
 {
 	m_initPos=m_position = { 0,0,0 };
@@ -136,7 +147,7 @@ void Book::update()
 	// TODO : 本を閉じ開く [C] キーが getInputKey() の中のPAD_TRG3と衝突、解決要請
 	// 原因はKEY_BOARDがexternで更新していることと予測
 	if (/*KEY_DOWN('C')*/ KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED/*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
-		if (m_step == STEP::FINISH && pPlayerManager->m_pPlayer->m_mode == P_MODE::NORMAL)
+		if (m_step == STEP::FINISH && pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_mode == P_MODE::NORMAL)
 		{
 			m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
 			if (m_isOpened)
@@ -311,7 +322,8 @@ void Book::closeBook()
 		//m_angleChangeSpeed.y = -45.0f * m_openSpeed / 90.0f;
 		m_isClosed = false;
 		m_isOpened = false;
-		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5f : 0.5f);
+		//m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5f : 0.5f);
+		m_centerPaper = m_currentPaperNO + 0.5;
 		for (auto &it : m_ppPapers)
 		{
 			if (it && it->m_paperNO > m_centerPaper - 1 && it->m_paperNO < m_centerPaper + 1)
@@ -427,7 +439,7 @@ void Book::openBook()
 	{
 	case STEP::INIT:
 		m_timer = 0;
-		m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
+		m_centerPaper = m_currentPaperNO + 0.5;
 		for (auto &it : m_ppPapers)
 		{
 			if (it && it->m_paperNO > m_centerPaper - 1 && it->m_paperNO < m_centerPaper + 1)
@@ -504,6 +516,10 @@ void Book::openBook()
 		m_cameraAngleZY = 0.0f;
 		m_position.z = 0;
 		m_position.y = 0;*/
+		if (pPlayerManager->m_isTranscriptAble)
+		{
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayerManager->m_pPlayer->m_pos.x, pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_size.y / 2, 0), pPlayerManager->m_pPlayer->m_liveInPagination, effectMakeTranscription);
+		}
 		m_step = STEP::FINISH;
 		break;
 	case STEP::FINISH:

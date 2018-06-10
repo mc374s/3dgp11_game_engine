@@ -53,6 +53,7 @@ public:
 	bool m_isMoving;
 	bool m_isOnBlurArea;
 	bool m_isOnScrollArea;
+	bool m_isDamaged;
 
 	bool m_isKeyHandled;
 	OBJ2D* m_keyObj;

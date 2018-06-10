@@ -89,6 +89,7 @@ void MapObj::init()
 	case M_TYPE::RECOVERY_UP:
 	case M_TYPE::RECOVERY_DOWN:
 		m_repeatDrawSize = m_size;
+		m_repeatDrawSize.y = m_pSprData->height;
 		m_pAnimeData = e_pAnimeRecovery;
 		//m_isVisibleAlways = true;
 		//m_isVisible = true;
@@ -260,17 +261,7 @@ void StageManager::init(int a_stageNO)
 	INIT_POS = e_initPos[m_stageNO];
 	P_LIFE_MAX = e_initLife[m_stageNO];
 
-	for (auto &it : pBook->m_ppPapers[START_PAGINATION / 2]->m_mapObjList[1])
-	{
-		it.clear();
-	}
-	pBook->m_ppPapers[START_PAGINATION / 2]->m_mapObjList[1].clear();
-
-	for (auto &it : pBook->m_ppPapers[START_PAGINATION / 2 + 1]->m_mapObjList[0])
-	{
-		it.clear();
-	}
-	pBook->m_ppPapers[START_PAGINATION / 2 + 1]->m_mapObjList[0].clear();
+	pBook->initStartPaper(START_PAGINATION / 2);
 
 }
 

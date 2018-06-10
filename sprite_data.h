@@ -32,10 +32,12 @@ extern SPRITE_LEFTTOP e_pAnimeRecovery[];
 extern SPRITE_LEFTTOP e_sprWhite;
 extern SPRITE_CENTER e_sprGageAllocation;
 extern SPRITE_CENTER e_sprGageDivisionAllocation;
+extern SPRITE_CENTER sprGageAllocationUnder;
 extern SPRITE_CENTER e_sprLargePlayer;
 
 extern SPRITE_LEFTTOP e_pSprPlayerFace[];
 extern SPRITE_LEFTTOP e_sprGageDivision;
+extern SPRITE_LEFTTOP e_sprGageUnder;
 extern SPRITE_LEFTTOP e_sprGage;
 extern SPRITE_LEFTTOP e_pAnimeGage[];
 extern SPRITE_LEFTTOP e_sprLifeStamp;
@@ -54,9 +56,11 @@ extern SPRITE_LEFTTOP e_sprHelpButton;
 extern SPRITE_CENTER e_sprHitObj;
 
 extern SPRITE_CENTER e_pAnimeStamp[];
-extern SPRITE_BOTTOM e_pAnimeEffDisappear[];
 extern SPRITE_BOTTOM e_pAnimeEffJumpUp[];
 extern SPRITE_BOTTOM e_pAnimeEffJumpDown[];
-extern SPRITE_BOTTOM e_pAnimeEffMakeTranscription[];
 
+extern SPRITE_BOTTOM e_pAnimeEffRecoveryPassed[];
+
+extern SPRITE_CENTER e_pAnimeEffDisappear[];
+extern SPRITE_CENTER e_pAnimeEffMakeTranscription[];
 #endif // !_SPRDATA_H_

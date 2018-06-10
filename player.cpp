@@ -38,6 +38,7 @@ void Player::init()
 	m_timer = 0;
 	m_isOnBlurArea = false;
 	m_isMoving = false;
+	m_isDamaged = false;
 
 	m_speed = { 0,0,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
@@ -112,7 +113,6 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
-
 	// 滲む範囲でのスピード入れ替え
 	if (m_isOnBlurArea) {
 		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
@@ -130,14 +130,20 @@ void Player::normalMove()
 	{
 		m_isMoving = false;
 	}
+
+	if (m_isDamaged)
+	{
+		m_concentration -= P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA;
+	}
 	if (m_concentration < 0)
 	{
 		if (m_mode != P_MODE::CLEAR)
 		{
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
 			m_mode = P_MODE::RESTART;
 		}
 	}
-	m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX;
+	m_alpha = 255 * (m_concentration + 1.0f) / P_CONCENTRATION_MAX;
 
 	// プレーヤーの状態判断
 	if (fabsf(m_speed.y - 0.0f) < FLT_EPSILON && m_montionState != P_STATE::JUMPING && !m_isOnGround)
@@ -362,12 +368,25 @@ void Player::restartMove()
 	{
 	case STEP::INIT:
 		m_speed.x = 0;
-		m_speed.y = -m_scrolledDistance.y / 10;
+		m_speed.y = 0;
 		m_alpha = 0;
 		m_step = STEP::BEGIN;
 		m_liveInPagination = START_PAGINATION;
+		m_timer = 0;
+		m_isOnScrollArea = false;
+
 		//break;
 	case STEP::BEGIN:
+		m_isOnScrollArea = false;
+		m_timer++;
+		if (m_timer > 60)
+		{
+			m_timer = 0;
+			m_speed.y = -m_scrolledDistance.y / 10;
+			m_step = STEP::BEGIN + 1;
+		}
+		break;
+	case STEP::BEGIN+1:
 		m_pos.y += m_speed.y;
 
 		m_isOnScrollArea = true;
@@ -430,7 +449,7 @@ void Player::blur()
 		m_hitObj.m_pos = m_pos - randAdjust;
 		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
 		m_hitObj.m_custom.angle = rand() % 180;
-		m_hitObj.m_alpha = rand() % 20 + 10;
+		m_hitObj.m_alpha = rand() % 20 + 5;
 		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
@@ -523,6 +542,7 @@ void Player::addLife(int a_life)
 PlayerManager::PlayerManager()
 {
 	//init();
+	m_isTranscriptAble = false;
 }
 
 PlayerManager::~PlayerManager()
@@ -675,7 +695,6 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			m_transcriptionObj.m_alpha = 255 * m_transcriptionObj.m_concentration / 10 + 40;
 			m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
 			m_transcriptionObj.m_liveInPagination = m_pPlayer->m_liveInPagination;
-
 
 			pBook->m_ppPapers[m_pPlayer->m_liveInPagination / 2]->m_blurAreaList[m_pPlayer->m_liveInPagination % 2].push_back(m_transcriptionObj);
 

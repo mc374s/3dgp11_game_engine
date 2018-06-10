@@ -41,7 +41,7 @@
     dcl t1.xy  // pin<8,9>
     dcl_2d s0
 
-#line 8 "C:\Users\2170347\Source\Repos\3dgp11_game_engine\3dgp\render_target_ps.hlsl"
+#line 8 "C:\Users\2170310.MAETEL\Documents\Homework\GameProject\TokyoGameShow\3dgp11_game_engine\3dgp\render_target_ps.hlsl"
     texld r0, t1, s0  // ::color<0,1,2,3>
 
 #line 11
@@ -68,7 +68,7 @@ dcl_temps 1
 //   v2.x <- pin.texcoord.x; v2.y <- pin.texcoord.y; 
 //   o0.x <- <main return value>.x; o0.y <- <main return value>.y; o0.z <- <main return value>.z; o0.w <- <main return value>.w
 //
-#line 8 "C:\Users\2170347\Source\Repos\3dgp11_game_engine\3dgp\render_target_ps.hlsl"
+#line 8 "C:\Users\2170310.MAETEL\Documents\Homework\GameProject\TokyoGameShow\3dgp11_game_engine\3dgp\render_target_ps.hlsl"
 sample r0.xyzw, v2.xyxx, t0.xyzw, s0  // r0.x <- color.x; r0.y <- color.y; r0.z <- color.z; r0.w <- color.w
 
 #line 11

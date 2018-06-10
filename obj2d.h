@@ -51,6 +51,7 @@ public:
 
 	int m_aframe;
 	int m_animeNO;
+	int m_animeCounter;
 
 	SPRITE_DATA* m_pAnimeData;
 

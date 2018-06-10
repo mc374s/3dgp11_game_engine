@@ -30,7 +30,7 @@ public:
 	void update();
 	void draw();
 
-	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr);
+	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr, int a_type = 0);
 
 };
 
@@ -51,6 +51,7 @@ public:
 	void update();
 	void draw();
 
+	void setScroll(Vector3 a_speed, int a_liveInPagination, bool a_isRestart);
 };
 
 #define pEffectManager	(EffectManager::getInstance())
@@ -59,6 +60,10 @@ void effectPlayerInit(Effect* obj);
 void effectRecoverySplash(Effect* obj);
 void effectJumpUp(Effect* obj);
 void effectJumpDown(Effect* obj);
+
+void effectRecoveryPassed(Effect* a_pObj);
+void effectDisappear(Effect* a_pObj);
+void effectMakeTranscription(Effect* a_pObj);
 
 
 
