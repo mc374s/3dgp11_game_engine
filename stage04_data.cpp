@@ -34,7 +34,7 @@ STAGE_DATA stage04_setData[] = {
 	STAGE_DATA(e_startPagination[4] + 1, 0, M_TYPE::IVY_THICK,				M_DRAW::LEFT,	v3(PW / 2,231,1),		true, v3(11,449,0), 10),
 
 
-	STAGE_DATA(e_startPagination[4] + 1,	 0,	M_TYPE::DOOR,						M_DRAW::UP,		v3(550,680 - 76,0),	true, v3(70,76,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[4] + 1,	 0,	M_TYPE::DOOR,						M_DRAW::UP,		v3(530,680 - 76,0),	true, v3(70,76,0), LOW_CONCENTRATION),
 
 
 	// END
