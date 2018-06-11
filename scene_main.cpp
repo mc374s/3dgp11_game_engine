@@ -277,9 +277,10 @@ void SceneMain::update()
 			pStageManager->init(m_stageNO);
 			pBook->m_pfMove = &Book::turnPages;
 			pBook->m_targetPaperNO = START_PAGINATION / 2;
+			break;
 
 		}
-		if ((KEY_TRACKER.pressed.PageDown || PAD_TRACKER.rightTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END && pBook->m_isOpened)
+		else if ((KEY_TRACKER.pressed.PageDown || PAD_TRACKER.rightTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END && pBook->m_isOpened)
 		{
 			++m_stageNO;
 			m_step = STEP::INIT + 3;
@@ -292,6 +293,7 @@ void SceneMain::update()
 			pBook->m_pfMove = &Book::turnPages;
 			pBook->m_targetPaperNO = START_PAGINATION / 2;
 			m_timer = 0;
+			break;
 
 		}
 

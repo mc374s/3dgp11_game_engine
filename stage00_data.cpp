@@ -56,6 +56,19 @@ v3 INIT_POS = e_initPos[0];
 
 int P_LIFE_MAX = e_initLife[0];
 
+
+STAGE_DATA* stageSetData[] = {
+	stage00_setData,
+	stage01_setData,
+	stage02_setData,
+	stage03_setData,
+	stage04_setData,
+	stage05_setData,
+	stage06_setData,
+};
+
+
+
 STAGE_DATA stage00_setData[] = {
 
 	// ページ 左

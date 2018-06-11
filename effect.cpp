@@ -214,7 +214,7 @@ void effectPlayerInit(Effect *obj) {
 	case STEP::BEGIN + 1:
 		obj->m_isVisible = true;
 		obj->m_timer++;
-		if (obj->m_animeNO == 7) pEffectManager->isStampDown = true;
+		if (obj->m_animeNO == 4) pEffectManager->isStampDown = true;
 		if (obj->m_timer > 100) obj->m_alpha -= 10;
 		if (obj->m_timer > 130) obj->m_step = STEP::FINISH;
 		break;

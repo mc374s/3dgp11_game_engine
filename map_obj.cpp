@@ -230,18 +230,6 @@ void MapObj::draw()
 }
 
 
-
-STAGE_DATA* stageSetData[] = {
-	stage00_setData,
-	stage01_setData,
-	stage02_setData,
-	stage03_setData,
-	stage04_setData,
-	stage05_setData,
-	stage06_setData,
-};
-
-
 StageManager::StageManager()
 {
 

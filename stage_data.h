@@ -20,6 +20,9 @@ typedef Vector3 v3;
 //#define STAGE_MAX_NUM (20)
 
 
+extern STAGE_DATA* stageSetData[];
+
+
 extern int e_stageHeight[];
 extern int e_startPagination[];
 extern v3 e_initPos[];

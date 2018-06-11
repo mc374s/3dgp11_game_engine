@@ -51,11 +51,13 @@ void Player::init()
 	if (m_keyObj)
 	{
 		m_keyObj->clear();
+		m_keyObj->m_alpha = 0;
 	}
 	else
 	{
 
 		m_keyObj = new OBJ2D;
+		m_keyObj->m_alpha = 0;
 	}
 	m_life = P_LIFE_MAX;
 
@@ -101,10 +103,11 @@ void Player::restart()
 	if (!m_isKeyHandled)
 	{
 		m_keyObj->clear();
+		m_keyObj->m_alpha = 0;
 	}
 	else
 	{
-		m_keyObj->m_alpha = 200;
+		m_keyObj->m_alpha = 0;
 	}
 	m_speed = { 0,0,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
@@ -306,6 +309,25 @@ void Player::normalMove()
 		m_speed.y = 0;
 	}
 
+	// 鍵移動
+	if (m_isKeyHandled && m_keyObj->m_pSprData)
+	{
+		m_keyObj->m_alpha = 200;
+		m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, 2 * m_size.y, 0);
+		if (m_keyObj->m_pos.x > PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x) {
+			m_keyObj->m_pos.x = PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x;
+		}
+		if (m_keyObj->m_pos.x < m_size.x) {
+			m_keyObj->m_pos.x = m_size.x;
+		}
+		if (m_keyObj->m_pos.y > PAGE_HEIGHT - m_keyObj->m_pSprData->height) {
+			m_keyObj->m_pos.y = PAGE_HEIGHT - m_keyObj->m_pSprData->height;
+		}
+		if (m_keyObj->m_pos.y < 0) {
+			m_keyObj->m_pos.y = 0;
+		}
+	}
+
 	// アニメーションデータ
 	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON && m_isOnGround && m_pAnimeData != e_pAnimePlayerRun)
 	{
@@ -497,9 +519,7 @@ void Player::draw()
 #endif // DEBUG
 
 	OBJ2DEX::draw();
-	if (m_isKeyHandled && m_keyObj->m_pSprData)
-	{
-		m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, 2 * m_size.y, 0);
+	if (m_isKeyHandled) {
 		m_keyObj->draw();
 	}
 
@@ -612,6 +632,7 @@ void PlayerManager::manageConcentration()
 		m_isTranscriptAble = true;
 		m_isTranscriptCanceled = false;
 		m_step = STEP::INIT + 1;
+		m_pPlayer->m_keyObj->m_alpha = 0;
 		break;
 	case STEP::INIT+1:
 		m_isPlayerOnLeft = m_pPlayer->m_liveInPagination % 2 != 0;
