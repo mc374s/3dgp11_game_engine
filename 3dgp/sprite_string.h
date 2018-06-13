@@ -1,4 +1,4 @@
-#ifndef _SPRITESTRING_H_
+﻿#ifndef _SPRITESTRING_H_
 #define _SPRITESYRING_H_
 
 #include "3dgp_system.h"

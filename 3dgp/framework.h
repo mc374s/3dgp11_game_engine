@@ -1,4 +1,4 @@
-#ifndef _FRAMEWORK_H_
+﻿#ifndef _FRAMEWORK_H_
 #define _FRAMEWORK_H_
 
 #include "3dgp_system.h"
@@ -24,8 +24,7 @@ private:
 
 public:
 	static void changeScene(Scene* a_pNextScene) {
-		if (a_pNextScene)
-		{
+		if (a_pNextScene) {
 			s_pScene = a_pNextScene;
 		}
 	};
@@ -81,8 +80,7 @@ public:
 	framework(HWND hwnd) /*: hwnd(hwnd)*/
 	{
 		//MessageBox(0, L"Constructor called", L"framework", MB_OK);
-		if (!initialize(hwnd))
-		{
+		if (!initialize(hwnd)) {
 			MessageBox(0, L"run: Iniialize FAILED", 0, 0);
 			return;
 		}

@@ -1,4 +1,4 @@
-#ifndef _PRIMITIVE3D_H_
+﻿#ifndef _PRIMITIVE3D_H_
 #define _PRIMITIVE3D_H_
 
 #include "3dgp_system.h"

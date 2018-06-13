@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <windows.h>
 
@@ -85,8 +85,7 @@ public:
 
 	void stop() // Call when paused.
 	{
-		if (!stopped)
-		{
+		if (!stopped) {
 			QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&stop_time));
 			stopped = true;
 		}

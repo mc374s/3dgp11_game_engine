@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 
 #include "sprite.h"
 //#define _CRT_SECURE_NO_WARNINGS

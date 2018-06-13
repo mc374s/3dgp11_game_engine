@@ -1,4 +1,4 @@
-#ifndef _NUMBERS_H_
+Ôªø#ifndef _NUMBERS_H_
 #define _NUMBERS_H_
 
 #define DIGIT_MAX (6)
@@ -17,8 +17,8 @@ public:
 
 	struct DIGIT
 	{
-		BYTE	val;	//íl
-		int		x, y;	//ï\é¶à íu
+		BYTE	val;	//ÂÄ§
+		int		x, y;	//Ë°®Á§∫‰ΩçÁΩÆ
 		float	w, h;
 	}digit[DIGIT_MAX];
 

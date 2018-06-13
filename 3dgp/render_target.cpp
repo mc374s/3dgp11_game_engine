@@ -259,7 +259,7 @@ void RenderTarget::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, 
 
 	// Rotation And Change to NDC coordinate
 	float angleRadian = a_rotateAngle * 0.01745/*(M_PI / 180,0f)*/;
-	for (int i = 0; i < m_vertexCount; i++)
+	for (unsigned int i = 0; i < m_vertexCount; i++)
 	{
 		vertices[i].position = rotationZ(vertices[i].position, angleRadian, center);
 		vertices[i].position = toNDC(vertices[i].position);

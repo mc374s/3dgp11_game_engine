@@ -1,8 +1,10 @@
-#ifndef _BLEND_H_
+﻿#ifndef _BLEND_H_
 #define _BLEND_H_
 #include "3dgp_system.h"
 
 #define BLEND_MODE_MAX (9)
+
+
 enum BLEND_MODE
 {
 	BLEND_NONE = 0,
@@ -19,6 +21,7 @@ enum BLEND_MODE
 class MyBlending
 {
 private:
+
 	static ID3D11BlendState* s_pblendState[BLEND_MODE_MAX];
 	static int s_blendMode[BLEND_MODE_MAX][6];
 	static int s_oldMode;

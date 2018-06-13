@@ -1,4 +1,4 @@
-#include "sprite_string.h"
+﻿#include "sprite_string.h"
 
 Sprite* SpriteString::s_pSprString = nullptr;
 

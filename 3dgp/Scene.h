@@ -1,4 +1,4 @@
-#ifndef _SCENE_H_
+﻿#ifndef _SCENE_H_
 #define _SCENE_H_
 
 class Scene
@@ -10,8 +10,7 @@ protected:
 public:
 	Scene() :m_timer(0), m_step(0), m_pNextScene(nullptr) {};
 	virtual ~Scene() {
-		if (m_pNextScene)
-		{
+		if (m_pNextScene) {
 			m_pNextScene = nullptr;
 		}
 	};
@@ -35,7 +34,6 @@ public:
 		m_pNextScene = a_pNextScene;
 	};
 };
-
 
 
 #endif // !_SCENE_H_

@@ -1,4 +1,4 @@
-#ifndef  _3DGPSYSTEM_H_
+﻿#ifndef  _3DGPSYSTEM_H_
 #define  _3DGPSYSTEM_H_
 
 #define _XM_NO_INTRINSICS_
@@ -43,11 +43,11 @@ struct CUSTOM3D
 	XMFLOAT3 angleYawPitchRoll;
 	CUSTOM3D() :position(0, 0, 0), scaling(1, 1, 1), rotationAxis(0, 1, 0), angle(0), angleYawPitchRoll(0, 0, 0) {};
 	void clear() {
-		position = { 0, 0, 0 };
-		scaling = { 1, 1, 1 };
-		rotationAxis = { 0, 1, 0 };
-		angle = { 0 };
-		angleYawPitchRoll = { 0, 0, 0 };
+		position = { 0.0f, 0.0f, 0.0f };
+		scaling = { 1.0f, 1.0f, 1.0f };
+		rotationAxis = { 0.0f, 1.0f, 0.0f };
+		angle = 0.0f;
+		angleYawPitchRoll = { 0.0f, 0.0f, 0.0f };
 	};
 };
 struct CameraData

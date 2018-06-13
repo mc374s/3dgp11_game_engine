@@ -1,4 +1,4 @@
-#ifndef _TEMPLATE_H_
+﻿#ifndef _TEMPLATE_H_
 #define _TEMPLATE_H_
 
 template <typename T>
@@ -12,6 +12,8 @@ public:
 	};
 
 };
+
+
 // TODO : Overload float's operator == and !=
 //template<typename T>
 //bool operator==(const T& a_leftValue,const T& a_rightValue) const
@@ -38,6 +40,7 @@ public:
 //		return false;
 //	}
 //}
+
 
 
 #endif // !_TEMPLATE_H_

@@ -1,4 +1,4 @@
-#ifndef _MFAUDIO_H_
+﻿#ifndef _MFAUDIO_H_
 #define _MFAUDIO_H_
 /*************Media Foundation Audio SpacePlayer*******************/
 

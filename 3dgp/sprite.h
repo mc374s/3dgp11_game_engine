@@ -1,4 +1,4 @@
-#ifndef _SPRITE_H_
+﻿#ifndef _SPRITE_H_
 #define _SPRITE_H_
 
 #define _USE_MATH_DEFINES

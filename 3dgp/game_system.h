@@ -1,4 +1,4 @@
-#ifndef _GAME_SYSTEM_H_
+﻿#ifndef _GAME_SYSTEM_H_
 #define _GAME_SYSTEM_H_
 
 

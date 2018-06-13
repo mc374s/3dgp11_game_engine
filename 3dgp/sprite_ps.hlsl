@@ -86,16 +86,16 @@ float4 main(VS_OUT pin) : SV_TARGET
 		color.b += pin.color.b;
 	}
 	color.a *= pin.color.a;*/
-	// í èÌ
+	// ÈÄöÂ∏∏
 	color = color*pin.color;
-	// îΩì]
+	// ÂèçËª¢
 	/*color.r = 1 - color.r;
 	color.g = 1 - color.g;
 	color.b = 1 - color.b;*/
-	// íEêF
+	// ËÑ±Ëâ≤
 	/*float gray = (color.r + color.g + color.b) / 3;
 	color.r = color.g = color.b = gray;*/
-	// êFìhÇË
+	// Ëâ≤Â°ó„Çä
 	/*color.r = pin.color.r;
 	color.g = pin.color.g;
 	color.b = pin.color.b;*/

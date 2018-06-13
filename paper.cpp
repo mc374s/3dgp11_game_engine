@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 
 #include "sprite_data.h"
 #include "map_obj.h"
@@ -117,7 +117,7 @@ void Paper::syncViewCustom3d()
 void Paper::updateFront()
 {
 
-	//ƒy[ƒW‚Ì“à—e‚ğXV
+	//ãƒšãƒ¼ã‚¸ã®å†…å®¹ã‚’æ›´æ–°
 	if (m_isActive)
 	{
 		for (MapObj &it : m_mapObjList[0]) {
@@ -136,7 +136,7 @@ void Paper::updateFront()
 void Paper::updateBack()
 {
 
-	//ƒy[ƒW‚Ì“à—e‚ğXV
+	//ãƒšãƒ¼ã‚¸ã®å†…å®¹ã‚’æ›´æ–°
 	if (m_isActive)
 	{
 		for (MapObj &it : m_mapObjList[1]) {
@@ -154,7 +154,7 @@ void Paper::updateBack()
 void Paper::update()
 {
 
-	//ƒy[ƒW‚Ì“à—e‚ğXV
+	//ãƒšãƒ¼ã‚¸ã®å†…å®¹ã‚’æ›´æ–°
 	updateFront();
 	updateBack();
 

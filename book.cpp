@@ -150,7 +150,7 @@ void Book::update()
 	if (/*KEY_DOWN('C')*/ KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED/*KEY_TRACKER.IsKeyPressed(Keyboard::Keys::C)*/) {
 		if (m_step == STEP::FINISH && pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_mode == P_MODE::NORMAL)
 		{
-			m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5 : 0.5);
+			m_centerPaper = pPlayerManager->m_pPlayer->m_liveInPagination / 2 + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 == 0 ? -0.5f : 0.5f);
 			if (m_isOpened)
 			{
 				m_pfMove = &Book::closeBook;
@@ -340,7 +340,7 @@ void Book::closeBook()
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
-		m_openSpeedAcc += 0.018;
+		m_openSpeedAcc += 0.018f;
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed * 2;
 		/*m_position.z += m_openSpeed * 5.0f;
@@ -440,7 +440,7 @@ void Book::openBook()
 	{
 	case STEP::INIT:
 		m_timer = 0;
-		m_centerPaper = m_currentPaperNO + 0.5;
+		m_centerPaper = m_currentPaperNO + 0.5f;
 		for (auto &it : m_ppPapers)
 		{
 			if (it && it->m_paperNO > m_centerPaper - 1 && it->m_paperNO < m_centerPaper + 1)

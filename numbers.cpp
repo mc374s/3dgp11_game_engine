@@ -1,4 +1,4 @@
-#include "game.h"
+ï»¿#include "game.h"
 #include "sprite_data.h"
 
 #include "numbers.h"
@@ -76,12 +76,12 @@ void Numbers::setValue(int a_value, Vector3 a_size)
 {
 	for (m_digitNum = 0; m_digitNum < DIGIT_MAX && a_value > 0; ++m_digitNum)
 	{
-		digit[m_digitNum].val = a_value % 10;	//  ˆê‚ÌˆÊ‚ğ’Šo
+		digit[m_digitNum].val = a_value % 10;	//  ä¸€ã®ä½ã‚’æŠ½å‡º
 		digit[m_digitNum].w = a_size.x;
 		digit[m_digitNum].h = a_size.y;
 		digit[m_digitNum].x = 0;
 		digit[m_digitNum].y = 0;
-		a_value /= 10;					//  Œ…‚ğ1‚ÂƒVƒtƒg
+		a_value /= 10;					//  æ¡ã‚’1ã¤ã‚·ãƒ•ãƒˆ
 	}
 	--m_digitNum;
 	m_custom.scaleX = a_size.x;

@@ -1,4 +1,4 @@
-#include "resources_manager.h"
+﻿#include "resources_manager.h"
 #include <cstdio>
 
 using namespace MyResourcesManager;

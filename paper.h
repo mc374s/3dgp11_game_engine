@@ -1,4 +1,4 @@
-#ifndef _PAPER_H_
+﻿#ifndef _PAPER_H_
 #define _PAPER_H_
 
 #define PAPER_DEPTH (1)

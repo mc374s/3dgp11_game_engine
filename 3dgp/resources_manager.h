@@ -1,4 +1,4 @@
-#ifndef _RESOURCES_MANAGER_H_
+﻿#ifndef _RESOURCES_MANAGER_H_
 #define _RESOURCES_MANAGER_H_
 
 
