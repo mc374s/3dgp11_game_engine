@@ -9,8 +9,8 @@
 
 struct RESOURCE_DATA
 {
-	int					fileNO;			// ‰¹º”Ô†
-	char*				fileName;		// ƒtƒ@ƒCƒ‹–¼
+	int					fileNO;			// éŸ³å£°ç•ªå·
+	char*				fileName;		// ãƒ•ã‚¡ã‚¤ãƒ«å
 };
 
 class MFAudioManager

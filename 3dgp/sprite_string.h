@@ -4,7 +4,7 @@
 #include "3dgp_system.h"
 #include "sprite.h"
 
-// •¶š—ñ•`‰æˆÊ’u
+// æ–‡å­—åˆ—æç”»ä½ç½®
 #define	STR_LEFT (0)
 #define	STR_CENTER (1)
 
@@ -21,6 +21,7 @@ public:
 
 	friend void releaseSprString();
 };
+
 
 
 #endif // !_SPRITESTRING_H_

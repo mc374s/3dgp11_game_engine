@@ -1,7 +1,6 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-
 class Scene
 {
 protected:
@@ -36,6 +35,7 @@ public:
 		m_pNextScene = a_pNextScene;
 	};
 };
+
 
 
 #endif // !_SCENE_H_

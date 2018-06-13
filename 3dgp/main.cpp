@@ -8,9 +8,10 @@
 #include "../scene_title.h"
 #include <thread>
 
+
 void loadTextureProgress()
 {
-	pTextureManager->loadTexture(e_loadTexture);		// 2D‰æ‘œ‚ÌˆêŠ‡ƒ[ƒh
+	pTextureManager->loadTexture(e_loadTexture);		// 2Dç”»åƒã®ä¸€æ‹¬ãƒ­ãƒ¼ãƒ‰
 }
 
 LRESULT CALLBACK fnWndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

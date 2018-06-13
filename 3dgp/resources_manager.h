@@ -1,6 +1,7 @@
 #ifndef _RESOURCES_MANAGER_H_
 #define _RESOURCES_MANAGER_H_
 
+
 #include <d3d11.h>
 #include "WICTextureLoader.h"
 
@@ -33,30 +34,30 @@ namespace MyResourcesManager {
 		ResourcesManager() {};
 		~ResourcesManager() {};
 
-		// �摜�f�[�^�̊Ǘ�
+		// 画像データの管理
 		static int s_imgFileCounter;
 		static D3D11_RESOURCES<ID3D11ShaderResourceView*> s_SRVResources[FILE_NUM_MAX];
 
-		// �o�[�e�B�N�X�V�F�[�_�[�f�[�^�̊Ǘ�
+		// バーティクスシェーダーデータの管理
 		static int s_vsFileCounter;
 		static D3D11_RESOURCES<ID3D11VertexShader*> s_vertexShaderResources[FILE_NUM_MAX];
 		static ID3D11InputLayout* s_inputLayoutResources[FILE_NUM_MAX];
 
-		// �s�N�Z���V�F�[�_�[�f�[�^�̊Ǘ�
+		// ピクセルシェーダーデータの管理
 		static int s_psFileCounter;
 		static D3D11_RESOURCES<ID3D11PixelShader*> s_pixelShaderResources[FILE_NUM_MAX];
 
 	public:
-		// �摜�f�[�^�̊Ǘ�
+		// 画像データの管理
 		friend int loadShaderResourceView(ID3D11Device* a_pDevice, char* a_pFilename, ID3D11Resource** a_ppOutResource, ID3D11ShaderResourceView** a_ppOutSRV);
 		friend void releaseShaderResourceView(ID3D11ShaderResourceView* a_pInSRV);
 
-		// �o�[�e�B�N�X�V�F�[�_�[�\�[�X�̊Ǘ�
+		// バーティクスシェーダーソースの管理
 		friend int loadVertexShader(ID3D11Device* a_pDevice, char* a_pFilename, D3D11_INPUT_ELEMENT_DESC* a_pInLayoutElements, int a_elementsNum, ID3D11VertexShader** a_ppOutVertexShader, ID3D11InputLayout** a_ppOutInputLayout);
 
 		friend void releaseVertexShader(ID3D11VertexShader* a_pInVertexShader, ID3D11InputLayout* a_pInInputLayout);
 
-		// �s�N�Z���V�F�[�_�[�f�[�^�̊Ǘ�
+		// ピクセルシェーダーデータの管理
 		friend int loadPixelShader(ID3D11Device* a_pDevice, char* a_pFilename, ID3D11PixelShader** a_ppOut);
 		friend void releasePixelShader(ID3D11PixelShader* a_pIn);
 	};// class ResourcesManager

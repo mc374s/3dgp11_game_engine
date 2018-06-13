@@ -4,26 +4,26 @@
 using namespace MyResourcesManager;
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-// ‰æ‘œƒf[ƒ^‚ÌŠÇ—
+// ç”»åƒãƒ‡ãƒ¼ã‚¿ã®ç®¡ç†
 int ResourcesManager::s_imgFileCounter = 0;
 D3D11_RESOURCES<ID3D11ShaderResourceView*> ResourcesManager::s_SRVResources[FILE_NUM_MAX];
 
 int MyResourcesManager::loadShaderResourceView(ID3D11Device* a_pDevice, char* a_pFilename, ID3D11Resource** a_ppOutResource, ID3D11ShaderResourceView** a_ppOutSRV) {
 	int fileNO = 0;
 
-	// ‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚éƒŠƒ\[ƒX
+	// ã™ã§ã«å­˜åœ¨ã—ã¦ã„ã‚‹ãƒªã‚½ãƒ¼ã‚¹
 	for (fileNO = 0; fileNO < ResourcesManager::s_imgFileCounter; fileNO++)
 	{
 		if (ResourcesManager::s_SRVResources[fileNO].pFileName == a_pFilename)
 		{
-			//@ƒŠƒ\[ƒX‚ğ _resource ‚É•Ô‚·
+			//ã€€ãƒªã‚½ãƒ¼ã‚¹ã‚’ _resource ã«è¿”ã™
 			ResourcesManager::s_SRVResources[fileNO].pData->GetResource(a_ppOutResource);
 			ResourcesManager::s_SRVResources[fileNO].fileRefNum++;
 			break;
 		}
 	}
 
-	//@V‹KƒŠƒ\[ƒX
+	//ã€€æ–°è¦ãƒªã‚½ãƒ¼ã‚¹
 	if (fileNO == ResourcesManager::s_imgFileCounter)
 	{
 		const size_t cSize = strlen(a_pFilename) + 1;
@@ -43,13 +43,13 @@ int MyResourcesManager::loadShaderResourceView(ID3D11Device* a_pDevice, char* a_
 		ResourcesManager::s_imgFileCounter++;
 
 	}
-	// SRVo—Í
+	// SRVå‡ºåŠ›
 	*a_ppOutSRV = ResourcesManager::s_SRVResources[fileNO].pData;
 
-	//@ƒŠƒ\[ƒX‚Ì”Ô†‚ğ•Ô‚·
+	//ã€€ãƒªã‚½ãƒ¼ã‚¹ã®ç•ªå·ã‚’è¿”ã™
 	return fileNO;
 }
-// ƒŠƒ\[ƒX‚ğ‰ğ•ú
+// ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾
 void MyResourcesManager::releaseShaderResourceView(ID3D11ShaderResourceView* a_pInSRV) {
 	if (a_pInSRV)
 	{
@@ -65,7 +65,7 @@ void MyResourcesManager::releaseShaderResourceView(ID3D11ShaderResourceView* a_p
 }
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-// ƒo[ƒeƒBƒNƒXƒVƒF[ƒ_[ƒ\[ƒX‚ÌŠÇ—
+// ãƒãƒ¼ãƒ†ã‚£ã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚½ãƒ¼ã‚¹ã®ç®¡ç†
 int ResourcesManager::s_vsFileCounter = 0;
 D3D11_RESOURCES<ID3D11VertexShader*> ResourcesManager::s_vertexShaderResources[FILE_NUM_MAX];
 ID3D11InputLayout* ResourcesManager::s_inputLayoutResources[FILE_NUM_MAX];
@@ -74,7 +74,7 @@ int MyResourcesManager::loadVertexShader(ID3D11Device* a_pDevice, char* a_pFilen
 {
 	int fileNo = 0;
 
-	// ‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚éƒŠƒ\[ƒX
+	// ã™ã§ã«å­˜åœ¨ã—ã¦ã„ã‚‹ãƒªã‚½ãƒ¼ã‚¹
 	for (fileNo = 0; fileNo < ResourcesManager::s_vsFileCounter; fileNo++)
 	{
 		if (ResourcesManager::s_vertexShaderResources[fileNo].pFileName == a_pFilename)
@@ -84,7 +84,7 @@ int MyResourcesManager::loadVertexShader(ID3D11Device* a_pDevice, char* a_pFilen
 		}
 	}
 
-	//@V‹KƒŠƒ\[ƒX
+	//ã€€æ–°è¦ãƒªã‚½ãƒ¼ã‚¹
 	if (fileNo == ResourcesManager::s_vsFileCounter)
 	{
 		unsigned char *cso_data = NULL;
@@ -122,11 +122,11 @@ int MyResourcesManager::loadVertexShader(ID3D11Device* a_pDevice, char* a_pFilen
 		ResourcesManager::s_vsFileCounter++;
 	}
 
-	// VertexShader‚ÆInputLayout‚Ìo—Í
+	// VertexShaderã¨InputLayoutã®å‡ºåŠ›
 	*a_ppOutVertexShader = ResourcesManager::s_vertexShaderResources[fileNo].pData;
 	*a_ppOutInputLayout = ResourcesManager::s_inputLayoutResources[fileNo];
 
-	//@ƒŠƒ\[ƒX‚Ì”Ô†‚ğ•Ô‚·
+	//ã€€ãƒªã‚½ãƒ¼ã‚¹ã®ç•ªå·ã‚’è¿”ã™
 	return fileNo;
 };
 
@@ -150,7 +150,7 @@ void MyResourcesManager::releaseVertexShader(ID3D11VertexShader* a_pInVertexShad
 }
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-// ƒsƒNƒZƒ‹ƒVƒF[ƒ_[ƒ\[ƒX‚ÌŠÇ—
+// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚½ãƒ¼ã‚¹ã®ç®¡ç†
 int ResourcesManager::s_psFileCounter = 0;
 D3D11_RESOURCES<ID3D11PixelShader*> ResourcesManager::s_pixelShaderResources[FILE_NUM_MAX];
 
@@ -158,7 +158,7 @@ int MyResourcesManager::loadPixelShader(ID3D11Device* a_pDevice, char* a_pFilena
 {
 	int fileNo = 0;
 
-	// ‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚éƒŠƒ\[ƒX
+	// ã™ã§ã«å­˜åœ¨ã—ã¦ã„ã‚‹ãƒªã‚½ãƒ¼ã‚¹
 	for (fileNo = 0; fileNo < ResourcesManager::s_psFileCounter; fileNo++)
 	{
 		if (ResourcesManager::s_pixelShaderResources[fileNo].pFileName == a_pFilename)
@@ -168,7 +168,7 @@ int MyResourcesManager::loadPixelShader(ID3D11Device* a_pDevice, char* a_pFilena
 		}
 	}
 
-	//@V‹KƒŠƒ\[ƒX
+	//ã€€æ–°è¦ãƒªã‚½ãƒ¼ã‚¹
 	if (fileNo == ResourcesManager::s_psFileCounter)
 	{
 		unsigned char *cso_data = NULL;
@@ -193,14 +193,14 @@ int MyResourcesManager::loadPixelShader(ID3D11Device* a_pDevice, char* a_pFilena
 		}
 		delete[] cso_data;
 
-		// ƒŠƒ\[ƒXƒJƒEƒ“ƒ^ƒAƒbƒv
+		// ãƒªã‚½ãƒ¼ã‚¹ã‚«ã‚¦ãƒ³ã‚¿ã‚¢ãƒƒãƒ—
 		ResourcesManager::s_pixelShaderResources[fileNo].pFileName = a_pFilename;
 		ResourcesManager::s_pixelShaderResources[fileNo].fileRefNum++;
 		ResourcesManager::s_psFileCounter++;
 	}
-	// PixelShader Datao—Í
+	// PixelShader Dataå‡ºåŠ›
 	*a_ppOut = ResourcesManager::s_pixelShaderResources[fileNo].pData;
-	//@ƒŠƒ\[ƒX‚Ì”Ô†‚ğ•Ô‚·
+	//ã€€ãƒªã‚½ãƒ¼ã‚¹ã®ç•ªå·ã‚’è¿”ã™
 	return fileNo;
 
 }

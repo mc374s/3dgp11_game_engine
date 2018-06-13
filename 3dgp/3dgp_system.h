@@ -1,7 +1,6 @@
 #ifndef  _3DGPSYSTEM_H_
 #define  _3DGPSYSTEM_H_
 
-
 #define _XM_NO_INTRINSICS_
 
 #include <windows.h>
@@ -30,7 +29,6 @@
 
 #define SCREEN_WIDTH (1280)
 #define SCREEN_HEIGHT (720)
-
 
 
 using namespace DirectX;
@@ -144,6 +142,7 @@ inline XMFLOAT4 toNDColor(UINTCOLOR a_inColor)
 
 	return XMFLOAT4(red, green, blue, alph);
 }
+
 
 
 #endif // ! _3DGPSYSTEM_H_

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+    <CodePage>65001</CodePage>
     <ProjectGuid>{4C8863A7-0A6F-4764-AEEB-4B983EC5FDBB}</ProjectGuid>
     <RootNamespace>My3dgp11_game_engine</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>

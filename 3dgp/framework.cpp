@@ -1,9 +1,11 @@
-#include "framework.h"
+ï»¿#include "framework.h"
 #include "blend.h"
 #include "sprite_string.h"
 #include "mf_audio.h"
 
 #include "Scene.h"
+
+
 
 
 CameraData e_camera;
@@ -219,15 +221,15 @@ int framework::run()
 			// FPS locker
 			QueryPerformanceCounter(&m_timeEnd);
 			m_frameTime = static_cast<float>(m_timeEnd.QuadPart - m_timeStart.QuadPart) / static_cast<float>(m_timeFreq.QuadPart);
-			if (m_frameTime < m_minFrameTime) { // ŠÔ‚É—]—T‚ª‚ ‚é
-												// ƒ~ƒŠ•b‚É•ÏŠ·
+			if (m_frameTime < m_minFrameTime) { // æ™‚é–“ã«ä½™è£•ãŒã‚ã‚‹
+												// ãƒŸãƒªç§’ã«å¤‰æ›
 				sleepTime = static_cast<DWORD>((m_minFrameTime - m_frameTime) * 1000);
 
-				timeBeginPeriod(1);		// •ª‰ğ”\‚ğã‚°‚é(‚±‚¤‚µ‚È‚¢‚ÆSleep‚Ì¸“x‚ÍƒKƒ^ƒKƒ^)
+				timeBeginPeriod(1);		// åˆ†è§£èƒ½ã‚’ä¸Šã’ã‚‹(ã“ã†ã—ãªã„ã¨Sleepã®ç²¾åº¦ã¯ã‚¬ã‚¿ã‚¬ã‚¿)
 				Sleep(sleepTime);
-				timeEndPeriod(1);		// –ß‚·
+				timeEndPeriod(1);		// æˆ»ã™
 
-				// ŸT‚É‚¿‰z‚µ(‚±‚¤‚µ‚È‚¢‚Æfps‚ª•Ï‚É‚È‚é?)
+				// æ¬¡é€±ã«æŒã¡è¶Šã—(ã“ã†ã—ãªã„ã¨fpsãŒå¤‰ã«ãªã‚‹?)
 				continue;
 			}
 			m_timeStart = m_timeEnd;
@@ -264,7 +266,7 @@ int framework::run()
 			}
 
 			//while ((timeGetTime() - preTime) * 6 < 100 /*0.0 / 60.0*/) {
-			//	Sleep(1);		// ƒtƒŒ[ƒ€ŠÔ‚ğ‰z‚¦‚é‚Ü‚Å‘Ò‚Â
+			//	Sleep(1);		// ãƒ•ãƒ¬ãƒ¼ãƒ æ™‚é–“ã‚’è¶Šãˆã‚‹ã¾ã§å¾…ã¤
 			//}
 			
 		}
@@ -345,7 +347,7 @@ void framework::calculate_frame_stats()
 		std::ostringstream outs;
 		outs.precision(6);
 		//outs << "FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)";
-		outs << "ƒyƒbƒ^ƒ“ƒv" /*<< "  FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)"*/;
+		outs << "ãƒšãƒƒã‚¿ãƒ³ãƒ—" /*<< "  FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)"*/;
 		/*outs.precision(4);
 		outs<< " #Blending Mode: " << strBlendMode[blendMode] << " #Alpha: " << alpha << " / 255.0f ( " << alpha / 255.0f * 100 << "% )";*/
 		SetWindowTextA(m_hWnd, outs.str().c_str());

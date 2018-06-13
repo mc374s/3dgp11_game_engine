@@ -4,6 +4,7 @@
 
 using namespace MyResourcesManager;
 
+
 Primitive3D::Primitive3D(ID3D11Device *a_pDevice)
 {
 	// Define the input layout

@@ -1,8 +1,9 @@
-#include "game_system.h"
+﻿#include "game_system.h"
 
 #include "framework.h"
 #include "blend.h"
 #include "sprite.h"
+
 
 
 LOAD_TEXTURE *g_load_texture[TEX_MAX] = { nullptr };

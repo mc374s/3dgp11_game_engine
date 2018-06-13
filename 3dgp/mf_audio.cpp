@@ -1,5 +1,6 @@
 #include "mf_audio.h"
 
+
 IMFPMediaPlayer* MFAudioManager::pMFPlayer[AUDIO_MAX_NUM] = { nullptr };
 bool MFAudioManager::doLoop[AUDIO_MAX_NUM] = { false };
 bool MFAudioManager::isLoaded = false;

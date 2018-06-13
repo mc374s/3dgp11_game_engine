@@ -13,3 +13,5 @@ cbuffer CONSTANT_BUFFER : register(b0)
 	float4 materialColor;
 	float4 lightDirection;
 };
+
+

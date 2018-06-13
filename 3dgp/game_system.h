@@ -1,43 +1,44 @@
 #ifndef _GAME_SYSTEM_H_
 #define _GAME_SYSTEM_H_
 
+
 #include <cmath>
 #include "sprite_string.h"
 
 typedef unsigned int D3DCOLOR;
 //*****************************************************************************
-//		‚R‚cƒxƒNƒgƒ‹
+//		ï¼“ï¼¤ãƒ™ã‚¯ãƒˆãƒ«
 //*****************************************************************************
 //------------------------------------------------------
-//	‚R‚cƒxƒNƒgƒ‹Šî–{\‘¢‘Ì
+//	ï¼“ï¼¤ãƒ™ã‚¯ãƒˆãƒ«åŸºæœ¬æ§‹é€ ä½“
 //------------------------------------------------------
 typedef struct Vector {
 	float	x, y, z;
 } Vector;
 
 //------------------------------------------------------
-//	‚R‚cƒxƒNƒgƒ‹\‘¢‘Ì
+//	ï¼“ï¼¤ãƒ™ã‚¯ãƒˆãƒ«æ§‹é€ ä½“
 //------------------------------------------------------
 typedef struct Vector3 : public Vector
 {
 public:
-	//	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Vector3() {};
 	inline Vector3(float x, float y, float z) { this->x = x, this->y = y, this->z = z; }
 	inline Vector3(const Vector& v) { this->x = v.x, this->y = v.y, this->z = v.z; }
 
-	//	‹——£ŒvZ
+	//	è·é›¢è¨ˆç®—
 	inline float Length() { return sqrtf(x*x + y*y + z*z); }
 	inline float LengthSq() { return x*x + y*y + z*z; }
 
-	//	³‹K‰»
+	//	æ­£è¦åŒ–
 	void Normalize()
 	{
 		float l = Length();
 		if (fabsf(l - 0.0f) > FLT_EPSILON) { x /= l; y /= l; z /= l; }
 	}
 
-	//	ƒIƒyƒŒ[ƒ^[
+	//	ã‚ªãƒšãƒ¬ãƒ¼ã‚¿ãƒ¼
 	inline Vector3& operator = (const Vector& v) { x = v.x; y = v.y; z = v.z; return *this; }
 	inline Vector3& operator += (const Vector3& v) { x += v.x; y += v.y; z += v.z; return *this; }
 	inline Vector3& operator -= (const Vector3& v) { x -= v.x; y -= v.y; z -= v.z; return *this; }
@@ -58,7 +59,7 @@ public:
 } Vector3;
 
 //------------------------------------------------------
-//	ŠOÏ
+//	å¤–ç©
 //------------------------------------------------------
 inline void Vector3Cross(Vector& out, Vector& v1, Vector& v2)
 {
@@ -68,7 +69,7 @@ inline void Vector3Cross(Vector& out, Vector& v1, Vector& v2)
 }
 
 //------------------------------------------------------
-//	“àÏ
+//	å†…ç©
 //------------------------------------------------------
 inline float Vector3Dot(Vector& v1, Vector& v2)
 {
@@ -100,10 +101,10 @@ bool const operator != (const XMFLOAT3& lhv, const XMFLOAT3& rhv);
 
 //*****************************************************************************************************************************
 //
-//	define’è‹`
+//	defineå®šç¾©
 //
 //*****************************************************************************************************************************
-// ƒL[ƒ‰ƒxƒ‹
+// ã‚­ãƒ¼ãƒ©ãƒ™ãƒ«
 const int	PAD_UP		= (1 << 0);
 const int	PAD_DOWN	= (1 << 1);
 const int	PAD_LEFT	= (1 << 2);
@@ -158,8 +159,8 @@ class Sprite;
 
 struct LOAD_TEXTURE
 {
-	int		texNum;			// ƒeƒNƒXƒ`ƒƒ”Ô†
-	char	*fileName;		// ƒtƒ@ƒCƒ‹–¼
+	int		texNum;			// ãƒ†ã‚¯ã‚¹ãƒãƒ£ç•ªå·
+	char	*fileName;		// ãƒ•ã‚¡ã‚¤ãƒ«å
 	Sprite* img;
 };
 

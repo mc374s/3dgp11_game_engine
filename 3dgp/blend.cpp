@@ -1,4 +1,5 @@
-#include "blend.h"
+﻿#include "blend.h"
+
 
 ID3D11BlendState* MyBlending::s_pblendState[BLEND_MODE_MAX] = { NULL };
 int MyBlending::s_oldMode = BLEND_NONE;

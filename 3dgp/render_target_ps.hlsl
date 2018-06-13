@@ -7,16 +7,16 @@ float4 main(VS_OUT pin) : SV_TARGET
 {
 	float4 color = diffuse_map.Sample(diffuse_map_sampler_state, pin.texcoord);
 
-	// ’Êí
+	// é€šå¸¸
 	color = color*pin.color;
-	// ”½“]
+	// åè»¢
 	/*color.r = 1 - color.r;
 	color.g = 1 - color.g;
 	color.b = 1 - color.b;*/
-	// ’EF
+	// è„±è‰²
 	/*float gray = (color.r + color.g + color.b) / 3;
 	color.r = color.g = color.b = gray;*/
-	// F“h‚è
+	// è‰²å¡—ã‚Š
 	/*color.r = pin.color.r;
 	color.g = pin.color.g;
 	color.b = pin.color.b;*/

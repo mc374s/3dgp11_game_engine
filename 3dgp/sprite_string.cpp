@@ -1,6 +1,5 @@
 #include "sprite_string.h"
 
-
 Sprite* SpriteString::s_pSprString = nullptr;
 
 Sprite* initSprString(ID3D11Device* a_pDevice, char *a_pFilename)

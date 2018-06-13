@@ -12,6 +12,7 @@ enum GEOMETRY_TYPE
 	GEOMETRY_CIRCLE,
 };
 
+
 class Primitive3D
 {
 private:
@@ -23,12 +24,12 @@ private:
 
 	struct PROJECTION_CBUFFER
 	{
-		XMMATRIX world;					//ƒ[ƒ‹ƒh•ÏŠ·s—ñ
-		XMMATRIX view;					//ƒrƒ…[•ÏŠ·s—ñ
-		XMMATRIX projection;			//ƒvƒƒWƒFƒNƒVƒ‡ƒ“•ÏŠ·s—ñ
-		XMMATRIX worldViewProjection;	//ƒ[ƒ‹ƒhEƒrƒ…[EƒvƒƒWƒFƒNƒVƒ‡ƒ“‡¬s—ñ
-		XMFLOAT4 materialColor;			//ÞŽ¿F
-		XMFLOAT4 lightDirection;		//ƒ‰ƒCƒgiss—ñ
+		XMMATRIX world;					//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
+		XMMATRIX view;					//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
+		XMMATRIX projection;			//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³å¤‰æ›è¡Œåˆ—
+		XMMATRIX worldViewProjection;	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒ»ãƒ“ãƒ¥ãƒ¼ãƒ»ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³åˆæˆè¡Œåˆ—
+		XMFLOAT4 materialColor;			//æè³ªè‰²
+		XMFLOAT4 lightDirection;		//ãƒ©ã‚¤ãƒˆé€²è¡Œè¡Œåˆ—
 	};
 
 private:
@@ -72,6 +73,7 @@ public:
 	void drawCube(ID3D11DeviceContext *a_pDeviceContext, const XMFLOAT3 &a_position, const XMFLOAT3 &a_size, const UINTCOLOR &a_blendColor = 0xFFFFFFFF, const CUSTOM3D* a_pCustom3D = nullptr);
 	void drawCylinder(ID3D11DeviceContext *a_pDeviceContext, const XMFLOAT3 &a_position, const XMFLOAT3 &a_size,const CUSTOM3D* a_pCustom3D = nullptr);
 };
+
 
 
 #endif // !_PRIMITIVE_3D_H_
