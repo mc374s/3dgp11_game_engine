@@ -8,7 +8,7 @@ STAGE_DATA stage06_setData[] = {
 
 	// ページ１
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,220,1),		true, v3(155,11,0), 10),
-	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_UP,				M_DRAW::UP,		v3(155,220,1),		true, v3(155,11,0), 2, recoveryControl),
+	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_UP,				M_DRAW::UP,		v3(155,220,1),		true, v3(155,11,0), 0, recoveryControl),
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(465,220,1),		true, v3(155,11,0), 10),
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,440,1),		true, v3(PW / 2,11,0), 10),
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(465,440,1),		true, v3(155,11,0), 10),
@@ -25,10 +25,10 @@ STAGE_DATA stage06_setData[] = {
 	STAGE_DATA(e_startPagination[6], 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(PW / 2,850,1),		true, v3(11,189,0), 10),
 
 
-	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(PW / 2,220 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
-	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(PW / 2,440 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
-	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(0,850 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
-	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(465,850 - 8,1),		true, v3(155,11,0), 2, recoveryControl),
+	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(PW / 2,220 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
+	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(PW / 2,440 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
+	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(0,850 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
+	STAGE_DATA(e_startPagination[6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(465,850 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
 
 
 
