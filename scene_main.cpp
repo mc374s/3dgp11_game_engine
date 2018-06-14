@@ -264,6 +264,51 @@ void SceneMain::update()
 			pGameUIManager->showXButton();
 		}
 
+		if (KEY_TRACKER.pressed.D1 && pBook->m_step > STEP::END && pBook->m_isOpened) {
+			m_stageNO = 1;
+			m_step = STEP::INIT + 3;
+			if (m_stageNO <= 0)
+			{
+				m_stageNO = 0;
+				m_step = STEP::INIT + 2;
+			}
+			m_timer = 0;
+			pStageManager->init(m_stageNO);
+			pBook->m_pfMove = &Book::turnPages;
+			pBook->m_targetPaperNO = START_PAGINATION / 2;
+			break;
+		}
+		if (KEY_TRACKER.pressed.D2 && pBook->m_step > STEP::END && pBook->m_isOpened){
+			m_stageNO = 7;
+			m_step = STEP::INIT + 3;
+			if (m_stageNO <= 0)
+			{
+				m_stageNO = 0;
+				m_step = STEP::INIT + 2;
+			}
+			m_timer = 0;
+			pStageManager->init(m_stageNO);
+			pBook->m_pfMove = &Book::turnPages;
+			pBook->m_targetPaperNO = START_PAGINATION / 2;
+			break;
+		}
+		if (KEY_TRACKER.pressed.D3 && pBook->m_step > STEP::END && pBook->m_isOpened) {
+			m_stageNO = 13;
+			m_step = STEP::INIT + 3;
+			if (m_stageNO <= 0)
+			{
+				m_stageNO = 0;
+				m_step = STEP::INIT + 2;
+			}
+			m_timer = 0;
+			pStageManager->init(m_stageNO);
+			pBook->m_pfMove = &Book::turnPages;
+			pBook->m_targetPaperNO = START_PAGINATION / 2;
+			break;
+		}
+
+
+
 		if ((KEY_TRACKER.pressed.PageUp || PAD_TRACKER.back == PAD_TRACKER.PRESSED || PAD_TRACKER.leftTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END && pBook->m_isOpened)
 		{
 			--m_stageNO;
