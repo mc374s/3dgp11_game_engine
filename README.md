@@ -2,14 +2,4 @@
 Engine Test for TGS Project<br>
 Please Set your Solution Configuration to `Debug`, and the Platform is `x86`
 <br><br><br>
-## SceneMain
-### 本
-* `7` : 本を閉じる
-* `8` : 本を開く
-* `C` : ワンボタンで開閉
-### ビュー
-* `4`長押し : 斜めのビュー
-
-## プレイヤー
-* `A` `D` : 移動<br>
-* `Z` : ジャンプ<br>
+![](https://github.com/mc374s/3dgp11_game_engine/blob/beta_test_a/DATA/Images/UI/large_player.png)
