@@ -134,14 +134,16 @@ void judgeAll()
 					}
 				}
 				if (it.m_type == M_TYPE::RECOVERY) {
-					if (pPlayer->m_concentration <= (P_CONCENTRATION_MAX - it.m_concentration)) {
+					/*if (pPlayer->m_concentration <= (P_CONCENTRATION_MAX - it.m_concentration)) {
 						pPlayer->m_concentration += it.m_concentration;
 						it.clear();
 					}
 					else{
 						it.m_concentration -= (P_CONCENTRATION_MAX - pPlayer->m_concentration);
 						pPlayer->m_concentration = 10.0f;
-					}
+					}*/
+					pPlayer->m_concentration = 10.0f;
+					it.clear();
 				}
 
 

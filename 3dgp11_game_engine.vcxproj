@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -181,12 +181,24 @@
     <ClCompile Include="sound_data.cpp" />
     <ClCompile Include="sprite_data.cpp" />
     <ClCompile Include="stage00_data.cpp" />
-    <ClCompile Include="stage01_data.cpp" />
-    <ClCompile Include="stage02_data.cpp" />
-    <ClCompile Include="stage03_data.cpp" />
-    <ClCompile Include="stage04_data.cpp" />
-    <ClCompile Include="stage05_data.cpp" />
-    <ClCompile Include="stage06_data.cpp" />
+    <ClCompile Include="StageData\stage01_data.cpp" />
+    <ClCompile Include="StageData\stage02_data.cpp" />
+    <ClCompile Include="StageData\stage03_data.cpp" />
+    <ClCompile Include="StageData\stage04_data.cpp" />
+    <ClCompile Include="StageData\stage05_data.cpp" />
+    <ClCompile Include="StageData\stage06_data.cpp" />
+    <ClCompile Include="StageData\stage07_data.cpp" />
+    <ClCompile Include="StageData\stage08_data.cpp" />
+    <ClCompile Include="StageData\stage09_data.cpp" />
+    <ClCompile Include="StageData\stage10_data.cpp" />
+    <ClCompile Include="StageData\stage11_data.cpp" />
+    <ClCompile Include="StageData\stage12_data.cpp" />
+    <ClCompile Include="StageData\stage13_data.cpp" />
+    <ClCompile Include="StageData\stage14_data.cpp" />
+    <ClCompile Include="StageData\stage15_data.cpp" />
+    <ClCompile Include="StageData\stage16_data.cpp" />
+    <ClCompile Include="StageData\stage17_data.cpp" />
+    <ClCompile Include="StageData\stage18_data.cpp" />
     <ClCompile Include="tools.cpp" />
     <ClCompile Include="game_ui.cpp" />
   </ItemGroup>

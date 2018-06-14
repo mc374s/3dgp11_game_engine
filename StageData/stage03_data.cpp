@@ -1,7 +1,7 @@
-﻿#include "game.h"
-#include "map_obj.h"
+﻿#include "../game.h"
+#include "../map_obj.h"
 
-#include "stage_data.h"
+#include "../stage_data.h"
 
 STAGE_DATA stage03_setData[] = {
 

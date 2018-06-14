@@ -21,6 +21,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="StageData">
+      <UniqueIdentifier>{1581a8b6-6f4a-4a9d-a29f-1a92991b0700}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dgp\3dgp_system.h">
@@ -172,9 +175,6 @@
     <ClCompile Include="stage00_data.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="stage01_data.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="map_obj.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -193,20 +193,59 @@
     <ClCompile Include="paper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="stage02_data.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="StageData\stage01_data.cpp">
+      <Filter>StageData</Filter>
     </ClCompile>
-    <ClCompile Include="stage03_data.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="StageData\stage02_data.cpp">
+      <Filter>StageData</Filter>
     </ClCompile>
-    <ClCompile Include="stage04_data.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="StageData\stage03_data.cpp">
+      <Filter>StageData</Filter>
     </ClCompile>
-    <ClCompile Include="stage05_data.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="StageData\stage04_data.cpp">
+      <Filter>StageData</Filter>
     </ClCompile>
-    <ClCompile Include="stage06_data.cpp">
-      <Filter>Sources</Filter>
+    <ClCompile Include="StageData\stage05_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage06_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage07_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage08_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage09_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage10_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage11_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage12_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage13_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage14_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage15_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage16_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage17_data.cpp">
+      <Filter>StageData</Filter>
+    </ClCompile>
+    <ClCompile Include="StageData\stage18_data.cpp">
+      <Filter>StageData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

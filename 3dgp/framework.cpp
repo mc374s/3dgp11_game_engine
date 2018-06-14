@@ -347,7 +347,7 @@ void framework::calculate_frame_stats()
 		std::ostringstream outs;
 		outs.precision(6);
 		//outs << "FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)";
-		outs << "ペッタンプ"/*<< "  FPS : " << fps << " / " << "Frame Time : " << mspf << " (ms)"*/;
+		outs << "ペッタンプ"<< "  FPS : " << fps /*<< " / " << "Frame Time : " << mspf << " (ms)"*/;
 		/*outs.precision(4);
 		outs<< " #Blending Mode: " << strBlendMode[blendMode] << " #Alpha: " << alpha << " / 255.0f ( " << alpha / 255.0f * 100 << "% )";*/
 		SetWindowTextA(m_hWnd, outs.str().c_str());

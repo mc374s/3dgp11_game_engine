@@ -4,28 +4,61 @@
 #include "stage_data.h"
 
 int e_stageHeight[] = {
-	0,
+	0,////チュートリアルダミーデータ
+
 	0,
 	0,
 	(840) - (PH - 100),
 	0,
 	(900) - (PH - 100),
-	(1039) - (PH - 100),
+	(1039) - (PH - 100),//6
+
+	0,//7
+	0,
+	(840) - (PH - 100),
+	0,
+	(900) - (PH - 100),
+	(1039) - (PH - 100),//13
+
+	0,//14
+	0,
+	(840) - (PH - 100),
+	0,
+	(900) - (PH - 100),
+	(1039) - (PH - 100),//19
 
 };
 
 int e_startPagination[] = {
-	61,
+	11,//チュートリアルのページ目
+
+	17,
+	23,
+	29,
+	35,
+	41,
+	47,
+
+	
 	67,
 	73,
 	79,
 	85,
 	91,
 	97,
+
+	
+	117,
+	123,
+	129,
+	135,
+	141,
+	147,
 };
 
 v3 e_initPos[] = {
-{80,300,5 },//0
+{ 80,300,5 },////チュートリアルダミーデータ
+
 { 80,250,5 },//1
 { 80,580,5 },//2
 { 80,180,5 },//3
@@ -33,16 +66,46 @@ v3 e_initPos[] = {
 { 80,400,5 },//5
 { 80,400,5 },//6
 
+
+{ 80,250,5 },//7
+{ 80,580,5 },//
+{ 80,180,5 },//
+{ 80,180,5 },//
+{ 80,400,5 },//
+{ 80,400,5 },//12
+
+
+{ 80,250,5 },//13
+{ 80,580,5 },//
+{ 80,180,5 },//
+{ 80,180,5 },//
+{ 80,400,5 },//
+{ 80,400,5 },//18
 };
 
 int e_initLife[] = {
+	1,////チュートリアルダミーデータ
+
 	1,
 	1,
 	1,
 	1,
 	1,
 	1,
-	1,
+
+	2,
+	2,
+	2,
+	2,
+	2,
+	2,
+
+	3,
+	3,
+	3,
+	3,
+	3,
+	3,
 };
 
 const int STAGE_MAX_NUM = ARRAYSIZE(e_startPagination)/*sizeof(e_startPagination) / sizeof(int)*/;
@@ -65,6 +128,18 @@ STAGE_DATA* stageSetData[] = {
 	stage04_setData,
 	stage05_setData,
 	stage06_setData,
+	stage07_setData,
+	stage08_setData,
+	stage09_setData,
+	stage10_setData,
+	stage11_setData,
+	stage12_setData,
+	stage13_setData,
+	stage14_setData,
+	stage15_setData,
+	stage16_setData,
+	stage17_setData,
+	stage18_setData,
 };
 
 
