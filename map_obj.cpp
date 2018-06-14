@@ -70,24 +70,19 @@ void MapObj::init()
 
 	switch (m_type)
 	{
-	case M_TYPE::HOUSE:
-	case M_TYPE::TREE_A:
-	case M_TYPE::TREE_B:
-
+	case M_TYPE::RECOVERY:
 	case M_TYPE::GAME_RULE_LEFT:
 	case M_TYPE::GAME_RULE_RIGHT:
 
-	case M_TYPE::IVY_BIG:
 	case M_TYPE::KEY:
 	case M_TYPE::DOOR:
 		m_repeatDrawSize = { m_pSprData->width,m_pSprData->height,0 };
 		break;
-	case M_TYPE::IVY_THIN:
-	case M_TYPE::IVY_THICK:
+	case M_TYPE::BORDER_INNER:
 		m_repeatDrawSize = m_size;
 		break;
-	case M_TYPE::RECOVERY_UP:
-	case M_TYPE::RECOVERY_DOWN:
+	case M_TYPE::PASSABLE_UP:
+	case M_TYPE::PASSABLE_DOWN:
 		m_repeatDrawSize = m_size;
 		m_repeatDrawSize.y = m_pSprData->height;
 		m_pAnimeData = e_pAnimeRecovery;
@@ -190,35 +185,40 @@ void MapObj::draw()
 	drawRectangle(m_pos.x, m_pos.y, m_size.x, m_size.y, 0, 0xFFFFFF40);
 
 #endif // DEBUG
-
-	if (m_type == M_TYPE::RECOVERY_DOWN || m_type == M_TYPE::RECOVERY_UP) {
-		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX + 180;
-	}
-	else{
-		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX;
-	}
-
-	// 繰り返し描画のため、一旦SPRITE_BOTTOMの初期データを保存
-	int sprWidth = m_pSprData->width;
-	int sprHeight = m_pSprData->height;
-
-	m_pSprData->width = m_repeatDrawSize.x;
-	m_pSprData->height = m_repeatDrawSize.y;
-	if (m_drawDirection == M_DRAW::LEFT || m_drawDirection == M_DRAW::RIGHT)
+	if (m_pSprData)
 	{
-		m_pSprData->ofsX = -m_pSprData->width / 2 + m_pSprData->height / 2;
-		m_pSprData->ofsY = -m_pSprData->ofsX;
+		if (m_type == M_TYPE::PASSABLE_DOWN || m_type == M_TYPE::PASSABLE_UP) {
+			m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX + 180;
+		}
+		else if (m_type == M_TYPE::RECOVERY) {
+			m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX + 100;
+		}
+		else {
+			m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX;
+		}
+
+		// 繰り返し描画のため、一旦SPRITE_BOTTOMの初期データを保存
+		int sprWidth = m_pSprData->width;
+		int sprHeight = m_pSprData->height;
+
+		m_pSprData->width = m_repeatDrawSize.x;
+		m_pSprData->height = m_repeatDrawSize.y;
+		if (m_drawDirection == M_DRAW::LEFT || m_drawDirection == M_DRAW::RIGHT)
+		{
+			m_pSprData->ofsX = -m_pSprData->width / 2 + m_pSprData->height / 2;
+			m_pSprData->ofsY = -m_pSprData->ofsX;
+		}
+
+		// 繰り返し描画開始
+		OBJ2DEX::draw();
+		// 繰り返し描画終了
+
+		// SPRITE_BOTTONのデータを初期に戻す
+		m_pSprData->width = sprWidth;
+		m_pSprData->height = sprHeight;
+		m_pSprData->ofsX = 0;
+		m_pSprData->ofsY = 0;
 	}
-
-	// 繰り返し描画開始
-	OBJ2DEX::draw();
-	// 繰り返し描画終了
-
-	// SPRITE_BOTTONのデータを初期に戻す
-	m_pSprData->width = sprWidth;
-	m_pSprData->height = sprHeight;
-	m_pSprData->ofsX = 0;
-	m_pSprData->ofsY = 0;
 
 
 #ifdef DEBUG

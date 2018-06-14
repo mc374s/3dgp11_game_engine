@@ -28,14 +28,14 @@ SceneTitle::SceneTitle()
 	/*std::thread loadThread_2(loadAudioProgress);
 	loadThread_2.detach();*/
 	// pMFAudioManager->loadAudios(audio_data);
-	m_pBG = new OBJ2D;
-	m_pBG->m_pSprData = &e_sprTitleBG;
+	//m_pBG = new OBJ2D;
+	//m_pBG->m_pSprData = &e_sprTitleBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 
 	//pObjManager->init();
 	//pPlayerManager->init();
 	//pPlayerManager->m_pPlayerTsuta->m_isOnLeftPage = false;
-	changeScene(SCENE_MAIN);
+	//changeScene(SCENE_MAIN);
 }
 
 SceneTitle::~SceneTitle() {

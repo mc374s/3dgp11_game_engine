@@ -14,7 +14,6 @@
 // ラベル定義
 enum TEX_NO {
 	TEX_WHITE,
-	TEX_TITLE,
 	TEX_MAIN,
 	TEX_PLAYER,
 
@@ -22,11 +21,10 @@ enum TEX_NO {
 	TEX_COVER_FRONT,
 	TEX_COVER_BACK,
 
-	TEX_MAP_OBJECT,
 	TEX_KEY,
 	TEX_DOOR,
-	TEX_IVY_THICK,
-	TEX_IVY_THIN,
+	TEX_BORDER_INNER,
+	TEX_PASSABLE,
 	TEX_RECOVERY,
 
 	TEX_SMOKE,
@@ -70,7 +68,6 @@ enum TEX_NO {
 // 2D画像ロードデータ
 LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_WHITE,					"./DATA/Images/white.png" },
-	{ TEX_TITLE,					"./DATA/Images/default_bg.jpg" },
 	{ TEX_MAIN,						"./DATA/Images/main_bg.png"},
 	{ TEX_PLAYER,					"./DATA/Images/character.png"},
 
@@ -78,11 +75,10 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_COVER_FRONT,				"./DATA/Images/Book/cover_front.png" },
 	{ TEX_COVER_BACK,				"./DATA/Images/Book/cover_back.png" },
 
-	{ TEX_MAP_OBJECT,				"./DATA/Images/Map/map_object_full.png" },
 	{ TEX_KEY,						"./DATA/Images/Map/key.png" },
 	{ TEX_DOOR,						"./DATA/Images/Map/door.png" },
-	{ TEX_IVY_THICK,				"./DATA/Images/Map/border_thick.png" },
-	{ TEX_IVY_THIN,					"./DATA/Images/Map/border_thin.png" },
+	{ TEX_BORDER_INNER,				"./DATA/Images/Map/border_inner.png" },
+	{ TEX_PASSABLE,					"./DATA/Images/Map/passable.png" },
 	{ TEX_RECOVERY,					"./DATA/Images/Map/recovery.png" },
 
 	{ TEX_SMOKE,					"./DATA/Images/particle-smoke4.png" },
@@ -127,7 +123,6 @@ LOAD_TEXTURE e_loadTexture[] = {
 };
 
 // 背景
-SPRITE_LEFTTOP	e_sprTitleBG = SPRITE_LEFTTOP(TEX_TITLE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 SPRITE_LEFTTOP	e_sprMainBG = SPRITE_LEFTTOP(TEX_MAIN, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 // Book texture
@@ -194,10 +189,10 @@ SPRITE_BOTTOM e_pAnimePlayerJump[] = {
 
 SPRITE_LEFTTOP e_pAnimeRecovery[] =
 {
-	SPRITE_LEFTTOP(TEX_RECOVERY,    0, 0, 130,  17,0,0,10),
-	SPRITE_LEFTTOP(TEX_RECOVERY,    130, 0, 130,  17,0,0,10),
-	SPRITE_LEFTTOP(TEX_RECOVERY,    130 * 2, 0, 130,  17,0,0,10),
-	SPRITE_LEFTTOP(TEX_RECOVERY,    130 * 3, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_PASSABLE,    0, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_PASSABLE,    130, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_PASSABLE,    130 * 2, 0, 130,  17,0,0,10),
+	SPRITE_LEFTTOP(TEX_PASSABLE,    130 * 3, 0, 130,  17,0,0,10),
 	SPRITE_LEFTTOP(-1,0,0,0,0),
 };
 
@@ -208,16 +203,12 @@ SPRITE_LEFTTOP e_sprKey = SPRITE_LEFTTOP(TEX_KEY, 0, 0, 70, 58);// M_TYPE::KEY
 
 SPRITE_LEFTTOP e_pSprItem[] =
 {
-	SPRITE_LEFTTOP(TEX_MAP_OBJECT,   0, 0, 147,  92),// ITEM_HOUSE
-	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 147, 0, 101, 122),// ITEM_TREE_A
-	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 248, 0,  99, 112),// M_TYPE::TREE_B
-	SPRITE_LEFTTOP(TEX_MAP_OBJECT, 347, 0,  79,  47),// M_TYPE::IVY_BIG
-	SPRITE_LEFTTOP(TEX_IVY_THIN,	 0, 0, 125,  22),// M_TYPE::IVY_THIN
-	SPRITE_LEFTTOP(TEX_IVY_THICK,    0, 0, 125,  17),// M_TYPE::IVY_THICK
-	e_pAnimeRecovery[0],							 // M_TYPE::RECOVERY_UP
-	e_pAnimeRecovery[0],							 // M_TYPE::RECOVERY_DOWN
-	e_sprDoor,										 // M_TYPE::DOOR
-	e_sprKey,										 // M_TYPE::KEY
+	SPRITE_LEFTTOP(TEX_BORDER_INNER, 0, 0, 125, 17),	// M_TYPE::BORDER_INNER
+	e_pAnimeRecovery[0],								// M_TYPE::PASSABLE_UP
+	e_pAnimeRecovery[0],								// M_TYPE::PASSABLE_DOWN
+	SPRITE_LEFTTOP(TEX_RECOVERY,	 0, 0,	64, 64),	// M_TYPE::RECOVERY
+	e_sprDoor,											// M_TYPE::DOOR
+	e_sprKey,											// M_TYPE::KEY
 	e_sprWhite,// M_TYPE::HIGH_CONCENTRATION
 	SPRITE_LEFTTOP(TEX_GAME_RULE_LEFT, 0, 0,  PAGE_WIDTH,  PAGE_HEIGHT),// M_TYPE::GAME_RULE_LEFT
 	SPRITE_LEFTTOP(TEX_GAME_RULE_RIGHT, 0, 0,  PAGE_WIDTH,  PAGE_HEIGHT),// M_TYPE::GAME_RULE_RIGHT

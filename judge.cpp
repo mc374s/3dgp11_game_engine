@@ -79,7 +79,7 @@ void judgeAll()
 			{
 				//it.clear();
 				if (it.m_type != M_TYPE::HIGH_CONCENTRATION && it.m_type != M_TYPE::NONE
-					&& it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::RECOVERY_UP && it.m_type != M_TYPE::RECOVERY_DOWN
+					&& it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN
 					&& (pPlayer->m_concentration <= it.m_concentration/*it.m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION*/))
 				{
 					it.hitAdjust(pPlayer);
@@ -95,7 +95,7 @@ void judgeAll()
 					}*/
 				}
 
-				if (it.m_type == M_TYPE::RECOVERY_UP){
+				if (it.m_type == M_TYPE::PASSABLE_UP){
 					if (pPlayer->m_speed.y < 0) {
 						//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
 						if (pPlayer->m_pos.y < it.m_pos.y + it.m_size.y) {
@@ -116,7 +116,7 @@ void judgeAll()
 					}
 				}
 
-				if (it.m_type == M_TYPE::RECOVERY_DOWN){
+				if (it.m_type == M_TYPE::PASSABLE_DOWN){
 					if (pPlayer->m_speed.y >= 0) {
 						//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
 						if (pPlayer->m_pos.y - pPlayer->m_size.y > it.m_pos.y) {
@@ -131,6 +131,16 @@ void judgeAll()
 					}
 					else {
 						it.hitAdjust(pPlayer);
+					}
+				}
+				if (it.m_type == M_TYPE::RECOVERY) {
+					if (pPlayer->m_concentration <= (P_CONCENTRATION_MAX - it.m_concentration)) {
+						pPlayer->m_concentration += it.m_concentration;
+						it.clear();
+					}
+					else{
+						it.m_concentration -= (P_CONCENTRATION_MAX - pPlayer->m_concentration);
+						pPlayer->m_concentration = 10.0f;
 					}
 				}
 
@@ -162,7 +172,7 @@ void judgeAll()
 				// プレイヤーの濃度より高いObjは転写できない
 				if (pPlayer->m_concentration <= it.m_concentration && 
 					(it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::HIGH_CONCENTRATION &&
-						it.m_type != M_TYPE::RECOVERY_UP && it.m_type != M_TYPE::RECOVERY_DOWN))
+						it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN))
 				{
 					pPlayerManager->m_isTranscriptAble = false;
 					break;

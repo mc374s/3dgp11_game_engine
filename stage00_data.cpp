@@ -36,13 +36,13 @@ v3 e_initPos[] = {
 };
 
 int e_initLife[] = {
-	4,
-	2,
-	2,
-	2,
-	2,
-	2,
-	3,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
 };
 
 const int STAGE_MAX_NUM = ARRAYSIZE(e_startPagination)/*sizeof(e_startPagination) / sizeof(int)*/;

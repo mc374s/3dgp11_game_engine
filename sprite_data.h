@@ -4,7 +4,6 @@
 extern LOAD_TEXTURE e_loadTexture[];
 
 // 背景
-extern SPRITE_LEFTTOP	e_sprTitleBG;
 extern SPRITE_LEFTTOP	e_sprMainBG;
 
 // Book texture

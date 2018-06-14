@@ -5,7 +5,7 @@
 #include "../game.h"
 #include "../sound_data.h"
 #include "../sprite_data.h"
-#include "../scene_title.h"
+#include "../scene_main.h"
 #include <thread>
 
 
@@ -57,7 +57,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	//pTextureManager->loadTexture(e_loadTexture);
 
 	// Set the Init Scene
-	framework::changeScene(SCENE_TITLE);
+	framework::changeScene(SCENE_MAIN);
 
 
 	ShowWindow(hwnd, cmd_show);
