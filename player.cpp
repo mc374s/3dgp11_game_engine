@@ -727,7 +727,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 			m_transcriptionObj.m_pSprData = m_pPlayer->m_pSprData;
 			m_transcriptionObj.m_liveInPagination = m_pPlayer->m_liveInPagination;
 
-			pBook->m_ppPapers[m_pPlayer->m_liveInPagination / 2]->m_blurAreaList[m_pPlayer->m_liveInPagination % 2].push_back(m_transcriptionObj);
+			pBook->m_ppPapers[m_pPlayer->m_liveInPagination / 2]->m_transcriptionList[m_pPlayer->m_liveInPagination % 2].push_back(m_transcriptionObj);
 
 			if (m_isTranscriptCanceled)
 			{

@@ -123,8 +123,17 @@ void Paper::updateFront()
 		for (MapObj &it : m_mapObjList[0]) {
 			it.update();
 		}
-		for (OBJ2D &it : m_blurAreaList[0]) {
-			it.update();
+		for (auto it = m_blurAreaList[0].begin(); it != m_blurAreaList[0].end();) {
+			if ((*it).m_alpha <= 0) {
+				(*it).clear();
+				it = m_blurAreaList[0].erase(it);
+			}
+			else {
+				(*it).m_timer++;
+				(*it).m_alpha -= ((*it).m_timer / 40);
+				(*it).update();
+				++it;
+			}
 		}
 		for (OBJ2D &it : m_transcriptionList[0]) {
 			it.update();
@@ -142,8 +151,17 @@ void Paper::updateBack()
 		for (MapObj &it : m_mapObjList[1]) {
 			it.update();
 		}
-		for (OBJ2D &it : m_blurAreaList[1]) {
-			it.update();
+		for (auto it = m_blurAreaList[1].begin(); it != m_blurAreaList[1].end();) {
+			if ((*it).m_alpha<=0){
+				(*it).clear();
+				it = m_blurAreaList[1].erase(it);
+			}
+			else{
+				(*it).m_timer++;
+				(*it).m_alpha -= ((*it).m_timer / 40);
+				(*it).update();
+				++it;
+			}
 		}
 		for (OBJ2D &it : m_transcriptionList[1]) {
 			it.update();
