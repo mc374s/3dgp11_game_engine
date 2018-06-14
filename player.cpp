@@ -65,7 +65,7 @@ void Player::init()
 	//m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
 	m_hitObj.m_size = { 10,10,0 };
 	m_hitObj.m_custom.rgba = 0x000000FF;
-	m_hitObj.m_alpha = 10;
+	m_hitObj.m_alpha = 5;
 	m_newblurAreaList.clear();
 
 	m_isInit = true;
@@ -464,28 +464,24 @@ void Player::blur()
 	Vector3 randAdjust;
 	for (int i = 0, maxInOnce = 3; i < maxInOnce; i++) {
 		randAdjust = { (float)(rand() % (int)(fabsf(m_speed.x) + m_size.x)), (float)(rand() % (int)(fabsf(m_speed.y) + m_size.y)),0 };
-		if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && !m_isOnGround)
-		{
+		if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && !m_isOnGround) {
 			randAdjust.x -= m_size.x / 2;
 			randAdjust.y -= m_size.y / 2;
 		}
-		if (m_isOnGround)
-		{
+		if (m_isOnGround) {
 			randAdjust.x += m_size.x / 2;
 		}
 
-		if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON)
-		{
+		if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON) {
 			randAdjust.x *= (m_speed.x / fabsf(m_speed.x));
 		}
-		if (fabsf(m_speed.y - 0.0f) > FLT_EPSILON)
-		{
+		if (fabsf(m_speed.y - 0.0f) > FLT_EPSILON) {
 			randAdjust.y *= (m_speed.y / fabsf(m_speed.y));
 		}
 		m_hitObj.m_pos = m_pos - randAdjust;
 		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
 		m_hitObj.m_custom.angle = rand() % 180;
-		m_hitObj.m_alpha = rand() % 20 + 5;
+		m_hitObj.m_alpha = rand() % 5 + 5;
 		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
