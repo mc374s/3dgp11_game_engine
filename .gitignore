@@ -242,5 +242,4 @@ ModelManifest.xml
 .fake/
 
 # Shader Output Files
-*.cso
 *.cod
