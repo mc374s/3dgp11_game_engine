@@ -6,7 +6,7 @@
 #define P_SPEED_AX			(0.5f)
 #define P_SPEED_X_MAX		(3.5f)
 
-#define P_BLUR_SPEED							(0.012f)
+#define P_BLUR_SPEED							(0.005f)
 #define P_BLUR_SPEED_ON_BLUR_AREA				(0.006f)
 #define P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA	(0.006f)
 
