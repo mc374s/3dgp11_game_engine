@@ -24,6 +24,7 @@ public:
 	Vector3 m_size;
 
 	CUSTOM m_custom;
+	void(*m_pfMove)(OBJ2D*);
 
 	int m_timer;
 	int m_step;
@@ -35,13 +36,15 @@ public:
 	int m_liveInPagination; //所属しているページナンバー
 
 	virtual void clear();
-	virtual void update() {};
+	virtual void update();
 
 	virtual void draw();
 
 	static int searchSet(OBJ2D** a_ppBegin, int a_max);
 
 };
+
+void blur(OBJ2D* a_pObj);
 
 class OBJ2DEX : public OBJ2D
 {
@@ -64,7 +67,7 @@ public:
 
 	virtual void clear();
 
-	virtual void update() {};
+	virtual void update();
 	virtual void animation();
 
 	virtual void draw();

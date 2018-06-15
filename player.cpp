@@ -462,7 +462,7 @@ void Player::blur()
 
 	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
 	Vector3 randAdjust;
-	for (int i = 0, maxInOnce = 3; i < maxInOnce; i++) {
+	for (int i = 0, maxInOnce = 4; i < maxInOnce; i++) {
 		randAdjust = { (float)(rand() % (int)(fabsf(m_speed.x) + m_size.x)), (float)(rand() % (int)(fabsf(m_speed.y) + m_size.y)),0 };
 		if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && !m_isOnGround) {
 			randAdjust.x -= m_size.x / 2;

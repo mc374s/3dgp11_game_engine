@@ -32,6 +32,7 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 	m_liveInPagination = a_inputObj.m_liveInPagination;
 
 	m_pSprData = a_inputObj.m_pSprData;
+	m_pfMove = a_inputObj.m_pfMove;
 }
 
 OBJ2D::OBJ2D(const OBJ2D& a_inputObj)
@@ -53,6 +54,7 @@ const OBJ2D& OBJ2D::operator=(const OBJ2D& a_right)
 
 void OBJ2D::clear() 
 {
+	m_pfMove = nullptr;
 	m_pSprData = nullptr;
 	m_pos = m_initPos = Vector3(0, 0, 0);
 	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
@@ -66,6 +68,13 @@ void OBJ2D::clear()
 	m_liveInPagination = 1;
 
 	m_type = 0;
+}
+
+void OBJ2D::update()
+{
+	if (m_pfMove){
+		m_pfMove(this);
+	}
 }
 
 void OBJ2D::draw() 
@@ -94,6 +103,27 @@ int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max)
 	}
 	return -1;
 }
+
+void blur(OBJ2D* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+
+		break;
+	case STEP::BEGIN:
+		a_pObj->m_timer++;
+		a_pObj->m_alpha -= a_pObj->m_timer / 40;
+		break;
+	case STEP::END:
+		break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
 
 ///////////////////////////////////////////////////////////////
 // Class OBJ2DEX Function
@@ -154,6 +184,11 @@ void OBJ2DEX::animation()
 			}
 		}
 	}
+}
+
+void OBJ2DEX::update()
+{
+	OBJ2D::update();
 }
 
 void OBJ2DEX::draw() 
