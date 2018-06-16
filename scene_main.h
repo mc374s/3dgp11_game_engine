@@ -10,6 +10,7 @@ private:
 	OBJ2D* m_pBG;
 	char *m_pStr;
 	int m_stageNO;
+	int m_selectedStageNO;
 
 	bool m_isPlayerOnLeftPage = true;
 	bool m_stageClearFlag[30];
@@ -26,6 +27,13 @@ public:
 	void init();
 	void update();
 	void draw();
+
+	bool pause();
+	void gameMain();
+	//void stageSelection();
+	void turnPagesController();
+	void viewMode();
+	void endViewMode();
 };
 
 

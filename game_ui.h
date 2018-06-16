@@ -41,6 +41,8 @@ enum UI_NO
 	GAME_CLEAR_TEXT,
 	GAME_OVER_TEXT,
 
+	STAGE_SELECTED,
+
 	MAX_UI_NO,
 };
 
@@ -107,6 +109,7 @@ public:
 	void showHelpButton();
 	void showXButton();
 	void showScrollMode();
+	void showStageSelected(int a_stageNO = 0);
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())

@@ -3,6 +3,9 @@
 
 struct STAGE_DATA;
 
+extern STAGE_DATA stage_select00_setData[];
+extern STAGE_DATA stage_select01_setData[];
+
 extern STAGE_DATA stage00_setData[];
 extern STAGE_DATA stage01_setData[];
 extern STAGE_DATA stage02_setData[];

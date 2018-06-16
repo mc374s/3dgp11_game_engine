@@ -70,10 +70,15 @@ void MapObj::init()
 
 	switch (m_type)
 	{
-	case M_TYPE::RECOVERY:
+	case M_TYPE::STAGE_SELECT00_LEFT:
+	case M_TYPE::STAGE_SELECT00_RIGHT:
+	case M_TYPE::STAGE_SELECT01_LEFT:
+	case M_TYPE::STAGE_SELECT01_RIGHT:
+
 	case M_TYPE::GAME_RULE_LEFT:
 	case M_TYPE::GAME_RULE_RIGHT:
 
+	case M_TYPE::RECOVERY:
 	case M_TYPE::KEY:
 	case M_TYPE::DOOR:
 		m_repeatDrawSize = { m_pSprData->width,m_pSprData->height,0 };

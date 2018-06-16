@@ -705,6 +705,8 @@ void Book::finishReading()
 
 void Book::turnPages()
 {
+	static float openSpeed = 0.0f;
+	static int waitTime = 10;
 	if (m_pfMoveOld != &Book::turnPages)
 	{
 		m_pfMoveOld = m_pfMove;
@@ -716,7 +718,7 @@ void Book::turnPages()
 		m_timer = 0;
 		m_isOpened = false;
 		m_isClosed = false;
-		m_openSpeed = 0;
+		m_openSpeed = 0.0f;
 		m_angleChangeSpeed.y = 1;
 		m_speed.y = 30.0f*m_angleChangeSpeed.y / 30.0f;
 		m_speed.z = 100.0f*m_angleChangeSpeed.y / 30.0f;
@@ -732,7 +734,12 @@ void Book::turnPages()
 			}
 
 		}*/
-
+		waitTime = 10;
+		openSpeed = fabsf(m_targetPaperNO - m_currentPaperNO) < 3.0f ? 3.0f : fabsf(m_targetPaperNO - m_currentPaperNO);
+		if (openSpeed > 6) {
+			openSpeed = 6;
+			waitTime = 3;
+		}
 		if (m_currentPaperNO == m_targetPaperNO) {
 			m_step = STEP::END + 1;
 			break;
@@ -757,29 +764,31 @@ void Book::turnPages()
 		break;
 	case STEP::BEGIN+1:
 		m_timer++;
-		if (m_timer > 10 && m_currentPaperNO != m_targetPaperNO)
+		if (m_timer > waitTime && fabsf(openSpeed - 0.0f) > FLT_EPSILON)
 		{
 			if (m_currentPaperNO < m_targetPaperNO)
 			{
 
-				m_openSpeed = 3;
-				m_currentPaperNO++;
+				m_openSpeed = openSpeed;
+				++m_currentPaperNO;
 				if (m_currentPaperNO >= m_targetPaperNO)
 				{
 					m_currentPaperNO = m_targetPaperNO;
 					m_ppPapers[m_currentPaperNO + 1]->m_isActive = true;
+					openSpeed = 0.0f;
 				}
 				m_position.z -= m_ppPapers[m_currentPaperNO]->m_depth;
 			}
-			if (m_currentPaperNO > m_targetPaperNO)
+			else if (m_currentPaperNO >= m_targetPaperNO)
 			{
-				m_openSpeed = -3;
+				m_openSpeed = -openSpeed;
 				m_position.z += m_ppPapers[m_currentPaperNO]->m_depth;
-				m_currentPaperNO--;
+				--m_currentPaperNO;
 				if (m_currentPaperNO <= m_targetPaperNO)
 				{
 					m_currentPaperNO = m_targetPaperNO;
 					m_ppPapers[m_currentPaperNO - 1]->m_isActive = true;
+					openSpeed = 0.0f;
 				}
 			}
 			m_ppPapers[m_currentPaperNO]->m_isActive = true;

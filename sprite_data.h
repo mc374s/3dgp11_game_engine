@@ -58,6 +58,9 @@ extern SPRITE_CENTER e_sprXButton;
 
 extern SPRITE_LEFTTOP e_sprScrollMode;
 
+extern SPRITE_LEFTTOP e_pSprStageSelection[];
+extern SPRITE_CENTER e_sprStageSelected;
+
 
 // Effect関係
 extern SPRITE_CENTER e_sprHitObj;

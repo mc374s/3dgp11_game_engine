@@ -241,6 +241,12 @@ void GameUIManager::init()
 	m_ppGameUI[GAME_CLEAR_TEXT]->m_pSprData = &e_sprGameClear;
 	m_ppGameUI[GAME_OVER_TEXT]->m_pSprData = &e_sprGameOver;
 
+	// UI for Stage Selection
+	m_ppGameUI[STAGE_SELECTED]->m_pSprData = &e_sprStageSelected;
+	m_ppGameUI[STAGE_SELECTED]->m_isVisibleAlways = false;
+	m_ppGameUI[STAGE_SELECTED]->m_isVisible = false;
+	m_ppGameUI[STAGE_SELECTED]->m_initPos = m_ppGameUI[STAGE_SELECTED]->m_pos = { PAGE_WIDTH / 2.0f,146.0f,0.0f };
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
 	for (auto &pObj : m_ppNumbers)
@@ -471,4 +477,22 @@ void GameUIManager::showScrollMode()
 	}
 }
 
+void GameUIManager::showStageSelected(int a_stageNO)
+{
+	m_ppGameUI[STAGE_SELECTED]->m_isVisible = true;
+	if (a_stageNO % 12 < 6) {
+		m_ppGameUI[STAGE_SELECTED]->m_pos.x = PAGE_WIDTH / 2.0f;
+	}
+	else {
+		m_ppGameUI[STAGE_SELECTED]->m_pos.x = SCREEN_WIDTH - PAGE_WIDTH / 2.0f;
+	}
+
+	if (a_stageNO % 6 < 3){
+		m_ppGameUI[STAGE_SELECTED]->m_pos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + a_stageNO % 6 * 60.0f;
+	}
+	else {
+		m_ppGameUI[STAGE_SELECTED]->m_pos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + (a_stageNO % 6 - 1) * 60.0f + 200.0f;
+	}
+
+}
 

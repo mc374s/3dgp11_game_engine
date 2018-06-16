@@ -199,6 +199,8 @@
     <ClCompile Include="StageData\stage16_data.cpp" />
     <ClCompile Include="StageData\stage17_data.cpp" />
     <ClCompile Include="StageData\stage18_data.cpp" />
+    <ClCompile Include="stage_select00_data.cpp" />
+    <ClCompile Include="stage_select01_data.cpp" />
     <ClCompile Include="tools.cpp" />
     <ClCompile Include="game_ui.cpp" />
   </ItemGroup>

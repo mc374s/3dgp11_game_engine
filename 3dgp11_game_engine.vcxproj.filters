@@ -247,6 +247,12 @@
     <ClCompile Include="StageData\stage18_data.cpp">
       <Filter>StageData</Filter>
     </ClCompile>
+    <ClCompile Include="stage_select01_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage_select00_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="3dgp\primitive3d.hlsli">
