@@ -131,7 +131,7 @@ void Player::normalMove()
 	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON || fabsf(m_speed.y - 0.0f) > FLT_EPSILON)
 	{
 
-		m_concentration -= m_blurSpeed;
+		//m_concentration -= m_blurSpeed;
 		m_isMoving = true;
 	}
 	else

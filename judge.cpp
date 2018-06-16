@@ -214,7 +214,7 @@ void judgeAll()
 
 
 		// 滲んだとこと判定
-		/*pPlayer->m_isOnBlurArea = false;
+		pPlayer->m_isOnBlurArea = false;
 		if (isBookOpened)
 		{
 			for (auto &it : *pBlurList) {
@@ -225,7 +225,7 @@ void judgeAll()
 					break;
 				}
 			}
-		}*/
+		}
 
 
 		// 被ってる滲むObjは作らない
@@ -242,6 +242,7 @@ void judgeAll()
 			}
 			if (!isRepeated)
 			{
+				pPlayer->m_concentration -= P_BLUR_SPEED;
 				pBlurList->push_back(newIt);
 			}
 		}

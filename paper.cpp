@@ -124,7 +124,7 @@ void Paper::updateFront()
 			it.update();
 		}
 		for (auto it = m_blurAreaList[0].begin(); it != m_blurAreaList[0].end();) {
-			if ((*it).m_alpha <= 0) {
+			/*if ((*it).m_alpha <= 0) {
 				(*it).clear();
 				it = m_blurAreaList[0].erase(it);
 			}
@@ -133,7 +133,9 @@ void Paper::updateFront()
 				(*it).m_alpha -= ((*it).m_timer / 40);
 				(*it).update();
 				++it;
-			}
+			}*/
+			(*it).update();
+			++it;
 		}
 		for (OBJ2D &it : m_transcriptionList[0]) {
 			it.update();
@@ -152,7 +154,7 @@ void Paper::updateBack()
 			it.update();
 		}
 		for (auto it = m_blurAreaList[1].begin(); it != m_blurAreaList[1].end();) {
-			if ((*it).m_alpha<=0){
+			/*if ((*it).m_alpha<=0){
 				(*it).clear();
 				it = m_blurAreaList[1].erase(it);
 			}
@@ -161,7 +163,9 @@ void Paper::updateBack()
 				(*it).m_alpha -= ((*it).m_timer / 40);
 				(*it).update();
 				++it;
-			}
+			}*/
+			(*it).update();
+			++it;
 		}
 		for (OBJ2D &it : m_transcriptionList[1]) {
 			it.update();

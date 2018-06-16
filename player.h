@@ -7,7 +7,7 @@
 #define P_SPEED_X_MAX		(3.5f)
 
 #define P_BLUR_SPEED							(0.005f)
-#define P_BLUR_SPEED_ON_BLUR_AREA				(0.006f)
+#define P_BLUR_SPEED_ON_BLUR_AREA				(0.0f)
 #define P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA	(0.006f)
 
 #define GRIVATY				(0.20f)
