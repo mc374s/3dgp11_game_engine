@@ -80,10 +80,9 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
-		m_pStr = "";
-		m_timer = 0;
 		pBook->update();
 		pStageManager->update();
+		m_timer = 0;
 		if (KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
 		{
 			if (!pBook->m_pfMove)
@@ -100,7 +99,10 @@ void SceneMain::update()
 			else
 			{
 				m_selectedStageNO = 0;
+				pBook->m_pfMove = nullptr;
+				pBook->m_step = STEP::FINISH;
 				m_step = STEP::INIT + 2;
+				break;
 			}
 		}
 		if (!pBook->m_pfMove){
@@ -109,10 +111,6 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 2:
 		// Stage Select
-		pBook->update();
-		pStageManager->update();
-		pEffectManager->update();
-
 		
 		if (pBook->m_isOpened)
 		{
@@ -190,6 +188,10 @@ void SceneMain::update()
 		}
 
 		turnPagesController();
+
+		pBook->update();
+		pStageManager->update();
+		pEffectManager->update();
 
 		break;
 	case STEP::INIT + 3:
@@ -325,7 +327,7 @@ bool SceneMain::pause()
 		m_pausedOption = abs(m_pausedOption) % (int)PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM;
 		if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED)
 		{
-			if (m_pausedOption == PAUSED_SELECTION::TO_TITLE){
+			if (m_pausedOption == PAUSED_SELECTION::TO_GAME){
 				m_isPaused = false;
 			}
 			if (m_pausedOption == PAUSED_SELECTION::TO_TITLE){
