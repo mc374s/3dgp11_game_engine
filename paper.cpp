@@ -237,9 +237,13 @@ void Paper::drawBack()
 		for (MapObj &it : m_mapObjList[1]) {
 			it.draw();
 		}
+
+		MyBlending::setMode(framework::s_pDeviceContext, BLEND_ALPHA);
 		for (OBJ2D &it : m_blurAreaList[1]) {
 			it.draw();
 		}
+		MyBlending::setMode(framework::s_pDeviceContext, BLEND_ALPHA);
+
 		for (OBJ2D &it : m_transcriptionList[1]) {
 			it.draw();
 		}

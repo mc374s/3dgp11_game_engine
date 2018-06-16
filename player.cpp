@@ -383,8 +383,6 @@ void Player::normalMove()
 		}
 	}
 
-	//pGameUIManager->showPlayerConcentration(m_concentration, m_life);
-
 }
 
 void Player::restartMove()
@@ -518,6 +516,7 @@ void Player::draw()
 	if (m_isKeyHandled) {
 		m_keyObj->draw();
 	}
+
 
 #ifdef DEBUG
 

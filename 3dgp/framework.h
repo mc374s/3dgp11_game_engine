@@ -2,6 +2,7 @@
 #define _FRAMEWORK_H_
 
 #include "3dgp_system.h"
+#include "blend.h"
 
 #include "sprite.h"
 

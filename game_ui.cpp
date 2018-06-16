@@ -18,7 +18,7 @@ void GameUI::memberCopy(const GameUI& a_inputObj)
 	OBJ2D::memberCopy(a_inputObj);
 	m_isVisible = a_inputObj.m_isVisible;
 	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
-
+	m_setPos = a_inputObj.m_setPos;
 }
 
 GameUI::GameUI(const GameUI& a_inputObj) :OBJ2DEX(a_inputObj)
@@ -39,9 +39,16 @@ const GameUI& GameUI::operator=(const GameUI& a_right)
 
 void GameUI::init()
 {
+	clear();
+}
+
+void GameUI::clear()
+{
+	OBJ2DEX::clear();
 	m_isInit = true;
 	m_isVisible = true;
 	m_isVisibleAlways = true;
+	m_setPos = { 0.0f,0.0f,0.0f };
 	m_custom.scaleMode = SCALE_MODE::CENTER;
 }
 
@@ -204,8 +211,8 @@ void GameUIManager::init()
 
 	*m_ppGameUI[PAUSE_SELECTED] = *m_ppGameUI[PAUSE_PANEL];
 	m_ppGameUI[PAUSE_SELECTED]->m_pSprData = &e_sprPauseSelected;
-	m_ppGameUI[PAUSE_SELECTED]->m_initPos.x = m_ppGameUI[PAUSE_SELECTED]->m_pos.x -= 208;
-	m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 52;
+	m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[PAUSE_SELECTED]->m_initPos.x = m_ppGameUI[PAUSE_SELECTED]->m_pos.x -= 208;
+	m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 52;
 
 	// UI for HELP
 	m_ppGameUI[HELP]->m_pSprData = &e_sprHelp;
@@ -246,7 +253,7 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_SELECTED]->m_pSprData = &e_sprStageSelected;
 	m_ppGameUI[STAGE_SELECTED]->m_isVisibleAlways = false;
 	m_ppGameUI[STAGE_SELECTED]->m_isVisible = false;
-	m_ppGameUI[STAGE_SELECTED]->m_initPos = m_ppGameUI[STAGE_SELECTED]->m_pos = { PAGE_WIDTH / 2.0f,146.0f,0.0f };
+	m_ppGameUI[STAGE_SELECTED]->m_setPos = m_ppGameUI[STAGE_SELECTED]->m_initPos = m_ppGameUI[STAGE_SELECTED]->m_pos = { SCREEN_WIDTH / 4.0f,170.0f,0.0f };
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
@@ -433,7 +440,19 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 		m_ppGameUI[PAUSE_PANEL]->m_isVisible = true;
 		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
 
-		m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 90.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 90.0f;
+	}
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 8.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y > m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
+		}
+	}
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y > m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 8.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
+		}
 	}
 }
 
@@ -482,17 +501,44 @@ void GameUIManager::showStageSelected(int a_stageNO)
 {
 	m_ppGameUI[STAGE_SELECTED]->m_isVisible = true;
 	if (a_stageNO % 12 < 6) {
-		m_ppGameUI[STAGE_SELECTED]->m_pos.x = PAGE_WIDTH / 2.0f;
+		m_ppGameUI[STAGE_SELECTED]->m_custom.reflectX = true;
+		m_ppGameUI[STAGE_SELECTED]->m_setPos.x = m_ppGameUI[STAGE_SELECTED]->m_initPos.x;
 	}
 	else {
-		m_ppGameUI[STAGE_SELECTED]->m_pos.x = SCREEN_WIDTH - PAGE_WIDTH / 2.0f;
+		m_ppGameUI[STAGE_SELECTED]->m_custom.reflectX = false;
+		m_ppGameUI[STAGE_SELECTED]->m_setPos.x = m_ppGameUI[STAGE_SELECTED]->m_initPos.x + SCREEN_WIDTH / 2.0f;
 	}
 
 	if (a_stageNO % 6 < 3){
-		m_ppGameUI[STAGE_SELECTED]->m_pos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + a_stageNO % 6 * 60.0f;
+		m_ppGameUI[STAGE_SELECTED]->m_setPos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + a_stageNO % 6 * 60.0f;
 	}
 	else {
-		m_ppGameUI[STAGE_SELECTED]->m_pos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + (a_stageNO % 6 - 1) * 60.0f + 200.0f;
+		m_ppGameUI[STAGE_SELECTED]->m_setPos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + (a_stageNO % 6 - 1) * 60.0f + 205.0f;
+	}
+	if (m_ppGameUI[STAGE_SELECTED]->m_pos.x < m_ppGameUI[STAGE_SELECTED]->m_setPos.x){
+		m_ppGameUI[STAGE_SELECTED]->m_pos.x += (m_ppGameUI[STAGE_SELECTED]->m_setPos.x - m_ppGameUI[STAGE_SELECTED]->m_pos.x) / 5;
+		if (m_ppGameUI[STAGE_SELECTED]->m_pos.x > m_ppGameUI[STAGE_SELECTED]->m_setPos.x) {
+			m_ppGameUI[STAGE_SELECTED]->m_pos.x = m_ppGameUI[STAGE_SELECTED]->m_setPos.x;
+		}
+	}
+	if (m_ppGameUI[STAGE_SELECTED]->m_pos.x > m_ppGameUI[STAGE_SELECTED]->m_setPos.x) {
+		m_ppGameUI[STAGE_SELECTED]->m_pos.x += (m_ppGameUI[STAGE_SELECTED]->m_setPos.x - m_ppGameUI[STAGE_SELECTED]->m_pos.x) / 5;
+		if (m_ppGameUI[STAGE_SELECTED]->m_pos.x < m_ppGameUI[STAGE_SELECTED]->m_setPos.x) {
+			m_ppGameUI[STAGE_SELECTED]->m_pos.x = m_ppGameUI[STAGE_SELECTED]->m_setPos.x;
+		}
+	}
+
+	if (m_ppGameUI[STAGE_SELECTED]->m_pos.y < m_ppGameUI[STAGE_SELECTED]->m_setPos.y) {
+		m_ppGameUI[STAGE_SELECTED]->m_pos.y += (m_ppGameUI[STAGE_SELECTED]->m_setPos.y - m_ppGameUI[STAGE_SELECTED]->m_pos.y) / 5;
+		if (m_ppGameUI[STAGE_SELECTED]->m_pos.y > m_ppGameUI[STAGE_SELECTED]->m_setPos.y) {
+			m_ppGameUI[STAGE_SELECTED]->m_pos.y = m_ppGameUI[STAGE_SELECTED]->m_setPos.y;
+		}
+	}
+	if (m_ppGameUI[STAGE_SELECTED]->m_pos.y > m_ppGameUI[STAGE_SELECTED]->m_setPos.y) {
+		m_ppGameUI[STAGE_SELECTED]->m_pos.y += (m_ppGameUI[STAGE_SELECTED]->m_setPos.y - m_ppGameUI[STAGE_SELECTED]->m_pos.y) / 5;
+		if (m_ppGameUI[STAGE_SELECTED]->m_pos.y < m_ppGameUI[STAGE_SELECTED]->m_setPos.y) {
+			m_ppGameUI[STAGE_SELECTED]->m_pos.y = m_ppGameUI[STAGE_SELECTED]->m_setPos.y;
+		}
 	}
 
 }
