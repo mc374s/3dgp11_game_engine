@@ -131,16 +131,16 @@ void SceneMain::update()
 			}
 			if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) {
 				++m_selectedStageNO;
-				if (m_selectedStageNO >= STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) {
-					m_selectedStageNO = STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM;
+				if (m_selectedStageNO >= STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1) {
+					m_selectedStageNO = STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1;
 
-					m_stageNO = STAGE_SELECT_MAX_NUM;
+					/*m_stageNO = STAGE_SELECT_MAX_NUM;
 					m_timer = 0;
 					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
 					pBook->m_targetPaperNO = START_PAGINATION / 2;
 					m_step = STEP::INIT + 3;
-					break;
+					break;*/
 				}
 				if (m_selectedStageNO % 12 == 0 && m_stageNO < STAGE_SELECT_MAX_NUM) {
 					++m_stageNO;
@@ -153,7 +153,7 @@ void SceneMain::update()
 			}
 			if (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED) {
 				if (m_selectedStageNO < 12) {
-					m_selectedStageNO -= 6;
+					m_selectedStageNO += 6;
 					m_selectedStageNO %= 12;
 				}
 			}
@@ -164,6 +164,7 @@ void SceneMain::update()
 				}
 
 			}
+
 			// 強制正規化
 			m_selectedStageNO = (pBook->m_currentPaperNO - 1) * 12 + m_selectedStageNO % 12;
 

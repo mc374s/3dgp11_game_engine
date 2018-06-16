@@ -204,7 +204,8 @@ void GameUIManager::init()
 
 	*m_ppGameUI[PAUSE_SELECTED] = *m_ppGameUI[PAUSE_PANEL];
 	m_ppGameUI[PAUSE_SELECTED]->m_pSprData = &e_sprPauseSelected;
-	m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 30;
+	m_ppGameUI[PAUSE_SELECTED]->m_initPos.x = m_ppGameUI[PAUSE_SELECTED]->m_pos.x -= 208;
+	m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 52;
 
 	// UI for HELP
 	m_ppGameUI[HELP]->m_pSprData = &e_sprHelp;
@@ -432,7 +433,7 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 		m_ppGameUI[PAUSE_PANEL]->m_isVisible = true;
 		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
 
-		m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 86;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 90.0f;
 	}
 }
 
