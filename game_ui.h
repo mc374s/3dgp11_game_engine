@@ -111,7 +111,7 @@ public:
 	void showHelpButton();
 	void showXButton();
 	void showScrollMode();
-	void showStageSelected(int a_stageNO = 0);
+	void showStageSelected(int a_stageNO = 0, bool a_doReset = false);
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())

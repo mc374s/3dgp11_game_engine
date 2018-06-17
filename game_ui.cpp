@@ -254,6 +254,7 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_SELECTED]->m_isVisibleAlways = false;
 	m_ppGameUI[STAGE_SELECTED]->m_isVisible = false;
 	m_ppGameUI[STAGE_SELECTED]->m_setPos = m_ppGameUI[STAGE_SELECTED]->m_initPos = m_ppGameUI[STAGE_SELECTED]->m_pos = { SCREEN_WIDTH / 4.0f,170.0f,0.0f };
+	m_ppGameUI[STAGE_SELECTED]->m_alpha = 0;
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
@@ -497,9 +498,16 @@ void GameUIManager::showScrollMode()
 	}
 }
 
-void GameUIManager::showStageSelected(int a_stageNO)
+void GameUIManager::showStageSelected(int a_stageNO, bool a_doReset)
 {
+	if (a_doReset)
+	{
+		m_ppGameUI[STAGE_SELECTED]->m_pos = m_ppGameUI[STAGE_SELECTED]->m_initPos;
+		m_ppGameUI[STAGE_SELECTED]->m_alpha = 0;
+		return;
+	}
 	m_ppGameUI[STAGE_SELECTED]->m_isVisible = true;
+	m_ppGameUI[STAGE_SELECTED]->m_alpha += 10;
 	if (a_stageNO % 12 < 6) {
 		m_ppGameUI[STAGE_SELECTED]->m_custom.reflectX = true;
 		m_ppGameUI[STAGE_SELECTED]->m_setPos.x = m_ppGameUI[STAGE_SELECTED]->m_initPos.x;
