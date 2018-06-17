@@ -7,9 +7,9 @@ int e_stageHeight[] = {
 	0,////ステージセレクトダミーデータ
 	0,////ステージセレクトダミーデータ
 
-	0,//STAGE 1-1
-	0,//STAGE 1-2
-	0,//STAGE 1-3
+	0,					//STAGE 1-1
+	0,					//STAGE 1-2
+	(840) - (PH - 100),	//STAGE 1-3
 
 	0,					//STAGE 2-1
 	(900) - (PH - 100),	//STAGE 2-2
@@ -19,7 +19,7 @@ int e_stageHeight[] = {
 	(4200) - (PH - 100),//STAGE 3-2
 	(4200) - (PH - 100),//STAGE 3-3
 
-	(840) - (PH - 100),	//STAGE 4-1
+	(1500) - (PH - 100),//STAGE 4-1
 	0,					//STAGE 4-2
 	(900) - (PH - 100),	//STAGE 4-3
 

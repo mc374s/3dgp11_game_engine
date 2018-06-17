@@ -187,7 +187,10 @@ void SceneMain::update()
 				}
 				m_timer = 0;
 				pStageManager->init(m_stageNO);
-				pBook->m_pfMove = &Book::closeBook;
+				pBook->m_pfMove = &Book::turnPages;
+				if (m_stageNO > 4) {
+					pBook->m_pfMove = &Book::closeBook;
+				}
 				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				pBook->initStartPaper(START_PAGINATION / 2);
 
@@ -329,7 +332,7 @@ void SceneMain::draw()
 
 bool SceneMain::pause()
 {
-	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step >= STEP::INIT + 2 && pBook->m_pfMove != &Book::turnPages)
+	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step >= STEP::BEGIN)
 	{
 		m_isPaused = true;
 	}
