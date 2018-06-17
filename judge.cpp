@@ -157,7 +157,9 @@ void judgeAll()
 				{
 					pPlayer->m_isKeyHandled = false;
 					//pPlayer->m_keyObj.m_pSprData = it.m_pSprData;
-					pPlayer->m_keyObj->m_pSprData = nullptr;
+					//pPlayer->m_keyObj->m_pSprData = nullptr;
+					//pPlayer->m_keyObj->m_pos = it.m_pos;
+					pPlayer->m_keyObj->m_initPos = it.m_pos;
 					pPlayer->m_mode = P_MODE::CLEAR;
 					it.m_isHitAble = false;
 					it.m_concentration = P_CONCENTRATION_MAX;
