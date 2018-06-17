@@ -259,7 +259,20 @@ void StageManager::init(int a_stageNO)
 	INIT_POS = e_initPos[m_stageNO];
 	P_LIFE_MAX = e_initLife[m_stageNO];
 
-	pBook->initStartPaper(START_PAGINATION / 2);
+	//pBook->initStartPaper(START_PAGINATION / 2);
+
+	//static int currentPaperNO;
+	//currentPaperNO = pBook->m_currentPaperNO;
+	//pBook->m_currentPaperNO = START_PAGINATION / 2;
+	//
+	//update();
+	//
+	//if (INIT_POS.y > PAGE_HEIGHT)
+	//{
+	//	pBook->setScroll(Vector3(0, INIT_POS.y - PAGE_HEIGHT, 0), START_PAGINATION, true);
+	//	INIT_POS.y = PAGE_HEIGHT - 100;
+	//}
+	//pBook->m_currentPaperNO = currentPaperNO;
 
 }
 

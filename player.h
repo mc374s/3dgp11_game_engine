@@ -59,6 +59,7 @@ public:
 	OBJ2D* m_keyObj;
 
 	Vector3 m_scrolledDistance;
+	Vector3 m_scrolledDistanceAdjust;
 	float m_blurSpeed;
 	Vector3 m_setPos;
 	OBJ2D m_hitObj;
@@ -80,6 +81,7 @@ public:
 
 	void normalMove();
 	void restartMove();
+	void startMove();
 
 };
 

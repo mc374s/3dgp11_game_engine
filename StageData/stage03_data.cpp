@@ -21,7 +21,7 @@ STAGE_DATA stage03_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3], 0, M_TYPE::KEY,						M_DRAW::UP,		v3(50,440 - 58,0),	true, v3(70,58,0), 10),
 
-
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3], 0, M_TYPE::TUTORIAL_4,				M_DRAW::UP,		v3(300,120,0),	false, v3(239,55,0), 10),
 
 
 

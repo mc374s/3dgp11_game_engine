@@ -14,6 +14,7 @@ STAGE_DATA stage02_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2], 0, M_TYPE::KEY,						M_DRAW::UP,		v3(PW / 2,560 - 58,0),	true, v3(70,58,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2],0  ,M_TYPE::DOOR,					M_DRAW::UP,		v3(60,840 - 76,0),	true, v3(70,76,0), LOW_CONCENTRATION),
 
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2],0  ,M_TYPE::TUTORIAL_3,					M_DRAW::UP,		v3(150,130,0),	false, v3(309,54,0), 10),
 
 
 
