@@ -11,7 +11,7 @@
 #define P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA	(0.006f)
 
 #define GRIVATY				(0.20f)
-#define P_SPEED_Y_MAX		(12)
+#define P_SPEED_Y_MAX		(10)
 #define P_JUMP_POWER		(-5)
 
 #define P_JUMP_MAX_NUM	(1)
