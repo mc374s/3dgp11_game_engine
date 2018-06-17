@@ -99,8 +99,6 @@ void judgeAll()
 					if (pPlayer->m_speed.y < 0) {
 						//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
 						if (pPlayer->m_pos.y < it.m_pos.y + it.m_size.y) {
-							if (it.m_concentration > 0)
-							{
 								pPlayer->m_concentration += it.m_concentration;
 								it.m_concentration = 0;
 								if (pPlayer->m_concentration > 10) {
@@ -108,7 +106,6 @@ void judgeAll()
 								}
 								Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
 								MFAudioPlay(SE_SPLASH);
-							}
 						}
 					}
 					else {
