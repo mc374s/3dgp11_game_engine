@@ -135,6 +135,9 @@ void Player::normalMove()
 		m_damageTimer++;
 		if (m_damageTimer % 20 == 0) {
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(rand() % 50 - 25, rand() % 50 - 25, 0), m_liveInPagination, effectDamaging, 0, m_custom.reflectX);
+			if (m_damageTimer % 40 == 0){
+				MFAudioPlay(SE_FALL);
+			}
 		}
 		if (m_damageTimer % 20 < 10) {
 			m_custom.rgba = 0xFF0000FF;
@@ -569,6 +572,7 @@ void Player::draw()
 	OBJ2DEX::draw();
 	if (m_isKeyHandled || m_mode==P_MODE::CLEAR) {
 		m_keyObj->draw();
+		//m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, m_keyObj->m_pSprData->height, 0);
 	}
 	if (m_mode==P_MODE::NORMAL)
 	{

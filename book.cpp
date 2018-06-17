@@ -524,6 +524,7 @@ void Book::openBook()
 		if (pPlayerManager->m_isTranscriptAble)
 		{
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayerManager->m_pPlayer->m_pos.x, pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_size.y / 2, 0), pPlayerManager->m_pPlayer->m_liveInPagination, effectMakeTranscription);
+			//MFAudioPlay(SE_START);
 		}
 		m_step = STEP::FINISH;
 		break;

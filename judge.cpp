@@ -139,6 +139,7 @@ void judgeAll()
 						it.m_concentration -= (P_CONCENTRATION_MAX - pPlayer->m_concentration);
 						pPlayer->m_concentration = 10.0f;
 					}*/
+					MFAudioPlay(SE_START);
 					pPlayer->m_concentration = 10.0f;
 					it.clear();
 				}
