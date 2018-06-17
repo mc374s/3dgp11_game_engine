@@ -17,7 +17,7 @@ int e_stageHeight[] = {
 
 	(900) - (PH - 100),	//STAGE 3-1
 	(1039) - (PH - 100),//STAGE 3-2
-	0,					//STAGE 3-3
+	(5000) - (PH - 100),//STAGE 3-3
 
 	(840) - (PH - 100),//STAGE 4-1
 	0,				   //STAGE 4-2
@@ -70,25 +70,25 @@ v3 e_initPos[] = {
 	{ 80,300,5 },////ステージセレクトダミーデータ
 
 
-	{ 80,300,5 },//STAGE 1-1
-	{ 80,250,5 },//STAGE 1-2
-	{ 80,580,5 },//STAGE 1-3
+	{ 80,250,5 },//STAGE 1-1
+	{ 80,580,5 },//STAGE 1-2
+	{ 80,180,5 },//STAGE 1-3
 
 	{ 80,180,5 },//STAGE 2-1
-	{ 80,180,5 },//STAGE 2-2
+	{ 80,400,5 },//STAGE 2-2
 	{ 80,400,5 },//STAGE 2-3
 
 	{ 80,400,5 },//STAGE 3-1
-	{ 80,400,5 },//STAGE 3-2
-	{ 80,580,5 },//STAGE 3-3
+	{ 80,100,5 },//STAGE 3-2
+	{ 80,180,5 },//STAGE 3-3
 
 	{ 80,180,5 },//STAGE 4-1
-	{ 80,180,5 },//STAGE 4-2
+	{ 80,400,5 },//STAGE 4-2
 	{ 80,400,5 },//STAGE 4-3
 
-	{ 80,600,5 },//STAGE 5-1
-	{ 80,250,5 },//STAGE 5-2
-	{ 80,580,5 },//STAGE 5-3
+	{ 80,250,5 },//STAGE 5-1
+	{ 80,580,5 },//STAGE 5-2
+	{ 80,180,5 },//STAGE 5-3
 
 	//{ 80,180,5 },//
 	//{ 80,180,5 },//
@@ -184,12 +184,13 @@ STAGE_DATA stage00_setData[] = {
 	// ページ１
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW,11,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::KEY,						M_DRAW::UP,		v3(PW / 2,PH / 2 - 58,0),	true, v3(70,58,0), 10),
-
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::FOREST_1,				M_DRAW::UP,		v3(100,PH / 2 - 36,0),	false, v3(83,36,0), 10),
 
 	//ページ２
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::BORDER_INNER,			M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW ,11,0), 10),
-	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(100,PH / 2 - 64,0),	true, v3(64,64,0), 2),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1] + 1, 0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(100,PH / 2 - 64,0),	true, v3(64,64,0), 2),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(450,PH / 2 - 76,0),	true, v3(70,76,0), LOW_CONCENTRATION),
+
 
 	// END
 	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
