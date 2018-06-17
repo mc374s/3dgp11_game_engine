@@ -308,7 +308,7 @@ void SceneMain::draw()
 
 #ifdef  DEBUG
 	char buf[256];
-	sprintf_s(buf, "StageNO: %d \nm_step %d \nm_selectedStageNO %d", m_stageNO, m_step, m_selectedStageNO);
+	sprintf_s(buf, "STAGE %d \nStageNO: %d \nm_step %d \nm_selectedStageNO %d", m_stageNO - STAGE_SELECT_MAX_NUM, m_stageNO, m_step, m_selectedStageNO);
 	drawString(SCREEN_WIDTH / 2, 400, buf, COLOR_WHITE >> 8 << 8 | 0xA0, STR_CENTER, 40, 40);
 
 #endif //  DEBUG

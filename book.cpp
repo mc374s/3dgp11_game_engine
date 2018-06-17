@@ -841,7 +841,7 @@ void Book::turnPages()
 							m_step = STEP::END;
 							break;
 						}
-						if (fabs(m_ppPapers[i + 1]->m_custom3d.angleYawPitchRoll.x - 180.0f) < FLT_EPSILON)
+						if (fabs(m_ppPapers[i + 1]->m_custom3d.angleYawPitchRoll.x - m_ppPapers[i]->m_custom3d.angleYawPitchRoll.x) < FLT_EPSILON)
 						{
 							m_ppPapers[i]->m_isActive = false;
 						}
@@ -872,7 +872,7 @@ void Book::turnPages()
 							m_step = STEP::END;
 							break;
 						}
-						if (fabs(m_ppPapers[i - 1]->m_custom3d.angleYawPitchRoll.x - 0.0f) < FLT_EPSILON)
+						if (fabs(m_ppPapers[i - 1]->m_custom3d.angleYawPitchRoll.x - m_ppPapers[i]->m_custom3d.angleYawPitchRoll.x) < FLT_EPSILON)
 						{
 							m_ppPapers[i]->m_isActive = false;
 						}

@@ -20,8 +20,6 @@ Player::Player()
 void Player::init()
 {
 	m_pAnimeData = e_pAnimePlayerYawn;
-	//m_pAnimeData = e_pAnimePlayerJump;
-	m_size = Vector3(60, 45, 4);
 	m_command = 0x0;
 	m_pos = INIT_POS;
 	m_setPos = m_initPos = m_pos;
@@ -31,22 +29,7 @@ void Player::init()
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
 	m_mode = P_MODE::RESTART;
-	m_montionState = P_STATE::STANDBY;
-	m_concentration = P_CONCENTRATION_MAX;
-	m_blurSpeed = P_BLUR_SPEED;
 	m_alpha = 0;
-	m_transferConcentration = 0;
-	m_timer = 0;
-	m_isOnBlurArea = false;
-	m_isMoving = false;
-	m_isDamaged = false;
-
-	m_speed = { 0,0,0 };
-	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
-	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
-	m_isOnScrollArea = false;
-
-	m_isOnGround = true;
 	m_isKeyHandled = false;
 	if (m_keyObj)
 	{
@@ -67,6 +50,7 @@ void Player::init()
 	m_hitObj.m_custom.rgba = 0x000000FF;
 	m_hitObj.m_alpha = 5;
 	m_newblurAreaList.clear();
+
 
 	m_isInit = true;
 
@@ -148,6 +132,7 @@ void Player::normalMove()
 		if (m_mode != P_MODE::CLEAR)
 		{
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+			MFAudioPlay(SE_DEAD);
 			m_mode = P_MODE::RESTART;
 		}
 	}
@@ -253,19 +238,24 @@ void Player::normalMove()
 
 	// スクロールエリア処理
 	m_isOnScrollArea = false;
+
+	//if (m_pos.y <= P_SCROLL_Y_BOTTOM && m_pos.y >= P_SCROLL_Y_TOP) {
+	//	m_isOnScrollArea = false;
+	//}
+
 	m_type = 0;//debug
 	// TODO : スピードが高い場合の判定
 	if (m_pos.y - m_size.y < P_SCROLL_Y_TOP && m_pos.y/* - m_speed.y */> P_SCROLL_Y_TOP && m_speed.y <= 0 && m_scrolledDistance.y > 0)
 	{
 		/*if (m_scrolledDistance.y > -P_JUMP_POWER_BLUR)
 		{
-			
+
 		}*/
 		m_pos.y = P_SCROLL_Y_TOP + m_size.y - 0.1;
 		m_isOnScrollArea = true;
 		m_type = 1;//debug
 	}
-	if (m_pos.y > P_SCROLL_Y_BOTTOM && m_pos.y - m_size.y < P_SCROLL_Y_BOTTOM && m_speed.y > 0 && m_scrolledDistance.y < STAGE_HEIGHT)
+	if (m_pos.y > P_SCROLL_Y_BOTTOM && m_pos.y - m_size.y < P_SCROLL_Y_BOTTOM && m_speed.y > 0 && m_scrolledDistance.y < STAGE_HEIGHT && m_isOnScrollArea == false)
 	{
 		m_pos.y = P_SCROLL_Y_BOTTOM;
 		m_isOnScrollArea = true;
@@ -345,7 +335,7 @@ void Player::normalMove()
 		blur();
 	}
 
-	if (m_life <= 0)
+	if (m_life < 0)
 	{
 		m_mode = P_MODE::DEAD;
 	}
@@ -400,42 +390,40 @@ void Player::restartMove()
 		m_liveInPagination = START_PAGINATION;
 		m_timer = 0;
 		m_isOnScrollArea = false;
-		MFAudioPlay(SE_DEAD);
+		m_speed.y = -m_scrolledDistance.y / 10;
+		//MFAudioPlay(SE_DEAD);
 		//break;
 	case STEP::BEGIN:
-		m_isOnScrollArea = false;
 		m_timer++;
-		if (m_timer > 60)
+		if (m_timer > 60 || (fabsf(m_scrolledDistance.y - 0.0f) < FLT_EPSILON && m_timer > 20))
 		{
 			m_timer = 0;
-			m_speed.y = -m_scrolledDistance.y / 10;
+			//m_speed.y = -m_scrolledDistance.y / 10;
+			m_isOnScrollArea = true;
 			m_step = STEP::BEGIN + 1;
 		}
 		break;
 	case STEP::BEGIN+1:
-		m_pos.y += m_speed.y;
 
-		m_isOnScrollArea = true;
+		m_pos.y += m_speed.y;
+		m_scrolledDistance.y += m_speed.y;
+
 		if (m_isOnScrollArea)
 		{
-			m_scrolledDistance.y += m_speed.y;
-			if (m_scrolledDistance.y <= 0)
+			if (m_speed.y*m_scrolledDistance.y >= 0)
 			{
 				//m_speed.y = 0;
 				//m_isOnScrollArea = false;
-				m_step = STEP::END;
-				m_pos.x = 80;
-				m_pos.y = 400;
+				m_scrolledDistance.y = 0;
 				--m_life;
-				if (m_life>0)
-				{
+				if (m_life >= 0) {
 					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
 				}
-				else
-				{
+				else {
 					m_mode = P_MODE::DEAD;
 					break;
 				}
+				m_step = STEP::END;
 			}
 		}
 		break;
@@ -444,6 +432,8 @@ void Player::restartMove()
 			restart();
 			m_speed.y = 0;
 			//m_isOnScrollArea = false;
+
+
 			m_mode = P_MODE::NORMAL;
 		}
 		break;
@@ -589,15 +579,15 @@ void PlayerManager::init() {
 		m_pPlayer = new Player();
 		m_pPlayer->clear();
 		m_pPlayer->init();
-		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
-		m_pPlayer->m_mode = P_MODE::START;
+		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
+		//m_pPlayer->m_mode = P_MODE::RESTART;
 	}
 	else
 	{
 		m_pPlayer->clear();
 		m_pPlayer->init();
-		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
-		m_pPlayer->m_mode = P_MODE::START;
+		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
+		//m_pPlayer->m_mode = P_MODE::RESTART;
 	}
 }
 
