@@ -189,6 +189,8 @@ STAGE_DATA stage00_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::FOREST_7,				M_DRAW::UP,		v3(120,PH / 2 - 138,0),	false, v3(91,138,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::FOREST_2,				M_DRAW::UP,		v3(450,PH / 2 - 43,0),	false, v3(57,43,0), 10),
 
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::TUTORIAL_1,				M_DRAW::UP,		v3(350,200,0),	false, v3(102,26,0), 10),
+
 	//ページ２
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::BORDER_INNER,			M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW ,11,0), 10),
 	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1] + 1, 0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(100,PH / 2 - 64,0),	true, v3(64,64,0), 2),

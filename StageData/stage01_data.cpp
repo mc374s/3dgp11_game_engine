@@ -14,7 +14,8 @@ STAGE_DATA stage01_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1], 0, M_TYPE::FOREST_5,				M_DRAW::UP,		v3(360,650 - 26,0),	false, v3(168,26,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1], 0, M_TYPE::FOREST_8,				M_DRAW::UP,		v3(470,650 - 128,0),	false, v3(115,128,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1], 0, M_TYPE::FOREST_11,				M_DRAW::UP,		v3(160,300 - 110,0),	false, v3(146,110,0), 10),
-														
+
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1], 0, M_TYPE::TUTORIAL_2,				M_DRAW::UP,		v3(300,500,0),	false, v3(157,26,0), 10),
 
 	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1], 0, M_TYPE::PASSABLE_UP,				M_DRAW::UP,		v3(155,680,1),		true, v3(155,22,0), 3, recoveryControl),
 	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(465,680,1),		true, v3(155,22,0), 3, recoveryControl),
