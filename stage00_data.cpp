@@ -7,10 +7,10 @@ int e_stageHeight[] = {
 	0,////ステージセレクトダミーデータ
 	0,////ステージセレクトダミーデータ
 
-	0,////チュートリアルダミーデータ
+	0,
+	0,
+	0,
 
-	0,
-	0,
 	(840) - (PH - 100),
 	0,
 	(900) - (PH - 100),
@@ -22,14 +22,15 @@ int e_stageHeight[] = {
 	(840) - (PH - 100),
 	0,
 	(900) - (PH - 100),
-	(1039) - (PH - 100),//13
 
+	(1039) - (PH - 100),//13
 	0,//14
 	0,
-	(840) - (PH - 100),
-	0,
-	(900) - (PH - 100),
-	(1039) - (PH - 100),//19
+
+	//(840) - (PH - 100),
+	//0,
+	//(900) - (PH - 100),
+	//(1039) - (PH - 100),//19
 
 };
 
@@ -38,26 +39,25 @@ int e_startPagination[] = {
 	5,////ステージ 5-1~8-3 セレクトページ目
 
 
-	11 - 4,//チュートリアルのページ目
+	7,  
+	13,
+	19,
 
-	17 - 4,
-	23 - 4,
+	25,
+	31,
+	37,
 
-	29 - 4,
-	35 - 4,
-	41 - 4,
+	43,  
+	49,
+	55,
 
-	47 - 4,
-	67 - 4,
-	73 - 4,
+	61,
+	67,
+	73,
 
-	79 - 4,
-	85 - 4,
-	91 - 4,
-
-	97 - 4,
-	117 - 4,
-	123 - 4,
+	79,
+	85,
+	91,
 
 	//129-4,
 	//135-4,
@@ -100,28 +100,30 @@ int e_initLife[] = {
 	1,////ステージセレクトダミーデータ
 	1,////ステージセレクトダミーデータ
 
-	1,////チュートリアルダミーデータ
-
-	1,
-	1,
-	1,
-	1,
+	1,//0
 	1,
 	1,
 
+	1,
+	1,
+	1,
+
+	1,
 	2,
 	2,
-	2,
+
 	2,
 	2,
 	2,
 
+	2,
 	3,
 	3,
-	3,
-	3,
-	3,
-	3,
+
+	//3,
+	//3,
+	//3,
+	//3,
 };
 
 const int STAGE_SELECT_MAX_NUM = 2;
@@ -167,14 +169,23 @@ STAGE_DATA* stageSetData[] = {
 
 STAGE_DATA stage00_setData[] = {
 
-	// ページ 左
+	//// ページ 左
+	//
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::GAME_RULE_LEFT,				M_DRAW::UP,		v3(0,0,0),					false, v3(0,0,0), 10),
+	//
+	//
+	//// ページ 右
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::GAME_RULE_RIGHT,		M_DRAW::UP,		v3(0,0,0),					false, v3(0,0,0), 10),
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::GAME_RULE_LEFT,				M_DRAW::UP,		v3(0,0,0),					false, v3(0,0,0), 10),
+	// ページ１
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW,11,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0], 0, M_TYPE::KEY,						M_DRAW::UP,		v3(PW / 2,PH / 2 - 58,0),	true, v3(70,58,0), 10),
 
 
-	// ページ 右
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::GAME_RULE_RIGHT,		M_DRAW::UP,		v3(0,0,0),					false, v3(0,0,0), 10),
-
+	//ページ２
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::BORDER_INNER,			M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW ,11,0), 10),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(100,PH / 2 - 64,0),	true, v3(64,64,0), 2),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(450,PH / 2 - 76,0),	true, v3(70,76,0), LOW_CONCENTRATION),
 
 	// END
 	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),

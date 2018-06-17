@@ -99,7 +99,11 @@ void MapObj::init()
 		m_custom.rgba = 0xFF0000FF;
 		m_alpha = 255 * m_concentration / P_CONCENTRATION_MAX;
 		break;
+	case M_TYPE::NONE:
+	case M_TYPE::MAX_M_TYPE:
+		break;
 	default:
+		m_repeatDrawSize = { m_pSprData->width,m_pSprData->height,0 };
 		break;
 	}
 
