@@ -7,25 +7,25 @@ int e_stageHeight[] = {
 	0,////ステージセレクトダミーデータ
 	0,////ステージセレクトダミーデータ
 
-	0,
-	0,
-	0,
+	0,					//STAGE 1-1
+	0,					//STAGE 1-2
+	(840) - (PH - 100),	//STAGE 1-3
 
-	(840) - (PH - 100),
-	0,
-	(900) - (PH - 100),
-	(900) - (PH - 100),//6
+	0,					//STAGE 2-1
+	(900) - (PH - 100),	//STAGE 2-2
+	(900) - (PH - 100),	//STAGE 2-3
 
-	(1039) - (PH - 100),//7
+	(1039) - (PH - 100),//STAGE 3-1
+	(4200) - (PH - 100),//STAGE 3-2
+	(4200) - (PH - 100),//STAGE 3-3
 
-	(5000) - (PH-100),//8
-	(840) - (PH - 100),
-	0,
-	(900) - (PH - 100),
+	(1500) - (PH - 100),//STAGE 4-1
+	0,					//STAGE 4-2
+	(900) - (PH - 100),	//STAGE 4-3
 
-	(1039) - (PH - 100),//13
-	0,//14
-	0,
+	(1039) - (PH - 100),//STAGE 5-1
+	0,					//STAGE 5-2
+	0,					//STAGE 5-3
 
 	//(840) - (PH - 100),
 	//0,
@@ -39,25 +39,25 @@ int e_startPagination[] = {
 	5,////ステージ 5-1~8-3 セレクトページ目
 
 
-	7,  
-	13,
-	19,
+	7, //STAGE 1-1 
+	13,//STAGE 1-2
+	19,//STAGE 1-3
 
-	25,
-	31,
-	37,
+	25,//STAGE 2-1
+	31,//STAGE 2-2
+	37,//STAGE 2-3
 
-	43,  
-	49,
-	55,
+	43,//STAGE 3-1  
+	49,//STAGE 3-2
+	55,//STAGE 3-3
 
-	61,
-	67,
-	73,
+	61,//STAGE 4-1
+	67,//STAGE 4-2
+	73,//STAGE 4-3
 
-	79,
-	85,
-	91,
+	79,//STAGE 5-1
+	85,//STAGE 5-2
+	91,//STAGE 5-3
 
 	//129-4,
 	//135-4,
@@ -67,56 +67,58 @@ int e_startPagination[] = {
 
 v3 e_initPos[] = {
 	{ 80,300,5 },////ステージセレクトダミーデータ
-{ 80,300,5 },////ステージセレクトダミーデータ
+	{ 80,300,5 },////ステージセレクトダミーデータ
 
 
-{ 80,250,5 },//1
-{ 80,580,5 },//2
-{ 80,180,5 },//3
-{ 80,180,5 },//4
-{ 80,400,5 },//5
-{ 80,400,5 },//6
+	{ 80,250,5 },//STAGE 1-1
+	{ 80,580,5 },//STAGE 1-2
+	{ 80,180,5 },//STAGE 1-3
 
+	{ 80,180,5 },//STAGE 2-1
+	{ 80,400,5 },//STAGE 2-2
+	{ 80,400,5 },//STAGE 2-3
 
-{ 80,400,5 },//7
-{ 80,100,5 },//
-{ 80,180,5 },//
-{ 80,180,5 },//
-{ 80,400,5 },//
-{ 80,400,5 },//12
+	{ 80,400,5 },//STAGE 3-1
+	{ 80,100,5 },//STAGE 3-2
+	{ 80,180,5 },//STAGE 3-3
 
+	{ 80,180,5 },//STAGE 4-1
+	{ 80,180,5 },//STAGE 4-2
+	{ 80,400,5 },//STAGE 4-3
 
-{ 80,250,5 },//13
-{ 80,580,5 },//
-{ 80,180,5 },//
-{ 80,180,5 },//
-{ 80,400,5 },//
-{ 80,400,5 },//18
+	{ 80,400,5 },//STAGE 5-1
+	{ 80,180,5 },//STAGE 5-2
+	{ 80,580,5 },//STAGE 5-3
+
+	//{ 80,180,5 },//
+	//{ 80,180,5 },//
+	//{ 80,400,5 },//
+	//{ 80,400,5 },//18
 };
 
 int e_initLife[] = {
 	1,////ステージセレクトダミーデータ
 	1,////ステージセレクトダミーデータ
 
-	1,//0
-	1,
-	1,
+	1,//STAGE 1-1
+	1,//STAGE 1-2
+	1,//STAGE 1-3
 
-	1,
-	1,
-	1,
+	1,//STAGE 2-1
+	1,//STAGE 2-2
+	1,//STAGE 2-3
 
-	1,
-	2,
-	2,
+	1,//STAGE 3-1
+	2,//STAGE 3-2
+	2,//STAGE 3-3
 
-	2,
-	2,
-	2,
+	2,//STAGE 4-1
+	2,//STAGE 4-2
+	2,//STAGE 4-3
 
-	2,
-	3,
-	3,
+	2,//STAGE 5-1
+	3,//STAGE 5-2
+	3,//STAGE 5-3
 
 	//3,
 	//3,
@@ -142,29 +144,33 @@ STAGE_DATA* stageSetData[] = {
 	stage_select00_setData,
 	stage_select01_setData,
 
-	stage00_setData,
-	stage01_setData,
-	stage02_setData,
-	stage03_setData,
-	stage04_setData,
-	stage05_setData,
-	stage06_setData,
-	stage07_setData,
-	stage08_setData,
-	stage09_setData,
-	stage10_setData,
-	stage11_setData,
-	stage12_setData,
-	stage13_setData,
-	stage14_setData,
-	stage15_setData,
-	stage16_setData,
-	stage17_setData,
-	stage18_setData,
+	stage00_setData,//STAGE 1-1
+	stage01_setData,//STAGE 1-2
+	stage02_setData,//STAGE 1-3
+
+	stage03_setData,//STAGE 2-1
+	stage04_setData,//STAGE 2-2
+	stage05_setData,//STAGE 2-3
+
+	stage06_setData,//STAGE 3-1
+	stage07_setData,//STAGE 3-2
+	stage08_setData,//STAGE 3-3
+
+	stage09_setData,//STAGE 4-1
+	stage10_setData,//STAGE 4-2
+	stage11_setData,//STAGE 4-3
+
+	stage12_setData,//STAGE 5-1
+	stage13_setData,//STAGE 5-2
+	stage14_setData,//STAGE 5-3
+	//stage15_setData,
+	//stage16_setData,
+	//stage17_setData,
+	//stage18_setData,
 };
 
 
-
+//STAGE 1-1
 STAGE_DATA stage00_setData[] = {
 
 	//// ページ 左

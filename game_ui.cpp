@@ -419,8 +419,6 @@ void GameUIManager::showPlayerConcentration(float a_playerConcentration, int a_p
 	m_ppGameUI[C_GAGE_ANIME]->animation();
 	//m_ppGameUI[C_PLAYER_FACE]->m_alpha = 255 * a_playerConcentration / (float)P_CONCENTRATION_MAX;
 
-
-	--a_playerLife;
 	for (int i = STAMP; i < STAMP_MAX; i++) {
 		if (i - STAMP < a_playerLife)
 		{

@@ -340,6 +340,7 @@ void Book::closeBook()
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
+
 		m_openSpeedAcc += 0.018f;
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed * 2;
@@ -390,13 +391,17 @@ void Book::closeBook()
 			/*m_position.z = 450;
 			m_position.y = 270;*/
 			m_timer = 0;
+
+			m_position.z -= PAPER_DEPTH*(m_targetPaperNO - m_currentPaperNO);
+			m_currentPaperNO = m_targetPaperNO;
+
 			m_step = STEP::END;
 			MFAudioPlay(SE_CLOSE);
 		}
 		break;
 	case STEP::END:
 		m_timer++;
-		if (pPlayerManager->m_step == STEP::FINISH || m_timer > 120)
+		if (pPlayerManager->m_step == STEP::FINISH || m_timer > 10)
 		{
 			m_timer = 0;
 			m_step = STEP::END + 1;
@@ -422,7 +427,6 @@ void Book::closeBook()
 		}
 		break;
 	case STEP::FINISH:
-
 		break;
 	default:
 		break;
@@ -737,9 +741,13 @@ void Book::turnPages()
 		waitTime = 10;
 		openSpeed = fabsf(m_targetPaperNO - m_currentPaperNO) < 3.0f ? 3.0f : fabsf(m_targetPaperNO - m_currentPaperNO);
 		//openSpeed = fabsf(m_targetPaperNO - m_currentPaperNO);
-		if (openSpeed > 6) {
-			openSpeed = 6;
-			waitTime = 0;
+		if (openSpeed < 8) {
+			waitTime = 8;
+			openSpeed = 3.0f;
+		}
+		if (openSpeed >= 8) {
+			openSpeed = 5;
+			waitTime = 2;
 		}
 		if (abs(m_targetPaperNO - m_currentPaperNO) == 1)
 		{
@@ -769,8 +777,8 @@ void Book::turnPages()
 		break;
 	case STEP::BEGIN+1:
 		m_timer++;
-		if (abs(m_targetPaperNO - m_currentPaperNO) < 4 && waitTime == 0) {
-			waitTime = 10;
+		if (abs(m_targetPaperNO - m_currentPaperNO) < 3 && waitTime == 2) {
+			waitTime = 6;
 			if (fabsf(openSpeed - 0.0f) > FLT_EPSILON) {
 				openSpeed = 3.0f;
 				if (abs(m_targetPaperNO - m_currentPaperNO) == 1) {
@@ -783,8 +791,8 @@ void Book::turnPages()
 		{
 			if (m_currentPaperNO < m_targetPaperNO)
 			{
-
 				m_openSpeed = openSpeed;
+
 				++m_currentPaperNO;
 				if (m_currentPaperNO >= m_targetPaperNO)
 				{
@@ -841,7 +849,7 @@ void Book::turnPages()
 							m_step = STEP::END;
 							break;
 						}
-						if (fabs(m_ppPapers[i + 1]->m_custom3d.angleYawPitchRoll.x - 180.0f) < FLT_EPSILON)
+						if (fabs(m_ppPapers[i + 1]->m_custom3d.angleYawPitchRoll.x - m_ppPapers[i]->m_custom3d.angleYawPitchRoll.x) < FLT_EPSILON)
 						{
 							m_ppPapers[i]->m_isActive = false;
 						}
@@ -872,7 +880,7 @@ void Book::turnPages()
 							m_step = STEP::END;
 							break;
 						}
-						if (fabs(m_ppPapers[i - 1]->m_custom3d.angleYawPitchRoll.x - 0.0f) < FLT_EPSILON)
+						if (fabs(m_ppPapers[i - 1]->m_custom3d.angleYawPitchRoll.x - m_ppPapers[i]->m_custom3d.angleYawPitchRoll.x) < FLT_EPSILON)
 						{
 							m_ppPapers[i]->m_isActive = false;
 						}
