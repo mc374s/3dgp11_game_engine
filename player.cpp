@@ -235,7 +235,10 @@ void Player::normalMove()
 	{
 		m_speed.y = -m_speedMax.y;
 	}
-
+	if (m_speed.y > m_speedMax.y)
+	{
+		m_speed.y = m_speedMax.y;
+	}
 
 	if (m_speed.x > m_speedMax.x)
 	{
