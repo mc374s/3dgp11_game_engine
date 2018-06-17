@@ -50,8 +50,8 @@ void Player::init()
 	m_hitObj.m_custom.rgba = 0x000000FF;
 	m_hitObj.m_alpha = 5;
 	m_newblurAreaList.clear();
-
-
+	m_damageTimer = 0;
+	m_eyes.m_pSprData = &e_sprEyes;
 	m_isInit = true;
 
 }
@@ -76,14 +76,15 @@ void Player::restart()
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
 	m_mode = P_MODE::NORMAL;
-	m_montionState = P_STATE::STANDBY;
+	m_montionState = P_STATE::DROPPING;
 	m_concentration = P_CONCENTRATION_MAX;
 	m_blurSpeed = P_BLUR_SPEED;
 	m_alpha = 255;
 	m_transferConcentration = 0;
 	m_timer = 0;
 	m_isOnBlurArea = false;
-	m_isMoving = false;
+	m_isMoving = true;
+	m_isOnGround = false;
 	if (!m_isKeyHandled)
 	{
 		m_keyObj->clear();
@@ -97,6 +98,7 @@ void Player::restart()
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
 	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
 	m_isOnScrollArea = false;
+	m_damageTimer = 0;
 
 	m_isInit = true;
 }
@@ -106,9 +108,15 @@ void Player::normalMove()
 	// input
 	m_command = getInputKey();
 	// 滲む範囲でのスピード入れ替え
+	static int blurTimer = 0;
+	blurTimer++;
 	if (m_isOnBlurArea) {
 		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
+		if (blurTimer % 10 == 0 && m_isMoving) {
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(rand() % 30 - 15, rand() % 20 - 10, 0), m_liveInPagination, effectOnBlurArea, 0, m_custom.reflectX);
+		}
 	} else {
+		blurTimer = 0;
 		m_blurSpeed = P_BLUR_SPEED;
 	}
 	// 濃度計算：動いてるときに減っていく
@@ -123,9 +131,22 @@ void Player::normalMove()
 		m_isMoving = false;
 	}
 
-	if (m_isDamaged)
-	{
+	if (m_isDamaged){
+		m_damageTimer++;
+		if (m_damageTimer % 20 == 0) {
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(rand() % 50 - 25, rand() % 50 - 25, 0), m_liveInPagination, effectDamaging, 0, m_custom.reflectX);
+		}
+		if (m_damageTimer % 20 < 10) {
+			m_custom.rgba = 0xFF0000FF;
+		}
+		else{
+			m_custom.rgba = 0xFFFFFFFF;
+		}
 		m_concentration -= P_BLUR_SPEED_ON_HIGT_CONCENTRATION_AREA;
+	}else
+	{
+		m_damageTimer = 0;
+		m_custom.rgba = 0xFFFFFFFF;
 	}
 	if (m_concentration < 0)
 	{
@@ -302,6 +323,7 @@ void Player::normalMove()
 		m_speed.y = 0;
 	}
 
+
 	// 鍵移動
 	if (m_isKeyHandled && m_keyObj->m_pSprData)
 	{
@@ -327,6 +349,20 @@ void Player::normalMove()
 		m_animeNO = 0;
 		m_pAnimeData = e_pAnimePlayerRun;
 	}
+
+	static Effect* pRuningEff = nullptr;
+	if (m_pAnimeData == e_pAnimePlayerRun && m_animeNO == 0 && m_isOnGround && !m_isOnBlurArea) {
+		pRuningEff = Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(m_custom.reflectX ? -20 : 40, 0, 0), m_liveInPagination, effectRunning, 0, m_custom.reflectX);
+	}
+	if (pRuningEff && m_isOnGround) {
+		pRuningEff->m_pos.x += m_speed.x;
+		pRuningEff->m_pos.y = m_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
+	}
+	if (!m_isOnGround && pRuningEff)
+	{
+		pRuningEff->clear();
+	}
+
 	if ((m_montionState == P_STATE::DROPPING || m_montionState == P_STATE::JUMPING) && !m_isOnGround && m_pAnimeData != e_pAnimePlayerJump)
 	{
 		m_animeNO = 0;
@@ -509,7 +545,14 @@ void Player::draw()
 	if (m_isKeyHandled) {
 		m_keyObj->draw();
 	}
-
+	if (m_mode==P_MODE::NORMAL)
+	{
+		*m_eyes.m_pSprData = *m_pSprData;
+		m_eyes.m_pSprData->texNum = m_pSprData->texNum + 1;
+		m_eyes.m_pos = m_pos;
+		m_eyes.m_custom = m_custom;
+		m_eyes.draw();
+	}
 
 #ifdef DEBUG
 
@@ -518,6 +561,7 @@ void Player::draw()
 		m_scrolledDistance.y, m_pos.y, m_speed.y, m_concentration, m_blurSpeed, m_life, STAGE_HEIGHT, m_montionState);
 	drawString(0, 200, buf, 0x000000FF, STR_LEFT, 24, 24);
 
+	drawRectangle(m_pos.x - 2, m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
 
 	if (m_type == 0)
 	{
@@ -537,6 +581,7 @@ void Player::draw()
 	} 
 
 #endif // DEBUG
+
 }
 
 

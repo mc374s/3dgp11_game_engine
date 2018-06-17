@@ -74,7 +74,7 @@ void Effect::draw()
 	}
 }
 
-Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*), int a_type)
+Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*), int a_type, bool a_isReflect)
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
@@ -92,10 +92,12 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a
 		else
 		{
 			a_ppBegin[i]->m_pos = a_pos;
-			a_ppBegin[i]->m_pos.x = SCREEN_WIDTH / 2 + a_ppBegin[i]->m_pos.x;
+			a_ppBegin[i]->m_pos.x = SCREEN_WIDTH / 2 + a_ppBegin[i]->m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
 		}
+		a_ppBegin[i]->m_pos.y = a_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
 		a_ppBegin[i]->m_type = a_type;
 		a_ppBegin[i]->m_pfMove = a_pfMove;
+		a_ppBegin[i]->m_custom.reflectX = a_isReflect;
 		a_ppBegin[i]->init();
 
 		return a_ppBegin[i];
@@ -164,6 +166,7 @@ void EffectManager::draw()
 		if (pEff && pEff->m_pSprData && pEff->m_isVisible)
 		{
 			pEff->draw();
+			drawRectangle(pEff->m_pos.x - 2, pEff->m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
 			if (!pEff->m_isVisibleAlways)
 			{
 				pEff->m_isVisible = false;
@@ -355,6 +358,91 @@ void effectMakeTranscription(Effect* a_pObj)
 		a_pObj->m_pfMove = effectMakeTranscription;
 		a_pObj->m_timer = 0;
 
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		if (a_pObj->m_animeCounter > 0) {
+			a_pObj->clear();
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectDamaging(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pAnimeData = e_pAnimeEffDamaging;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
+		a_pObj->m_pfMove = effectDamaging;
+		a_pObj->m_timer = 0;
+
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		if (a_pObj->m_animeCounter > 0) {
+			a_pObj->clear();
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectRunning(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pAnimeData = e_pAnimeEffRunning;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
+		a_pObj->m_pfMove = effectRunning;
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		if (a_pObj->m_animeCounter > 0) {
+			a_pObj->clear();
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectOnBlurArea(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pAnimeData = e_pAnimeEffOnBlurArea;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
+		a_pObj->m_pfMove = effectOnBlurArea;
+		a_pObj->m_timer = 0;
 		a_pObj->m_initPos = a_pObj->m_pos;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;

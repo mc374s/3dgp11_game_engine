@@ -16,6 +16,7 @@ enum TEX_NO {
 	TEX_WHITE,
 	TEX_MAIN,
 	TEX_PLAYER,
+	TEX_PLAYER_EYES,
 
 	TEX_PAGE,
 	TEX_COVER_FRONT,
@@ -53,6 +54,9 @@ enum TEX_NO {
 	TEX_EFF_JUMP_DOWN,
 	TEX_EFF_MAKE_TRANSCRIPTION,
 	TEX_EFF_RECOVERY_PASSED,
+	TEX_EFF_DAMAGING,
+	TEX_EFF_RUNNING,
+	TEX_EFF_ON_BLUR_AREA,
 
 	TEX_GAME_RULE_LEFT,
 	TEX_GAME_RULE_RIGHT,
@@ -82,6 +86,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_WHITE,					"./DATA/Images/white.png" },
 	{ TEX_MAIN,						"./DATA/Images/main_bg.png"},
 	{ TEX_PLAYER,					"./DATA/Images/player.png"},
+	{ TEX_PLAYER_EYES,				"./DATA/Images/player_eyes.png" },
 
 	{ TEX_PAGE,						"./DATA/Images/Book/page.png" },
 	{ TEX_COVER_FRONT,				"./DATA/Images/Book/cover_front.png" },
@@ -119,6 +124,9 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_EFF_JUMP_DOWN,			"./DATA/Images/Effect/jump_down.png" },
 	{ TEX_EFF_MAKE_TRANSCRIPTION,	"./DATA/Images/Effect/make_transcription.png" },
 	{ TEX_EFF_RECOVERY_PASSED,		"./DATA/Images/Effect/recovery_passed.png" },
+	{ TEX_EFF_DAMAGING,				"./DATA/Images/Effect/damaging.png" },
+	{ TEX_EFF_RUNNING,				"./DATA/Images/Effect/running.png" },
+	{ TEX_EFF_ON_BLUR_AREA,			"./DATA/Images/Effect/on_blur_area.png" },
 
 	{ TEX_GAME_RULE_LEFT,			"./DATA/Images/Book/game_rule_left.png" },
 	{ TEX_GAME_RULE_RIGHT,			"./DATA/Images/Book/game_rule_right.png" },
@@ -268,6 +276,7 @@ SPRITE_BOTTOM e_pAnimePlayerJumpDown[] = {
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
 
+SPRITE_BOTTOM e_sprEyes = SPRITE_BOTTOM(TEX_PLAYER_EYES, 0, 0, 1280, 720);
 
 // マップ関係、アイテム
 
@@ -449,10 +458,10 @@ SPRITE_BOTTOM e_pAnimeEffRecoveryPassed[] = {
 };
 
 SPRITE_CENTER e_pAnimeEffDisappear[] = {
-	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 84 * 0, 0, 84, 75, 6),
-	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 84 * 1, 0, 84, 75, 6),
-	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 84 * 2, 0, 84, 75, 6),
-	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 84 * 3, 0, 84, 75, 6),
+	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 236 * 0, 0, 236, 206, 5),
+	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 236 * 1, 0, 236, 206, 5),
+	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 236 * 2, 0, 236, 206, 5),
+	SPRITE_CENTER(TEX_EFF_DISAPPEAR, 236 * 3, 0, 236, 206, 5),
 	SPRITE_CENTER(-1, 0, 0, 0, 0),
 };
 
@@ -461,6 +470,31 @@ SPRITE_CENTER e_pAnimeEffMakeTranscription[] = {
 	SPRITE_CENTER(TEX_EFF_MAKE_TRANSCRIPTION, 81 * 1, 0, 81, 75, 6),
 	SPRITE_CENTER(TEX_EFF_MAKE_TRANSCRIPTION, 81 * 2, 0, 81, 75, 6),
 	SPRITE_CENTER(-1, 0, 0, 0, 0),
+};
+
+SPRITE_BOTTOM e_pAnimeEffDamaging[] = {
+	SPRITE_BOTTOM(TEX_EFF_DAMAGING, 82 * 0, 0, 82, 83, 8),
+	SPRITE_BOTTOM(TEX_EFF_DAMAGING, 82 * 1, 0, 82, 83, 8),
+	SPRITE_BOTTOM(TEX_EFF_DAMAGING, 82 * 2, 0, 82, 83, 8),
+	SPRITE_BOTTOM(TEX_EFF_DAMAGING, 82 * 3, 0, 82, 83, 8),
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
+};
+
+SPRITE_BOTTOM e_pAnimeEffRunning[] = {
+	SPRITE_BOTTOM(TEX_EFF_RUNNING, 120 * 0, 0, 120, 22, 2),
+	SPRITE_BOTTOM(TEX_EFF_RUNNING, 120 * 1, 0, 120, 22, 2),
+	SPRITE_BOTTOM(TEX_EFF_RUNNING, 120 * 2, 0, 120, 22, 2),
+	SPRITE_BOTTOM(TEX_EFF_RUNNING, 120 * 3, 0, 120, 22, 2),
+	SPRITE_BOTTOM(TEX_EFF_RUNNING, 120 * 4, 0, 120, 22, 2),
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
+};
+
+SPRITE_BOTTOM e_pAnimeEffOnBlurArea[] = {
+	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 153 * 0, 0, 153, 103, 4),
+	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 153 * 1, 0, 153, 103, 4),
+	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 153 * 2, 0, 153, 103, 4),
+	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 153 * 3, 0, 153, 103, 4),
+	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
 
 //******************************************************************************

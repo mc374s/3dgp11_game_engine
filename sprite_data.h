@@ -4,7 +4,7 @@
 extern LOAD_TEXTURE e_loadTexture[];
 
 // 背景
-extern SPRITE_LEFTTOP	e_sprMainBG;
+extern SPRITE_LEFTTOP e_sprMainBG;
 
 // Book texture
 extern SPRITE_LEFTTOP e_sprCoverFront;
@@ -21,6 +21,8 @@ extern SPRITE_BOTTOM e_pAnimePlayerYawn[];
 
 extern SPRITE_BOTTOM e_pAnimePlayerRun[];
 extern SPRITE_BOTTOM e_pAnimePlayerJump[];
+
+extern SPRITE_BOTTOM e_sprEyes;
 
 // マップ関係、アイテム
 extern SPRITE_LEFTTOP e_sprKey;
@@ -73,4 +75,9 @@ extern SPRITE_BOTTOM e_pAnimeEffRecoveryPassed[];
 
 extern SPRITE_CENTER e_pAnimeEffDisappear[];
 extern SPRITE_CENTER e_pAnimeEffMakeTranscription[];
+
+extern SPRITE_BOTTOM e_pAnimeEffDamaging[];
+extern SPRITE_BOTTOM e_pAnimeEffRunning[];
+extern SPRITE_BOTTOM e_pAnimeEffOnBlurArea[];
+
 #endif // !_SPRDATA_H_

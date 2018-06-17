@@ -3,7 +3,7 @@
 
 #include "obj2d.h"
 
-#define EFF_OBJ_MAX_NUM	(36)
+#define EFF_OBJ_MAX_NUM	(64)
 #define EFF_STAMP_MAX_NUM (5)
 
 
@@ -30,7 +30,7 @@ public:
 	void update();
 	void draw();
 
-	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr, int a_type = 0);
+	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr, int a_type = 0, bool a_isReflect = false);
 
 };
 
@@ -57,7 +57,7 @@ public:
 #define pEffectManager	(EffectManager::getInstance())
 
 void effectPlayerInit(Effect* obj);
-void effectRecoverySplash(Effect* obj);
+//void effectRecoverySplash(Effect* obj);
 void effectJumpUp(Effect* obj);
 void effectJumpDown(Effect* obj);
 
@@ -65,6 +65,8 @@ void effectRecoveryPassed(Effect* a_pObj);
 void effectDisappear(Effect* a_pObj);
 void effectMakeTranscription(Effect* a_pObj);
 
-
+void effectDamaging(Effect* a_pObj);
+void effectRunning(Effect* a_pObj);
+void effectOnBlurArea(Effect* a_pObj);
 
 #endif // !_EFFECT_H_

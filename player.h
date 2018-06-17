@@ -54,9 +54,11 @@ public:
 	bool m_isOnBlurArea;
 	bool m_isOnScrollArea;
 	bool m_isDamaged;
+	int m_damageTimer;
 
 	bool m_isKeyHandled;
 	OBJ2D* m_keyObj;
+	OBJ2D m_eyes;
 
 	Vector3 m_scrolledDistance;
 	Vector3 m_scrolledDistanceAdjust;
