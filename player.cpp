@@ -354,6 +354,18 @@ void Player::normalMove()
 				m_keyObj->m_pos.x = m_keyObj->m_initPos.x;
 			}
 		}
+		if (m_keyObj->m_pos.y < m_keyObj->m_initPos.y) {
+			m_keyObj->m_pos.y += (m_keyObj->m_initPos.y - m_keyObj->m_pos.y) / 5;
+			if (m_keyObj->m_pos.y > m_keyObj->m_initPos.y) {
+				m_keyObj->m_pos.y = m_keyObj->m_initPos.y;
+			}
+		}
+		if (m_keyObj->m_pos.y > m_keyObj->m_initPos.y) {
+			m_keyObj->m_pos.y += (m_keyObj->m_initPos.y - m_keyObj->m_pos.y) / 5;
+			if (m_keyObj->m_pos.y < m_keyObj->m_initPos.y) {
+				m_keyObj->m_pos.y = m_keyObj->m_initPos.y;
+			}
+		}
 	}
 
 	// アニメーションデータ
