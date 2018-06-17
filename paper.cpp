@@ -74,12 +74,23 @@ void Paper::reloadFrontOrBack(bool a_reloadFront)
 		it.clear();
 	}
 	m_mapObjList[frontOrBack].clear();
+
 	for (auto &it : m_blurAreaList[frontOrBack]) {
+		it.clear();
+	}
+	m_blurAreaList[frontOrBack].clear();
+
+	for (auto &it : m_transcriptionList[frontOrBack]) {
+		it.clear();
+	}
+	m_transcriptionList[frontOrBack].clear();
+
+	/*for (auto &it : m_blurAreaList[frontOrBack]) {
 		it.m_pos = it.m_initPos;
 	}
 	for (auto &it : m_transcriptionList[frontOrBack]) {
 		it.m_pos = it.m_initPos;
-	}
+	}*/
 }
 
 void Paper::init()

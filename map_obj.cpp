@@ -259,7 +259,7 @@ void StageManager::init(int a_stageNO)
 	INIT_POS = e_initPos[m_stageNO];
 	P_LIFE_MAX = e_initLife[m_stageNO];
 
-	pBook->initStartPaper(START_PAGINATION / 2);
+	//pBook->initStartPaper(START_PAGINATION / 2);
 
 	//static int currentPaperNO;
 	//currentPaperNO = pBook->m_currentPaperNO;

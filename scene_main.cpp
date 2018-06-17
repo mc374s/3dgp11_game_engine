@@ -21,9 +21,9 @@ SceneMain::SceneMain()
 	m_pBG->m_pSprData = &e_sprMainBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
-		m_stageClearFlag[i] = true;
+		m_stageClearFlag[i] = false;
 	}
-	m_stageClearFlag[STAGE_MAX_NUM - 1] = false;
+	//m_stageClearFlag[STAGE_MAX_NUM - 1] = true;
 	m_stageClearFlag[STAGE_MAX_NUM] = true;
 	//pObjManager->init();
 	//pPlayerManager->init();
@@ -81,6 +81,7 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
+
 		pBook->update();
 		pStageManager->update();
 		m_timer = 0;
@@ -88,6 +89,10 @@ void SceneMain::update()
 		{
 			if (!pBook->m_pfMove)
 			{
+				pBook->initStartPaper(START_PAGINATION / 2);
+				pStageManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::turnPages;
+				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				pBook->m_pfMove = &Book::startReading;
 			}
 		}
@@ -127,6 +132,7 @@ void SceneMain::update()
 					pStageManager->init(m_stageNO); 
 					pBook->m_pfMove = &Book::turnPages;
 					pBook->m_targetPaperNO = START_PAGINATION / 2;
+					pBook->initStartPaper(START_PAGINATION / 2);
 					m_timer = 0;
 					break;
 				}
@@ -149,6 +155,7 @@ void SceneMain::update()
 					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
 					pBook->m_targetPaperNO = START_PAGINATION / 2;
+					pBook->initStartPaper(START_PAGINATION / 2);
 					m_timer = 0;
 					break;
 				}
@@ -180,8 +187,9 @@ void SceneMain::update()
 				}
 				m_timer = 0;
 				pStageManager->init(m_stageNO);
-				pBook->m_pfMove = &Book::turnPages;
+				pBook->m_pfMove = &Book::closeBook;
 				pBook->m_targetPaperNO = START_PAGINATION / 2;
+				pBook->initStartPaper(START_PAGINATION / 2);
 
 				break;
 			}
@@ -245,7 +253,10 @@ void SceneMain::update()
 
 		gameMain();
 
+#ifdef  DEBUG
 		turnPagesController();
+#endif //  DEBUG
+
 
 		break;
 	case STEP::BEGIN + 1:
@@ -428,6 +439,7 @@ void SceneMain::gameMain()
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::turnPages;
 				pBook->m_targetPaperNO = START_PAGINATION / 2;
+				pBook->initStartPaper(START_PAGINATION / 2);
 				m_step = STEP::INIT + 4;
 			}
 			m_timer = 0;
@@ -465,6 +477,7 @@ void SceneMain::turnPagesController()
 		pStageManager->init(m_stageNO);
 		pBook->m_pfMove = &Book::turnPages;
 		pBook->m_targetPaperNO = START_PAGINATION / 2;
+		pBook->initStartPaper(START_PAGINATION / 2);
 		return;
 	}
 	if (KEY_TRACKER.pressed.D2 && pBook->m_step > STEP::END && pBook->m_isOpened) {
@@ -479,6 +492,7 @@ void SceneMain::turnPagesController()
 		pStageManager->init(m_stageNO);
 		pBook->m_pfMove = &Book::turnPages;
 		pBook->m_targetPaperNO = START_PAGINATION / 2;
+		pBook->initStartPaper(START_PAGINATION / 2);
 		return;
 	}
 	if (KEY_TRACKER.pressed.D3 && pBook->m_step > STEP::END && pBook->m_isOpened) {
@@ -493,6 +507,7 @@ void SceneMain::turnPagesController()
 		pStageManager->init(m_stageNO);
 		pBook->m_pfMove = &Book::turnPages;
 		pBook->m_targetPaperNO = START_PAGINATION / 2;
+		pBook->initStartPaper(START_PAGINATION / 2);
 		return;
 	}
 
@@ -518,6 +533,7 @@ void SceneMain::turnPagesController()
 		pStageManager->init(m_stageNO);
 		pBook->m_pfMove = &Book::turnPages;
 		pBook->m_targetPaperNO = START_PAGINATION / 2;
+		pBook->initStartPaper(START_PAGINATION / 2);
 		return;
 
 	}
@@ -536,6 +552,7 @@ void SceneMain::turnPagesController()
 		pStageManager->init(m_stageNO);
 		pBook->m_pfMove = &Book::turnPages;
 		pBook->m_targetPaperNO = START_PAGINATION / 2;
+		pBook->initStartPaper(START_PAGINATION / 2);
 		m_timer = 0;
 		return;
 

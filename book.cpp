@@ -340,6 +340,7 @@ void Book::closeBook()
 		m_step = STEP::BEGIN;
 		break;
 	case STEP::BEGIN:
+
 		m_openSpeedAcc += 0.018f;
 		m_openSpeed += m_openSpeedAcc;
 		m_openAngle -= m_openSpeed * 2;
@@ -390,13 +391,17 @@ void Book::closeBook()
 			/*m_position.z = 450;
 			m_position.y = 270;*/
 			m_timer = 0;
+
+			m_position.z -= PAPER_DEPTH*(m_targetPaperNO - m_currentPaperNO);
+			m_currentPaperNO = m_targetPaperNO;
+
 			m_step = STEP::END;
 			MFAudioPlay(SE_CLOSE);
 		}
 		break;
 	case STEP::END:
 		m_timer++;
-		if (pPlayerManager->m_step == STEP::FINISH || m_timer > 120)
+		if (pPlayerManager->m_step == STEP::FINISH || m_timer > 10)
 		{
 			m_timer = 0;
 			m_step = STEP::END + 1;
@@ -422,7 +427,6 @@ void Book::closeBook()
 		}
 		break;
 	case STEP::FINISH:
-
 		break;
 	default:
 		break;
