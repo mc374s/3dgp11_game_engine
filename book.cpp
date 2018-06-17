@@ -736,9 +736,14 @@ void Book::turnPages()
 		}*/
 		waitTime = 10;
 		openSpeed = fabsf(m_targetPaperNO - m_currentPaperNO) < 3.0f ? 3.0f : fabsf(m_targetPaperNO - m_currentPaperNO);
+		//openSpeed = fabsf(m_targetPaperNO - m_currentPaperNO);
 		if (openSpeed > 6) {
 			openSpeed = 6;
-			waitTime = 3;
+			waitTime = 0;
+		}
+		if (abs(m_targetPaperNO - m_currentPaperNO) == 1)
+		{
+			openSpeed = 6;
 		}
 		if (m_currentPaperNO == m_targetPaperNO) {
 			m_step = STEP::END + 1;
@@ -764,6 +769,16 @@ void Book::turnPages()
 		break;
 	case STEP::BEGIN+1:
 		m_timer++;
+		if (abs(m_targetPaperNO - m_currentPaperNO) < 4 && waitTime == 0) {
+			waitTime = 10;
+			if (fabsf(openSpeed - 0.0f) > FLT_EPSILON) {
+				openSpeed = 3.0f;
+				if (abs(m_targetPaperNO - m_currentPaperNO) == 1) {
+					//openSpeed = 6;
+				}
+			}
+		}
+
 		if (m_timer > waitTime && fabsf(openSpeed - 0.0f) > FLT_EPSILON)
 		{
 			if (m_currentPaperNO < m_targetPaperNO)
