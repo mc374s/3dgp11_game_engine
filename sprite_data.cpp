@@ -33,6 +33,7 @@ enum TEX_NO {
 	TEX_MAP_OBJ_SNOW,
 	TEX_MAP_OBJ_DESERT,
 	TEX_TUTORIAL,
+	TEX_GOAL_SET,
 
 	TEX_SMOKE,
 	TEX_LIFE_STAMP,
@@ -104,6 +105,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_MAP_OBJ_SNOW,				"./DATA/Images/Map/map_obj_4.png" },
 	{ TEX_MAP_OBJ_DESERT,			"./DATA/Images/Map/map_obj_5.png" },
 	{ TEX_TUTORIAL,					"./DATA/Images/Map/moji.png"},
+	{ TEX_GOAL_SET,					"./DATA/Images/Map/goal_set.png" },
 
 	{ TEX_SMOKE,					"./DATA/Images/particle-smoke4.png" },
 	{ TEX_LIFE_STAMP,				"./DATA/Images/UI/stamp.png"},
@@ -292,8 +294,10 @@ SPRITE_LEFTTOP e_pAnimeRecovery[] =
 };
 
 
-SPRITE_LEFTTOP e_sprDoor = SPRITE_LEFTTOP(TEX_DOOR, 0, 0, 70, 76);// M_TYPE::DOOR
-SPRITE_LEFTTOP e_sprKey = SPRITE_LEFTTOP(TEX_KEY, 0, 0, 70, 58);// M_TYPE::KEY
+//SPRITE_LEFTTOP e_sprDoor = SPRITE_LEFTTOP(TEX_DOOR, 0, 0, 70, 76);// M_TYPE::DOOR
+//SPRITE_LEFTTOP e_sprKey = SPRITE_LEFTTOP(TEX_KEY, 0, 0, 70, 58);// M_TYPE::KEY
+SPRITE_LEFTTOP e_sprDoor= SPRITE_LEFTTOP(TEX_GOAL_SET, 0, 0, 124, 111);// M_TYPE::DOOR
+SPRITE_LEFTTOP e_sprKey	= SPRITE_LEFTTOP(TEX_GOAL_SET, 0, 111, 124, 111);// M_TYPE::KEY
 
 
 SPRITE_LEFTTOP e_pSprItem[] =

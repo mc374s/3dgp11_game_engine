@@ -166,7 +166,7 @@ void EffectManager::draw()
 		if (pEff && pEff->m_pSprData && pEff->m_isVisible)
 		{
 			pEff->draw();
-			drawRectangle(pEff->m_pos.x - 2, pEff->m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
+			//drawRectangle(pEff->m_pos.x - 2, pEff->m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
 			if (!pEff->m_isVisibleAlways)
 			{
 				pEff->m_isVisible = false;

@@ -447,14 +447,17 @@ void SceneMain::gameMain()
 			}
 			m_timer = 0;
 		}
-		if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
+		
+		if (m_timer > 30) {
 
-			pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
+			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
+				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
+			}
+			else {
+				pGameUIManager->m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = true;
+			}
+			pGameUIManager->showXButton();
 		}
-		else {
-			pGameUIManager->m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = true;
-		}
-		pGameUIManager->showXButton();
 	}
 
 

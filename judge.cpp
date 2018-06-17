@@ -106,9 +106,9 @@ void judgeAll()
 								if (pPlayer->m_concentration > 10) {
 									pPlayer->m_concentration = 10;
 								}
-								Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
-								MFAudioPlay(SE_SPLASH);
 							}
+							Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
+							MFAudioPlay(SE_SPLASH);
 						}
 					}
 					else {
@@ -160,7 +160,9 @@ void judgeAll()
 				{
 					pPlayer->m_isKeyHandled = false;
 					//pPlayer->m_keyObj.m_pSprData = it.m_pSprData;
-					pPlayer->m_keyObj->m_pSprData = nullptr;
+					//pPlayer->m_keyObj->m_pSprData = nullptr;
+					//pPlayer->m_keyObj->m_pos = it.m_pos;
+					pPlayer->m_keyObj->m_initPos = it.m_pos;
 					pPlayer->m_mode = P_MODE::CLEAR;
 					it.m_isHitAble = false;
 					it.m_concentration = P_CONCENTRATION_MAX;

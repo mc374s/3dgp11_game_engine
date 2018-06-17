@@ -112,7 +112,7 @@ void Player::normalMove()
 	blurTimer++;
 	if (m_isOnBlurArea) {
 		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
-		if (blurTimer % 10 == 0 && m_isMoving) {
+		if (blurTimer % 15 == 0 && m_isMoving && !m_isDamaged) {
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(rand() % 30 - 15, rand() % 20 - 10, 0), m_liveInPagination, effectOnBlurArea, 0, m_custom.reflectX);
 		}
 	} else {
@@ -212,7 +212,6 @@ void Player::normalMove()
 	{
 		pressFrame = 0;
 		jumpCounter++;
-
 	}
 
 	// 溜めジャンプ
@@ -325,10 +324,10 @@ void Player::normalMove()
 
 
 	// 鍵移動
-	if (m_isKeyHandled && m_keyObj->m_pSprData)
+	if (m_isKeyHandled && m_keyObj->m_pSprData && m_mode != P_MODE::CLEAR)
 	{
 		m_keyObj->m_alpha = 200;
-		m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, 2 * m_size.y, 0);
+		m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, m_keyObj->m_pSprData->height, 0);
 		if (m_keyObj->m_pos.x > PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x) {
 			m_keyObj->m_pos.x = PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x;
 		}
@@ -340,6 +339,20 @@ void Player::normalMove()
 		}
 		if (m_keyObj->m_pos.y < 0) {
 			m_keyObj->m_pos.y = 0;
+		}
+	}
+	if (m_mode == P_MODE::CLEAR){
+		if (m_keyObj->m_pos.x < m_keyObj->m_initPos.x) {
+			m_keyObj->m_pos.x += (m_keyObj->m_initPos.x - m_keyObj->m_pos.x) / 5;
+			if (m_keyObj->m_pos.x > m_keyObj->m_initPos.x) {
+				m_keyObj->m_pos.x = m_keyObj->m_initPos.x;
+			}
+		}
+		if (m_keyObj->m_pos.x > m_keyObj->m_initPos.x) {
+			m_keyObj->m_pos.x += (m_keyObj->m_initPos.x - m_keyObj->m_pos.x) / 5;
+			if (m_keyObj->m_pos.x < m_keyObj->m_initPos.x) {
+				m_keyObj->m_pos.x = m_keyObj->m_initPos.x;
+			}
 		}
 	}
 
@@ -542,7 +555,7 @@ void Player::draw()
 #endif // DEBUG
 
 	OBJ2DEX::draw();
-	if (m_isKeyHandled) {
+	if (m_isKeyHandled || m_mode==P_MODE::CLEAR) {
 		m_keyObj->draw();
 	}
 	if (m_mode==P_MODE::NORMAL)
