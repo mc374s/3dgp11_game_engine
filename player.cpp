@@ -42,13 +42,14 @@ void Player::init()
 		m_keyObj = new OBJ2D;
 		m_keyObj->m_alpha = 0;
 	}
+	m_keyObj->m_pSprData = &e_sprWhite;
 	m_life = P_LIFE_MAX;
 
 	m_hitObj.m_pSprData = &e_sprHitObj;
 	//m_hitObj.m_size = { m_hitObj.m_pSprData->width,m_hitObj.m_pSprData->height,0 };
 	m_hitObj.m_size = { 10,10,0 };
-	m_hitObj.m_custom.rgba = 0x000000FF;
-	m_hitObj.m_alpha = 5;
+	m_hitObj.m_custom.rgba = 0xFFFFFFFF;
+	m_hitObj.m_alpha = 10;
 	m_newblurAreaList.clear();
 	m_damageTimer = 0;
 	m_eyes.m_pSprData = &e_sprEyes;
@@ -89,6 +90,7 @@ void Player::restart()
 	{
 		m_keyObj->clear();
 		m_keyObj->m_alpha = 0;
+		m_keyObj->m_pSprData = &e_sprWhite;
 	}
 	else
 	{
@@ -208,10 +210,12 @@ void Player::normalMove()
 	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
 	{
 		m_speed.y += m_speedAcc.y;
-		if (pressFrame <= 0) Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpUp);
+		if (pressFrame == 0) {
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpUp);
+		}
 		pressFrame++;
 	}
-	if (KEY_UP('Z') && jumpCounter < P_JUMP_MAX_NUM)
+	if ((KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED) && jumpCounter < P_JUMP_MAX_NUM)
 	{
 		pressFrame = 0;
 		jumpCounter++;
@@ -317,6 +321,7 @@ void Player::normalMove()
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
 		m_mode = P_MODE::RESTART;
+		MFAudioPlay(SE_DEAD);
 	}
 
 	if (m_pos.y < m_size.y)
@@ -334,8 +339,8 @@ void Player::normalMove()
 		if (m_keyObj->m_pos.x > PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x) {
 			m_keyObj->m_pos.x = PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x;
 		}
-		if (m_keyObj->m_pos.x < m_size.x) {
-			m_keyObj->m_pos.x = m_size.x;
+		if (m_keyObj->m_pos.x < 0 + m_size.x) {
+			m_keyObj->m_pos.x = 0 + m_size.x;
 		}
 		if (m_keyObj->m_pos.y > PAGE_HEIGHT - m_keyObj->m_pSprData->height) {
 			m_keyObj->m_pos.y = PAGE_HEIGHT - m_keyObj->m_pSprData->height;
@@ -536,7 +541,7 @@ void Player::blur()
 		m_hitObj.m_pos = m_pos - randAdjust;
 		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
 		m_hitObj.m_custom.angle = rand() % 180;
-		m_hitObj.m_alpha = rand() % 5 + 5;
+		m_hitObj.m_alpha = rand() % 5 + 30;
 		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
@@ -574,7 +579,7 @@ void Player::draw()
 		m_keyObj->draw();
 		//m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, m_keyObj->m_pSprData->height, 0);
 	}
-	if (m_mode==P_MODE::NORMAL)
+	if (m_mode == P_MODE::NORMAL || m_mode == P_MODE::CLEAR)
 	{
 		*m_eyes.m_pSprData = *m_pSprData;
 		m_eyes.m_pSprData->texNum = m_pSprData->texNum + 1;

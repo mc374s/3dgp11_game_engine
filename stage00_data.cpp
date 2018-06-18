@@ -17,7 +17,7 @@ int e_stageHeight[] = {
 
 	(1039) - (PH - 100),//STAGE 3-1
 	(4200) - (PH - 100),//STAGE 3-2
-	(4200) - (PH - 100),//STAGE 3-3
+	(1550) - (PH - 100),//STAGE 3-3
 
 	(1500) - (PH - 100),//STAGE 4-1
 	0,					//STAGE 4-2

@@ -243,12 +243,15 @@ void effectJumpUp(Effect *obj) {
 		obj->m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
-		obj->m_isVisible = true;
-		obj->m_timer++;
-		if (obj->m_timer > 24) obj->m_step = STEP::FINISH;
+		if (obj->m_animeCounter > 0) {
+			obj->clear();
+			obj->m_step = STEP::END;
+		}
 		break;
+	case STEP::END:
+		obj->m_step = STEP::FINISH;
+		//break;
 	case STEP::FINISH:
-		obj->clear();
 		break;
 	default:
 		break;
@@ -386,7 +389,7 @@ void effectDamaging(Effect* a_pObj)
 		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
 		a_pObj->m_pfMove = effectDamaging;
 		a_pObj->m_timer = 0;
-
+		a_pObj->m_alpha = 180;
 		a_pObj->m_initPos = a_pObj->m_pos;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;
@@ -416,6 +419,7 @@ void effectRunning(Effect* a_pObj)
 		a_pObj->m_pfMove = effectRunning;
 		a_pObj->m_timer = 0;
 		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_alpha = 180;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
@@ -443,6 +447,7 @@ void effectOnBlurArea(Effect* a_pObj)
 		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
 		a_pObj->m_pfMove = effectOnBlurArea;
 		a_pObj->m_timer = 0;
+		a_pObj->m_alpha = 60;
 		a_pObj->m_initPos = a_pObj->m_pos;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;

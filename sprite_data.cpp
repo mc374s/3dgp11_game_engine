@@ -107,7 +107,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_TUTORIAL,					"./DATA/Images/Map/moji.png"},
 	{ TEX_GOAL_SET,					"./DATA/Images/Map/goal_set.png" },
 
-	{ TEX_SMOKE,					"./DATA/Images/particle-smoke4.png" },
+	{ TEX_SMOKE,					"./DATA/Images/particle-smoke5.png" },
 	{ TEX_LIFE_STAMP,				"./DATA/Images/UI/stamp.png"},
 	{ TEX_LARGE_PLAYER,				"./DATA/Images/UI/large_player.png" },
 
@@ -447,10 +447,10 @@ SPRITE_CENTER e_pAnimeStamp[] =
 };
 
 SPRITE_BOTTOM e_pAnimeEffJumpUp[] = {
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 0, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 1, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 2, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 3, 0, 112, 13, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 0, 0, 290, 143, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 1, 0, 290, 143, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 2, 0, 290, 143, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 3, 0, 290, 143, 6),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0)
 };
 SPRITE_BOTTOM e_pAnimeEffJumpDown[] = {
