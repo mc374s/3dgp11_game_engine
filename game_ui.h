@@ -78,8 +78,6 @@ public:
 	bool m_isVisibleAlways;
 	bool m_isVisible;
 
-	Vector3 m_setPos;
-
 	void clear();
 	//void(*m_pfMove)(GameUI*);
 

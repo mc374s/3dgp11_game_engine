@@ -58,7 +58,7 @@ public:
 	int m_jumpCounter;
 
 	bool m_isKeyHandled;
-	OBJ2D* m_keyObj;
+	OBJ2D* m_pKeyObj;
 	OBJ2D m_eyes;
 
 	Vector3 m_scrolledDistance;
@@ -84,7 +84,7 @@ public:
 
 	void normalMove();
 	void restartMove();
-	void startMove();
+	void syncKeyPos();
 
 };
 
