@@ -50,7 +50,7 @@ STAGE_DATA stage05_setData[] = {
 	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 6] + 1, 0, M_TYPE::PASSABLE_UP,				M_DRAW::UP,		v3(500,540,1),		true, v3(120,11,0), 3, recoveryControl),
 
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5] + 1,0, M_TYPE::DOOR,					M_DRAW::UP,		v3(500,500 - 111,0),	true, v3(124,111,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5] + 1,0, M_TYPE::DOOR,					M_DRAW::UP,		v3(500,500 - 111,0),	true, v3(124,111,0), 8),
 
 
 	// END

@@ -31,7 +31,6 @@ SceneMain::SceneMain()
 
 	//pGameUIManager->init();
 
-	m_pStr = "";
 }
 
 void SceneMain::init()
@@ -71,17 +70,20 @@ void SceneMain::update()
 		{
 			pBook->clearAll();
 			m_stageNO = 0;
-			m_pStr = "";
 			m_timer = 0;
 			pStageManager->init(m_stageNO);
 			pGameUIManager->init();
+
+			/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
+				m_stageClearFlag[i] = false;
+			}
+			m_stageClearFlag[STAGE_MAX_NUM] = true;*/
 
 			m_step = STEP::INIT + 1;
 		}
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
-
 		pBook->update();
 		pStageManager->update();
 		m_timer = 0;
@@ -356,6 +358,12 @@ bool SceneMain::pause()
 			}
 			if (m_pausedOption == PAUSED_SELECTION::TO_TITLE){
 				m_isPaused = false;
+
+				/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
+					m_stageClearFlag[i] = false;
+				}
+				m_stageClearFlag[STAGE_MAX_NUM] = true;*/
+
 				m_stageNO = 0;
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::finishReading;
@@ -430,15 +438,14 @@ void SceneMain::gameMain()
 			}
 			else
 			{
-				if (m_stageClearFlag[m_stageNO]) {
+				/*if (m_stageClearFlag[m_stageNO]) {
 					for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
 						if (!m_stageClearFlag[i]) {
 							m_stageNO = i;
 							break;
 						}
 					}
-				}
-
+				}*/
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::turnPages;
 				pBook->m_targetPaperNO = START_PAGINATION / 2;

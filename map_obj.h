@@ -124,7 +124,7 @@ public:
 	void update();
 	void draw();
 
-	static void safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
+	static void safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, float a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr);
 
 
 	void hitAdjust(OBJ2DEX* a_pObj);
@@ -139,7 +139,7 @@ struct STAGE_DATA {
 	Vector3 pos;
 	bool isHitAble;
 	Vector3 size;
-	int concentration;
+	float concentration;
 	void(*pfMove)(MapObj*);
 	/**
 	a_liveInPagination:		このObjはどのページに所属するのか
@@ -152,7 +152,7 @@ struct STAGE_DATA {
 	a_concentraction:		濃度
 	a_pfMove:				このObjを動かす関数ポインタ
 	*/
-	STAGE_DATA(int a_liveInPagination, int a_appearTime, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
+	STAGE_DATA(int a_liveInPagination, int a_appearTime, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, float a_concentration = 10, void(*a_pfMove)(MapObj*) = nullptr) :
 		m_liveInPagination(a_liveInPagination),
 		appearTime(a_appearTime),
 		mapObjType(a_mapObjType),

@@ -36,7 +36,7 @@ STAGE_DATA stage03_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(PW / 2,231,1),		true, v3(11,449,0), 10),
 
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3] + 1,	 0,	M_TYPE::DOOR,						M_DRAW::UP,		v3(100,680 - 111,0),	true, v3(124,111,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3] + 1,	 0,	M_TYPE::DOOR,						M_DRAW::UP,		v3(100,680 - 111,0),	true, v3(124,111,0), 8),
 
 
 	// END

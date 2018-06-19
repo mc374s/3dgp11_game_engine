@@ -103,6 +103,7 @@ void Player::restart()
 	m_isOnScrollArea = false;
 	m_jumpCounter = 1;
 	m_damageTimer = 0;
+	m_custom.reflectX = true;
 
 	m_isInit = true;
 }
@@ -790,7 +791,7 @@ void PlayerManager::manageConcentration()
 	}
 	if (m_step >= STEP::BEGIN)
 	{
-		pGameUIManager->showInkTransferGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble);
+		pGameUIManager->showInkTransferGage(m_pPlayer->m_concentration, m_pPlayer->m_transferConcentration, m_isPlayerOnLeft, m_isTranscriptAble, m_pPlayer->m_pSprData, m_pPlayer->m_custom.reflectX);
 	}
 
 }

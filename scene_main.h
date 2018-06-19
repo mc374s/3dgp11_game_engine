@@ -8,7 +8,6 @@ class SceneMain :public Scene, public Singleton<SceneMain>
 {
 private:
 	OBJ2D* m_pBG;
-	char *m_pStr;
 	int m_stageNO;
 	int m_selectedStageNO;
 

@@ -177,7 +177,7 @@ bool framework::initialize(HWND hwnd)
 
 void framework::setFPS(int a_FPS)
 {
-	m_minFrameTime = 1.0f / a_FPS;
+	m_minFrameTime = 1.0 / (double)a_FPS;
 }
 
 int framework::run()
@@ -219,7 +219,7 @@ int framework::run()
 			//////////////////////////////////////////////////////////////////////
 			// FPS locker
 			QueryPerformanceCounter(&m_timeEnd);
-			m_frameTime = static_cast<float>(m_timeEnd.QuadPart - m_timeStart.QuadPart) / static_cast<float>(m_timeFreq.QuadPart);
+			m_frameTime = static_cast<double>(m_timeEnd.QuadPart - m_timeStart.QuadPart) / static_cast<double>(m_timeFreq.QuadPart);
 			if (m_frameTime < m_minFrameTime) { // 時間に余裕がある
 												// ミリ秒に変換
 				sleepTime = static_cast<DWORD>((m_minFrameTime - m_frameTime) * 1000);
@@ -456,7 +456,11 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	//m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 0, 1024), XMFLOAT3(2, 2, 2048));
 	//m_pPrimitive3D[1]->drawCylinder(s_pDeviceContext, XMFLOAT3(-310, 0, 10 + 0), XMFLOAT3(620, 700, 20), &custom3DTemp);
 
-	m_pSwapChain->Present(0, 0);
+	// For FullScreen Mode, Synchronize presentation for 1 vertical blanks
+	m_pSwapChain->Present(1, 0);
+
+	// For Windowed Mode 
+	//m_pSwapChain->Present(0, 0);
 }
 
 void framework::release()

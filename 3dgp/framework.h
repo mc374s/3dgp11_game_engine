@@ -30,9 +30,9 @@ public:
 		}
 	};
 
-	const float MIN_FRAME_TIME_DAFAULT = 1.0f / FPS;
-	float m_minFrameTime = MIN_FRAME_TIME_DAFAULT;
-	float m_frameTime = 0;
+	const double MIN_FRAME_TIME_DAFAULT = 1.0 / (double)FPS;
+	double m_minFrameTime = MIN_FRAME_TIME_DAFAULT;
+	double m_frameTime = 0.0f;
 	LARGE_INTEGER m_timeStart;
 	LARGE_INTEGER m_timeEnd;
 	LARGE_INTEGER m_timeFreq;
