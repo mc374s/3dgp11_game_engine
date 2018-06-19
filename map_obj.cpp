@@ -124,6 +124,9 @@ void MapObj::init()
 		m_repeatDrawSize.x = m_size.y;
 		m_repeatDrawSize.y = m_size.x;
 		break;
+	case M_DRAW::MIRROR:
+		m_custom.reflectX = true;
+		break;
 	default:
 		break;
 	}

@@ -93,6 +93,7 @@ enum M_DRAW
 	DOWN,
 	LEFT,
 	RIGHT,
+	MIRROR,
 };
 
 // 基準座標左上
