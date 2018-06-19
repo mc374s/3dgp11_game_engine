@@ -151,7 +151,7 @@ void judgeAll()
 					pPlayer->m_isKeyHandled = true;
 					pPlayer->m_keyObj->m_pSprData = it.m_pSprData;
 					it.m_isHitAble = false;
-					it.m_concentration = LOW_CONCENTRATION;
+					it.m_concentration = /*LOW_CONCENTRATION*/0;
 					MFAudioPlay(SE_KEY_GOT);
 				}
 				if (it.m_type == M_TYPE::DOOR && pPlayer->m_isKeyHandled)

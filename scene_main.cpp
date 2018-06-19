@@ -448,7 +448,7 @@ void SceneMain::gameMain()
 			m_timer = 0;
 		}
 		
-		if (m_timer > 30) {
+		if (m_timer > 60) {
 
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;

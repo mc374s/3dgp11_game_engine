@@ -96,10 +96,11 @@ void Player::restart()
 	{
 		m_keyObj->m_alpha = 0;
 	}
-	m_speed = { 0,0,0 };
+	m_speed = { 0,-0.1f,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
 	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
 	m_isOnScrollArea = false;
+	m_jumpCounter = 1;
 	m_damageTimer = 0;
 
 	m_isInit = true;
@@ -206,8 +207,8 @@ void Player::normalMove()
 	// Y方向移動
 	m_speed.y += GRIVATY;
 
-	static int pressFrame = 0, chargeMaxFrame = 12, jumpCounter = 0;
-	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
+	static int pressFrame = 0, chargeMaxFrame = 12;
+	if ((KEY_BOARD.Z || GAME_PAD.buttons.a) && pressFrame < chargeMaxFrame && m_jumpCounter < P_JUMP_MAX_NUM)
 	{
 		m_speed.y += m_speedAcc.y;
 		if (pressFrame == 0) {
@@ -215,10 +216,10 @@ void Player::normalMove()
 		}
 		pressFrame++;
 	}
-	if ((KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED) && jumpCounter < P_JUMP_MAX_NUM)
+	if ((KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED) && m_jumpCounter < P_JUMP_MAX_NUM)
 	{
 		pressFrame = 0;
-		jumpCounter++;
+		m_jumpCounter++;
 	}
 
 	// 溜めジャンプ
@@ -241,7 +242,7 @@ void Player::normalMove()
 	
 	if (m_isOnGround)
 	{
-		jumpCounter = 0;
+		m_jumpCounter = 0;
 	}
 	if (m_speed.y < -m_speedMax.y)
 	{
@@ -320,6 +321,7 @@ void Player::normalMove()
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
+		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
 		m_mode = P_MODE::RESTART;
 		MFAudioPlay(SE_DEAD);
 	}
@@ -407,10 +409,10 @@ void Player::normalMove()
 		blur();
 	}
 
-	if (m_life < 0)
+	/*if (m_life < 0)
 	{
 		m_mode = P_MODE::DEAD;
-	}
+	}*/
 	// 待機アニメショーン
 	if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && m_isOnGround)
 	{
@@ -467,7 +469,7 @@ void Player::restartMove()
 		//break;
 	case STEP::BEGIN:
 		m_timer++;
-		if (m_timer > 60 || (fabsf(m_scrolledDistance.y - 0.0f) < FLT_EPSILON && m_timer > 20))
+		if (m_timer > 80 || (m_life == P_LIFE_MAX && m_timer > 20))
 		{
 			m_timer = 0;
 			//m_speed.y = -m_scrolledDistance.y / 10;
@@ -502,7 +504,8 @@ void Player::restartMove()
 	case STEP::END:
 		if (pEffectManager->isStampDown) {
 			restart();
-			m_speed.y = 0;
+
+			//m_speed.y = 0;
 			//m_isOnScrollArea = false;
 
 
@@ -811,7 +814,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 				// 隣のページへ転写
 				m_pPlayer->m_liveInPagination += m_pPlayer->m_liveInPagination % 2 ? 1 : -1;
 				m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
-				m_pPlayer->m_speed = { 0,0,0 };
+				m_pPlayer->m_speed = { 0,-0.1f,0 };
 				m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
 				m_pPlayer->m_timer = 0;
 
