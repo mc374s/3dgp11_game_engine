@@ -18,7 +18,6 @@ void GameUI::memberCopy(const GameUI& a_inputObj)
 	OBJ2D::memberCopy(a_inputObj);
 	m_isVisible = a_inputObj.m_isVisible;
 	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
-	m_setPos = a_inputObj.m_setPos;
 }
 
 GameUI::GameUI(const GameUI& a_inputObj) :OBJ2DEX(a_inputObj)
@@ -48,7 +47,6 @@ void GameUI::clear()
 	m_isInit = true;
 	m_isVisible = true;
 	m_isVisibleAlways = true;
-	m_setPos = { 0.0f,0.0f,0.0f };
 	m_custom.scaleMode = SCALE_MODE::CENTER;
 }
 

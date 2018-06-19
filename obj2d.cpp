@@ -14,6 +14,7 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 {
 	m_pos = a_inputObj.m_pos;
 	m_initPos = a_inputObj.m_initPos;
+	m_setPos = a_inputObj.m_setPos;
 	m_speed = a_inputObj.m_speed;
 	m_speedAcc = a_inputObj.m_speedAcc;
 	m_speedMax = a_inputObj.m_speedMax;
@@ -56,7 +57,7 @@ void OBJ2D::clear()
 {
 	m_pfMove = nullptr;
 	m_pSprData = nullptr;
-	m_pos = m_initPos = Vector3(0, 0, 0);
+	m_pos = m_initPos = m_setPos = Vector3(0, 0, 0);
 	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
 	m_timer = 0;
 	m_step = 0;

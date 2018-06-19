@@ -31,18 +31,18 @@ void Player::init()
 	m_mode = P_MODE::RESTART;
 	m_alpha = 0;
 	m_isKeyHandled = false;
-	if (m_keyObj)
+	if (m_pKeyObj)
 	{
-		m_keyObj->clear();
-		m_keyObj->m_alpha = 0;
+		m_pKeyObj->clear();
+		m_pKeyObj->m_alpha = 0;
 	}
 	else
 	{
 
-		m_keyObj = new OBJ2D;
-		m_keyObj->m_alpha = 0;
+		m_pKeyObj = new OBJ2D;
+		m_pKeyObj->m_alpha = 0;
 	}
-	m_keyObj->m_pSprData = &e_sprWhite;
+	m_pKeyObj->m_pSprData = &e_sprWhite;
 	m_life = P_LIFE_MAX;
 
 	m_hitObj.m_pSprData = &e_sprHitObj;
@@ -60,7 +60,7 @@ void Player::init()
 Player::~Player()
 {
 	m_pAnimeData = nullptr;
-	SAFE_DELETE(m_keyObj);
+	SAFE_DELETE(m_pKeyObj);
 }
 
 void Player::restart()
@@ -88,18 +88,20 @@ void Player::restart()
 	m_isOnGround = false;
 	if (!m_isKeyHandled)
 	{
-		m_keyObj->clear();
-		m_keyObj->m_alpha = 0;
-		m_keyObj->m_pSprData = &e_sprWhite;
+		m_pKeyObj->clear();
+		m_pKeyObj->m_alpha = 0;
+		m_pKeyObj->m_pSprData = &e_sprWhite;
 	}
 	else
 	{
-		m_keyObj->m_alpha = 0;
+		m_pKeyObj->m_alpha = 0;
+		m_pKeyObj->m_pos = m_pKeyObj->m_setPos = m_pos;
 	}
-	m_speed = { 0,0,0 };
+	m_speed = { 0,-0.1f,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
 	m_speedMax = { P_SPEED_X_MAX,P_SPEED_Y_MAX,0 };
 	m_isOnScrollArea = false;
+	m_jumpCounter = 1;
 	m_damageTimer = 0;
 
 	m_isInit = true;
@@ -206,8 +208,8 @@ void Player::normalMove()
 	// Y方向移動
 	m_speed.y += GRIVATY;
 
-	static int pressFrame = 0, chargeMaxFrame = 12, jumpCounter = 0;
-	if ((m_command & PAD_TRG1) && (pressFrame < chargeMaxFrame) && jumpCounter < P_JUMP_MAX_NUM)
+	static int pressFrame = 0, chargeMaxFrame = 12;
+	if ((KEY_BOARD.Z || GAME_PAD.buttons.a) && pressFrame < chargeMaxFrame && m_jumpCounter < P_JUMP_MAX_NUM)
 	{
 		m_speed.y += m_speedAcc.y;
 		if (pressFrame == 0) {
@@ -215,10 +217,10 @@ void Player::normalMove()
 		}
 		pressFrame++;
 	}
-	if ((KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED) && jumpCounter < P_JUMP_MAX_NUM)
+	if ((KEY_TRACKER.released.Z || PAD_TRACKER.a == PAD_TRACKER.RELEASED) && m_jumpCounter < P_JUMP_MAX_NUM)
 	{
 		pressFrame = 0;
-		jumpCounter++;
+		m_jumpCounter++;
 	}
 
 	// 溜めジャンプ
@@ -241,7 +243,7 @@ void Player::normalMove()
 	
 	if (m_isOnGround)
 	{
-		jumpCounter = 0;
+		m_jumpCounter = 0;
 	}
 	if (m_speed.y < -m_speedMax.y)
 	{
@@ -320,6 +322,7 @@ void Player::normalMove()
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
+		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
 		m_mode = P_MODE::RESTART;
 		MFAudioPlay(SE_DEAD);
 	}
@@ -332,49 +335,12 @@ void Player::normalMove()
 
 
 	// 鍵移動
-	if (m_isKeyHandled && m_keyObj->m_pSprData && m_mode != P_MODE::CLEAR)
+	if (m_pKeyObj->m_pSprData)
 	{
-		m_keyObj->m_alpha = 200;
-		m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, m_keyObj->m_pSprData->height, 0);
-		if (m_keyObj->m_pos.x > PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x) {
-			m_keyObj->m_pos.x = PAGE_WIDTH - m_keyObj->m_pSprData->width - m_size.x;
-		}
-		if (m_keyObj->m_pos.x < 0 + m_size.x) {
-			m_keyObj->m_pos.x = 0 + m_size.x;
-		}
-		if (m_keyObj->m_pos.y > PAGE_HEIGHT - m_keyObj->m_pSprData->height) {
-			m_keyObj->m_pos.y = PAGE_HEIGHT - m_keyObj->m_pSprData->height;
-		}
-		if (m_keyObj->m_pos.y < 0) {
-			m_keyObj->m_pos.y = 0;
-		}
+		syncKeyPos();
 	}
-	if (m_mode == P_MODE::CLEAR){
-		if (m_keyObj->m_pos.x < m_keyObj->m_initPos.x) {
-			m_keyObj->m_pos.x += (m_keyObj->m_initPos.x - m_keyObj->m_pos.x) / 5;
-			if (m_keyObj->m_pos.x > m_keyObj->m_initPos.x) {
-				m_keyObj->m_pos.x = m_keyObj->m_initPos.x;
-			}
-		}
-		if (m_keyObj->m_pos.x > m_keyObj->m_initPos.x) {
-			m_keyObj->m_pos.x += (m_keyObj->m_initPos.x - m_keyObj->m_pos.x) / 5;
-			if (m_keyObj->m_pos.x < m_keyObj->m_initPos.x) {
-				m_keyObj->m_pos.x = m_keyObj->m_initPos.x;
-			}
-		}
-		if (m_keyObj->m_pos.y < m_keyObj->m_initPos.y) {
-			m_keyObj->m_pos.y += (m_keyObj->m_initPos.y - m_keyObj->m_pos.y) / 5;
-			if (m_keyObj->m_pos.y > m_keyObj->m_initPos.y) {
-				m_keyObj->m_pos.y = m_keyObj->m_initPos.y;
-			}
-		}
-		if (m_keyObj->m_pos.y > m_keyObj->m_initPos.y) {
-			m_keyObj->m_pos.y += (m_keyObj->m_initPos.y - m_keyObj->m_pos.y) / 5;
-			if (m_keyObj->m_pos.y < m_keyObj->m_initPos.y) {
-				m_keyObj->m_pos.y = m_keyObj->m_initPos.y;
-			}
-		}
-	}
+
+
 
 	// アニメーションデータ
 	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON && m_isOnGround && m_pAnimeData != e_pAnimePlayerRun)
@@ -407,10 +373,10 @@ void Player::normalMove()
 		blur();
 	}
 
-	if (m_life < 0)
+	/*if (m_life < 0)
 	{
 		m_mode = P_MODE::DEAD;
-	}
+	}*/
 	// 待機アニメショーン
 	if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && m_isOnGround)
 	{
@@ -457,7 +423,7 @@ void Player::restartMove()
 		m_speed.x = 0;
 		m_speed.y = 0;
 		m_alpha = 0;
-		m_keyObj->m_alpha = 0;
+		m_pKeyObj->m_alpha = 0;
 		m_step = STEP::BEGIN;
 		m_liveInPagination = START_PAGINATION;
 		m_timer = 0;
@@ -467,7 +433,7 @@ void Player::restartMove()
 		//break;
 	case STEP::BEGIN:
 		m_timer++;
-		if (m_timer > 60 || (fabsf(m_scrolledDistance.y - 0.0f) < FLT_EPSILON && m_timer > 20))
+		if (m_timer > 80 || (m_life == P_LIFE_MAX && m_timer > 20))
 		{
 			m_timer = 0;
 			//m_speed.y = -m_scrolledDistance.y / 10;
@@ -502,7 +468,8 @@ void Player::restartMove()
 	case STEP::END:
 		if (pEffectManager->isStampDown) {
 			restart();
-			m_speed.y = 0;
+
+			//m_speed.y = 0;
 			//m_isOnScrollArea = false;
 
 
@@ -576,8 +543,8 @@ void Player::draw()
 
 	OBJ2DEX::draw();
 	if (m_isKeyHandled || m_mode==P_MODE::CLEAR) {
-		m_keyObj->draw();
-		//m_keyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_keyObj->m_pSprData->width + m_size.x / 2, m_keyObj->m_pSprData->height, 0);
+		m_pKeyObj->draw();
+		//m_pKeyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj->m_pSprData->width + m_size.x / 2, m_pKeyObj->m_pSprData->height, 0);
 	}
 	if (m_mode == P_MODE::NORMAL || m_mode == P_MODE::CLEAR)
 	{
@@ -635,6 +602,54 @@ void Player::addLife(int a_life)
 	{
 		m_life = P_LIFE_MAX;
 	}
+}
+
+void Player::syncKeyPos()
+{
+	if (m_isKeyHandled && m_mode != P_MODE::CLEAR)
+	{
+		m_pKeyObj->m_alpha = 200;
+		m_pKeyObj->m_setPos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj->m_pSprData->width + m_size.x / 2, m_pKeyObj->m_pSprData->height, 0);
+		if (m_pKeyObj->m_setPos.x > PAGE_WIDTH - m_pKeyObj->m_pSprData->width - m_size.x) {
+			m_pKeyObj->m_setPos.x = PAGE_WIDTH - m_pKeyObj->m_pSprData->width - m_size.x;
+		}
+		if (m_pKeyObj->m_setPos.x < 0 + m_size.x) {
+			m_pKeyObj->m_setPos.x = 0 + m_size.x;
+		}
+		if (m_pKeyObj->m_setPos.y > PAGE_HEIGHT - m_pKeyObj->m_pSprData->height) {
+			m_pKeyObj->m_setPos.y = PAGE_HEIGHT - m_pKeyObj->m_pSprData->height;
+		}
+		if (m_pKeyObj->m_setPos.y < 0) {
+			m_pKeyObj->m_setPos.y = 0;
+		}
+	}
+
+
+	if (m_pKeyObj->m_pos.x < m_pKeyObj->m_setPos.x) {
+		m_pKeyObj->m_pos.x += (m_pKeyObj->m_setPos.x - m_pKeyObj->m_pos.x) / 5;
+		if (m_pKeyObj->m_pos.x > m_pKeyObj->m_setPos.x) {
+			m_pKeyObj->m_pos.x = m_pKeyObj->m_setPos.x;
+		}
+	}
+	if (m_pKeyObj->m_pos.x > m_pKeyObj->m_setPos.x) {
+		m_pKeyObj->m_pos.x += (m_pKeyObj->m_setPos.x - m_pKeyObj->m_pos.x) / 5;
+		if (m_pKeyObj->m_pos.x < m_pKeyObj->m_setPos.x) {
+			m_pKeyObj->m_pos.x = m_pKeyObj->m_setPos.x;
+		}
+	}
+	if (m_pKeyObj->m_pos.y < m_pKeyObj->m_setPos.y) {
+		m_pKeyObj->m_pos.y += (m_pKeyObj->m_setPos.y - m_pKeyObj->m_pos.y) / 5;
+		if (m_pKeyObj->m_pos.y > m_pKeyObj->m_setPos.y) {
+			m_pKeyObj->m_pos.y = m_pKeyObj->m_setPos.y;
+		}
+	}
+	if (m_pKeyObj->m_pos.y > m_pKeyObj->m_setPos.y) {
+		m_pKeyObj->m_pos.y += (m_pKeyObj->m_setPos.y - m_pKeyObj->m_pos.y) / 5;
+		if (m_pKeyObj->m_pos.y < m_pKeyObj->m_setPos.y) {
+			m_pKeyObj->m_pos.y = m_pKeyObj->m_setPos.y;
+		}
+	}
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -699,7 +714,7 @@ void PlayerManager::manageConcentration()
 		m_isTranscriptAble = true;
 		m_isTranscriptCanceled = false;
 		m_step = STEP::INIT + 1;
-		m_pPlayer->m_keyObj->m_alpha = 0;
+		m_pPlayer->m_pKeyObj->m_alpha = 0;
 		break;
 	case STEP::INIT+1:
 		m_isPlayerOnLeft = m_pPlayer->m_liveInPagination % 2 != 0;
@@ -811,7 +826,13 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 				// 隣のページへ転写
 				m_pPlayer->m_liveInPagination += m_pPlayer->m_liveInPagination % 2 ? 1 : -1;
 				m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
-				m_pPlayer->m_speed = { 0,0,0 };
+				if (m_pPlayer->m_isKeyHandled){
+					m_pPlayer->m_pKeyObj->m_setPos.x = PAGE_WIDTH - m_pPlayer->m_pKeyObj->m_pos.x - m_pPlayer->m_pKeyObj->m_pSprData->width;
+					m_pPlayer->m_pKeyObj->m_pos.x = m_pPlayer->m_pKeyObj->m_setPos.x;
+				}
+				m_pPlayer->m_speed = { 0,-0.1f,0 };
+				m_pPlayer->m_isOnGround = false;
+				m_pPlayer->m_jumpCounter = 1;
 				m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
 				m_pPlayer->m_timer = 0;
 

@@ -83,6 +83,7 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a
 		}
 		else {
 			a_ppBegin[i]->clear();
+			a_ppBegin[i]->init();
 		}
 		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
 		if (a_liveInPagination % 2 != 0)

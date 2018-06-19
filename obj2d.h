@@ -17,6 +17,7 @@ public:
 	SPRITE_DATA* m_pSprData;
 	Vector3 m_pos;
 	Vector3 m_initPos;
+	Vector3 m_setPos;
 	Vector3 m_speed;
 	Vector3 m_speedAcc;
 	Vector3 m_speedMax;

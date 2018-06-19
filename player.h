@@ -12,7 +12,7 @@
 
 #define GRIVATY				(0.20f)
 #define P_SPEED_Y_MAX		(10)
-#define P_JUMP_POWER		(-5)
+#define P_JUMP_POWER		(-2)
 
 #define P_JUMP_MAX_NUM	(1)
 
@@ -55,9 +55,10 @@ public:
 	bool m_isOnScrollArea;
 	bool m_isDamaged;
 	int m_damageTimer;
+	int m_jumpCounter;
 
 	bool m_isKeyHandled;
-	OBJ2D* m_keyObj;
+	OBJ2D* m_pKeyObj;
 	OBJ2D m_eyes;
 
 	Vector3 m_scrolledDistance;
@@ -83,7 +84,7 @@ public:
 
 	void normalMove();
 	void restartMove();
-	void startMove();
+	void syncKeyPos();
 
 };
 
