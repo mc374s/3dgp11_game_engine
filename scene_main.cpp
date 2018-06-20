@@ -87,9 +87,9 @@ void SceneMain::update()
 	case STEP::INIT + 1:
 		// Title Scene
 		m_timer++;
-		if (m_timer % 2 == 0)
+		if (m_timer % 5 == 0)
 		{
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(0.0f, 0.0f, 0.0f), 1, effectNormalMove);
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(0.0f, 0.0f, 0.0f), 1, effectCircleMove);
 		}
 		pBook->update();
 		pStageManager->update();
