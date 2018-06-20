@@ -143,7 +143,7 @@ const int	COLOR_VIOLET	= 0x800080FF;
 extern int e_command;
 
 
-#define TEX_MAX (64)
+#define TEX_MAX (128)
 
 enum STEP
 {
@@ -161,7 +161,9 @@ struct LOAD_TEXTURE
 {
 	int		texNum;			// テクスチャ番号
 	char	*fileName;		// ファイル名
+	bool	doProjection;	// 3dで描画するか
 	Sprite* img;
+	LOAD_TEXTURE(int a_texNum, char *a_pFileName, bool a_doProjection = false) :texNum(a_texNum), fileName(a_pFileName), doProjection(a_doProjection) {};
 };
 
 extern LOAD_TEXTURE *g_load_texture[TEX_MAX];
@@ -223,14 +225,7 @@ struct SPRITE_DATA
 		ofsY = _ofsY;
 		frameNum = _frameNum;
 	};
-	void draw(Vector3 &_pos, CUSTOM *_custom = nullptr) {
-		if (_custom){
-			draw(_pos.x, _pos.y, _custom);
-		}
-		else{
-			draw(_pos.x, _pos.y);
-		}
-	};
+	void draw(Vector3 &a_pos, CUSTOM *a_pCustom = nullptr, CUSTOM3D *a_pCustom3d = nullptr);
 	void draw(float _x, float _y, CUSTOM *_custom = nullptr);
 };
 

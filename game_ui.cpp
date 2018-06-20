@@ -355,6 +355,7 @@ void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_tra
 		if (fabsf(a_transferConcentration - 0.0f) < FLT_EPSILON)
 		{
 			a_isOnLeftPage = !a_isOnLeftPage;
+			a_isRefect = !a_isRefect;
 		}
 		if (!a_isOnLeftPage)
 		{

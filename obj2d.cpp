@@ -22,6 +22,7 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 	m_size = a_inputObj.m_size;
 
 	m_custom = a_inputObj.m_custom;
+	m_custom3d = a_inputObj.m_custom3d;
 
 	m_timer = a_inputObj.m_timer;
 	m_step = a_inputObj.m_step;
@@ -62,6 +63,8 @@ void OBJ2D::clear()
 	m_timer = 0;
 	m_step = 0;
 	m_custom.clear();
+	m_custom3d.clear();
+
 	m_alpha = 255;
 	m_concentration = 0;
 	m_isInit = false;
@@ -89,8 +92,10 @@ void OBJ2D::draw()
 			m_alpha = 0;
 		}
 		m_custom.rgba = m_custom.rgba >> 8 << 8 | m_alpha;
-		m_pSprData->draw(m_pos.x, m_pos.y, &m_custom);
+		//m_pSprData->draw(m_pos.x, m_pos.y, &m_custom);
+		m_pSprData->draw(m_pos, &m_custom, &m_custom3d);
 	}
+
 }
 
 int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max) 
