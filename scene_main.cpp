@@ -65,8 +65,9 @@ void SceneMain::update()
 	{
 	case STEP::INIT:
 		//init();
+		++m_timer;
 		pBook->update();
-		if (!pBook->m_pfMove)
+		if (!pBook->m_pfMove && m_timer > 20)
 		{
 			pBook->clearAll();
 			m_stageNO = 0;
@@ -78,7 +79,7 @@ void SceneMain::update()
 				m_stageClearFlag[i] = false;
 			}
 			m_stageClearFlag[STAGE_MAX_NUM] = true;*/
-
+			m_timer = 0;
 			m_step = STEP::INIT + 1;
 		}
 		break;
@@ -316,10 +317,11 @@ void SceneMain::draw()
 	m_pBG->draw();
 
 	pBook->draw();
-	if (m_step >= STEP::BEGIN) {
+	pGameUIManager->draw();
+	//pEffectManager->draw();
+	if (m_step != STEP::INIT + 4) {
 		pEffectManager->draw();
 	}
-	pGameUIManager->draw();
 
 
 #ifdef  DEBUG
@@ -329,12 +331,15 @@ void SceneMain::draw()
 
 #endif //  DEBUG
 
+	if (m_step == STEP::INIT) {
+		drawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0x000000FF & (unsigned int)((20 - m_timer) / 20.0f * 255));
+	}
 
 }
 
 bool SceneMain::pause()
 {
-	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step >= STEP::BEGIN)
+	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT && pBook->m_isOpened)
 	{
 		m_isPaused = true;
 	}
@@ -420,7 +425,7 @@ void SceneMain::gameMain()
 			m_stageNO++;
 			if (m_stageNO >= STAGE_MAX_NUM)
 			{
-				m_stageNO = STAGE_SELECT_MAX_NUM;
+				m_stageNO = /*STAGE_SELECT_MAX_NUM*/0;
 			}
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				for (int i = 1; i < STAGE_MAX_NUM; i++) {
@@ -434,7 +439,7 @@ void SceneMain::gameMain()
 				m_stageNO = 0;
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::finishReading;
-				m_step = STEP::INIT/* + 1*/;
+				m_step = STEP::INIT + 1;
 			}
 			else
 			{
@@ -450,7 +455,12 @@ void SceneMain::gameMain()
 				pBook->m_pfMove = &Book::turnPages;
 				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				pBook->initStartPaper(START_PAGINATION / 2);
-				m_step = STEP::INIT + 4;
+				if (m_stageNO==0){
+					m_step = STEP::INIT + 1;
+				}
+				else {
+					m_step = STEP::INIT + 4;
+				}
 			}
 			m_timer = 0;
 		}

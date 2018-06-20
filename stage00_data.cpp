@@ -51,13 +51,13 @@ int e_startPagination[] = {
 	49,//STAGE 3-2
 	55,//STAGE 3-3
 
-	//61,//STAGE 4-1
-	//67,//STAGE 4-2
-	//73,//STAGE 4-3
-	//
-	//79,//STAGE 5-1
-	//85,//STAGE 5-2
-	//91,//STAGE 5-3
+	61,//STAGE 4-1
+	67,//STAGE 4-2
+	73,//STAGE 4-3
+	
+	79,//STAGE 5-1
+	85,//STAGE 5-2
+	91,//STAGE 5-3
 
 	//129-4,
 	//135-4,

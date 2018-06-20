@@ -210,6 +210,7 @@ int framework::run()
 
 	while (WM_QUIT != msg.message)
 	{
+		QueryPerformanceFrequency(&m_timeFreq);
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -438,8 +439,8 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	s_pDeviceContext->RSSetViewports(1, &e_camera.viewPort);
 
 	// Just clear the backbuffer
-	float ClearColor[4] = { 0.0f / 255.0f, 111.0f / 255.0f, 129.0f / 255.0f, 1.0f }; //red,green,blue,alpha
-	//float ClearColor[4] = { 255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f, 1.0f }; //red,green,blue,alpha
+	//float ClearColor[4] = { 0.0f / 255.0f, 111.0f / 255.0f, 129.0f / 255.0f, 1.0f }; //red,green,blue,alpha
+	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; //red,green,blue,alpha
 	s_pDeviceContext->ClearRenderTargetView(s_pRenderTargetView, ClearColor);
 	s_pDeviceContext->ClearDepthStencilView(s_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
