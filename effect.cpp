@@ -12,6 +12,9 @@ void Effect::memberCopy(const Effect& a_inputObj)
 	m_isVisible = a_inputObj.m_isVisible;
 	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
 
+	m_speedAlpha = a_inputObj.m_speedAlpha;
+	m_speedAngle = a_inputObj.m_speedAngle;
+
 }
 
 Effect::Effect(const Effect& a_inputObj) :OBJ2DEX(a_inputObj)
@@ -36,6 +39,9 @@ void Effect::clear()
 	m_isVisible = false;
 	m_isVisibleAlways = false;
 	m_pfMove = nullptr;
+
+	m_speedAlpha = 0;
+	m_speedAngle = { 0.0f,0.0f,0.0f };
 }
 
 Effect::Effect()
@@ -99,7 +105,7 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a
 		a_ppBegin[i]->m_type = a_type;
 		a_ppBegin[i]->m_pfMove = a_pfMove;
 		a_ppBegin[i]->m_custom.reflectX = a_isReflect;
-		a_ppBegin[i]->init();
+		//a_ppBegin[i]->init();
 
 		return a_ppBegin[i];
 	}
@@ -162,11 +168,14 @@ void EffectManager::update()
 
 void EffectManager::draw()
 {
+	static int num = 0;
+	num = 0;
 	for (auto &pEff : m_ppEffect)
 	{
 		if (pEff && pEff->m_pSprData && pEff->m_isVisible)
 		{
 			pEff->draw();
+			num++;
 			//drawRectangle(pEff->m_pos.x - 2, pEff->m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
 			if (!pEff->m_isVisibleAlways)
 			{
@@ -174,6 +183,13 @@ void EffectManager::draw()
 			}
 		}
 	}
+#ifdef DEBUG
+	static char buf[256];
+	sprintf_s(buf, "Effect obj Num: %d", num);
+	drawString(0, 600, buf);
+
+#endif // DEBUG
+
 
 }
 
@@ -459,6 +475,73 @@ void effectOnBlurArea(Effect* a_pObj)
 		}
 		break;
 	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectNormalMove(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprWhiteCircle;
+		a_pObj->m_pfMove = effectNormalMove;
+		a_pObj->m_timer = 0;
+		a_pObj->m_alpha = rand() % 255;
+		a_pObj->m_speedAlpha = 2;
+		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.0f + rand() / RAND_MAX - 0.2f;
+
+		//a_pObj->m_custom3d.position.x = rand() % (SCREEN_WIDTH + 200) - 100 - PAGE_WIDTH;
+		a_pObj->m_custom3d.position.x = rand() % 200 + (PAGE_WIDTH - 200) / 2;
+		a_pObj->m_custom3d.position.y = -200;
+		a_pObj->m_custom3d.position.z = rand() % 200 - 100;
+
+		a_pObj->m_speedAcc.x = (rand() % 10 - 5) / 10.0f;
+		a_pObj->m_speedAcc.y = 0.03;
+		a_pObj->m_speedAcc.z = (rand() % 10 - 5) / 10.0f;
+
+		a_pObj->m_speedMax.x = rand() % 20 + 6;
+		a_pObj->m_speedMax.y = rand() % 10 + 4;
+		a_pObj->m_speedMax.z = rand() % 20 + 5;
+
+		//a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		if (a_pObj->m_alpha <= 0 || a_pObj->m_alpha >= 255) {
+			a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
+		}
+
+		a_pObj->m_speed += a_pObj->m_speedAcc;
+		if (fabsf(a_pObj->m_speed.x) > a_pObj->m_speedMax.x)
+		{
+			a_pObj->m_speedAcc.x = -a_pObj->m_speedAcc.x;
+		}
+		/*if (fabsf(a_pObj->m_speed.y) > a_pObj->m_speedMax.y)
+		{
+			a_pObj->m_speedAcc.y = -a_pObj->m_speedAcc.y;
+		}*/
+		if (fabsf(a_pObj->m_speed.z) > a_pObj->m_speedMax.z)
+		{
+			a_pObj->m_speedAcc.z = -a_pObj->m_speedAcc.z;
+		}
+		a_pObj->m_custom3d.position.x += a_pObj->m_speed.x;
+		a_pObj->m_custom3d.position.y += a_pObj->m_speed.y;
+		a_pObj->m_custom3d.position.z += a_pObj->m_speed.z;
+
+		if (a_pObj->m_custom3d.position.y > SCREEN_HEIGHT)
+		{
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->clear();
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:

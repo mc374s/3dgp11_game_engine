@@ -73,6 +73,7 @@ void SceneMain::update()
 			m_stageNO = 0;
 			m_timer = 0;
 			pStageManager->init(m_stageNO);
+			pEffectManager->init();
 			pGameUIManager->init();
 
 			/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
@@ -85,9 +86,13 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
+		m_timer++;
+		if (m_timer % 2 == 0)
+		{
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(0.0f, 0.0f, 0.0f), 1, effectNormalMove);
+		}
 		pBook->update();
 		pStageManager->update();
-		m_timer = 0;
 		if (KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
 		{
 			if (!pBook->m_pfMove)
@@ -101,6 +106,7 @@ void SceneMain::update()
 		}
 		if (pBook->m_isOpened)
 		{
+			m_timer = 0;
 			if (m_stageNO >= STAGE_SELECT_MAX_NUM)
 			{
 				m_step = STEP::INIT + 4;
@@ -117,6 +123,7 @@ void SceneMain::update()
 		if (!pBook->m_pfMove){
 			pGameUIManager->showXButton();
 		}
+		pEffectManager->update();
 		break;
 	case STEP::INIT + 2:
 		// Stage Select
@@ -250,7 +257,7 @@ void SceneMain::update()
 		if (pBook->m_step == STEP::FINISH)
 		{
 			pGameUIManager->init();
-			pEffectManager->init();
+			//pEffectManager->init();
 			pPlayerManager->init();
 			m_step = STEP::BEGIN;
 		}
@@ -317,11 +324,12 @@ void SceneMain::draw()
 	m_pBG->draw();
 
 	pBook->draw();
-	pGameUIManager->draw();
 	//pEffectManager->draw();
-	if (m_step != STEP::INIT + 4) {
-		pEffectManager->draw();
+	if (m_step >= STEP::BEGIN || m_step == STEP::INIT + 1) {
+		//pEffectManager->draw();
 	}
+	pEffectManager->draw();
+	pGameUIManager->draw();
 
 
 #ifdef  DEBUG

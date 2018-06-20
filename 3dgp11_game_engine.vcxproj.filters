@@ -293,5 +293,8 @@
     <FxCompile Include="3dgp\sprite_vs.hlsl">
       <Filter>3dgp\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="3dgp\sprite3d_vs.hlsl">
+      <Filter>3dgp\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

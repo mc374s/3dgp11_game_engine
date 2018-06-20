@@ -3,7 +3,7 @@
 
 #include "obj2d.h"
 
-#define EFF_OBJ_MAX_NUM	(128)
+#define EFF_OBJ_MAX_NUM	(256)
 #define EFF_STAMP_MAX_NUM (5)
 
 
@@ -23,6 +23,8 @@ public:
 	bool m_isVisibleAlways;
 	bool m_isVisible;
 
+	int m_speedAlpha;
+	XMFLOAT3 m_speedAngle;
 
 	void(*m_pfMove)(Effect*);
 
@@ -69,6 +71,7 @@ void effectDamaging(Effect* a_pObj);
 void effectRunning(Effect* a_pObj);
 void effectOnBlurArea(Effect* a_pObj);
 
+void effectNormalMove(Effect* a_pObj);
 
 
 #endif // !_EFFECT_H_

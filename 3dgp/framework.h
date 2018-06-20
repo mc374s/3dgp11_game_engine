@@ -53,6 +53,7 @@ public:
 
 	static ID3D11RenderTargetView*	s_pRenderTargetView;
 	static ID3D11DepthStencilView*	s_pDepthStencilView;
+	ID3D11DepthStencilState*		m_pDepthStencilState;
 
 	D3D_DRIVER_TYPE					m_driverType = D3D_DRIVER_TYPE_NULL;
 	D3D_FEATURE_LEVEL				m_featureLevel = D3D_FEATURE_LEVEL_11_0;

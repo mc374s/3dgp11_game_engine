@@ -104,17 +104,23 @@ inline void setRenderTargetWH(int a_width,int a_height)
 	//renderTargetHeight = SCREEN_HEIGHT;
 }
 
-inline XMFLOAT3 toNDC_RT(XMFLOAT3 a_coord)
+inline XMFLOAT3 toNDC_RT(XMFLOAT3 a_coord, bool a_doProjection = false)
 {
 	float x, y, z = 0;
 	// 2D without projection
-	x = 2.0f*a_coord.x / renderTargetWidth - 1.0f;
-	y = 1.0f - 2.0f*a_coord.y / renderTargetHeight;
+	if (a_doProjection)
+	{
+		// 2D with projection
+		x = a_coord.x / (float)SCREEN_WIDTH;
+		y = a_coord.y / (float)SCREEN_WIDTH;
+		z = a_coord.z / (float)SCREEN_WIDTH;
+	}
+	else
+	{
+		x = 2.0f*a_coord.x / renderTargetWidth - 1.0f;
+		y = 1.0f - 2.0f*a_coord.y / renderTargetHeight;
+	}
 
-	// 2D with projection
-	/*x = a_coord.x / (float)SCREEN_WIDTH;
-	y = -a_coord.y / (float)SCREEN_WIDTH;
-	z = a_coord.z / (float)SCREEN_WIDTH;*/
 	return XMFLOAT3(x, y, z);
 }
 

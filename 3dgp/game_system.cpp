@@ -20,6 +20,19 @@ void SPRITE_DATA::draw(float _x, float _y, CUSTOM *_custom) {
 	}
 }
 
+void SPRITE_DATA::draw(Vector3 &a_pos, CUSTOM *a_pCustom, CUSTOM3D *a_pCustom3d) {
+	if (texNum >= 0 && texNum < TEX_MAX && g_load_texture[texNum] && g_load_texture[texNum]->img) {
+		if (g_load_texture[texNum]->doProjection)
+		{
+			g_load_texture[texNum]->img->render3D(framework::s_pDeviceContext, a_pos.x + ofsX, a_pos.y + ofsY, a_pCustom->scaleX*width, a_pCustom->scaleY*height, left, top, width, height, a_pCustom->rgba, a_pCustom->angle, a_pCustom->centRotate, a_pCustom->centX, a_pCustom->centY, a_pCustom->reflectX, a_pCustom->scaleMode, a_pCustom3d);
+		}
+		else
+		{
+			draw(a_pos.x, a_pos.y, a_pCustom);
+		}
+	}
+}
+
 void TextureManager::loadTexture(LOAD_TEXTURE _data[])
 {
 	for (int i = _data[0].texNum; _data[i].texNum != -1 || _data[i].fileName != NULL; i++)
@@ -30,7 +43,7 @@ void TextureManager::loadTexture(LOAD_TEXTURE _data[])
 		size_t temp;
 		mbstowcs_s(&temp, wcFileName, cSize, _data[i].fileName, cSize);*/
 
-		_data[i].img = new Sprite(framework::s_pDevice, _data[i].fileName);
+		_data[i].img = new Sprite(framework::s_pDevice, _data[i].fileName, _data[i].doProjection);
 		g_load_texture[i] = &_data[i];
 		//delete[] wcFileName;
 	}
