@@ -62,7 +62,7 @@ STAGE_DATA stage12_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 12] + 1, 0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,325,0),		true, v3(PW,220,0), 3),
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 12] + 1,0, M_TYPE::DOOR,					M_DRAW::UP,		v3(PW / 2,1039 - 111,0),	true, v3(124,111,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 12] + 1,0, M_TYPE::DOOR,					M_DRAW::UP,		v3(PW / 2,1039 - 111,0),	true, v3(124,111,0), 8),
 
 
 	// END

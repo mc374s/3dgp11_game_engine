@@ -25,7 +25,7 @@ STAGE_DATA stage11_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 11], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,900,1),		true, v3(PW,11,0), 10),
 
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 11], 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(50,220 - 111,0),	true, v3(124,111,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 11], 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(50,220 - 111,0),	true, v3(124,111,0), 8),
 
 
 	//ページ２

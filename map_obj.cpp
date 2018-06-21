@@ -124,6 +124,9 @@ void MapObj::init()
 		m_repeatDrawSize.x = m_size.y;
 		m_repeatDrawSize.y = m_size.x;
 		break;
+	case M_DRAW::MIRROR:
+		m_custom.reflectX = true;
+		break;
 	default:
 		break;
 	}
@@ -137,7 +140,8 @@ void MapObj::update()
 	}
 	animation();
 }
-void MapObj::safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, int a_concentration, void(*a_pfMove)(MapObj*))
+
+void MapObj::safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, float a_concentration, void(*a_pfMove)(MapObj*))
 {
 
 	a_objIn.clear();

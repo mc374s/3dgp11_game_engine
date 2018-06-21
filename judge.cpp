@@ -139,6 +139,7 @@ void judgeAll()
 						it.m_concentration -= (P_CONCENTRATION_MAX - pPlayer->m_concentration);
 						pPlayer->m_concentration = 10.0f;
 					}*/
+					MFAudioPlay(SE_START);
 					pPlayer->m_concentration = 10.0f;
 					it.clear();
 				}
@@ -148,18 +149,19 @@ void judgeAll()
 				if (it.m_type == M_TYPE::KEY)
 				{
 					pPlayer->m_isKeyHandled = true;
-					pPlayer->m_keyObj->m_pSprData = it.m_pSprData;
+					pPlayer->m_pKeyObj->m_pSprData = it.m_pSprData;
+					pPlayer->m_pKeyObj->m_pos = it.m_pos;
 					it.m_isHitAble = false;
-					it.m_concentration = LOW_CONCENTRATION;
+					it.m_concentration = /*LOW_CONCENTRATION*/0;
 					MFAudioPlay(SE_KEY_GOT);
 				}
 				if (it.m_type == M_TYPE::DOOR && pPlayer->m_isKeyHandled)
 				{
 					pPlayer->m_isKeyHandled = false;
-					//pPlayer->m_keyObj.m_pSprData = it.m_pSprData;
-					//pPlayer->m_keyObj->m_pSprData = nullptr;
-					//pPlayer->m_keyObj->m_pos = it.m_pos;
-					pPlayer->m_keyObj->m_initPos = it.m_pos;
+					//pPlayer->m_pKeyObj.m_pSprData = it.m_pSprData;
+					//pPlayer->m_pKeyObj->m_pSprData = nullptr;
+					//pPlayer->m_pKeyObj->m_pos = it.m_pos;
+					pPlayer->m_pKeyObj->m_setPos = it.m_pos;
 					pPlayer->m_mode = P_MODE::CLEAR;
 					it.m_isHitAble = false;
 					it.m_concentration = P_CONCENTRATION_MAX;

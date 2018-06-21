@@ -31,7 +31,6 @@ SceneMain::SceneMain()
 
 	//pGameUIManager->init();
 
-	m_pStr = "";
 }
 
 void SceneMain::init()
@@ -66,22 +65,26 @@ void SceneMain::update()
 	{
 	case STEP::INIT:
 		//init();
+		++m_timer;
 		pBook->update();
-		if (!pBook->m_pfMove)
+		if (!pBook->m_pfMove && m_timer > 20)
 		{
 			pBook->clearAll();
 			m_stageNO = 0;
-			m_pStr = "";
 			m_timer = 0;
 			pStageManager->init(m_stageNO);
 			pGameUIManager->init();
 
+			/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
+				m_stageClearFlag[i] = false;
+			}
+			m_stageClearFlag[STAGE_MAX_NUM] = true;*/
+			m_timer = 0;
 			m_step = STEP::INIT + 1;
 		}
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
-
 		pBook->update();
 		pStageManager->update();
 		m_timer = 0;
@@ -314,10 +317,11 @@ void SceneMain::draw()
 	m_pBG->draw();
 
 	pBook->draw();
-	if (m_step >= STEP::BEGIN) {
+	pGameUIManager->draw();
+	//pEffectManager->draw();
+	if (m_step != STEP::INIT + 4) {
 		pEffectManager->draw();
 	}
-	pGameUIManager->draw();
 
 
 #ifdef  DEBUG
@@ -327,12 +331,15 @@ void SceneMain::draw()
 
 #endif //  DEBUG
 
+	if (m_step == STEP::INIT) {
+		drawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0x000000FF & (unsigned int)((20 - m_timer) / 20.0f * 255));
+	}
 
 }
 
 bool SceneMain::pause()
 {
-	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step >= STEP::BEGIN)
+	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT && pBook->m_isOpened)
 	{
 		m_isPaused = true;
 	}
@@ -356,6 +363,12 @@ bool SceneMain::pause()
 			}
 			if (m_pausedOption == PAUSED_SELECTION::TO_TITLE){
 				m_isPaused = false;
+
+				/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
+					m_stageClearFlag[i] = false;
+				}
+				m_stageClearFlag[STAGE_MAX_NUM] = true;*/
+
 				m_stageNO = 0;
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::finishReading;
@@ -412,7 +425,7 @@ void SceneMain::gameMain()
 			m_stageNO++;
 			if (m_stageNO >= STAGE_MAX_NUM)
 			{
-				m_stageNO = STAGE_SELECT_MAX_NUM;
+				m_stageNO = /*STAGE_SELECT_MAX_NUM*/0;
 			}
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				for (int i = 1; i < STAGE_MAX_NUM; i++) {
@@ -426,29 +439,33 @@ void SceneMain::gameMain()
 				m_stageNO = 0;
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::finishReading;
-				m_step = STEP::INIT/* + 1*/;
+				m_step = STEP::INIT + 1;
 			}
 			else
 			{
-				if (m_stageClearFlag[m_stageNO]) {
+				/*if (m_stageClearFlag[m_stageNO]) {
 					for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
 						if (!m_stageClearFlag[i]) {
 							m_stageNO = i;
 							break;
 						}
 					}
-				}
-
+				}*/
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::turnPages;
 				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				pBook->initStartPaper(START_PAGINATION / 2);
-				m_step = STEP::INIT + 4;
+				if (m_stageNO==0){
+					m_step = STEP::INIT + 1;
+				}
+				else {
+					m_step = STEP::INIT + 4;
+				}
 			}
 			m_timer = 0;
 		}
 		
-		if (m_timer > 30) {
+		if (m_timer > 60) {
 
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
@@ -575,9 +592,11 @@ void SceneMain::viewMode()
 			pBook->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 			pEffectManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 			pPlayerManager->m_pPlayer->m_pos.y += 10;
+			pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y += 10;
 			if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y + pPlayerManager->m_pPlayer->m_scrolledDistance.y)
 			{
 				pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y + pPlayerManager->m_pPlayer->m_scrolledDistance.y;
+				pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y = pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_pKeyObj->m_pSprData->height;
 			}
 		}
 		if (KEY_BOARD.S || GAME_PAD.IsLeftThumbStickDown())
@@ -585,9 +604,11 @@ void SceneMain::viewMode()
 			pBook->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 			pEffectManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 			pPlayerManager->m_pPlayer->m_pos.y -= 10;
+			pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y -= 10;
 			if (pPlayerManager->m_pPlayer->m_pos.y < pPlayerManager->m_pPlayer->m_setPos.y - STAGE_HEIGHT + pPlayerManager->m_pPlayer->m_scrolledDistance.y)
 			{
 				pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y - STAGE_HEIGHT + pPlayerManager->m_pPlayer->m_scrolledDistance.y;
+				pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y = pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_pKeyObj->m_pSprData->height;
 			}
 		}
 	}
@@ -611,9 +632,11 @@ void SceneMain::endViewMode()
 		pBook->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 		pEffectManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 		pPlayerManager->m_pPlayer->m_pos.y -= 10;
+		pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y -= 10;
 		if (pPlayerManager->m_pPlayer->m_pos.y <= pPlayerManager->m_pPlayer->m_setPos.y)
 		{
 			pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y;
+			pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y = pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_pKeyObj->m_pSprData->height;
 		}
 	}
 	if (pPlayerManager->m_pPlayer->m_pos.y < pPlayerManager->m_pPlayer->m_setPos.y)
@@ -621,9 +644,11 @@ void SceneMain::endViewMode()
 		pBook->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 		pEffectManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 		pPlayerManager->m_pPlayer->m_pos.y += 10;
+		pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y += 10;
 		if (pPlayerManager->m_pPlayer->m_pos.y >= pPlayerManager->m_pPlayer->m_setPos.y)
 		{
 			pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y;
+			pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y = pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_pKeyObj->m_pSprData->height;
 		}
 	}
 	if (fabsf(pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_setPos.y) < FLT_EPSILON)

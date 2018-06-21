@@ -3,7 +3,7 @@
 
 #include "obj2d.h"
 
-#define EFF_OBJ_MAX_NUM	(64)
+#define EFF_OBJ_MAX_NUM	(128)
 #define EFF_STAMP_MAX_NUM (5)
 
 
@@ -68,5 +68,7 @@ void effectMakeTranscription(Effect* a_pObj);
 void effectDamaging(Effect* a_pObj);
 void effectRunning(Effect* a_pObj);
 void effectOnBlurArea(Effect* a_pObj);
+
+
 
 #endif // !_EFFECT_H_

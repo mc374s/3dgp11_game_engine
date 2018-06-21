@@ -107,7 +107,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_TUTORIAL,					"./DATA/Images/Map/moji.png"},
 	{ TEX_GOAL_SET,					"./DATA/Images/Map/goal_set.png" },
 
-	{ TEX_SMOKE,					"./DATA/Images/particle-smoke4.png" },
+	{ TEX_SMOKE,					"./DATA/Images/particle-smoke5.png" },
 	{ TEX_LIFE_STAMP,				"./DATA/Images/UI/stamp.png"},
 	{ TEX_LARGE_PLAYER,				"./DATA/Images/UI/large_player.png" },
 
@@ -381,7 +381,7 @@ SPRITE_LEFTTOP e_pSprItem[] =
 SPRITE_LEFTTOP e_sprLifeStamp = SPRITE_LEFTTOP(TEX_LIFE_STAMP, 0, 0, 40, 32);
 
 SPRITE_LEFTTOP e_sprWhite = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 32, 32);
-SPRITE_CENTER e_sprGageDivisionAllocation = SPRITE_CENTER(TEX_GAGE_DIVISION_ALLOCATION, 0, 0, 362, 50);
+SPRITE_CENTER e_sprGageDivisionAllocation = SPRITE_CENTER(TEX_GAGE_DIVISION_ALLOCATION, 0, 0, 366, 70);
 SPRITE_CENTER sprGageAllocationUnder = SPRITE_CENTER(TEX_WHITE, 0, 0, 34 * 10, 30);
 SPRITE_CENTER e_sprGageAllocation = SPRITE_CENTER(TEX_WHITE, 0, 0, 34 * 10, 30);
 
@@ -429,7 +429,7 @@ SPRITE_LEFTTOP e_pSprStageSelection[] = {
 	SPRITE_LEFTTOP(-1, 0, 0, 0, 0),
 };
 
-SPRITE_CENTER e_sprStageSelected = SPRITE_CENTER(TEX_STAGE_SELECTED, 0, 0, 140, 35);
+SPRITE_CENTER e_sprStageSelected = SPRITE_CENTER(TEX_STAGE_SELECTED, 0, 0, 128, 17);
 
 // Effect関係
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);
@@ -447,10 +447,10 @@ SPRITE_CENTER e_pAnimeStamp[] =
 };
 
 SPRITE_BOTTOM e_pAnimeEffJumpUp[] = {
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 0, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 1, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 2, 0, 112, 13, 6),
-	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 112 * 3, 0, 112, 13, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 0, 0, 290, 143, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 1, 0, 290, 143, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 2, 0, 290, 143, 6),
+	SPRITE_BOTTOM(TEX_EFF_JUMP_UP, 290 * 3, 0, 290, 143, 6),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0)
 };
 SPRITE_BOTTOM e_pAnimeEffJumpDown[] = {

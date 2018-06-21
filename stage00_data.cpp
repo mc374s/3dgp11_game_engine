@@ -17,7 +17,7 @@ int e_stageHeight[] = {
 
 	(1039) - (PH - 100),//STAGE 3-1
 	(4200) - (PH - 100),//STAGE 3-2
-	(1500) - (PH - 100),//STAGE 3-3
+	(1550) - (PH - 100),//STAGE 3-3
 
 	(1500) - (PH - 100),//STAGE 4-1
 	0,					//STAGE 4-2
@@ -54,7 +54,7 @@ int e_startPagination[] = {
 	61,//STAGE 4-1
 	67,//STAGE 4-2
 	73,//STAGE 4-3
-
+	
 	79,//STAGE 5-1
 	85,//STAGE 5-2
 	91,//STAGE 5-3
@@ -194,7 +194,7 @@ STAGE_DATA stage00_setData[] = {
 	//ページ２
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::BORDER_INNER,			M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW ,11,0), 10),
 	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1] + 1, 0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(100,PH / 2 - 64,0),	true, v3(64,64,0), 2),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(450,PH / 2 - 111,0),	true, v3(124,111,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(450,PH / 2 - 111,0),	true, v3(124,111,0), 8),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::FOREST_9,				M_DRAW::UP,		v3(205,PH / 2 - 107,0),	false, v3(33,107,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 0] + 1, 0, M_TYPE::FOREST_3,				M_DRAW::UP,		v3(220,PH / 2 - 56,0),	false, v3(119,56,0), 10),

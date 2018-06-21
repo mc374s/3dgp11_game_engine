@@ -78,8 +78,6 @@ public:
 	bool m_isVisibleAlways;
 	bool m_isVisible;
 
-	Vector3 m_setPos;
-
 	void clear();
 	//void(*m_pfMove)(GameUI*);
 
@@ -105,7 +103,7 @@ public:
 	void update();
 	void draw();
 
-	void showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble);
+	void showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble, SPRITE_DATA* a_pPlayerSprData = nullptr, bool a_isRefect = true);
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged = false, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
 	void showHelpButton();

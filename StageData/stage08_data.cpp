@@ -14,7 +14,7 @@ STAGE_DATA stage08_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,680,1),		true, v3(PW,11,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,1050,1),		true, v3(PW,11,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(PW / 2,1250,1),		true, v3(PW / 2,11,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,1500,1),		true, v3(PW,11,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,1550,1),		true, v3(PW,11,0), 10),
 
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8],0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(155,250,1),		true, v3(11,230,0), 10),
@@ -39,7 +39,7 @@ STAGE_DATA stage08_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,850,1),		true, v3(PW,11,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,1400,1),		true, v3(PW,11,0), 10),
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,1500,1),		true, v3(PW,11,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,1550,1),		true, v3(PW,11,0), 10),
 
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(120,260,1),		true, v3(11,220,0), 10),
@@ -53,7 +53,7 @@ STAGE_DATA stage08_setData[] = {
 
 
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1,0,M_TYPE::DOOR,					M_DRAW::UP,		v3(550,1500 - 111,0),	true, v3(124,111,0), LOW_CONCENTRATION),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1,0,M_TYPE::DOOR,					M_DRAW::UP,		v3(500,1550 - 111,0),	true, v3(124,111,0), 8),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1,0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(PW / 2,850,0),		true, v3(PW / 2 ,550,0), 3),
 
