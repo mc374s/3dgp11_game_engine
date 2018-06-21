@@ -74,6 +74,10 @@ enum TEX_NO {
 	TEX_STAGE_CLEAR,
 	TEX_GAME_CLEAR,
 	TEX_GAME_OVER,
+	TEX_STAGE_CLEAR_BEHIND,
+	TEX_STAGE_CLEAR_FRONT,
+	TEX_GAME_OVER_BEHIND,
+	TEX_GAME_OVER_FRONT,
 
 	TEX_STAGE_SELECT00_LEFT,
 	TEX_STAGE_SELECT00_RIGHT,
@@ -147,6 +151,11 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_STAGE_CLEAR,				"./DATA/Images/UI/stage_clear.png" },
 	{ TEX_GAME_CLEAR,				"./DATA/Images/UI/game_clear.png" },
 	{ TEX_GAME_OVER,				"./DATA/Images/UI/game_over.png" },
+	{ TEX_STAGE_CLEAR_BEHIND,		"./DATA/Images/UI/stage_clear_behind.png" },
+	{ TEX_STAGE_CLEAR_FRONT,		"./DATA/Images/UI/stage_clear_front.png" },
+	{ TEX_GAME_OVER_BEHIND,			"./DATA/Images/UI/game_over_behind.png" },
+	{ TEX_GAME_OVER_FRONT,			"./DATA/Images/UI/game_over_front.png" },
+
 
 	{ TEX_STAGE_SELECT00_LEFT,			"./DATA/Images/UI/stage_select00_left.png" },
 	{ TEX_STAGE_SELECT00_RIGHT,			"./DATA/Images/UI/stage_select00_right.png" },
@@ -416,6 +425,11 @@ SPRITE_CENTER e_sprPauseSelected = SPRITE_CENTER(TEX_PAUSE_SELECTED, 0, 0, 75, 7
 SPRITE_CENTER e_sprStageClear = SPRITE_CENTER(TEX_STAGE_CLEAR, 0, 0, 932, 360);
 SPRITE_CENTER e_sprGameClear = SPRITE_CENTER(TEX_GAME_CLEAR, 0, 0, 932, 360);
 SPRITE_CENTER e_sprGameOver = SPRITE_CENTER(TEX_GAME_OVER, 0, 0, 932, 360);
+SPRITE_CENTER e_sprStageClearBehind = SPRITE_CENTER(TEX_STAGE_CLEAR_BEHIND, 0, 0, 1009, 360);
+SPRITE_CENTER e_sprStageClearFront = SPRITE_CENTER(TEX_STAGE_CLEAR_FRONT, 0, 0, 1009, 360);
+SPRITE_CENTER e_sprGameOverBehind = SPRITE_CENTER(TEX_GAME_OVER_BEHIND, 0, 0, 1009, 360);
+SPRITE_CENTER e_sprGameOverFront = SPRITE_CENTER(TEX_GAME_OVER_FRONT, 0, 0, 1009, 360);
+
 SPRITE_CENTER e_sprXButton = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
 
 SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 800, 600);
