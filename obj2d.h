@@ -25,6 +25,7 @@ public:
 	Vector3 m_size;
 
 	CUSTOM m_custom;
+	CUSTOM3D m_custom3d;
 	void(*m_pfMove)(OBJ2D*);
 
 	int m_timer;

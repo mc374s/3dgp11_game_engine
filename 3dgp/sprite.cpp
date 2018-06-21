@@ -29,7 +29,7 @@ bool Sprite::initialize(ID3D11Device* a_pDevice)
 	D3D11_RASTERIZER_DESC rasterizerDesc;
 	ZeroMemory(&rasterizerDesc, sizeof(rasterizerDesc));
 	rasterizerDesc.FillMode = D3D11_FILL_SOLID;
-	rasterizerDesc.CullMode = D3D11_CULL_BACK;
+	rasterizerDesc.CullMode = D3D11_CULL_NONE;
 	rasterizerDesc.DepthClipEnable = FALSE;
 	rasterizerDesc.MultisampleEnable = FALSE;
 	rasterizerDesc.DepthBiasClamp = 0;
@@ -77,18 +77,32 @@ Sprite::Sprite(ID3D11Device* a_pDevice)
 }
 
 
-Sprite::Sprite(ID3D11Device* a_pDevice, char* a_pFilename/*Texture file name*/)
+Sprite::Sprite(ID3D11Device* a_pDevice, char* a_pFilename/*Texture file name*/, bool a_doProjection)
 {
 	initialize(a_pDevice);
+	m_doProjection = a_doProjection;
+
 
 	// Define the input layout
-	D3D11_INPUT_ELEMENT_DESC layoutDesc[] =
-	{
-		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, 28,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	loadVertexShader(a_pDevice, "3dgp/sprite_vs.cso", layoutDesc, ARRAYSIZE(layoutDesc), &m_pVertexShader, &m_pInputLayout);
+	if (m_doProjection) {
+		D3D11_INPUT_ELEMENT_DESC layoutDesc[] =
+		{
+			{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, 28,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "NORMAL",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 36,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+		loadVertexShader(a_pDevice, "3dgp/sprite3d_vs.cso", layoutDesc, ARRAYSIZE(layoutDesc), &m_pVertexShader, &m_pInputLayout);
+	}
+	else {
+		D3D11_INPUT_ELEMENT_DESC layoutDesc[] =
+		{
+			{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, 0,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, 12,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, 28,	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+		loadVertexShader(a_pDevice, "3dgp/sprite_vs.cso", layoutDesc, ARRAYSIZE(layoutDesc), &m_pVertexShader, &m_pInputLayout);
+	}
 	loadPixelShader(a_pDevice, "3dgp/sprite_ps.cso", &m_pPixelShader);
 
 	ID3D11Resource* resource = NULL;
@@ -144,7 +158,12 @@ Sprite::Sprite(ID3D11Device* a_pDevice, char* a_pFilename/*Texture file name*/)
 	// create depth stencil state
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
-	depthStencilDesc.DepthEnable = FALSE;
+	if (m_doProjection){
+		depthStencilDesc.DepthEnable = TRUE;
+	}
+	else {
+		depthStencilDesc.DepthEnable = FALSE;
+	}
 	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
 
@@ -317,8 +336,11 @@ void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float 
 	for (int i = 0; i < m_vertexCount; i++)
 	{
 		vertices[i].position = rotationZ(vertices[i].position, angleRadian, center);
-		vertices[i].position = toNDC_RT(vertices[i].position);
+		vertices[i].position = toNDC_RT(vertices[i].position, m_doProjection);
 		vertices[i].texcoord = toNDC_UV(vertices[i].texcoord);
+		vertices[i].normal.x = 0.0f;
+		vertices[i].normal.y = 0.0f;
+		vertices[i].normal.z = -1.0f;
 	}
 
 	a_pDeviceContext->PSSetShaderResources(0, 1, &m_pShaderResourceView);
@@ -326,6 +348,61 @@ void Sprite::render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float 
 
 	render(a_pDeviceContext, vertices);
 }
+
+void Sprite::setProjection(ID3D11DeviceContext *a_pDeviceContext, const XMFLOAT3 &a_position, const CUSTOM3D* a_pCustom3D)
+{
+	if (a_pCustom3D == nullptr)
+	{
+		CUSTOM3D init;
+		a_pCustom3D = &init;
+	}
+	static XMFLOAT3 position, rotationAxis;
+	position = toNDC_RT(a_pCustom3D->position, m_doProjection);
+	rotationAxis = toNDC_RT(a_pCustom3D->rotationAxis, m_doProjection);
+	static XMMATRIX S, R, T, W, V, P, WVP;
+	S = R = T = W = V = P = WVP = DirectX::XMMatrixIdentity();
+	//S = DirectX::XMMatrixScaling(a_pCustom3D->scaling.x, a_pCustom3D->scaling.y, a_pCustom3D->scaling.z);
+	////R = DirectX::XMMatrixRotationAxis(XMVectorSet(rotationAxis.x, rotationAxis.y, rotationAxis.z, 0), a_pCustom3D->a_rotateAngle*0.01745329251);
+	//R = DirectX::XMMatrixRotationRollPitchYaw(a_pCustom3D->angleYawPitchRoll.y*0.01745, a_pCustom3D->angleYawPitchRoll.x*0.01745, a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	//T = DirectX::XMMatrixTranslation(position.x, position.y, position.z);
+	//W = S*R*T;
+	//R = DirectX::XMMatrixRotationAxis(XMVectorSet(rotationAxis.x, rotationAxis.y, rotationAxis.z, 0), _custom3D->angle*0.01745329251);
+	R = DirectX::XMMatrixRotationAxis(XMVectorSet(0, 1, 0, 0), a_pCustom3D->angleYawPitchRoll.x*0.01745)
+		*DirectX::XMMatrixRotationAxis(XMVectorSet(1, 0, 0, 0), a_pCustom3D->angleYawPitchRoll.y*0.01745)
+		*DirectX::XMMatrixRotationAxis(XMVectorSet(0, 0, 1, 0), a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	//R = DX::XMMatrixRotationRollPitchYaw(a_pCustom3D->angleYawPitchRoll.y*0.01745, a_pCustom3D->angleYawPitchRoll.x*0.01745, a_pCustom3D->angleYawPitchRoll.z*0.01745);
+	S = DirectX::XMMatrixScaling(a_pCustom3D->scaling.x, a_pCustom3D->scaling.y, a_pCustom3D->scaling.z);
+	T = DirectX::XMMatrixTranslation(position.x, position.y, position.z);
+	W = T*R*S;
+
+	V = DirectX::XMMatrixLookAtLH(e_camera.eyePosition, e_camera.focusPosition, e_camera.upDirection);
+	P = DirectX::XMMatrixPerspectiveFovLH(XM_PIDIV4, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 100.0f);
+	WVP = W*V*P;
+	/*W = DirectX::XMMatrixTranspose(W);
+	V = DirectX::XMMatrixTranspose(V);
+	P = DirectX::XMMatrixTranspose(P);*/
+
+	PROJECTION_CBUFFER updateCbuffer;
+	updateCbuffer.world = W;
+	updateCbuffer.view = V;
+	updateCbuffer.projection = P;
+	updateCbuffer.worldViewProjection = WVP;
+	//updateCbuffer.lightDirection = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f);
+	static XMVECTOR lightDirection = { 0.0f,0.0f,1.0f,0.0f };
+	//lightDirection = e_camera.focusPosition - e_camera.eyePosition;
+	updateCbuffer.lightDirection = XMFLOAT4(lightDirection.vector4_f32);
+	updateCbuffer.materialColor = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	a_pDeviceContext->UpdateSubresource(m_pVSProjectionCBuffer, 0, NULL, &updateCbuffer, 0, 0);
+	a_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pVSProjectionCBuffer);
+}
+
+void Sprite::render3D(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX, float a_srcY, float a_srcWidth, float a_srcHeight, UINTCOLOR a_blendColor, float a_rotateAngle, bool a_doCenterRotation, float a_rotatePosX, float a_rotatePosY, bool a_doReflection, int a_scaleMode, const CUSTOM3D* a_pCustom3D)
+{
+	setProjection(a_pDeviceContext, XMFLOAT3(0, 0, 0), a_pCustom3D);
+	render(a_pDeviceContext, a_drawX, a_drawY, a_drawWidth, a_drawHeight, a_srcX, a_srcY, a_srcWidth, a_srcHeight, a_blendColor, a_rotateAngle, a_doCenterRotation, a_rotatePosX, a_rotatePosY, a_doReflection, a_scaleMode);
+}
+
 
 // Screen coordinate to UV NDC coordinate
 XMFLOAT2 Sprite::toNDC_UV(XMFLOAT2 a_coord)

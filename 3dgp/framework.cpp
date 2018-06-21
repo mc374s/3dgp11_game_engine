@@ -143,6 +143,15 @@ bool framework::initialize(HWND hwnd)
 	}
 	s_pDeviceContext->OMSetRenderTargets(1, &s_pRenderTargetView, s_pDepthStencilView);
 
+	// create depth stencil state
+	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
+	depthStencilDesc.DepthEnable = TRUE;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	hr = s_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_pDepthStencilState);
+
 	// Setup the viewport
 	D3D11_VIEWPORT vp;
 	vp.Width = (FLOAT)SCREEN_WIDTH;
@@ -444,6 +453,7 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	s_pDeviceContext->ClearRenderTargetView(s_pRenderTargetView, ClearColor);
 	s_pDeviceContext->ClearDepthStencilView(s_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
+	s_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
 
 	MyBlending::setMode(s_pDeviceContext, BLEND_ALPHA);
 	if (s_pScene)
@@ -451,10 +461,10 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 		s_pScene->draw(/*elapsed_time*/);
 	}
 
-	//MyBlending::setMode(s_pDeviceContext, BLEND_NONE);
-	//m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(1024, 0, 0), XMFLOAT3(2048, 2, 2));
-	//m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 1024, 0), XMFLOAT3(2, 2048, 2));
-	//m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 0, 1024), XMFLOAT3(2, 2, 2048));
+	/*MyBlending::setMode(s_pDeviceContext, BLEND_NONE);
+	m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(1024, 0, 0), XMFLOAT3(2048, 2, 2));
+	m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 1024, 0), XMFLOAT3(2, 2048, 2));
+	m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 0, 1024), XMFLOAT3(2, 2, 2048));*/
 	//m_pPrimitive3D[1]->drawCylinder(s_pDeviceContext, XMFLOAT3(-310, 0, 10 + 0), XMFLOAT3(620, 700, 20), &custom3DTemp);
 
 	// For FullScreen Mode, Synchronize presentation for 1 vertical blanks
@@ -501,6 +511,8 @@ void framework::release()
 	if (m_pDepthStencilResource) {
 		m_pDepthStencilResource->Release();
 	}
+
+	SAFE_RELEASE(m_pDepthStencilState);
 
 	MyBlending::Release();
 

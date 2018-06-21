@@ -28,6 +28,7 @@ private:
 		XMFLOAT3 position;
 		XMFLOAT4 color;
 		XMFLOAT2 texcoord;
+		XMFLOAT4 normal;
 	};
 
 	struct PROJECTION_CBUFFER
@@ -58,11 +59,13 @@ private:
 	ID3D11InputLayout*			m_pInputLayout;
 	ID3D11PixelShader*			m_pPixelShader;
 
+	bool m_doProjection;
+
 
 public:
 
 	Sprite(ID3D11Device* a_pDevice);
-	Sprite(ID3D11Device* a_pDevice, char* a_pFilename/*Texture file name*/);
+	Sprite(ID3D11Device* a_pDevice, char* a_pFilename/*Texture file name*/, bool a_doProjection = false);
 	~Sprite();
 	bool initialize(ID3D11Device* a_pDevice);
 
@@ -73,6 +76,10 @@ public:
 	void render(ID3D11DeviceContext* a_pDeviceContext, vertex a_pCoordNDC[]);
 	void render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_rotateAngle = 0.0, UINTCOLOR a_blendColor = 0xFFFFFFFF);
 	void render(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, float a_rotateAngle = .0f, bool a_doCenterRotation = true, float a_rotatePosX = .0f, float a_rotatePosY = .0f, bool a_doReflection = false, int a_scaleMode = LEFTTOP);
+
+	void setProjection(ID3D11DeviceContext *a_pDeviceContext, const XMFLOAT3 &a_position, const CUSTOM3D* a_pCustom3D = nullptr);
+
+	void render3D(ID3D11DeviceContext* a_pDeviceContext, float a_drawX, float a_drawY, float a_drawWidth, float a_drawHeight, float a_srcX = .0f, float a_srcY = .0f, float a_srcWidth = .0f, float a_srcHeight = .0f, UINTCOLOR a_blendColor = 0xFFFFFFFF, float a_rotateAngle = .0f, bool a_doCenterRotation = true, float a_rotatePosX = .0f, float a_rotatePosY = .0f, bool a_doReflection = false, int a_scaleMode = LEFTTOP, const CUSTOM3D* _custom3D = nullptr);
 
 
 };

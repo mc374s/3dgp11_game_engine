@@ -14,6 +14,7 @@
 // ラベル定義
 enum TEX_NO {
 	TEX_WHITE,
+	TEX_WHITE_CIRCLE,
 	TEX_MAIN,
 	TEX_PLAYER,
 	TEX_PLAYER_EYES,
@@ -85,12 +86,13 @@ enum TEX_NO {
 
 // 2D画像ロードデータ
 LOAD_TEXTURE e_loadTexture[] = {
-	{ TEX_WHITE,					"./DATA/Images/white.png" },
+	{ TEX_WHITE,					"./DATA/Images/white.png"},
+	{ TEX_WHITE_CIRCLE,				"./DATA/Images/particle_circle.png", true },
 	{ TEX_MAIN,						"./DATA/Images/main_bg.png"},
 	{ TEX_PLAYER,					"./DATA/Images/player.png"},
 	{ TEX_PLAYER_EYES,				"./DATA/Images/player_eyes.png" },
 
-	{ TEX_PAGE,						"./DATA/Images/Book/page.png" },
+	{ TEX_PAGE,						"./DATA/Images/Book/page.png"},
 	{ TEX_COVER_FRONT,				"./DATA/Images/Book/cover_front.png" },
 	{ TEX_COVER_BACK,				"./DATA/Images/Book/cover_back.png" },
 
@@ -432,6 +434,7 @@ SPRITE_LEFTTOP e_pSprStageSelection[] = {
 SPRITE_CENTER e_sprStageSelected = SPRITE_CENTER(TEX_STAGE_SELECTED, 0, 0, 128, 17);
 
 // Effect関係
+SPRITE_CENTER e_sprWhiteCircle = SPRITE_CENTER(TEX_WHITE_CIRCLE, 0, 0, 32, 32);
 SPRITE_CENTER e_sprHitObj = SPRITE_CENTER(TEX_SMOKE, 0, 0, 64, 64);
 
 SPRITE_CENTER e_pAnimeStamp[] =

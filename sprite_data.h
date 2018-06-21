@@ -65,6 +65,8 @@ extern SPRITE_CENTER e_sprStageSelected;
 
 
 // Effect関係
+extern SPRITE_CENTER e_sprWhiteCircle;
+
 extern SPRITE_CENTER e_sprHitObj;
 
 extern SPRITE_CENTER e_pAnimeStamp[];
