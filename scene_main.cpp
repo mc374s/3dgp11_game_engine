@@ -292,7 +292,8 @@ void SceneMain::update()
 			m_step = STEP::INIT + 1;
 		}
 		pGameUIManager->showXButton();
-		pGameUIManager->m_ppGameUI[GAME_OVER_TEXT]->m_isVisible = true;
+		pGameUIManager->m_ppGameUI[GAME_OVER_BEHIND]->m_isVisible = true;
+		pGameUIManager->m_ppGameUI[GAME_OVER_FRONT]->m_isVisible = true;
 
 		break;
 	default:
@@ -473,13 +474,29 @@ void SceneMain::gameMain()
 			m_timer = 0;
 		}
 		
-		if (m_timer > 60) {
+		if (m_timer > 40) {
 
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
 			}
 			else {
-				pGameUIManager->m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = true;
+				pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_isVisible = true;
+				pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY -= 0.04;
+
+				if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX <= 1.0)
+				{
+					pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY = 1.0;
+					if (m_timer > 80) {
+						pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_isVisible = true;
+						pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY -= 0.04;
+						if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX <= 1.0) {
+							pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY = 1.0;
+						}
+					}
+
+				}
+
+				//pGameUIManager->m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = true;
 			}
 			pGameUIManager->showXButton();
 		}

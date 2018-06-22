@@ -48,7 +48,7 @@ STAGE_DATA stage08_setData[] = {
 
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1,0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(155,250 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::PASSABLE_UP,			M_DRAW::UP,	    v3(0,255 - 8,1),		true, v3(120,11,0), 0, recoveryControl),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::PASSABLE_UP,			M_DRAW::UP,	    v3(0,260 - 8,1),		true, v3(120,11,0), 0, recoveryControl),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 8] + 1, 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(465,485 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
 
 

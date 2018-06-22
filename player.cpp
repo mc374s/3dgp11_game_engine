@@ -171,7 +171,7 @@ void Player::normalMove()
 	if (fabsf(m_speed.y - 0.0f) < FLT_EPSILON && m_montionState != P_STATE::JUMPING && !m_isOnGround)
 	{
 		m_isOnGround = true;
-		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpDown);
+		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpUp);
 	}
 	if (m_speed.y < 0)
 	{
@@ -214,7 +214,7 @@ void Player::normalMove()
 	{
 		m_speed.y += m_speedAcc.y;
 		if (pressFrame == 0) {
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpUp);
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpDown);
 		}
 		pressFrame++;
 	}

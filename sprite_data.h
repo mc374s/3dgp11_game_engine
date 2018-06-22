@@ -54,6 +54,11 @@ extern SPRITE_CENTER e_sprPauseSelected;
 extern SPRITE_CENTER e_sprStageClear;
 extern SPRITE_CENTER e_sprGameClear;
 extern SPRITE_CENTER e_sprGameOver;
+extern SPRITE_CENTER e_sprStageClearBehind;
+extern SPRITE_CENTER e_sprStageClearFront;
+extern SPRITE_CENTER e_sprGameOverBehind;
+extern SPRITE_CENTER e_sprGameOverFront;
+
 extern SPRITE_CENTER e_sprHelp;
 extern SPRITE_LEFTTOP e_sprHelpButton;
 extern SPRITE_CENTER e_sprXButton;

@@ -239,14 +239,19 @@ void GameUIManager::init()
 	m_ppGameUI[SCROLL_MODE]->m_alpha = 40;
 
 	// UI for Game Over & Clear & Stage Clear
-	m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisibleAlways = false;
-	m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = false;
-	m_ppGameUI[STAGE_CLEAR_TEXT]->m_initPos = m_ppGameUI[STAGE_CLEAR_TEXT]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f };
+	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_isVisibleAlways = false;
+	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_isVisible = false;
+	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_initPos = m_ppGameUI[STAGE_CLEAR_BEHIND]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f };
 
-	*m_ppGameUI[GAME_OVER_TEXT] = *m_ppGameUI[GAME_CLEAR_TEXT] = *m_ppGameUI[STAGE_CLEAR_TEXT];
-	m_ppGameUI[STAGE_CLEAR_TEXT]->m_pSprData = &e_sprStageClear;
+	*m_ppGameUI[GAME_OVER_BEHIND] = *m_ppGameUI[GAME_OVER_FRONT] = *m_ppGameUI[GAME_CLEAR_TEXT] = *m_ppGameUI[STAGE_CLEAR_FRONT] = *m_ppGameUI[STAGE_CLEAR_BEHIND];
+	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY = 1.7;
+	m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY = 1.7;
+
 	m_ppGameUI[GAME_CLEAR_TEXT]->m_pSprData = &e_sprGameClear;
-	m_ppGameUI[GAME_OVER_TEXT]->m_pSprData = &e_sprGameOver;
+	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_pSprData = &e_sprStageClearBehind;
+	m_ppGameUI[STAGE_CLEAR_FRONT]->m_pSprData = &e_sprStageClearFront;
+	m_ppGameUI[GAME_OVER_BEHIND]->m_pSprData = &e_sprGameOverBehind;
+	m_ppGameUI[GAME_OVER_FRONT]->m_pSprData = &e_sprGameOverFront;
 
 	// UI for Stage Selection
 	m_ppGameUI[STAGE_SELECTED]->m_pSprData = &e_sprStageSelected;
