@@ -499,7 +499,7 @@ void effectCircleMove(Effect* a_pObj)
 
 		//a_pObj->m_custom3d.position.x = rand() % (SCREEN_WIDTH + 200) - 100 - PAGE_WIDTH;
 		a_pObj->m_initPos.x = PAGE_WIDTH / 2;
-		a_pObj->m_custom3d.position.y = -rand() % 100;
+		a_pObj->m_custom3d.position.y = rand() % 500 - 100;
 		a_pObj->m_initPos.z = -rand() % PAGE_WIDTH;
 
 		a_pObj->m_speedAcc.x = (rand() % 10 - 5) / 10.0f;
@@ -507,12 +507,12 @@ void effectCircleMove(Effect* a_pObj)
 		a_pObj->m_speedAcc.z = (rand() % 10 - 5) / 10.0f;
 
 		a_pObj->m_speedMax.x = rand() % 30 + 3;
-		a_pObj->m_speedMax.y = rand() % 3 + 2;
+		a_pObj->m_speedMax.y = rand() % 2 + 0.5;
 		a_pObj->m_speedMax.z = rand() % 30 + 3;
 
-		a_pObj->m_speedAngle.y = (rand() % 4 == 0 ? -1 : 1)*(rand() % 3 + 1) / 100.0f;
+		a_pObj->m_speedAngle.y = (rand() % 4 == 0 ? -1 : 1)*(rand() % 5 / 10.0f + 0.1) / 100.0f;
 
-		a_pObj->m_radius = rand() % 500 + 100;
+		a_pObj->m_radius = rand() % 400 + 200;
 		a_pObj->m_speedRadius = 0.15;
 		a_pObj->m_radiusMax = rand() % 300 + PAGE_WIDTH;
 
@@ -543,6 +543,7 @@ void effectCircleMove(Effect* a_pObj)
 		}*/
 
 		a_pObj->m_angle.y += a_pObj->m_speedAngle.y;
+
 		a_pObj->m_radius += a_pObj->m_speedRadius;
 		if (a_pObj->m_radius>a_pObj->m_radiusMax)
 		{
@@ -567,6 +568,126 @@ void effectCircleMove(Effect* a_pObj)
 		if (a_pObj->m_custom3d.position.y > SCREEN_HEIGHT)
 		{
 			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->clear();
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectStampMove(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprEffStamp;
+		a_pObj->m_pfMove = effectStampMove;
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_setPos = a_pObj->m_pos;
+		a_pObj->m_pos.x -= 120.0f;
+		a_pObj->m_pos.y -= 160.0f;
+		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.0f;
+		a_pObj->m_speedAcc.x = 120.0f / (20.0f*20.0f);
+		a_pObj->m_speedAcc.y = 160.0f / (20.0f*20.0f);
+		pEffectManager->isStampDown = false;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		//a_pObj->m_custom.scaleX -= 0.025f;
+		if (a_pObj->m_custom.scaleX < 1.0f)
+		{
+			a_pObj->m_custom.scaleX = 1.0f;
+		}
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
+
+		a_pObj->m_speed += a_pObj->m_speedAcc;
+		a_pObj->m_pos += a_pObj->m_speed;
+		if (a_pObj->m_pos.y > a_pObj->m_setPos.y) {
+			a_pObj->m_pos = a_pObj->m_setPos;
+			a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX = 1.0f;
+			a_pObj->m_step = STEP::BEGIN + 1;
+		}
+		break;
+	case STEP::BEGIN+1:
+		a_pObj->m_timer++;
+		if (a_pObj->m_timer > 30) {
+			a_pObj->m_timer = 0;
+			pEffectManager->isStampDown = true;
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::BEGIN + 2:
+		a_pObj->m_timer++;
+		if (a_pObj->m_timer>30) {
+			a_pObj->m_timer = 0;
+			a_pObj->m_step = STEP::BEGIN + 2;
+		}
+		break;
+	case STEP::END:
+		a_pObj->clear();
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectStampShadowMove(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprEffStampShadow;
+		a_pObj->m_pfMove = effectStampShadowMove;
+		a_pObj->m_timer = 0;
+		a_pObj->m_alpha = 60;
+		a_pObj->m_initPos = a_pObj->m_setPos = a_pObj->m_pos;
+		a_pObj->m_pos.x += 20.0f;
+		a_pObj->m_pos.y += 30.0f;
+		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 2.0f;
+		a_pObj->m_speedAcc.x = -20.0f / (20.0f*20.0f);
+		a_pObj->m_speedAcc.y = -30.0f / (20.0f*20.0f);
+		//pEffectManager->isStampDown = false;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		a_pObj->m_custom.scaleX -= 0.06f;
+		if (a_pObj->m_custom.scaleX < 1.0f)
+		{
+			a_pObj->m_custom.scaleX = 1.0f;
+		}
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
+		a_pObj->m_alpha += 5;
+
+		a_pObj->m_speed += a_pObj->m_speedAcc;
+		a_pObj->m_pos += a_pObj->m_speed;
+		if (a_pObj->m_pos.y < a_pObj->m_setPos.y) {
+			a_pObj->m_pos = a_pObj->m_setPos;
+			a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX = 1.0f;
+			a_pObj->m_step = STEP::BEGIN + 1;
+		}
+		break;
+	case STEP::BEGIN + 1:
+		a_pObj->m_timer++;
+		if (a_pObj->m_timer > 30) {
+			a_pObj->m_timer = 0;
+			//pEffectManager->isStampDown = true;
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::BEGIN + 2:
+		a_pObj->m_timer++;
+		if (a_pObj->m_timer>30) {
+			a_pObj->m_timer = 0;
+			a_pObj->m_step = STEP::BEGIN + 2;
 		}
 		break;
 	case STEP::END:

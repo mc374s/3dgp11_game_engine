@@ -759,6 +759,7 @@ void Book::turnPages()
 			break;
 		}
 		if (m_currentPaperNO > m_targetPaperNO) {
+			++m_currentPaperNO;
 			++m_targetPaperNO;
 		}
 		m_step = STEP::BEGIN;

@@ -82,4 +82,7 @@ extern SPRITE_BOTTOM e_pAnimeEffDamaging[];
 extern SPRITE_BOTTOM e_pAnimeEffRunning[];
 extern SPRITE_BOTTOM e_pAnimeEffOnBlurArea[];
 
+extern SPRITE_BOTTOM e_sprEffStamp;
+extern SPRITE_BOTTOM e_sprEffStampShadow;
+
 #endif // !_SPRDATA_H_

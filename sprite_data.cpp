@@ -60,6 +60,7 @@ enum TEX_NO {
 	TEX_EFF_DAMAGING,
 	TEX_EFF_RUNNING,
 	TEX_EFF_ON_BLUR_AREA,
+	TEX_EFF_STAMP_AND_SHADOW,
 
 	TEX_GAME_RULE_LEFT,
 	TEX_GAME_RULE_RIGHT,
@@ -133,6 +134,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_EFF_DAMAGING,				"./DATA/Images/Effect/damaging.png" },
 	{ TEX_EFF_RUNNING,				"./DATA/Images/Effect/running.png" },
 	{ TEX_EFF_ON_BLUR_AREA,			"./DATA/Images/Effect/on_blur_area.png" },
+	{ TEX_EFF_STAMP_AND_SHADOW,		"./DATA/Images/Effect/stamp_and_shadow.png" },
 
 	{ TEX_GAME_RULE_LEFT,			"./DATA/Images/Book/game_rule_left.png" },
 	{ TEX_GAME_RULE_RIGHT,			"./DATA/Images/Book/game_rule_right.png" },
@@ -514,5 +516,9 @@ SPRITE_BOTTOM e_pAnimeEffOnBlurArea[] = {
 	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 153 * 3, 0, 153, 103, 4),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
+
+SPRITE_BOTTOM e_sprEffStamp = SPRITE_BOTTOM(TEX_EFF_STAMP_AND_SHADOW, 0, 0, 105, 102);
+SPRITE_BOTTOM e_sprEffStampShadow = SPRITE_BOTTOM(TEX_EFF_STAMP_AND_SHADOW, 0, 102, 112, 104);
+
 
 //******************************************************************************

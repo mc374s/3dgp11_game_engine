@@ -456,7 +456,9 @@ void Player::restartMove()
 				m_scrolledDistance.y = 0;
 				--m_life;
 				if (m_life >= 0) {
-					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
+					//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectStampShadowMove);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectStampMove);
 				}
 				else {
 					m_mode = P_MODE::DEAD;

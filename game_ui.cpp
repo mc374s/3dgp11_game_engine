@@ -452,14 +452,15 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 
 		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 90.0f;
 	}
+
 	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
-		m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 8.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 10.0f;
 		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y > m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
 			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
 		}
 	}
 	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y > m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
-		m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 8.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 10.0f;
 		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
 			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
 		}

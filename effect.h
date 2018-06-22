@@ -78,6 +78,8 @@ void effectRunning(Effect* a_pObj);
 void effectOnBlurArea(Effect* a_pObj);
 
 void effectCircleMove(Effect* a_pObj);
+void effectStampMove(Effect* a_pObj);
+void effectStampShadowMove(Effect* a_pObj);
 
 
 #endif // !_EFFECT_H_
