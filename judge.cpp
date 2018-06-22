@@ -78,6 +78,41 @@ void judgeAll()
 			if (isBookOpened && it.m_isHitAble && checkHitPlayerToMapObjOpened(pPlayer, &it))
 			{
 				//it.clear();
+
+				if (it.m_type == M_TYPE::PASSABLE_UP) {
+					if (pPlayer->m_speed.y < 0 && (pPlayer->m_pos.y + pPlayer->m_speed.y < it.m_pos.y)) {
+						//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
+						pPlayer->m_concentration += it.m_concentration;
+						it.m_concentration = 0;
+						if (pPlayer->m_concentration > 10) {
+							pPlayer->m_concentration = 10;
+						}
+						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
+						MFAudioPlay(SE_SPLASH);
+					}
+					else if (pPlayer->m_pos.y - pPlayer->m_speed.y < it.m_pos.y) {
+						it.hitAdjust(pPlayer);
+
+					}
+				}
+
+				if (it.m_type == M_TYPE::PASSABLE_DOWN) {
+					if (pPlayer->m_speed.y > 0 && (pPlayer->m_pos.y - pPlayer->m_size.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)) {
+						//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
+						pPlayer->m_concentration += it.m_concentration;
+						it.m_concentration = 0;
+						if (pPlayer->m_concentration > 10) {
+							pPlayer->m_concentration = 10;
+						}
+						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y + it.m_size.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 0);
+						MFAudioPlay(SE_SPLASH);
+					}
+					else if ((pPlayer->m_pos.y - pPlayer->m_size.y - pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)) {
+						it.hitAdjust(pPlayer);
+
+					}
+				}
+
 				if (it.m_type != M_TYPE::HIGH_CONCENTRATION && it.m_type != M_TYPE::NONE
 					&& it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN
 					&& (pPlayer->m_concentration <= it.m_concentration/*it.m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION*/))
@@ -95,41 +130,6 @@ void judgeAll()
 					}*/
 				}
 
-				if (it.m_type == M_TYPE::PASSABLE_UP){
-					if (pPlayer->m_speed.y < 0) {
-						//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
-						if (pPlayer->m_pos.y < it.m_pos.y + it.m_size.y) {
-								pPlayer->m_concentration += it.m_concentration;
-								it.m_concentration = 0;
-								if (pPlayer->m_concentration > 10) {
-									pPlayer->m_concentration = 10;
-								}
-								Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
-								MFAudioPlay(SE_SPLASH);
-						}
-					}
-					else {
-						it.hitAdjust(pPlayer);
-					}
-				}
-
-				if (it.m_type == M_TYPE::PASSABLE_DOWN){
-					if (pPlayer->m_speed.y >= 0) {
-						//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
-						if (pPlayer->m_pos.y - pPlayer->m_size.y > it.m_pos.y) {
-							pPlayer->m_concentration += it.m_concentration;
-							it.m_concentration = 0;
-							if (pPlayer->m_concentration > 10) {
-								pPlayer->m_concentration = 10;
-							}
-							Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y + it.m_size.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 0);
-							MFAudioPlay(SE_SPLASH);
-						}
-					}
-					else {
-						it.hitAdjust(pPlayer);
-					}
-				}
 				if (it.m_type == M_TYPE::RECOVERY) {
 					/*if (pPlayer->m_concentration <= (P_CONCENTRATION_MAX - it.m_concentration)) {
 						pPlayer->m_concentration += it.m_concentration;
@@ -175,7 +175,7 @@ void judgeAll()
 				// プレイヤーの濃度より高いObjは転写できない
 				if (pPlayer->m_concentration <= it.m_concentration && 
 					(it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::HIGH_CONCENTRATION &&
-						it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN))
+						it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN && it.m_type !=M_TYPE::RECOVERY))
 				{
 					pPlayerManager->m_isTranscriptAble = false;
 					break;

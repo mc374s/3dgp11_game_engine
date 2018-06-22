@@ -160,21 +160,22 @@ void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 {
 	// objがthisの上にある(thisを上から進入としてる)
 	if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y && a_pObj->m_pos.y > m_pos.y
-		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y > 0)
+		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x/2 + m_size.x) / 2 && a_pObj->m_speed.y > 0)
 	{
 		a_pObj->m_pos.y = m_pos.y - 0.1f;
 		a_pObj->m_speed.y = 0;
 	}
 	// objがthisの下にある(thisを下から進入としてる)
-	else if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y + m_size.y && a_pObj->m_pos.y>m_pos.y + m_size.y 
-		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x + m_size.x) / 2 && a_pObj->m_speed.y < 0)
+	else if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y + m_size.y && a_pObj->m_pos.y>m_pos.y + m_size.y
+		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x/2 + m_size.x) / 2 && a_pObj->m_speed.y < 0)
 	{
 		a_pObj->m_pos.y = m_pos.y + m_size.y + a_pObj->m_size.y + 0.1f;
 		a_pObj->m_speed.y = 0;
 	}
 	// objがthisの左にある(thisを右から進入としてる)
-	else if (a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x && a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x
-		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x > 0)
+	/*else */if (a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x && a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x
+		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y - 1.0f + m_size.y) / 2 && a_pObj->m_speed.x > 0
+		/*&& m_type!=M_TYPE::PASSABLE_UP && m_type != M_TYPE::PASSABLE_DOWN*/)
 	{
 		a_pObj->m_pos.x = m_pos.x - a_pObj->m_size.x / 2 - 0.1f;
 		//a_pObj->m_speed.y = 0;
@@ -182,7 +183,8 @@ void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 	}
 	// objがthisの右にある(thisを左から進入としてる)
 	else if (a_pObj->m_pos.x + a_pObj->m_size.x / 2 > m_pos.x + m_size.x && a_pObj->m_pos.x - a_pObj->m_size.x / 2 < m_pos.x + m_size.x
-		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y + m_size.y) / 2 && a_pObj->m_speed.x < 0)
+		&& fabs(a_pObj->m_pos.y - m_pos.y - (m_size.y + a_pObj->m_size.y) / 2) < (a_pObj->m_size.y - 1.0f + m_size.y) / 2 && a_pObj->m_speed.x < 0
+		/*&& m_type != M_TYPE::PASSABLE_UP && m_type != M_TYPE::PASSABLE_DOWN*/)
 	{
 		a_pObj->m_pos.x = m_pos.x + m_size.x + a_pObj->m_size.x / 2 + 0.1f;
 		//a_pObj->m_speed.y = 0;

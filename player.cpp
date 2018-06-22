@@ -170,6 +170,7 @@ void Player::normalMove()
 	// プレーヤーの状態判断
 	if (fabsf(m_speed.y - 0.0f) < FLT_EPSILON && m_montionState != P_STATE::JUMPING && !m_isOnGround)
 	{
+		m_montionState = P_STATE::STANDBY;
 		m_isOnGround = true;
 		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectJumpUp);
 	}
