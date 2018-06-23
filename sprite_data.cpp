@@ -62,6 +62,7 @@ enum TEX_NO {
 	TEX_EFF_ON_BLUR_AREA,
 	TEX_EFF_STAMP_AND_SHADOW,
 	TEX_EFF_STAR,
+	TEX_EFF_CLOSE_BOOK,
 
 	TEX_GAME_RULE_LEFT,
 	TEX_GAME_RULE_RIGHT,
@@ -141,6 +142,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_EFF_ON_BLUR_AREA,			"./DATA/Images/Effect/on_blur_area.png" },
 	{ TEX_EFF_STAMP_AND_SHADOW,		"./DATA/Images/Effect/stamp_and_shadow.png" },
 	{ TEX_EFF_STAR,					"./DATA/Images/Effect/star.png" },
+	{ TEX_EFF_CLOSE_BOOK,			"./DATA/Images/Effect/close_book.png" },
 
 	{ TEX_GAME_RULE_LEFT,			"./DATA/Images/Book/game_rule_left.png" },
 	{ TEX_GAME_RULE_RIGHT,			"./DATA/Images/Book/game_rule_right.png" },
@@ -543,5 +545,14 @@ SPRITE_BOTTOM e_pAnimeEffStar[] = {
 	SPRITE_BOTTOM(TEX_EFF_STAR, 84 * 3, 0, 84, 75, 10),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
+
+SPRITE_CENTER e_pAnimeEffCloseBook[] = {
+	SPRITE_CENTER(TEX_EFF_CLOSE_BOOK, 398 * 0, 0, 398, 354, 3),
+	SPRITE_CENTER(TEX_EFF_CLOSE_BOOK, 398 * 1, 0, 398, 354, 4),
+	SPRITE_CENTER(TEX_EFF_CLOSE_BOOK, 398 * 2, 0, 398, 354, 8),
+	SPRITE_CENTER(TEX_EFF_CLOSE_BOOK, 398 * 3, 0, 398, 354, 6),
+	SPRITE_CENTER(-1, 0, 0, 0, 0),
+};
+
 
 //******************************************************************************

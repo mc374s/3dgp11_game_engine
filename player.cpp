@@ -726,20 +726,20 @@ void PlayerManager::manageConcentration()
 		transferSpeed = 0;
 		if (m_isTranscriptAble)
 		{
-			if (m_concentration > P_TRANSFER_CONCENTRATION_MAX)
+			if (m_concentration > /*P_TRANSFER_CONCENTRATION_MAX*/0.0f)
 			{
 				//m_pPlayer->m_concentration /= 2;
 
 				//m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
-				transferConcentration = P_TRANSFER_CONCENTRATION_MAX;
+				transferConcentration = m_concentration >= P_TRANSFER_CONCENTRATION_MAX ? P_TRANSFER_CONCENTRATION_MAX : m_concentration;
 				m_pPlayer->m_transferConcentration = m_concentration;
 				m_pPlayer->m_concentration = m_concentration - m_pPlayer->m_transferConcentration;
 				m_step = STEP::BEGIN;
 			}
-			else
+			/*else
 			{
 				m_step = STEP::END;
-			}
+			}*/
 		}
 		else
 		{
@@ -749,9 +749,12 @@ void PlayerManager::manageConcentration()
 	case STEP::BEGIN:
 		transferSpeed += 0.05f;
 		m_pPlayer->m_transferConcentration -= transferSpeed;
-		if (m_pPlayer->m_transferConcentration < P_TRANSFER_CONCENTRATION_MAX)
+		if (m_pPlayer->m_transferConcentration < /*P_TRANSFER_CONCENTRATION_MAX*/transferConcentration)
 		{
-			m_pPlayer->m_transferConcentration = P_TRANSFER_CONCENTRATION_MAX;
+			m_pPlayer->m_transferConcentration = /*P_TRANSFER_CONCENTRATION_MAX*/transferConcentration;
+			if (fabsf(transferConcentration- m_concentration)<FLT_EPSILON){
+				m_isTranscriptCanceled = true;
+			}
 			m_isTranscriptAble = true;
 			m_step = STEP::FINISH;
 		}
@@ -821,9 +824,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 
 			if (m_isTranscriptCanceled)
 			{
-				// 転写失敗によって転写先を生成位置に強制リセット
 				m_pPlayer->m_mode = P_MODE::RESTART;
-
 			}
 			else
 			{

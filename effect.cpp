@@ -15,6 +15,8 @@ void Effect::memberCopy(const Effect& a_inputObj)
 	m_speedAlpha = a_inputObj.m_speedAlpha;
 	m_speedAngle = a_inputObj.m_speedAngle;
 
+	m_setAlpha = a_inputObj.m_setAlpha;
+
 }
 
 Effect::Effect(const Effect& a_inputObj) :OBJ2DEX(a_inputObj)
@@ -42,6 +44,7 @@ void Effect::clear()
 
 	m_speedAlpha = 0;
 	m_speedAngle = { 0.0f,0.0f,0.0f };
+	m_setAlpha = 255;
 }
 
 Effect::Effect()
@@ -79,7 +82,8 @@ void Effect::draw()
 		}
 	}
 }
-
+// フルスクリーンの座標系にエフェクトを出すときにa_liveInPaginationを奇数に設定必要がある
+// ページの座標系にエフェクトを出すときにa_liveInPaginationはそのページナンバーを設定必要がある
 Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*), int a_type, bool a_isReflect)
 {
 	for (int i = 0; i < a_maxNum; i++)
@@ -723,6 +727,63 @@ void effectStar(Effect* a_pObj)
 	case STEP::BEGIN:
 		//a_pObj->m_speed += a_pObj->m_speedAcc;
 		//a_pObj->m_pos += a_pObj->m_speed;
+		if (a_pObj->m_animeCounter > 0) {
+			a_pObj->clear();
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectCloseBook(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pAnimeData = e_pAnimeEffCloseBook;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
+		a_pObj->m_pfMove = effectCloseBook;
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		//a_pObj->m_alpha = 180;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		if (a_pObj->m_animeCounter > 0) {
+			a_pObj->clear();
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectCartain(Effect* a_pObj) 
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprWhite;
+		a_pObj->m_pfMove = effectCartain;
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		//a_pObj->m_alpha = 180;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
 		if (a_pObj->m_animeCounter > 0) {
 			a_pObj->clear();
 			a_pObj->m_step = STEP::END;

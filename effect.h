@@ -32,6 +32,8 @@ public:
 	float m_speedRadius;
 	float m_radiusMax;
 
+	float m_setAlpha;
+
 	void(*m_pfMove)(Effect*);
 
 	void init();
@@ -82,5 +84,8 @@ void effectStampMove(Effect* a_pObj);
 void effectStampShadowMove(Effect* a_pObj);
 
 void effectStar(Effect* a_pObj);
+void effectCloseBook(Effect* a_pObj);
+
+void effectCartain(Effect* a_pObj);
 
 #endif // !_EFFECT_H_

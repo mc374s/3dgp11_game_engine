@@ -429,50 +429,7 @@ void SceneMain::gameMain()
 			m_stageClearFlag[STAGE_MAX_NUM] &= m_stageClearFlag[i];
 		}
 
-		if (m_timer > 300 || KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
-		{
-			m_stageNO++;
-			if (m_stageNO >= STAGE_MAX_NUM)
-			{
-				m_stageNO = /*STAGE_SELECT_MAX_NUM*/0;
-			}
-			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
-				for (int i = 1; i < STAGE_MAX_NUM; i++) {
-					m_stageClearFlag[i] = false;
-				}
-				/*m_stageNO = 0;
-				pStageManager->init(m_stageNO);
-				pBook->m_pfMove = &Book::turnPages;
-				pBook->m_targetPaperNO = START_PAGINATION / 2;
-				m_step = STEP::INIT + 2;*/
-				m_stageNO = 0;
-				pStageManager->init(m_stageNO);
-				pBook->m_pfMove = &Book::finishReading;
-				m_step = STEP::INIT + 1;
-			}
-			else
-			{
-				/*if (m_stageClearFlag[m_stageNO]) {
-					for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
-						if (!m_stageClearFlag[i]) {
-							m_stageNO = i;
-							break;
-						}
-					}
-				}*/
-				pStageManager->init(m_stageNO);
-				pBook->m_pfMove = &Book::turnPages;
-				pBook->m_targetPaperNO = START_PAGINATION / 2;
-				pBook->initStartPaper(START_PAGINATION / 2);
-				if (m_stageNO==0){
-					m_step = STEP::INIT + 1;
-				}
-				else {
-					m_step = STEP::INIT + 4;
-				}
-			}
-			m_timer = 0;
-		}
+		
 		
 		if (m_timer > 40) {
 
@@ -483,13 +440,13 @@ void SceneMain::gameMain()
 				pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_isVisible = true;
 				pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY -= 0.04;
 
-				if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX <= 1.0)
+				if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX < 1.0f)
 				{
 					pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY = 1.0;
 					if (m_timer > 80) {
 						pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_isVisible = true;
 						pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY -= 0.04;
-						if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX <= 1.0) {
+						if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX < 1.0f) {
 							pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY = 1.0;
 						}
 					}
@@ -498,7 +455,54 @@ void SceneMain::gameMain()
 
 				//pGameUIManager->m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = true;
 			}
-			pGameUIManager->showXButton();
+			if (m_timer > 120)
+			{
+				pGameUIManager->showXButton();
+				if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED) || m_timer > 300)
+				{
+					m_stageNO++;
+					if (m_stageNO >= STAGE_MAX_NUM)
+					{
+						m_stageNO = /*STAGE_SELECT_MAX_NUM*/0;
+					}
+					if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
+						for (int i = 1; i < STAGE_MAX_NUM; i++) {
+							m_stageClearFlag[i] = false;
+						}
+						/*m_stageNO = 0;
+						pStageManager->init(m_stageNO);
+						pBook->m_pfMove = &Book::turnPages;
+						pBook->m_targetPaperNO = START_PAGINATION / 2;
+						m_step = STEP::INIT + 2;*/
+						m_stageNO = 0;
+						pStageManager->init(m_stageNO);
+						pBook->m_pfMove = &Book::finishReading;
+						m_step = STEP::INIT + 1;
+					}
+					else
+					{
+						/*if (m_stageClearFlag[m_stageNO]) {
+						for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
+						if (!m_stageClearFlag[i]) {
+						m_stageNO = i;
+						break;
+						}
+						}
+						}*/
+						pStageManager->init(m_stageNO);
+						pBook->m_pfMove = &Book::turnPages;
+						pBook->m_targetPaperNO = START_PAGINATION / 2;
+						pBook->initStartPaper(START_PAGINATION / 2);
+						if (m_stageNO == 0) {
+							m_step = STEP::INIT + 1;
+						}
+						else {
+							m_step = STEP::INIT + 4;
+						}
+					}
+					m_timer = 0;
+				}
+			}
 		}
 	}
 
@@ -654,10 +658,10 @@ void SceneMain::endViewMode()
 {
 	if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y)
 	{
-		pBook->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+		pBook->setScroll(Vector3(0, 20, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
 		pEffectManager->setScroll(Vector3(0, 10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
-		pPlayerManager->m_pPlayer->m_pos.y -= 10;
-		pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y -= 10;
+		pPlayerManager->m_pPlayer->m_pos.y -= 20;
+		pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y -= 20;
 		if (pPlayerManager->m_pPlayer->m_pos.y <= pPlayerManager->m_pPlayer->m_setPos.y)
 		{
 			pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y;
@@ -666,10 +670,10 @@ void SceneMain::endViewMode()
 	}
 	if (pPlayerManager->m_pPlayer->m_pos.y < pPlayerManager->m_pPlayer->m_setPos.y)
 	{
-		pBook->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
-		pEffectManager->setScroll(Vector3(0, -10, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
-		pPlayerManager->m_pPlayer->m_pos.y += 10;
-		pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y += 10;
+		pBook->setScroll(Vector3(0, -20, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+		pEffectManager->setScroll(Vector3(0, -20, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
+		pPlayerManager->m_pPlayer->m_pos.y += 20;
+		pPlayerManager->m_pPlayer->m_pKeyObj->m_pos.y += 20;
 		if (pPlayerManager->m_pPlayer->m_pos.y >= pPlayerManager->m_pPlayer->m_setPos.y)
 		{
 			pPlayerManager->m_pPlayer->m_pos.y = pPlayerManager->m_pPlayer->m_setPos.y;
