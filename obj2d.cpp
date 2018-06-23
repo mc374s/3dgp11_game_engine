@@ -35,6 +35,8 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 
 	m_pSprData = a_inputObj.m_pSprData;
 	m_pfMove = a_inputObj.m_pfMove;
+
+	m_setAlpha = a_inputObj.m_setAlpha;
 }
 
 OBJ2D::OBJ2D(const OBJ2D& a_inputObj)
@@ -72,6 +74,7 @@ void OBJ2D::clear()
 	m_liveInPagination = 1;
 
 	m_type = 0;
+	m_setAlpha = 255;
 }
 
 void OBJ2D::update()

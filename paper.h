@@ -31,6 +31,8 @@ public:
 	int m_paginationBack;
 
 	OBJ2D *m_pBG;
+	OBJ2D *m_pCurtainFront;
+	OBJ2D *m_pCurtainBack;
 	bool m_isActive;
 	XMFLOAT3 m_initPos;
 	CUSTOM3D m_custom3d;

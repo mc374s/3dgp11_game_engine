@@ -54,6 +54,7 @@ public:
 	Effect* m_ppEffect[EFF_OBJ_MAX_NUM] = { nullptr };
 
 	bool isStampDown;
+	//bool m_doClear;
 
 	void init();
 	void update();
@@ -81,5 +82,9 @@ void effectCircleMove(Effect* a_pObj);
 void effectStampMove(Effect* a_pObj);
 void effectStampShadowMove(Effect* a_pObj);
 
+void effectStar(Effect* a_pObj);
+void effectCloseBook(Effect* a_pObj);
+
+//void effectCurtain(Effect* a_pObj);
 
 #endif // !_EFFECT_H_

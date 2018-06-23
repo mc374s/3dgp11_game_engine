@@ -46,6 +46,7 @@ bool framework::initialize(HWND hwnd)
 	descSwapChain.SampleDesc.Count = 1;
 	descSwapChain.SampleDesc.Quality = 0;
 	descSwapChain.Windowed = TRUE;
+	m_isFullScreen = !descSwapChain.Windowed;
 
 #ifdef _DEBUG
 	//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -286,6 +287,9 @@ int framework::run()
 
 LRESULT CALLBACK framework::handle_message(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	//if (wparam == ABN_FULLSCREENAPP){
+	//	m_isFullScreen = !m_isFullScreen;
+	//}
 	switch (msg)
 	{
 	case WM_PAINT:
@@ -331,6 +335,9 @@ LRESULT CALLBACK framework::handle_message(HWND hwnd, UINT msg, WPARAM wparam, L
 	case WM_SETFOCUS:
 		m_isFocused = true;
 		e_pGamePad->Resume();
+		break;
+	case WM_SIZE:
+		m_isFullScreen = !m_isFullScreen;
 		break;
 	default:
 		return DefWindowProc(hwnd, msg, wparam, lparam);
@@ -467,8 +474,16 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 	m_pPrimitive3D[0]->drawCube(s_pDeviceContext, XMFLOAT3(0, 0, 1024), XMFLOAT3(2, 2, 2048));*/
 	//m_pPrimitive3D[1]->drawCylinder(s_pDeviceContext, XMFLOAT3(-310, 0, 10 + 0), XMFLOAT3(620, 700, 20), &custom3DTemp);
 
+	if (m_isFullScreen) {
+		m_pSwapChain->Present(1, 0);
+	}
+	else {
+		m_pSwapChain->Present(0, 0);
+	}
+	
+	
 	// For FullScreen Mode, Synchronize presentation for 1 vertical blanks
-	m_pSwapChain->Present(1, 0);
+	//m_pSwapChain->Present(1, 0);
 
 	// For Windowed Mode 
 	//m_pSwapChain->Present(0, 0);

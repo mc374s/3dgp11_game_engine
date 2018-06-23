@@ -75,7 +75,7 @@ void judgeAll()
 	{
 		for (MapObj &it : *pMapObjList)
 		{
-			if (isBookOpened && it.m_isHitAble && checkHitPlayerToMapObjOpened(pPlayer, &it))
+			if (isBookOpened && it.m_isHitAble && checkHitPlayerToMapObjOpened(pPlayer, &it) && pPlayer->m_concentration>0.0f)
 			{
 				//it.clear();
 

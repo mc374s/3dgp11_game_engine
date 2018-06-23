@@ -103,7 +103,7 @@ int e_initLife[] = {
 	1,//STAGE 1-1
 	1,//STAGE 1-2
 	1,//STAGE 1-3
-
+	  //STAGE 2-0
 	1,//STAGE 2-1
 	1,//STAGE 2-2
 	1,//STAGE 2-3

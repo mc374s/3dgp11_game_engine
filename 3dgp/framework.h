@@ -38,6 +38,7 @@ public:
 	LARGE_INTEGER m_timeFreq;
 
 	void setFPS(int a_FPS = 20);
+	bool m_isFullScreen;
 
 public:
 	HWND m_hWnd = NULL;

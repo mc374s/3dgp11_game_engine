@@ -204,14 +204,20 @@ void GameUIManager::init()
 
 	// UI for Pause
 	m_ppGameUI[PAUSE_PANEL]->m_pSprData = &e_sprPausePanel;
-	m_ppGameUI[PAUSE_PANEL]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+	m_ppGameUI[PAUSE_PANEL]->m_setPos = m_ppGameUI[PAUSE_PANEL]->m_initPos = m_ppGameUI[PAUSE_PANEL]->m_pos = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f };
 	m_ppGameUI[PAUSE_PANEL]->m_isVisibleAlways = false;
 	m_ppGameUI[PAUSE_PANEL]->m_isVisible = false;
 
 	*m_ppGameUI[PAUSE_SELECTED] = *m_ppGameUI[PAUSE_PANEL];
 	m_ppGameUI[PAUSE_SELECTED]->m_pSprData = &e_sprPauseSelected;
-	m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[PAUSE_SELECTED]->m_initPos.x = m_ppGameUI[PAUSE_SELECTED]->m_pos.x -= 208;
-	m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 52;
+	m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[PAUSE_SELECTED]->m_initPos.x = m_ppGameUI[PAUSE_PANEL]->m_pos.x - 208;
+	m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y = m_ppGameUI[PAUSE_PANEL]->m_pos.y - 52;
+
+	// UI for Retry
+	m_ppGameUI[RETRY_PANEL]->m_pSprData = &e_sprRetryPanel;
+	m_ppGameUI[RETRY_PANEL]->m_setPos = m_ppGameUI[RETRY_PANEL]->m_initPos = m_ppGameUI[RETRY_PANEL]->m_pos = { SCREEN_WIDTH / 2, SCREEN_HEIGHT - 120,0.0f };
+	m_ppGameUI[RETRY_PANEL]->m_isVisibleAlways = false;
+	m_ppGameUI[RETRY_PANEL]->m_isVisible = false;
 
 	// UI for HELP
 	m_ppGameUI[HELP]->m_pSprData = &e_sprHelp;
@@ -454,8 +460,22 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 	{
 		m_ppGameUI[PAUSE_PANEL]->m_isVisible = true;
 		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
+		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[PAUSE_PANEL]->m_initPos.x - 208;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_PANEL]->m_initPos.x - 208;
+		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 52 + a_slelectedNO * 90.0f;
+	}
 
-		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_SELECTED]->m_initPos.y + a_slelectedNO * 90.0f;
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x += 10.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x > m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_SELECTED]->m_setPos.x;
+		}
+	}
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x > m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x -= 10.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_SELECTED]->m_setPos.x;
+		}
 	}
 
 	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
@@ -466,6 +486,45 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 	}
 	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y > m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
 		m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 10.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
+		}
+	}
+}
+
+void GameUIManager::showRetryPanel(int a_slelectedNO)
+{
+	if (m_ppGameUI[RETRY_PANEL])
+	{
+		m_ppGameUI[RETRY_PANEL]->m_isVisible = true;
+		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
+		
+		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[RETRY_PANEL]->m_initPos.x - 208;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[RETRY_PANEL]->m_initPos.x - 208;
+		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[RETRY_PANEL]->m_initPos.y - 52 + a_slelectedNO * 90.0f;
+	}
+
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x += 10.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x > m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_SELECTED]->m_setPos.x;
+		}
+	}
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x > m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x -= 10.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_SELECTED]->m_setPos.x;
+		}
+	}
+
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y += 30.0f;
+		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y > m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
+		}
+	}
+	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y > m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y -= 30.0f;
 		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
 			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
 		}

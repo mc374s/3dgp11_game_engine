@@ -53,6 +53,8 @@ void Player::init()
 	m_newblurAreaList.clear();
 	m_damageTimer = 0;
 	m_eyes.m_pSprData = &e_sprEyes;
+	m_concentration = P_CONCENTRATION_MAX;
+
 	m_isInit = true;
 
 }
@@ -117,8 +119,8 @@ void Player::normalMove()
 	blurTimer++;
 	if (m_isOnBlurArea) {
 		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
-		if (blurTimer % 15 == 0 && m_isMoving && !m_isDamaged) {
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(rand() % 30 - 15, rand() % 20 - 10, 0), m_liveInPagination, effectOnBlurArea, 0, m_custom.reflectX);
+		if ((blurTimer % 4 == 0) /*&& m_isMoving*/ && !m_isDamaged) {
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
 		}
 	} else {
 		blurTimer = 0;
@@ -160,8 +162,8 @@ void Player::normalMove()
 	{
 		if (m_mode != P_MODE::CLEAR)
 		{
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
-			MFAudioPlay(SE_DEAD);
+			//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+			//MFAudioPlay(SE_DEAD);
 			m_mode = P_MODE::RESTART;
 		}
 	}
@@ -324,9 +326,9 @@ void Player::normalMove()
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
-		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+		//MFAudioPlay(SE_DEAD);
 		m_mode = P_MODE::RESTART;
-		MFAudioPlay(SE_DEAD);
 	}
 
 	if (m_pos.y < m_size.y)
@@ -422,6 +424,10 @@ void Player::restartMove()
 	switch (m_step)
 	{
 	case STEP::INIT:
+		if (m_concentration < P_CONCENTRATION_MAX) {
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+			MFAudioPlay(SE_DEAD);
+		}
 		m_speed.x = 0;
 		m_speed.y = 0;
 		m_alpha = 0;
@@ -726,20 +732,20 @@ void PlayerManager::manageConcentration()
 		transferSpeed = 0;
 		if (m_isTranscriptAble)
 		{
-			if (m_concentration > P_TRANSFER_CONCENTRATION_MAX)
+			if (m_concentration > /*P_TRANSFER_CONCENTRATION_MAX*/0.0f)
 			{
 				//m_pPlayer->m_concentration /= 2;
 
 				//m_pPlayer->m_transferConcentration = m_concentration - m_pPlayer->m_concentration;
-				transferConcentration = P_TRANSFER_CONCENTRATION_MAX;
+				transferConcentration = m_concentration >= P_TRANSFER_CONCENTRATION_MAX ? P_TRANSFER_CONCENTRATION_MAX : m_concentration;
 				m_pPlayer->m_transferConcentration = m_concentration;
 				m_pPlayer->m_concentration = m_concentration - m_pPlayer->m_transferConcentration;
 				m_step = STEP::BEGIN;
 			}
-			else
+			/*else
 			{
 				m_step = STEP::END;
-			}
+			}*/
 		}
 		else
 		{
@@ -749,9 +755,12 @@ void PlayerManager::manageConcentration()
 	case STEP::BEGIN:
 		transferSpeed += 0.05f;
 		m_pPlayer->m_transferConcentration -= transferSpeed;
-		if (m_pPlayer->m_transferConcentration < P_TRANSFER_CONCENTRATION_MAX)
+		if (m_pPlayer->m_transferConcentration < /*P_TRANSFER_CONCENTRATION_MAX*/transferConcentration)
 		{
-			m_pPlayer->m_transferConcentration = P_TRANSFER_CONCENTRATION_MAX;
+			m_pPlayer->m_transferConcentration = /*P_TRANSFER_CONCENTRATION_MAX*/transferConcentration;
+			if (fabsf(transferConcentration- m_concentration)<FLT_EPSILON){
+				m_isTranscriptCanceled = true;
+			}
 			m_isTranscriptAble = true;
 			m_step = STEP::FINISH;
 		}
@@ -801,7 +810,7 @@ void PlayerManager::manageConcentration()
 
 void PlayerManager::transcriptPlayer(int a_concentration)
 {
-	if (m_pPlayer)
+	if (m_pPlayer && m_pPlayer->m_mode!=P_MODE::DEAD)
 	{
 		if (m_isTranscriptAble)
 		{
@@ -821,9 +830,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 
 			if (m_isTranscriptCanceled)
 			{
-				// 転写失敗によって転写先を生成位置に強制リセット
 				m_pPlayer->m_mode = P_MODE::RESTART;
-
 			}
 			else
 			{

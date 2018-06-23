@@ -50,6 +50,7 @@ extern SPRITE_CENTER e_sprNumbers;
 
 extern SPRITE_CENTER e_sprPausePanel;
 extern SPRITE_CENTER e_sprPauseSelected;
+extern SPRITE_CENTER e_sprRetryPanel;
 
 extern SPRITE_CENTER e_sprStageClear;
 extern SPRITE_CENTER e_sprGameClear;
@@ -90,4 +91,6 @@ extern SPRITE_BOTTOM e_pAnimeEffOnBlurArea[];
 extern SPRITE_BOTTOM e_sprEffStamp;
 extern SPRITE_BOTTOM e_sprEffStampShadow;
 
+extern SPRITE_BOTTOM e_pAnimeEffStar[];
+extern SPRITE_CENTER e_pAnimeEffCloseBook[];
 #endif // !_SPRDATA_H_
