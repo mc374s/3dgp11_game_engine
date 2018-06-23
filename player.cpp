@@ -117,8 +117,8 @@ void Player::normalMove()
 	blurTimer++;
 	if (m_isOnBlurArea) {
 		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
-		if (blurTimer % 15 == 0 && m_isMoving && !m_isDamaged) {
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(rand() % 30 - 15, rand() % 20 - 10, 0), m_liveInPagination, effectOnBlurArea, 0, m_custom.reflectX);
+		if ((blurTimer % 4 == 0) /*&& m_isMoving*/ && !m_isDamaged) {
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
 		}
 	} else {
 		blurTimer = 0;

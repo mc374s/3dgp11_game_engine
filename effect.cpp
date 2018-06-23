@@ -251,7 +251,7 @@ void effectJumpUp(Effect *obj) {
 	switch (obj->m_step)
 	{
 	case STEP::INIT:
-		obj->m_pAnimeData = e_pAnimeEffJumpUp;
+		obj->m_pAnimeData = e_pAnimeEffJumpDown;
 		obj->m_pSprData = &obj->m_pAnimeData[0];
 		obj->m_isVisible = true;
 		obj->m_pfMove = effectJumpUp;
@@ -280,8 +280,11 @@ void effectJumpDown(Effect *obj) {
 	switch (obj->m_step)
 	{
 	case STEP::INIT:
-		obj->m_pAnimeData = e_pAnimeEffJumpDown;
+		obj->m_pAnimeData = e_pAnimeEffJumpUp;
 		obj->m_pSprData = &obj->m_pAnimeData[0];
+		obj->m_custom.scaleMode = SCALE_MODE::BOTTOMCENTER;
+		obj->m_custom.scaleX = obj->m_custom.scaleY = 0.7f;
+		//obj->m_alpha = 180;
 		obj->m_isVisible = true;
 		obj->m_pfMove = effectJumpDown;
 		obj->m_timer = 0;
@@ -592,14 +595,14 @@ void effectStampMove(Effect* a_pObj)
 		a_pObj->m_initPos = a_pObj->m_setPos = a_pObj->m_pos;
 		a_pObj->m_pos.x -= 120.0f;
 		a_pObj->m_pos.y -= 160.0f;
-		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.0f;
+		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.5f;
 		a_pObj->m_speedAcc.x = 120.0f / (20.0f*20.0f);
 		a_pObj->m_speedAcc.y = 160.0f / (20.0f*20.0f);
 		pEffectManager->isStampDown = false;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
-		//a_pObj->m_custom.scaleX -= 0.025f;
+		a_pObj->m_custom.scaleX -= 0.03f;
 		if (a_pObj->m_custom.scaleX < 1.0f)
 		{
 			a_pObj->m_custom.scaleX = 1.0f;
@@ -616,7 +619,7 @@ void effectStampMove(Effect* a_pObj)
 		break;
 	case STEP::BEGIN+1:
 		a_pObj->m_timer++;
-		if (a_pObj->m_timer > 30) {
+		if (a_pObj->m_timer > 60) {
 			a_pObj->m_timer = 0;
 			pEffectManager->isStampDown = true;
 			a_pObj->m_step = STEP::END;
@@ -649,6 +652,7 @@ void effectStampShadowMove(Effect* a_pObj)
 		a_pObj->m_pfMove = effectStampShadowMove;
 		a_pObj->m_timer = 0;
 		a_pObj->m_alpha = 60;
+		a_pObj->m_pos.x += 10;
 		a_pObj->m_initPos = a_pObj->m_setPos = a_pObj->m_pos;
 		a_pObj->m_pos.x += 20.0f;
 		a_pObj->m_pos.y += 30.0f;
@@ -677,7 +681,7 @@ void effectStampShadowMove(Effect* a_pObj)
 		break;
 	case STEP::BEGIN + 1:
 		a_pObj->m_timer++;
-		if (a_pObj->m_timer > 30) {
+		if (a_pObj->m_timer > 60) {
 			a_pObj->m_timer = 0;
 			//pEffectManager->isStampDown = true;
 			a_pObj->m_step = STEP::END;
@@ -692,6 +696,39 @@ void effectStampShadowMove(Effect* a_pObj)
 		break;
 	case STEP::END:
 		a_pObj->clear();
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectStar(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pAnimeData = e_pAnimeEffStar;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
+		a_pObj->m_pfMove = effectStar;
+		a_pObj->m_timer = 0;
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX =/* rand() % 30 / 100.0f +*/ 0.4f;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_speedAcc.x = rand() % 10 / 100.0f - 0.05;
+		a_pObj->m_speedAcc.y = -rand() % 10 / 100.0f;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		//a_pObj->m_speed += a_pObj->m_speedAcc;
+		//a_pObj->m_pos += a_pObj->m_speed;
+		if (a_pObj->m_animeCounter > 0) {
+			a_pObj->clear();
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
