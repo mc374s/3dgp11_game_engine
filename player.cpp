@@ -53,6 +53,8 @@ void Player::init()
 	m_newblurAreaList.clear();
 	m_damageTimer = 0;
 	m_eyes.m_pSprData = &e_sprEyes;
+	m_concentration = P_CONCENTRATION_MAX;
+
 	m_isInit = true;
 
 }
@@ -160,8 +162,8 @@ void Player::normalMove()
 	{
 		if (m_mode != P_MODE::CLEAR)
 		{
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
-			MFAudioPlay(SE_DEAD);
+			//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+			//MFAudioPlay(SE_DEAD);
 			m_mode = P_MODE::RESTART;
 		}
 	}
@@ -324,9 +326,9 @@ void Player::normalMove()
 
 	if (m_pos.y > PAGE_HEIGHT + m_size.y)
 	{
-		Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+		//MFAudioPlay(SE_DEAD);
 		m_mode = P_MODE::RESTART;
-		MFAudioPlay(SE_DEAD);
 	}
 
 	if (m_pos.y < m_size.y)
@@ -422,6 +424,10 @@ void Player::restartMove()
 	switch (m_step)
 	{
 	case STEP::INIT:
+		if (m_concentration < P_CONCENTRATION_MAX) {
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
+			MFAudioPlay(SE_DEAD);
+		}
 		m_speed.x = 0;
 		m_speed.y = 0;
 		m_alpha = 0;
@@ -804,7 +810,7 @@ void PlayerManager::manageConcentration()
 
 void PlayerManager::transcriptPlayer(int a_concentration)
 {
-	if (m_pPlayer)
+	if (m_pPlayer && m_pPlayer->m_mode!=P_MODE::DEAD)
 	{
 		if (m_isTranscriptAble)
 		{

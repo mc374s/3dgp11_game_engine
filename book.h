@@ -71,6 +71,7 @@ public:
 	void clear();
 	void clearAll();
 	void initStartPaper(int a_StartPaperNO);
+	void darkenPapers(int a_alpha = 255);
 
 	void init();
 	void update();

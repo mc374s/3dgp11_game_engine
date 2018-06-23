@@ -44,6 +44,7 @@ enum TEX_NO {
 
 	TEX_PAUSE_PANEL,
 	TEX_PAUSE_SELECTED,
+	TEX_RETRY_PANEL,
 
 	TEX_ANIME_STAMP,
 
@@ -124,6 +125,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	
 	{ TEX_PAUSE_PANEL,				"./DATA/Images/UI/pause_panel.png" },
 	{ TEX_PAUSE_SELECTED,			"./DATA/Images/UI/pause_selected.png" },
+	{ TEX_RETRY_PANEL,				"./DATA/Images/UI/retry_panel.png" },
 
 	{ TEX_ANIME_STAMP,				"./DATA/Images/Effect/stamp_pressing.png" },
 
@@ -427,6 +429,7 @@ SPRITE_CENTER e_sprNumbers = SPRITE_CENTER(TEX_NUMBERS, 0, 0, 76, 118);
 
 SPRITE_CENTER e_sprPausePanel = SPRITE_CENTER(TEX_PAUSE_PANEL, 0, 0, 670, 380);
 SPRITE_CENTER e_sprPauseSelected = SPRITE_CENTER(TEX_PAUSE_SELECTED, 0, 0, 75, 77);
+SPRITE_CENTER e_sprRetryPanel = SPRITE_CENTER(TEX_RETRY_PANEL, 0, 0, 333, 144);
 
 SPRITE_CENTER e_sprStageClear = SPRITE_CENTER(TEX_STAGE_CLEAR, 0, 0, 932, 360);
 SPRITE_CENTER e_sprGameClear = SPRITE_CENTER(TEX_GAME_CLEAR, 0, 0, 932, 360);

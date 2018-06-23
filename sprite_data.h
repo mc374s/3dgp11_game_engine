@@ -50,6 +50,7 @@ extern SPRITE_CENTER e_sprNumbers;
 
 extern SPRITE_CENTER e_sprPausePanel;
 extern SPRITE_CENTER e_sprPauseSelected;
+extern SPRITE_CENTER e_sprRetryPanel;
 
 extern SPRITE_CENTER e_sprStageClear;
 extern SPRITE_CENTER e_sprGameClear;

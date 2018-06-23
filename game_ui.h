@@ -3,7 +3,6 @@
 
 #include "obj2d.h"
 
-#define UI_OBJ_MAX_NUM	(36)
 #define UI_STAMP_MAX_NUM (10)
 
 enum UI_NO
@@ -28,6 +27,7 @@ enum UI_NO
 
 	PAUSE_PANEL,
 	PAUSE_SELECTED,
+	RETRY_PANEL,
 
 
 	HELP,
@@ -63,8 +63,15 @@ enum NUMS_NO
 enum PAUSED_SELECTION
 {
 	TO_GAME,
-	TO_TITLE,
+	TO_TITLE_PAUSE,
 	MAX_PAUSED_SELECTION_NUM,
+};
+
+enum RETRY_SELECTION
+{
+	TO_RETRY,
+	TO_TITLE_RETRY,
+	MAX_RETRY_SELECTION_NUM,
 };
 
 class Numbers;
@@ -111,6 +118,7 @@ public:
 	void showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble, SPRITE_DATA* a_pPlayerSprData = nullptr, bool a_isRefect = true);
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged = false, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
+	void showRetryPanel(int a_selectedNO = 0);
 	void showHelpButton();
 	void showXButton();
 	void showScrollMode();

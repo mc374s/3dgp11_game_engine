@@ -13,6 +13,8 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 	m_pBG->m_pSprData = &e_sprPage;
 	m_custom3d.clear();
 
+
+
 	m_pCube = new Cube(XMFLOAT3(.0f, .0f, .0f), XMFLOAT3(m_width, m_height, m_depth), m_materialColor);
 	//m_pCube->m_custom3d.position = XMFLOAT3(-m_width / 2, 0, m_paperNO*m_depth);
 	// Create a resize unable View
@@ -31,6 +33,18 @@ Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth,
 
 	m_paginationFront = m_paperNO * 2;
 	m_paginationBack = m_paperNO * 2 + 1;
+
+	m_pCurtainFront = new OBJ2D;
+	m_pCurtainFront->m_pSprData = &e_sprWhite;
+	m_pCurtainFront->m_custom.scaleX = m_width / (float)m_pCurtainFront->m_pSprData->width;
+	m_pCurtainFront->m_custom.scaleY = m_height / (float)m_pCurtainFront->m_pSprData->height;
+	m_pCurtainFront->m_custom.rgba = 0x000000FF;
+	m_pCurtainFront->m_alpha = 0;
+	m_pCurtainFront->m_setAlpha = 0;
+	m_pCurtainBack = new OBJ2D;
+	*m_pCurtainBack = *m_pCurtainFront;
+
+
 	m_isActive = false;
 }
 
@@ -58,6 +72,11 @@ void Paper::clearAll()
 	m_blurAreaList[1].clear();
 	m_transcriptionList[0].clear();
 	m_transcriptionList[1].clear();
+
+	m_pCurtainFront->m_custom.rgba = 0x000000FF;
+	m_pCurtainFront->m_alpha = 0;
+	m_pCurtainFront->m_setAlpha = 0;
+	*m_pCurtainBack = *m_pCurtainFront;
 }
 
 void Paper::reloadFrontOrBack(bool a_reloadFront)
@@ -91,6 +110,7 @@ void Paper::reloadFrontOrBack(bool a_reloadFront)
 	for (auto &it : m_transcriptionList[frontOrBack]) {
 		it.m_pos = it.m_initPos;
 	}*/
+
 }
 
 void Paper::init()
@@ -109,6 +129,8 @@ Paper::~Paper()
 	SAFE_DELETE(m_pViewBack);
 	SAFE_DELETE(m_pCube);
 	SAFE_DELETE(m_pBG);
+	SAFE_DELETE(m_pCurtainFront);
+	SAFE_DELETE(m_pCurtainBack);
 }
 
 void Paper::syncViewCustom3d()
@@ -220,6 +242,20 @@ void Paper::drawFront()
 		pPlayerManager->draw(m_paginationFront);
 		//drawRectangle(0, 0, 4, m_height, 0, 0x000000FF);
 
+		if (m_pCurtainFront->m_alpha > m_pCurtainFront->m_setAlpha) {
+			m_pCurtainFront->m_alpha -= 6;
+			if (m_pCurtainFront->m_alpha < m_pCurtainFront->m_setAlpha) {
+				m_pCurtainFront->m_alpha = m_pCurtainFront->m_setAlpha;
+			}
+		}
+		if (m_pCurtainFront->m_alpha < m_pCurtainFront->m_setAlpha) {
+			m_pCurtainFront->m_alpha += 6;
+			if (m_pCurtainFront->m_alpha > m_pCurtainFront->m_setAlpha) {
+				m_pCurtainFront->m_alpha = m_pCurtainFront->m_setAlpha;
+			}
+		}
+		m_pCurtainFront->draw();
+
 #ifdef DEBUG
 
 		char buf[256];
@@ -261,6 +297,19 @@ void Paper::drawBack()
 		pPlayerManager->draw(m_paginationBack);
 		//drawRectangle(m_width - 4, 0, 4, m_height, 0, 0x000000FF);
 
+		if (m_pCurtainBack->m_alpha > m_pCurtainBack->m_setAlpha) {
+			m_pCurtainBack->m_alpha -= 6;
+			if (m_pCurtainBack->m_alpha < m_pCurtainBack->m_setAlpha) {
+				m_pCurtainBack->m_alpha = m_pCurtainBack->m_setAlpha;
+			}
+		}
+		if (m_pCurtainBack->m_alpha < m_pCurtainBack->m_setAlpha) {
+			m_pCurtainBack->m_alpha += 6;
+			if (m_pCurtainBack->m_alpha > m_pCurtainBack->m_setAlpha) {
+				m_pCurtainBack->m_alpha = m_pCurtainBack->m_setAlpha;
+			}
+		}
+		m_pCurtainBack->draw();
 
 #ifdef DEBUG
 

@@ -14,7 +14,7 @@ private:
 	bool m_isPlayerOnLeftPage = true;
 	bool m_stageClearFlag[30];
 	bool m_isPaused = false;
-	int m_pausedOption;
+	int m_selectionNO;
 	
 public:
 	SceneMain();

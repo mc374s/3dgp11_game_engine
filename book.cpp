@@ -91,6 +91,13 @@ void Book::initStartPaper(int a_StartPaperNO)
 	if (m_ppPapers[a_StartPaperNO + 1]) {
 		m_ppPapers[a_StartPaperNO + 1]->reloadFrontOrBack(true);
 	}
+	darkenPapers(0);
+}
+
+void Book::darkenPapers(int a_alpha)
+{
+	m_ppPapers[m_currentPaperNO]->m_pCurtainBack->m_setAlpha = a_alpha;
+	m_ppPapers[m_currentPaperNO + 1]->m_pCurtainFront->m_setAlpha = a_alpha;
 }
 
 void Book::init()
@@ -524,15 +531,16 @@ void Book::openBook()
 		m_cameraAngleZY = 0.0f;
 		m_position.z = 0;
 		m_position.y = 0;*/
-		if (pPlayerManager->m_isTranscriptCanceled)
+		/*if (pPlayerManager->m_isTranscriptCanceled)
 		{
 
-			// 転写失敗によって転写先を生成位置に強制リセット
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayerManager->m_pPlayer->m_pos.x, pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_size.y / 2, 0), pPlayerManager->m_pPlayer->m_liveInPagination, effectDisappear);
+			 転写失敗によって転写先を生成位置に強制リセット
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayerManager->m_pPlayer->m_pos.x, pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_size.y / 2, 0),
+				pPlayerManager->m_pPlayer->m_liveInPagination + (pPlayerManager->m_pPlayer->m_liveInPagination % 2 ? -1 : 0), effectDisappear);
 			MFAudioPlay(SE_DEAD);
-			//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayerManager->m_pPlayer->m_pos.x, pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_size.y / 2, 0), pPlayerManager->m_pPlayer->m_liveInPagination, effectMakeTranscription);
-			//MFAudioPlay(SE_START);
-		}
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayerManager->m_pPlayer->m_pos.x, pPlayerManager->m_pPlayer->m_pos.y - pPlayerManager->m_pPlayer->m_size.y / 2, 0), pPlayerManager->m_pPlayer->m_liveInPagination, effectMakeTranscription);
+			MFAudioPlay(SE_START);
+		}*/
 		m_step = STEP::FINISH;
 		break;
 	case STEP::FINISH:

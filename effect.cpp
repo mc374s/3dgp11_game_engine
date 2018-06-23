@@ -15,7 +15,6 @@ void Effect::memberCopy(const Effect& a_inputObj)
 	m_speedAlpha = a_inputObj.m_speedAlpha;
 	m_speedAngle = a_inputObj.m_speedAngle;
 
-	m_setAlpha = a_inputObj.m_setAlpha;
 
 }
 
@@ -44,7 +43,6 @@ void Effect::clear()
 
 	m_speedAlpha = 0;
 	m_speedAngle = { 0.0f,0.0f,0.0f };
-	m_setAlpha = 255;
 }
 
 Effect::Effect()
@@ -55,11 +53,11 @@ Effect::Effect()
 
 void Effect::init()
 {
-
-	m_isInit = true;
 	m_isVisible = true;
 	m_isVisibleAlways = true;
 	m_custom.scaleMode = SCALE_MODE::CENTER;
+
+	m_isInit = true;
 }
 
 void Effect::update()
@@ -96,13 +94,9 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a
 			a_ppBegin[i]->init();
 		}
 		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
-		if (a_liveInPagination % 2 != 0)
-		{
-			a_ppBegin[i]->m_pos = a_pos;
-		}
-		else
-		{
-			a_ppBegin[i]->m_pos = a_pos;
+
+		a_ppBegin[i]->m_pos = a_pos;
+		if (a_liveInPagination % 2 == 0){
 			a_ppBegin[i]->m_pos.x = SCREEN_WIDTH / 2 + a_ppBegin[i]->m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
 		}
 		a_ppBegin[i]->m_pos.y = a_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
@@ -771,30 +765,31 @@ void effectCloseBook(Effect* a_pObj)
 	}
 }
 
-void effectCartain(Effect* a_pObj) 
-{
-	switch (a_pObj->m_step)
-	{
-	case STEP::INIT:
-		a_pObj->m_pSprData = &e_sprWhite;
-		a_pObj->m_pfMove = effectCartain;
-		a_pObj->m_timer = 0;
-		a_pObj->m_initPos = a_pObj->m_pos;
-		//a_pObj->m_alpha = 180;
-		a_pObj->m_step = STEP::BEGIN;
-		//break;
-	case STEP::BEGIN:
-		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
-			a_pObj->m_step = STEP::END;
-		}
-		break;
-	case STEP::END:
-		a_pObj->m_step = STEP::FINISH;
-		//break;
-	case STEP::FINISH:
-		break;
-	default:
-		break;
-	}
-}
+//void effectCurtain(Effect* a_pObj) 
+//{
+//	switch (a_pObj->m_step)
+//	{
+//	case STEP::INIT:
+//		a_pObj->m_pSprData = &e_sprWhite;
+//		a_pObj->m_pfMove = effectCurtain;
+//		a_pObj->m_timer = 0;
+//		pEffectManager->m_doClear = false;
+//		a_pObj->m_step = STEP::BEGIN;
+//		//break;
+//	case STEP::BEGIN:
+//
+//		if (fabsf(a_pObj->m_alpha - a_pObj->m_setAlpha) < FLT_EPSILON) {
+//			a_pObj->clear();
+//
+//			a_pObj->m_step = STEP::END;
+//		}
+//		break;
+//	case STEP::END:
+//		a_pObj->m_step = STEP::FINISH;
+//		//break;
+//	case STEP::FINISH:
+//		break;
+//	default:
+//		break;
+//	}
+//}

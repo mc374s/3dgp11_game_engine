@@ -31,6 +31,7 @@ public:
 	int m_timer;
 	int m_step;
 	int m_alpha;
+	int m_setAlpha;
 	int m_type;
 	float m_concentration; //濃度
 
