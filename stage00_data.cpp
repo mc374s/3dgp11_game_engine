@@ -169,7 +169,7 @@ int e_stageKeyNum[] = {
 	1,//STAGE 4-3
 
 	1,//まえがきダミー
-	1,//STAGE 5-1
+	2,//STAGE 5-1
 	1,//STAGE 5-2
 	1,//STAGE 5-3
 
@@ -272,4 +272,4 @@ STAGE_DATA stage00_setData[] = {
 
 	// END
 	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
-};
+};	
