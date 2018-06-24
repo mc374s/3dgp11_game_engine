@@ -342,11 +342,12 @@ void Player::normalMove()
 
 
 	// 鍵移動
-	if (m_pKeyObj[m_keyCounter - 1].m_pSprData)
+	/*if (m_pKeyObj[m_keyCounter - 1].m_pSprData)
 	{
 		syncKeyPos();
-	}
+	}*/
 
+	syncKeyPos();
 
 
 	// アニメーションデータ
@@ -676,15 +677,18 @@ void Player::setScrollKeys(Vector3 a_speed)
 		if (!it.m_isHitAble)
 		{
 			it.m_pos.y -= a_speed.y;
+			it.m_setPos.y -= a_speed.y;
 			if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y)
 			{
 				it.m_pos.y = it.m_initPos.y;
+				it.m_setPos.y= it.m_initPos.y;
 			}
 			if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
 			{
 				it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
+				it.m_setPos.y = it.m_initPos.y - STAGE_HEIGHT;
 			}
-			it.m_setPos.y = it.m_pos.y;
+			//it.m_setPos.y = it.m_pos.y;
 		}
 	}
 }

@@ -445,6 +445,7 @@ void SceneMain::gameMain()
 
 	if (pBook->m_isOpened)
 	{
+		pPlayerManager->update();
 		pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged);
 		if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
 		{
@@ -460,7 +461,6 @@ void SceneMain::gameMain()
 			pPlayerManager->m_pPlayer->m_setPos.y = pPlayerManager->m_pPlayer->m_pos.y;
 			return;
 		}
-		pPlayerManager->update();
 	}
 
 	pStageManager->update();
