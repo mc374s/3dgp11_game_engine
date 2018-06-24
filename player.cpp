@@ -31,18 +31,26 @@ void Player::init()
 	m_mode = P_MODE::RESTART;
 	m_alpha = 0;
 	m_isKeyHandled = false;
-	if (m_pKeyObj)
+	//m_pKeyObjOld = nullptr;
+	//m_pKeyObj = nullptr;
+	/*if (m_pKeyObj)
 	{
-		m_pKeyObj->clear();
-		m_pKeyObj->m_alpha = 0;
+		m_pKeyObj[m_keyCounter].clear();
+		m_pKeyObj[m_keyCounter].m_alpha = 0;
 	}
 	else
 	{
 
 		m_pKeyObj = new OBJ2D;
-		m_pKeyObj->m_alpha = 0;
+		m_pKeyObj[m_keyCounter].m_alpha = 0;
+	}*/
+	//m_pKeyObj[m_keyCounter].m_pSprData = &e_sprWhite;
+	for (int i = 0; i < P_KEY_MAX_NUM; i++)
+	{
+		m_pKeyObj[i].clear();
+		m_pKeyObj[i].m_alpha = 0;
 	}
-	m_pKeyObj->m_pSprData = &e_sprWhite;
+	m_keyCounter= 0;
 	m_life = P_LIFE_MAX;
 
 	m_hitObj.m_pSprData = &e_sprHitObj;
@@ -62,7 +70,7 @@ void Player::init()
 Player::~Player()
 {
 	m_pAnimeData = nullptr;
-	SAFE_DELETE(m_pKeyObj);
+	//SAFE_DELETE(m_pKeyObj);
 }
 
 void Player::restart()
@@ -88,16 +96,10 @@ void Player::restart()
 	m_isOnBlurArea = false;
 	m_isMoving = true;
 	m_isOnGround = false;
-	if (!m_isKeyHandled)
+	if (m_isKeyHandled)
 	{
-		m_pKeyObj->clear();
-		m_pKeyObj->m_alpha = 0;
-		m_pKeyObj->m_pSprData = &e_sprWhite;
-	}
-	else
-	{
-		m_pKeyObj->m_alpha = 0;
-		m_pKeyObj->m_pos = m_pKeyObj->m_setPos = m_pos;
+		m_pKeyObj[m_keyCounter - 1].m_alpha = 0;
+		m_pKeyObj[m_keyCounter - 1].m_pos = m_pKeyObj[m_keyCounter - 1].m_setPos = m_pos;
 	}
 	m_speed = { 0,-0.1f,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
@@ -339,7 +341,7 @@ void Player::normalMove()
 
 
 	// 鍵移動
-	if (m_pKeyObj->m_pSprData)
+	if (m_pKeyObj[m_keyCounter - 1].m_pSprData)
 	{
 		syncKeyPos();
 	}
@@ -431,7 +433,9 @@ void Player::restartMove()
 		m_speed.x = 0;
 		m_speed.y = 0;
 		m_alpha = 0;
-		m_pKeyObj->m_alpha = 0;
+		if (m_isKeyHandled){
+			m_pKeyObj[m_keyCounter - 1].m_alpha = 0;
+		}
 		m_step = STEP::BEGIN;
 		m_liveInPagination = START_PAGINATION;
 		m_timer = 0;
@@ -518,7 +522,7 @@ void Player::blur()
 		m_hitObj.m_pos = m_pos - randAdjust;
 		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
 		m_hitObj.m_custom.angle = rand() % 180;
-		m_hitObj.m_alpha = rand() % 5 + 30;
+		m_hitObj.m_alpha = rand() % 5 + 10;
 		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
@@ -551,11 +555,12 @@ void Player::draw()
 
 #endif // DEBUG
 
+	//if (m_isKeyHandled || m_mode == P_MODE::CLEAR) {
+	//	m_pKeyObj[m_keyCounter - 1].draw();
+	//	//m_pKeyObj[m_keyCounter - 1].m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj[m_keyCounter - 1].m_pSprData->width + m_size.x / 2, m_pKeyObj[m_keyCounter - 1].m_pSprData->height, 0);
+	//}
+
 	OBJ2DEX::draw();
-	if (m_isKeyHandled || m_mode==P_MODE::CLEAR) {
-		m_pKeyObj->draw();
-		//m_pKeyObj->m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj->m_pSprData->width + m_size.x / 2, m_pKeyObj->m_pSprData->height, 0);
-	}
 	if (m_mode == P_MODE::NORMAL || m_mode == P_MODE::CLEAR)
 	{
 		*m_eyes.m_pSprData = *m_pSprData;
@@ -616,47 +621,48 @@ void Player::addLife(int a_life)
 
 void Player::syncKeyPos()
 {
-	if (m_isKeyHandled && m_mode != P_MODE::CLEAR)
+	if (m_isKeyHandled && m_mode != P_MODE::CLEAR && m_pKeyObj[m_keyCounter - 1].m_isHitAble)
 	{
-		m_pKeyObj->m_alpha = 200;
-		m_pKeyObj->m_setPos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj->m_pSprData->width + m_size.x / 2, m_pKeyObj->m_pSprData->height, 0);
-		if (m_pKeyObj->m_setPos.x > PAGE_WIDTH - m_pKeyObj->m_pSprData->width - m_size.x) {
-			m_pKeyObj->m_setPos.x = PAGE_WIDTH - m_pKeyObj->m_pSprData->width - m_size.x;
+		m_pKeyObj[m_keyCounter - 1].m_alpha = 200;
+		m_pKeyObj[m_keyCounter - 1].m_setPos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj[m_keyCounter - 1].m_pSprData->width + m_size.x / 2, m_pKeyObj[m_keyCounter - 1].m_pSprData->height, 0);
+		if (m_pKeyObj[m_keyCounter - 1].m_setPos.x > PAGE_WIDTH - m_pKeyObj[m_keyCounter - 1].m_pSprData->width - m_size.x) {
+			m_pKeyObj[m_keyCounter - 1].m_setPos.x = PAGE_WIDTH - m_pKeyObj[m_keyCounter - 1].m_pSprData->width - m_size.x;
 		}
-		if (m_pKeyObj->m_setPos.x < 0 + m_size.x) {
-			m_pKeyObj->m_setPos.x = 0 + m_size.x;
+		if (m_pKeyObj[m_keyCounter - 1].m_setPos.x < 0 + m_size.x) {
+			m_pKeyObj[m_keyCounter - 1].m_setPos.x = 0 + m_size.x;
 		}
-		if (m_pKeyObj->m_setPos.y > PAGE_HEIGHT - m_pKeyObj->m_pSprData->height) {
-			m_pKeyObj->m_setPos.y = PAGE_HEIGHT - m_pKeyObj->m_pSprData->height;
+		if (m_pKeyObj[m_keyCounter - 1].m_setPos.y > PAGE_HEIGHT - m_pKeyObj[m_keyCounter - 1].m_pSprData->height) {
+			m_pKeyObj[m_keyCounter - 1].m_setPos.y = PAGE_HEIGHT - m_pKeyObj[m_keyCounter - 1].m_pSprData->height;
 		}
-		if (m_pKeyObj->m_setPos.y < 0) {
-			m_pKeyObj->m_setPos.y = 0;
-		}
-	}
-
-
-	if (m_pKeyObj->m_pos.x < m_pKeyObj->m_setPos.x) {
-		m_pKeyObj->m_pos.x += (m_pKeyObj->m_setPos.x - m_pKeyObj->m_pos.x) / 5;
-		if (m_pKeyObj->m_pos.x > m_pKeyObj->m_setPos.x) {
-			m_pKeyObj->m_pos.x = m_pKeyObj->m_setPos.x;
+		if (m_pKeyObj[m_keyCounter - 1].m_setPos.y < 0) {
+			m_pKeyObj[m_keyCounter - 1].m_setPos.y = 0;
 		}
 	}
-	if (m_pKeyObj->m_pos.x > m_pKeyObj->m_setPos.x) {
-		m_pKeyObj->m_pos.x += (m_pKeyObj->m_setPos.x - m_pKeyObj->m_pos.x) / 5;
-		if (m_pKeyObj->m_pos.x < m_pKeyObj->m_setPos.x) {
-			m_pKeyObj->m_pos.x = m_pKeyObj->m_setPos.x;
+	for (int i = 0; i < P_KEY_MAX_NUM; i++)
+	{
+		if (m_pKeyObj[i].m_pos.x < m_pKeyObj[i].m_setPos.x) {
+			m_pKeyObj[i].m_pos.x += (m_pKeyObj[i].m_setPos.x - m_pKeyObj[i].m_pos.x) / 5;
+			if (m_pKeyObj[i].m_pos.x > m_pKeyObj[i].m_setPos.x) {
+				m_pKeyObj[i].m_pos.x = m_pKeyObj[i].m_setPos.x;
+			}
 		}
-	}
-	if (m_pKeyObj->m_pos.y < m_pKeyObj->m_setPos.y) {
-		m_pKeyObj->m_pos.y += (m_pKeyObj->m_setPos.y - m_pKeyObj->m_pos.y) / 5;
-		if (m_pKeyObj->m_pos.y > m_pKeyObj->m_setPos.y) {
-			m_pKeyObj->m_pos.y = m_pKeyObj->m_setPos.y;
+		if (m_pKeyObj[i].m_pos.x > m_pKeyObj[i].m_setPos.x) {
+			m_pKeyObj[i].m_pos.x += (m_pKeyObj[i].m_setPos.x - m_pKeyObj[i].m_pos.x) / 5;
+			if (m_pKeyObj[i].m_pos.x < m_pKeyObj[i].m_setPos.x) {
+				m_pKeyObj[i].m_pos.x = m_pKeyObj[i].m_setPos.x;
+			}
 		}
-	}
-	if (m_pKeyObj->m_pos.y > m_pKeyObj->m_setPos.y) {
-		m_pKeyObj->m_pos.y += (m_pKeyObj->m_setPos.y - m_pKeyObj->m_pos.y) / 5;
-		if (m_pKeyObj->m_pos.y < m_pKeyObj->m_setPos.y) {
-			m_pKeyObj->m_pos.y = m_pKeyObj->m_setPos.y;
+		if (m_pKeyObj[i].m_pos.y < m_pKeyObj[i].m_setPos.y) {
+			m_pKeyObj[i].m_pos.y += (m_pKeyObj[i].m_setPos.y - m_pKeyObj[i].m_pos.y) / 5;
+			if (m_pKeyObj[i].m_pos.y > m_pKeyObj[i].m_setPos.y) {
+				m_pKeyObj[i].m_pos.y = m_pKeyObj[i].m_setPos.y;
+			}
+		}
+		if (m_pKeyObj[i].m_pos.y > m_pKeyObj[i].m_setPos.y) {
+			m_pKeyObj[i].m_pos.y += (m_pKeyObj[i].m_setPos.y - m_pKeyObj[i].m_pos.y) / 5;
+			if (m_pKeyObj[i].m_pos.y < m_pKeyObj[i].m_setPos.y) {
+				m_pKeyObj[i].m_pos.y = m_pKeyObj[i].m_setPos.y;
+			}
 		}
 	}
 
@@ -708,9 +714,17 @@ void PlayerManager::update()
 
 void PlayerManager::draw(int a_liveInPagination)
 {
-	if (m_pPlayer && m_pPlayer->m_liveInPagination == a_liveInPagination)
+	if (m_pPlayer)
 	{
-		m_pPlayer->draw();
+		if (m_pPlayer->m_liveInPagination == a_liveInPagination){
+			m_pPlayer->draw();
+		}
+		for (int i = 0; i < P_KEY_MAX_NUM; i++)
+		{
+			if (a_liveInPagination == m_pPlayer->m_pKeyObj[i].m_liveInPagination) {
+				m_pPlayer->m_pKeyObj[i].draw();
+			}
+		}
 	}
 }
 
@@ -724,7 +738,9 @@ void PlayerManager::manageConcentration()
 		m_isTranscriptAble = true;
 		m_isTranscriptCanceled = false;
 		m_step = STEP::INIT + 1;
-		m_pPlayer->m_pKeyObj->m_alpha = 0;
+		if (m_pPlayer->m_isKeyHandled){
+			m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_alpha = 0;
+		}
 		break;
 	case STEP::INIT+1:
 		m_isPlayerOnLeft = m_pPlayer->m_liveInPagination % 2 != 0;
@@ -838,8 +854,11 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 				m_pPlayer->m_liveInPagination += m_pPlayer->m_liveInPagination % 2 ? 1 : -1;
 				m_pPlayer->m_pos.x = PAGE_WIDTH - m_pPlayer->m_pos.x;
 				if (m_pPlayer->m_isKeyHandled){
-					m_pPlayer->m_pKeyObj->m_setPos.x = PAGE_WIDTH - m_pPlayer->m_pKeyObj->m_pos.x - m_pPlayer->m_pKeyObj->m_pSprData->width;
-					m_pPlayer->m_pKeyObj->m_pos.x = m_pPlayer->m_pKeyObj->m_setPos.x;
+					if (m_pPlayer->m_isKeyHandled && m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_isHitAble) {
+						m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_setPos.x = PAGE_WIDTH - m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_pos.x - m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_pSprData->width;
+						m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_pos.x = m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_setPos.x;
+						m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_liveInPagination += m_pPlayer->m_pKeyObj[m_pPlayer->m_keyCounter - 1].m_liveInPagination % 2 ? 1 : -1;
+					}
 				}
 				m_pPlayer->m_speed = { 0,-0.1f,0 };
 				m_pPlayer->m_isOnGround = false;

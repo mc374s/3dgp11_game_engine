@@ -23,6 +23,7 @@ public:
 	Vector3 m_speedMax;
 
 	Vector3 m_size;
+	bool m_isHitAble;
 
 	CUSTOM m_custom;
 	CUSTOM3D m_custom3d;

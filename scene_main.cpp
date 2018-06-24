@@ -29,7 +29,8 @@ SceneMain::SceneMain()
 			m_stageClearFlag[i] = false;
 		}
 	}
-	//m_stageClearFlag[STAGE_MAX_NUM - 1] = true;
+	//m_stageClearFlag[STAGE_MAX_NUM - 1] = false;
+
 	m_stageClearFlag[STAGE_MAX_NUM] = true;
 	//pObjManager->init();
 	//pPlayerManager->init();
@@ -486,6 +487,10 @@ void SceneMain::gameMain()
 
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
+				if (m_timer % 5 == 0)
+				{
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(-PAGE_WIDTH / 4, 0.0f, 0.0f), 1, effectCircleMove, 1);
+				}
 			}
 			else {
 				pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_isVisible = true;
@@ -509,7 +514,7 @@ void SceneMain::gameMain()
 			if (m_timer > 120)
 			{
 				pGameUIManager->showXButton();
-				if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED) || m_timer > 300)
+				if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED) || (m_timer > 360 && !m_stageClearFlag[STAGE_MAX_NUM]))
 				{
 					m_stageNO++;
 					if (m_stageNO >= STAGE_MAX_NUM)

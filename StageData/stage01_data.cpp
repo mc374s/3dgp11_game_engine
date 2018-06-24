@@ -9,7 +9,7 @@ STAGE_DATA stage01_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,300,1),		true, v3(PW,11,0), 10),
 														
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,650,1),		true, v3(PW,11,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1], 0, M_TYPE::DOOR,					M_DRAW::UP,		v3(50,300 - 111,0),	true, v3(124,111,0), 8),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1], 0, M_TYPE::DOOR_1_1,					M_DRAW::UP,		v3(50,300 - 99,0),	true, v3(111,99,0), 8),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1], 0, M_TYPE::FOREST_5,				M_DRAW::UP,		v3(360,650 - 26,0),	false, v3(168,26,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1], 0, M_TYPE::FOREST_8,				M_DRAW::UP,		v3(470,650 - 128,0),	false, v3(115,128,0), 10),
@@ -29,7 +29,7 @@ STAGE_DATA stage01_setData[] = {
 	//ページ２
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,500,1),		true, v3(PW,11,0), 10),
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1] + 1, 0, M_TYPE::KEY,						M_DRAW::UP,		v3(PW / 2,500 - 111,0),	true, v3(124,111,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1] + 1, 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(PW / 2,500 - 99,0),	true, v3(111,99,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1] + 1, 0, M_TYPE::FOREST_6,				M_DRAW::UP,		v3(470,500 - 143,0),	false, v3(89,143,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 1] + 1, 0, M_TYPE::FOREST_10,				M_DRAW::UP,		v3(140,500 - 113,0),	false, v3(44,113,0), 10),
