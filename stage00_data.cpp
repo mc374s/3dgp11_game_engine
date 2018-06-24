@@ -19,9 +19,9 @@ int e_stageHeight[] = {
 	(1020) - (PH - 100),//STAGE 3-2
 	(1550) - (PH - 100),//STAGE 3-3
 
-	(1500) - (PH - 100),//STAGE 4-1
-	0,					//STAGE 4-2
-	(900) - (PH - 100),	//STAGE 4-3
+	(1150) - (PH - 100),//STAGE 4-1
+	(3000) - (PH - 100),//STAGE 4-2
+	(1500) - (PH - 100),	//STAGE 4-3
 
 	(1039) - (PH - 100),//STAGE 5-1
 	0,					//STAGE 5-2
@@ -82,7 +82,7 @@ v3 e_initPos[] = {
 	{ 80,430,5 },//STAGE 3-2
 	{ 220,400,5 },//STAGE 3-3
 
-	{ 80,180,5 },//STAGE 4-1
+	{ 80,140,5 },//STAGE 4-1
 	{ 80,180,5 },//STAGE 4-2
 	{ 80,400,5 },//STAGE 4-3
 
@@ -113,7 +113,7 @@ int e_initLife[] = {
 	2,//STAGE 3-3
 
 	2,//STAGE 4-1
-	2,//STAGE 4-2
+	1,//STAGE 4-2
 	2,//STAGE 4-3
 
 	2,//STAGE 5-1
