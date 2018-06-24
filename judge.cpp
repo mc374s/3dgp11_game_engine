@@ -32,7 +32,7 @@ bool checkHitPlayerToMapObjClosed(Player* a_pPlayer, MapObj* a_pMapObj)
 void judgeAll()
 {
 
-	static bool isBookClosed = false, isBookOpened = true;
+	static bool isBookClosed = false, isBookOpened = true, isStageCleared = false;
 
 	static Player* pPlayer = pPlayerManager->m_pPlayer;
 	static int judgePagination = pPlayer->m_liveInPagination;
@@ -73,6 +73,7 @@ void judgeAll()
 
 	if (isBookOpened || isBookClosed)
 	{
+		isStageCleared = true;
 		for (MapObj &it : *pMapObjList)
 		{
 			if (isBookOpened && it.m_isHitAble && checkHitPlayerToMapObjOpened(pPlayer, &it) && pPlayer->m_concentration>0.0f)
@@ -114,7 +115,7 @@ void judgeAll()
 				}
 
 				if (it.m_type != M_TYPE::HIGH_CONCENTRATION && it.m_type != M_TYPE::NONE
-					&& it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN
+					&& (it.m_type < M_TYPE::DOOR_1_1 || it.m_type > M_TYPE::KEY_5_1)&& it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN
 					&& (pPlayer->m_concentration <= it.m_concentration/*it.m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION*/))
 				{
 					it.hitAdjust(pPlayer);
@@ -146,41 +147,61 @@ void judgeAll()
 
 
 				// 鍵関係
-				if (it.m_type == M_TYPE::KEY)
+				if (it.m_type >= M_TYPE::DOOR_1_1 && it.m_type <= M_TYPE::KEY_5_1)
 				{
-					pPlayer->m_isKeyHandled = true;
-					pPlayer->m_pKeyObj->m_pSprData = it.m_pSprData;
-					pPlayer->m_pKeyObj->m_pos = it.m_pos;
-					it.m_isHitAble = false;
-					it.m_concentration = /*LOW_CONCENTRATION*/0;
-					MFAudioPlay(SE_KEY_GOT);
-				}
-				if (it.m_type == M_TYPE::DOOR && pPlayer->m_isKeyHandled)
-				{
-					pPlayer->m_isKeyHandled = false;
-					//pPlayer->m_pKeyObj.m_pSprData = it.m_pSprData;
-					//pPlayer->m_pKeyObj->m_pSprData = nullptr;
-					//pPlayer->m_pKeyObj->m_pos = it.m_pos;
-					pPlayer->m_pKeyObj->m_setPos = it.m_pos;
-					pPlayer->m_mode = P_MODE::CLEAR;
-					it.m_isHitAble = false;
-					it.m_concentration = P_CONCENTRATION_MAX;
-					MFAudioPlay(SE_DOOR_OPENED);
+					if (it.m_type % 2 != 0) {
+						// KEY
+						if (!pPlayer->m_isKeyHandled){
+							pPlayer->m_isKeyHandled = true;
+							//pPlayer->m_pKeyObj->m_pSprData = it.m_pSprData;
+							//pPlayer->m_pKeyObj->m_pos = it.m_pos;
+							//pPlayer->m_pKeyObj->m_type = it.m_type;
+							pPlayer->m_pKeyObj[pPlayer->m_keyCounter] = it;
+							++pPlayer->m_keyCounter;
+							it.m_isHitAble = false;
+							it.m_concentration = /*LOW_CONCENTRATION*/0;
+							MFAudioPlay(SE_KEY_GOT);
+						}
+					}
+					else{
+						// DOOR
+						if (pPlayer->m_isKeyHandled && pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_type == it.m_type + 1)
+						{
+							pPlayer->m_isKeyHandled = false;
+							//pPlayer->m_pKeyObj.m_pSprData = it.m_pSprData;
+							//pPlayer->m_pKeyObj->m_pSprData = nullptr;
+							//pPlayer->m_pKeyObj->m_pos = it.m_pos;
+							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_liveInPagination = it.m_liveInPagination;
+							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_setPos = it.m_pos;
+							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_isHitAble = false;
+							it.m_isHitAble = false;
+							it.m_concentration = P_CONCENTRATION_MAX;
+							if (pPlayer->m_keyCounter == STAGE_KEY_NUM) {
+								pPlayer->m_mode = P_MODE::CLEAR;
+							}
+							MFAudioPlay(SE_DOOR_OPENED);
+						}
+						// Stage Clear Judge
+						//isStageCleared &= !it.m_isHitAble;
+
+					}
 				}
 			}
+
 			if (isBookClosed && it.m_isHitAble && checkHitPlayerToMapObjClosed(pPlayer, &it))
 			{
 				// 
 				//if ((pPlayer->m_concentration < it.m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && it.m_concentration > LOW_CONCENTRATION)
 				// プレイヤーの濃度より高いObjは転写できない
 				if (pPlayer->m_concentration <= it.m_concentration && 
-					(it.m_type != M_TYPE::KEY && it.m_type != M_TYPE::DOOR && it.m_type != M_TYPE::HIGH_CONCENTRATION &&
+					((it.m_type < M_TYPE::DOOR_1_1 || it.m_type > M_TYPE::KEY_5_1) && it.m_type != M_TYPE::HIGH_CONCENTRATION &&
 						it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN && it.m_type !=M_TYPE::RECOVERY))
 				{
 					pPlayerManager->m_isTranscriptAble = false;
-					break;
+					//break;
 				}
 			}
+
 		}
 
 		// 転写元判定

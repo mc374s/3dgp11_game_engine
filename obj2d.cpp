@@ -37,6 +37,7 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 	m_pfMove = a_inputObj.m_pfMove;
 
 	m_setAlpha = a_inputObj.m_setAlpha;
+	m_isHitAble = a_inputObj.m_isHitAble;
 }
 
 OBJ2D::OBJ2D(const OBJ2D& a_inputObj)
