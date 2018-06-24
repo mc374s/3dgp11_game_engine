@@ -25,7 +25,7 @@ STAGE_DATA stage04_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,900,1),		true, v3(PW,11,0), 10),
 
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4], 0, M_TYPE::DOOR_1_1,					M_DRAW::UP,		v3(50,220 - 99,0),	true, v3(111,99,0), 8),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4], 0, M_TYPE::DOOR_2_1,					M_DRAW::UP,		v3(50,220 - 99,0),	true, v3(117, 131,0), 8),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4], 0, M_TYPE::BIRD_6,				M_DRAW::UP,		v3(390,680 - 99,0),	false, v3(182,111,0), 10),
 
@@ -42,7 +42,7 @@ STAGE_DATA stage04_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4] + 1, 0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,220,0),		true, v3(PW / 2,320,0), 3),
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4] + 1, 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(120,900 - 99,0),	true, v3(111,99,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4] + 1, 0, M_TYPE::KEY_2_1,						M_DRAW::UP,		v3(120,900 - 99,0),	true, v3(117, 131,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4] + 1, 0, M_TYPE::BIRD_2,				M_DRAW::UP,		v3(70,220 - 137,0),	false, v3(138,137,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4] + 1, 0, M_TYPE::BIRD_7,				M_DRAW::UP,		v3(350,540 - 165,0),	false, v3(158,165,0), 10),
