@@ -268,10 +268,12 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_SELECTED]->m_alpha = 0;
 
 	// UI for Stage Cleared
-	m_ppGameUI[STAGE_CLEARED]->m_pSprData = &e_sprPauseSelected;
+	m_ppGameUI[STAGE_CLEARED]->m_pSprData = &e_sprStageClearFront;
+	m_ppGameUI[STAGE_CLEARED]->m_custom.scaleX = m_ppGameUI[STAGE_CLEARED]->m_custom.scaleY = 0.15f;
+	m_ppGameUI[STAGE_CLEARED]->m_alpha = 160;
 	m_ppGameUI[STAGE_CLEARED]->m_isVisibleAlways = true;
 	m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
-	m_ppGameUI[STAGE_CLEARED]->m_setPos = m_ppGameUI[STAGE_CLEARED]->m_initPos = m_ppGameUI[STAGE_CLEARED]->m_pos = { 400.0f,150.0f,0.0f };
+	m_ppGameUI[STAGE_CLEARED]->m_setPos = m_ppGameUI[STAGE_CLEARED]->m_initPos = m_ppGameUI[STAGE_CLEARED]->m_pos = { PAGE_WIDTH / 2 + 50,150.0f,0.0f };
 
 
 	////////////////////////////////////////////////////////////////////////////////
