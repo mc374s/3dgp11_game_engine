@@ -199,6 +199,11 @@
     <ClCompile Include="StageData\stage16_data.cpp" />
     <ClCompile Include="StageData\stage17_data.cpp" />
     <ClCompile Include="StageData\stage18_data.cpp" />
+    <ClCompile Include="stage_intro01_data.cpp" />
+    <ClCompile Include="stage_intro02_data.cpp" />
+    <ClCompile Include="stage_intro03_data.cpp" />
+    <ClCompile Include="stage_intro04_data.cpp" />
+    <ClCompile Include="stage_intro05_data.cpp" />
     <ClCompile Include="stage_select00_data.cpp" />
     <ClCompile Include="stage_select01_data.cpp" />
     <ClCompile Include="tools.cpp" />

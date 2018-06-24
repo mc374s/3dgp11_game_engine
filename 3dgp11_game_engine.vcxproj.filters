@@ -253,6 +253,21 @@
     <ClCompile Include="stage_select00_data.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="stage_intro01_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage_intro02_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage_intro03_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage_intro04_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="stage_intro05_data.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="3dgp\primitive3d.hlsli">
