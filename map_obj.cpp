@@ -12,7 +12,6 @@ void MapObj::memberCopy(const MapObj& a_inputObj)
 	OBJ2DEX::memberCopy(a_inputObj);
 	m_command = a_inputObj.m_command;
 	m_drawDirection = a_inputObj.m_drawDirection;
-	m_isHitAble = a_inputObj.m_isHitAble;
 	m_repeatDrawSize = a_inputObj.m_repeatDrawSize;
 	m_pfMove = a_inputObj.m_pfMove;
 
@@ -79,8 +78,27 @@ void MapObj::init()
 	case M_TYPE::GAME_RULE_RIGHT:
 
 	case M_TYPE::RECOVERY:
-	case M_TYPE::KEY:
-	case M_TYPE::DOOR:
+
+	case M_TYPE::KEY_1_1:
+	case M_TYPE::DOOR_1_1:
+	
+	case M_TYPE::DOOR_2_1:
+	case M_TYPE::KEY_2_1:
+	
+	case M_TYPE::DOOR_3_1:
+	case M_TYPE::KEY_3_1:
+	case M_TYPE::DOOR_3_2:
+	case M_TYPE::KEY_3_2:
+	
+	case M_TYPE::DOOR_4_1:
+	case M_TYPE::KEY_4_1:
+	case M_TYPE::DOOR_4_2:
+	case M_TYPE::KEY_4_2:
+	case M_TYPE::DOOR_4_3:
+	case M_TYPE::KEY_4_3:
+	
+	case M_TYPE::DOOR_5_1:
+	case M_TYPE::KEY_5_1:
 		m_repeatDrawSize = { m_pSprData->width,m_pSprData->height,0 };
 		break;
 	case M_TYPE::BORDER_INNER:
@@ -264,6 +282,7 @@ void StageManager::init(int a_stageNO)
 	START_PAGINATION = e_startPagination[m_stageNO];
 	INIT_POS = e_initPos[m_stageNO];
 	P_LIFE_MAX = e_initLife[m_stageNO];
+	STAGE_KEY_NUM = e_stageKeyNum[m_stageNO];
 
 	//pBook->initStartPaper(START_PAGINATION / 2);
 

@@ -499,9 +499,9 @@ void effectCircleMove(Effect* a_pObj)
 
 
 		//a_pObj->m_custom3d.position.x = rand() % (SCREEN_WIDTH + 200) - 100 - PAGE_WIDTH;
-		a_pObj->m_initPos.x = PAGE_WIDTH / 2;
-		a_pObj->m_custom3d.position.y = rand() % 500 - 100;
-		a_pObj->m_initPos.z = -rand() % PAGE_WIDTH;
+		a_pObj->m_initPos.x = PAGE_WIDTH / 2 + a_pObj->m_pos.x;
+		a_pObj->m_custom3d.position.y = rand() % 500 - 100 + a_pObj->m_pos.y;
+		a_pObj->m_initPos.z = -rand() % PAGE_WIDTH + a_pObj->m_pos.z;
 
 		a_pObj->m_speedAcc.x = (rand() % 10 - 5) / 10.0f;
 		a_pObj->m_speedAcc.y = rand() / RAND_MAX + 0.3;
@@ -517,6 +517,22 @@ void effectCircleMove(Effect* a_pObj)
 		a_pObj->m_speedRadius = 0.15;
 		a_pObj->m_radiusMax = rand() % 300 + PAGE_WIDTH;
 
+		if (a_pObj->m_type == 1){
+			a_pObj->m_speedAcc.x *= 5.0f;
+			a_pObj->m_speedAcc.y *= 2.0f;
+			a_pObj->m_speedAcc.z *= 5.0f;
+
+			a_pObj->m_speedMax.x *= 5.0f;
+			a_pObj->m_speedMax.y *= 2.0f;
+			a_pObj->m_speedMax.z *= 5.0f;
+
+			a_pObj->m_speedAngle.y *= 5.0f;
+
+			//a_pObj->m_radius = rand() % 400 + 200;
+			a_pObj->m_speedRadius *= 2.0f;
+			a_pObj->m_radiusMax *= 0.6f;
+			a_pObj->m_custom.rgba = ((rand() % 0xFF) << 24) | ((rand() % 0xFF) << 16) | ((rand() % 0xFF) << 8);
+		}
 		//a_pObj->m_custom.rgba = ((rand() % 0xFF) << 24) | ((rand() % 0xFF) << 16) | ((rand() % 0xFF) << 8);
 		//a_pObj->m_initPos = a_pObj->m_pos;
 		a_pObj->m_step = STEP::BEGIN;

@@ -19,6 +19,8 @@
 #define P_SCROLL_Y_TOP		(200)
 #define P_SCROLL_Y_BOTTOM	(430)
 
+#define P_KEY_MAX_NUM	(8)
+
 // Player Update Mode
 enum P_MODE
 {
@@ -58,7 +60,9 @@ public:
 	int m_jumpCounter;
 
 	bool m_isKeyHandled;
-	OBJ2D* m_pKeyObj;
+	//OBJ2D* m_pKeyObjOld;
+	OBJ2D m_pKeyObj[P_KEY_MAX_NUM];
+	int m_keyCounter;
 	OBJ2D m_eyes;
 
 	Vector3 m_scrolledDistance;
@@ -115,7 +119,6 @@ public:
 };
 
 #define pPlayerManager (PlayerManager::getInstance())
-
 
 
 #endif // !_PLAYER_H_

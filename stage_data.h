@@ -49,5 +49,6 @@ extern int e_startPagination[];
 extern v3 e_initPos[];
 extern int e_initLife[];
 
+extern int e_stageKeyNum[];
 
 #endif // !_STAGE_DATA_H_

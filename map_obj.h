@@ -15,8 +15,30 @@ enum M_TYPE
 	PASSABLE_UP,
 	PASSABLE_DOWN,
 	RECOVERY,
-	DOOR,
-	KEY,
+
+
+	DOOR_1_1,
+	KEY_1_1,
+
+	DOOR_2_1,
+	KEY_2_1,
+
+	DOOR_3_1,
+	KEY_3_1,
+	DOOR_3_2,
+	KEY_3_2,
+
+	DOOR_4_1,
+	KEY_4_1,
+	DOOR_4_2,
+	KEY_4_2,
+	DOOR_4_3,
+	KEY_4_3,
+
+	DOOR_5_1,
+	KEY_5_1,
+
+
 	HIGH_CONCENTRATION,
 
 	GAME_RULE_LEFT,
@@ -128,7 +150,6 @@ public:
 
 	int m_command; //プレイヤーのキー入力
 	int m_drawDirection;
-	bool m_isHitAble;
 	Vector3 m_repeatDrawSize;
 	void(*m_pfMove)(MapObj*);
 
