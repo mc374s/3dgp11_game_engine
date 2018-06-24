@@ -346,7 +346,7 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(TEX_BORDER_INNER, 0, 0, 125, 17),	// M_TYPE::BORDER_INNER
 	e_pAnimeRecovery[0],								// M_TYPE::PASSABLE_UP
 	e_pAnimeRecovery[0],								// M_TYPE::PASSABLE_DOWN
-	SPRITE_LEFTTOP(TEX_RECOVERY,	 0, 0,	64, 64),	// M_TYPE::RECOVERY
+	SPRITE_LEFTTOP(TEX_RECOVERY,	 0, 0,	71, 64),	// M_TYPE::RECOVERY
 	e_sprDoor,											// M_TYPE::DOOR
 	e_sprKey,											// M_TYPE::KEY
 	e_sprWhite,// M_TYPE::HIGH_CONCENTRATION
