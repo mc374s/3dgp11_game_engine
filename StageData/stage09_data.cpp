@@ -69,7 +69,7 @@ STAGE_DATA stage09_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1,0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(500,1400 - 64,0),	true, v3(71,64,0), 2),
 
-
+	 
 
 	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2] + 1, 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(120,900 - 30,0),	true, v3(50,30,0), 10),
 
