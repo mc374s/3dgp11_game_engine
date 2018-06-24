@@ -8,7 +8,7 @@ STAGE_DATA stage09_setData[] = {
 	// ページ１
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,150,1),		true, v3(120,11,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(200,300,1),		true, v3(120,11,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::BORDER_ INNER,				M_DRAW::UP,		v3(400,350,1),		true, v3(120,11,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(400,350,1),		true, v3(120,11,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,450,1),		true, v3(120,11,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(200,600,1),		true, v3(120,11,0), 10),
