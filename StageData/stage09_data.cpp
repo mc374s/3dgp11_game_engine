@@ -25,7 +25,7 @@ STAGE_DATA stage09_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(50,480 - 99,0),	true, v3(111,99,0), 10),
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9],0,M_TYPE::DOOR,					M_DRAW::UP,		v3(30,1200 - 111,0),	true, v3(124,111,0), 8),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9],0,M_TYPE::DOOR_1_1,					M_DRAW::UP,		v3(30,1200 - 111,0),	true, v3(111,99,0), 8),
 
 
 

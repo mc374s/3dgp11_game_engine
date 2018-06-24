@@ -24,7 +24,10 @@ STAGE_DATA stage12_setData[] = {
 
 
 
-	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 12], 0, M_TYPE::KEY,					M_DRAW::UP,		v3(20,200 - 111,0),	true, v3(124,111,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 12], 0, M_TYPE::KEY_4_1,					M_DRAW::UP,		v3(510,220 - 129,0),	true, v3(100, 129,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 12], 0, M_TYPE::DOOR_4_1,					M_DRAW::UP,		v3(500,720 - 129,0),	true, v3(100, 129,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 12], 0, M_TYPE::KEY_4_2,					M_DRAW::UP,		v3(100,720 - 129,0),	true, v3(100, 129,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 12], 0, M_TYPE::DOOR_4_2,					M_DRAW::UP,		v3(100,1020 - 129,0),	true, v3(100, 129,0), 10),
 
 
 
