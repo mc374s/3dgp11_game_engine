@@ -268,10 +268,12 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_SELECTED]->m_alpha = 0;
 
 	// UI for Stage Cleared
-	m_ppGameUI[STAGE_CLEARED]->m_pSprData = &e_sprPauseSelected;
+	m_ppGameUI[STAGE_CLEARED]->m_pSprData = &e_sprStageClearFront;
+	m_ppGameUI[STAGE_CLEARED]->m_custom.scaleX = m_ppGameUI[STAGE_CLEARED]->m_custom.scaleY = 0.15f;
+	m_ppGameUI[STAGE_CLEARED]->m_alpha = 160;
 	m_ppGameUI[STAGE_CLEARED]->m_isVisibleAlways = true;
 	m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
-	m_ppGameUI[STAGE_CLEARED]->m_setPos = m_ppGameUI[STAGE_CLEARED]->m_initPos = m_ppGameUI[STAGE_CLEARED]->m_pos = { 400.0f,150.0f,0.0f };
+	m_ppGameUI[STAGE_CLEARED]->m_setPos = m_ppGameUI[STAGE_CLEARED]->m_initPos = m_ppGameUI[STAGE_CLEARED]->m_pos = { PAGE_WIDTH / 2 + 50,150.0f,0.0f };
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -312,8 +314,8 @@ void GameUIManager::drawStageClearedMark(int a_pagination)
 {
 	if (m_ppGameUI[STAGE_CLEARED] && m_ppGameUI[STAGE_CLEARED]->m_isVisible)
 	{
-		for (int i = STAGE_SELECT_MAX_NUM, realStageNO = 0; i < STAGE_MAX_NUM; ++i, realStageNO = i - STAGE_SELECT_MAX_NUM) {
-			if (m_stageClearFlag[i] && /*(realStageNO / 12 == m_selectedStageNO / 12)*/a_pagination==m_stageSecectionPagination[i]/* && (realStageNO / 6 % 2 != a_pagination % 2)*/) {
+		for (int i = STAGE_SELECT_MAX_NUM + 1, realStageNO = 0; i < STAGE_MAX_NUM;) {
+			if (m_stageClearFlag[i] && /*(realStageNO / 12 == m_selectedStageNO / 12)*/a_pagination == m_stageSecectionPagination[i]/* && (realStageNO / 6 % 2 != a_pagination % 2)*/) {
 				m_ppGameUI[STAGE_CLEARED]->m_pos.x = m_ppGameUI[STAGE_CLEARED]->m_initPos.x /*+ realStageNO % 12 / 6 * SCREEN_WIDTH / 2*/;
 				if (realStageNO % 6 < 3) {
 					m_ppGameUI[STAGE_CLEARED]->m_pos.y = m_ppGameUI[STAGE_CLEARED]->m_initPos.y + realStageNO % 6 * 59.0f;
@@ -323,6 +325,12 @@ void GameUIManager::drawStageClearedMark(int a_pagination)
 				}
 				m_ppGameUI[STAGE_CLEARED]->draw();
 			}
+			++i;
+			if ((i - STAGE_SELECT_MAX_NUM) % 4 == 0) {
+				++i;
+			}
+			realStageNO = i - STAGE_SELECT_MAX_NUM - ((i - STAGE_SELECT_MAX_NUM) / 4 + 1);
+
 		}
 	}
 }

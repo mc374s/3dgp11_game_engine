@@ -22,7 +22,12 @@ SceneMain::SceneMain()
 	m_pBG->m_pSprData = &e_sprMainBG;
 	//m_bg.m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0 };
 	for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
-		m_stageClearFlag[i] = false;
+		if ((i - STAGE_SELECT_MAX_NUM) % 4 == 0) {
+			m_stageClearFlag[i] = true;
+		}
+		else {
+			m_stageClearFlag[i] = false;
+		}
 	}
 	//m_stageClearFlag[STAGE_MAX_NUM - 1] = true;
 	m_stageClearFlag[STAGE_MAX_NUM] = true;
@@ -77,7 +82,7 @@ void SceneMain::update()
 			pEffectManager->init();
 			pGameUIManager->init();
 			for (int i = STAGE_SELECT_MAX_NUM, real = 0; i < STAGE_MAX_NUM; ++i, real = i - STAGE_SELECT_MAX_NUM) {
-				pGameUIManager->m_stageSecectionPagination[i] = e_startPagination[real / 12] + (real) / 6 % 2;
+				pGameUIManager->m_stageSecectionPagination[i] = e_startPagination[real / 16] + (real) / 8 % 2;
 			}
 			/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
 				m_stageClearFlag[i] = false;
@@ -89,6 +94,7 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
+		pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
 		m_timer++;
 		if (m_timer % 30 == 0)
 		{
@@ -118,7 +124,7 @@ void SceneMain::update()
 			m_timer = 0;
 			if (m_stageNO >= STAGE_SELECT_MAX_NUM)
 			{
-				m_step = STEP::INIT + 4;
+				m_step = STEP::INIT + 4;	
 			}
 			else
 			{
@@ -126,7 +132,6 @@ void SceneMain::update()
 				m_selectedStageNO = 0;
 				pBook->m_pfMove = nullptr;
 				pBook->m_step = STEP::FINISH;
-
 				m_step = STEP::INIT + 2;
 				break;
 			}
@@ -138,7 +143,7 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 2:
 		// Stage Select
-		//pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
+		pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
 
 		if (pBook->m_isOpened && pBook->m_step==STEP::FINISH)
 		{
@@ -200,17 +205,19 @@ void SceneMain::update()
 			if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED) && pBook->m_step == STEP::FINISH)
 			{
 				m_selectedStageNO = (pBook->m_currentPaperNO - 1) * 12 + m_selectedStageNO % 12;
-				m_stageNO = m_selectedStageNO + STAGE_SELECT_MAX_NUM;
-				//if (m_selectedStageNO == STAGE_SELECT_MAX_NUM) {
-				//	m_step = STEP::INIT + 3;
-				//}
-				if (m_stageNO >= STAGE_SELECT_MAX_NUM) {
+				m_stageNO = m_selectedStageNO + (m_selectedStageNO / 3 + 1) + STAGE_SELECT_MAX_NUM;
+
+				if (m_selectedStageNO % 3 == 0) {
+					--m_stageNO;
+					m_step = STEP::INIT + 3;
+				}
+				else {
 					m_step = STEP::INIT + 4;
 				}
 				m_timer = 0;
 				pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::turnPages;
-				if (m_stageNO > 4) {
+				if (m_stageNO > 5) {
 					pBook->m_pfMove = &Book::closeBook;
 				}
 				pBook->m_targetPaperNO = START_PAGINATION / 2;
@@ -226,8 +233,8 @@ void SceneMain::update()
 		}
 
 		// 強制正規化
-		if (m_selectedStageNO > STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1) {
-			m_selectedStageNO = STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1;
+		if (m_selectedStageNO > STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4) {
+			m_selectedStageNO = STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4;
 		}
 		m_selectedStageNO = (pBook->m_currentPaperNO - 1) * 12 + m_selectedStageNO % 12;
 		turnPagesController();
@@ -239,27 +246,29 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 3:
 		//Stage 00
-		//m_timer++;
-		//if (m_timer > 300)
-		//{
-		//	pGameUIManager->showXButton();
-		//}
-		//if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED) && pBook->m_step == STEP::FINISH)
-		//{
-		//	m_selectedStageNO++;
-		//	pStageManager->init(m_selectedStageNO);
-		//	pBook->m_pfMove = &Book::turnPages;
-		//	pBook->m_targetPaperNO = START_PAGINATION / 2;
-		//	m_timer = 0;
-		//	m_step = STEP::INIT + 4;
+		m_timer++;
+		if (m_timer > 120)
+		{
+			pGameUIManager->showXButton();
+		}
+		if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED || m_timer > 240) && pBook->m_step == STEP::FINISH)
+		{
+			m_stageNO++;
+			pStageManager->init(m_stageNO);
+			pBook->m_pfMove = &Book::turnPages;
+			pBook->m_targetPaperNO = START_PAGINATION / 2;
+			pBook->initStartPaper(START_PAGINATION / 2);
+			m_timer = 0;
+			m_step = STEP::INIT + 4;
 
-		//	break;
-		//}
-		//pBook->update();
-		//pStageManager->update();
-		//pEffectManager->update();
-		m_step = STEP::INIT + 4;
-		//break;
+			break;
+		}
+		pBook->update();
+		pStageManager->update();
+		pEffectManager->update();
+		turnPagesController();
+		//m_step = STEP::INIT + 4;
+		break;
 	case STEP::INIT + 4:
 		// Stage 01~??
 		m_timer = 0;
@@ -271,6 +280,7 @@ void SceneMain::update()
 			pGameUIManager->init();
 			//pEffectManager->init();
 			pPlayerManager->init();
+			pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = false;
 			m_step = STEP::BEGIN;
 		}
 		break;
@@ -538,6 +548,9 @@ void SceneMain::gameMain()
 						if (m_stageNO == 0) {
 							m_step = STEP::INIT + 1;
 						}
+						else if ((m_stageNO - STAGE_SELECT_MAX_NUM) % 4 == 0) {
+							m_step = STEP::INIT + 3;
+						}
 						else {
 							m_step = STEP::INIT + 4;
 						}
@@ -560,53 +573,6 @@ void SceneMain::gameMain()
 
 void SceneMain::turnPagesController()
 {
-	if (KEY_TRACKER.pressed.D1 && pBook->m_step > STEP::END && pBook->m_isOpened) {
-		m_stageNO = 1 + STAGE_SELECT_MAX_NUM;
-		m_step = STEP::INIT + 4;
-		if (m_stageNO <= 0)
-		{
-			m_stageNO = 0;
-			m_step = STEP::INIT + 2;
-		}
-		m_timer = 0;
-		pStageManager->init(m_stageNO);
-		pBook->m_pfMove = &Book::turnPages;
-		pBook->m_targetPaperNO = START_PAGINATION / 2;
-		pBook->initStartPaper(START_PAGINATION / 2);
-		return;
-	}
-	if (KEY_TRACKER.pressed.D2 && pBook->m_step > STEP::END && pBook->m_isOpened) {
-		m_stageNO = 7 + STAGE_SELECT_MAX_NUM;
-		m_step = STEP::INIT + 4;
-		if (m_stageNO <= 0)
-		{
-			m_stageNO = 0;
-			m_step = STEP::INIT + 2;
-		}
-		m_timer = 0;
-		pStageManager->init(m_stageNO);
-		pBook->m_pfMove = &Book::turnPages;
-		pBook->m_targetPaperNO = START_PAGINATION / 2;
-		pBook->initStartPaper(START_PAGINATION / 2);
-		return;
-	}
-	if (KEY_TRACKER.pressed.D3 && pBook->m_step > STEP::END && pBook->m_isOpened) {
-		m_stageNO = 13 + STAGE_SELECT_MAX_NUM;
-		m_step = STEP::INIT + 4;
-		if (m_stageNO <= 0)
-		{
-			m_stageNO = 0;
-			m_step = STEP::INIT + 2;
-		}
-		m_timer = 0;
-		pStageManager->init(m_stageNO);
-		pBook->m_pfMove = &Book::turnPages;
-		pBook->m_targetPaperNO = START_PAGINATION / 2;
-		pBook->initStartPaper(START_PAGINATION / 2);
-		return;
-	}
-
-
 
 	if ((KEY_TRACKER.pressed.PageUp || PAD_TRACKER.back == PAD_TRACKER.PRESSED || PAD_TRACKER.leftTrigger == PAD_TRACKER.PRESSED) && pBook->m_step > STEP::END && pBook->m_isOpened)
 	{
@@ -622,7 +588,12 @@ void SceneMain::turnPagesController()
 		//	m_step = STEP::INIT + 3;
 		//}
 		if (m_stageNO >= STAGE_SELECT_MAX_NUM) {
-			m_step = STEP::INIT + 4;
+			if ((m_stageNO - STAGE_SELECT_MAX_NUM) % 4 == 0) {
+				m_step = STEP::INIT + 3;
+			}
+			else {
+				m_step = STEP::INIT + 4;
+			}
 		}
 		m_timer = 0;
 		pStageManager->init(m_stageNO);
@@ -642,7 +613,12 @@ void SceneMain::turnPagesController()
 		//	m_step = STEP::INIT + 3;
 		//}
 		if (m_stageNO >= STAGE_SELECT_MAX_NUM) {
-			m_step = STEP::INIT + 4;
+			if ((m_stageNO - STAGE_SELECT_MAX_NUM) % 4 == 0) {
+				m_step = STEP::INIT + 3;
+			}
+			else {
+				m_step = STEP::INIT + 4;
+			}
 		}
 		pStageManager->init(m_stageNO);
 		pBook->m_pfMove = &Book::turnPages;
