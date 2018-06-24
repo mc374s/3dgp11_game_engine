@@ -28,8 +28,8 @@ int e_stageHeight[] = {
 	(1500) - (PH - 100),//STAGE 4-3
 
 	0,	//5章まえがき
-	(1020) - (PH - 100),//STAGE 5-1
-	(1200) - (PH - 100),//STAGE 5-2			
+	(1200) - (PH - 100),//STAGE 5-1
+	(1000) - (PH - 100),//STAGE 5-2			
 	0,					//STAGE 5-3
 
 	//(840) - (PH - 100),
@@ -99,8 +99,8 @@ v3 e_initPos[] = {
 	{ 70,180,5 },//STAGE 4-3
 
 	{ 80,300,5 },//まえがきダミー
-	{ 80,180,5 },//STAGE 5-1
-	{ 250,180,5 },//STAGE 5-2
+	{ 250,180,5 },//STAGE 5-1
+	{ 80,180,5 },//STAGE 5-2
 	{ 80,580,5 },//STAGE 5-3
 
 	//{ 80,180,5 },//
@@ -169,8 +169,8 @@ int e_stageKeyNum[] = {
 	1,//STAGE 4-3
 
 	1,//まえがきダミー
-	2,//STAGE 5-1
-	1,//STAGE 5-2
+	3,//STAGE 5-1
+	2,//STAGE 5-2
 	1,//STAGE 5-3
 
 	  //3,
@@ -256,11 +256,6 @@ STAGE_DATA stage00_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 0], 0, M_TYPE::FOREST_2,				M_DRAW::UP,		v3(450,PH / 2 - 43,0),	false, v3(57,43,0), 10),
 														 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 0], 0, M_TYPE::TUTORIAL_1,				M_DRAW::UP,		v3(350,200,0),	false, v3(102,26,0), 10),
-
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1+0], 0, M_TYPE::KEY_4_1,					M_DRAW::UP,		v3(510,220 - 129,0),	true, v3(100, 129,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1+0], 0, M_TYPE::DOOR_4_1,					M_DRAW::UP,		v3(500,720 - 129,0),	true, v3(100, 129,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1+0], 0, M_TYPE::KEY_4_2,					M_DRAW::UP,		v3(100,720 - 129,0),	true, v3(100, 129,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1+0], 0, M_TYPE::DOOR_4_2,					M_DRAW::UP,		v3(100,1020 - 129,0),	true, v3(100, 129,0), 10),
 														 
 	//ページ２											 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 0] + 1, 0, M_TYPE::BORDER_INNER,			M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW ,11,0), 10),
