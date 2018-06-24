@@ -48,6 +48,8 @@ enum UI_NO
 
 	STAGE_SELECTED,
 
+	STAGE_CLEARED,
+
 	MAX_UI_NO,
 };
 
@@ -111,6 +113,10 @@ public:
 	GameUI* m_ppGameUI[MAX_UI_NO + 1] = { nullptr };
 	Numbers* m_ppNumbers[MAX_NUMS_NO + 1];
 
+	bool m_stageClearFlag[STAGE_LIMITTED_NUM];
+	int m_stageSecectionPagination[STAGE_LIMITTED_NUM];
+	int m_selectedStageNO;
+
 	void init();
 	void update();
 	void draw();
@@ -122,7 +128,8 @@ public:
 	void showHelpButton();
 	void showXButton();
 	void showScrollMode();
-	void showStageSelected(int a_stageNO = 0, bool a_doReset = false);
+	void showStageSelected(int a_selectedStageNO = 0, bool a_doReset = false);
+	void drawStageClearedMark(int a_pagination = 0);
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())

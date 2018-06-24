@@ -108,6 +108,7 @@ void GameUIManager::init()
 			pObj->init();
 		}
 	}
+	m_selectedStageNO = 0;
 	// UI for Ink Gage
 	m_ppGameUI[A_LEFT_DIVISION]->m_pSprData = &e_sprGageDivisionAllocation;
 	m_ppGameUI[A_LEFT_DIVISION]->m_isVisibleAlways = false;
@@ -266,6 +267,13 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_SELECTED]->m_setPos = m_ppGameUI[STAGE_SELECTED]->m_initPos = m_ppGameUI[STAGE_SELECTED]->m_pos = { SCREEN_WIDTH / 4.0f,170.0f,0.0f };
 	m_ppGameUI[STAGE_SELECTED]->m_alpha = 0;
 
+	// UI for Stage Cleared
+	m_ppGameUI[STAGE_CLEARED]->m_pSprData = &e_sprPauseSelected;
+	m_ppGameUI[STAGE_CLEARED]->m_isVisibleAlways = true;
+	m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
+	m_ppGameUI[STAGE_CLEARED]->m_setPos = m_ppGameUI[STAGE_CLEARED]->m_initPos = m_ppGameUI[STAGE_CLEARED]->m_pos = { 400.0f,150.0f,0.0f };
+
+
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
 	for (auto &pObj : m_ppNumbers)
@@ -300,11 +308,35 @@ void GameUIManager::update()
 	}*/
 }
 
+void GameUIManager::drawStageClearedMark(int a_pagination)
+{
+	if (m_ppGameUI[STAGE_CLEARED] && m_ppGameUI[STAGE_CLEARED]->m_isVisible)
+	{
+		for (int i = STAGE_SELECT_MAX_NUM, realStageNO = 0; i < STAGE_MAX_NUM; ++i, realStageNO = i - STAGE_SELECT_MAX_NUM) {
+			if (m_stageClearFlag[i] && /*(realStageNO / 12 == m_selectedStageNO / 12)*/a_pagination==m_stageSecectionPagination[i]/* && (realStageNO / 6 % 2 != a_pagination % 2)*/) {
+				m_ppGameUI[STAGE_CLEARED]->m_pos.x = m_ppGameUI[STAGE_CLEARED]->m_initPos.x /*+ realStageNO % 12 / 6 * SCREEN_WIDTH / 2*/;
+				if (realStageNO % 6 < 3) {
+					m_ppGameUI[STAGE_CLEARED]->m_pos.y = m_ppGameUI[STAGE_CLEARED]->m_initPos.y + realStageNO % 6 * 59.0f;
+				}
+				else {
+					m_ppGameUI[STAGE_CLEARED]->m_pos.y = m_ppGameUI[STAGE_CLEARED]->m_initPos.y + (realStageNO % 6 - 1) * 59.0f + 205.0f;
+				}
+				m_ppGameUI[STAGE_CLEARED]->draw();
+			}
+		}
+	}
+}
+
 void GameUIManager::draw()
 {
+	//drawStageClearedMark();
+	/*if (m_ppGameUI[STAGE_CLEARED] && m_ppGameUI[STAGE_CLEARED]->m_isVisible) {
+		m_ppGameUI[STAGE_CLEARED]->m_isVisible = false;
+	}*/
+	
 	for (auto &pObj : m_ppGameUI)
 	{
-		if (pObj && pObj->m_pSprData && pObj->m_isVisible)
+		if (pObj && pObj->m_pSprData && pObj->m_isVisible && pObj != m_ppGameUI[STAGE_CLEARED])
 		{
 			pObj->draw();
 			if (!pObj->m_isVisibleAlways)
@@ -325,8 +357,6 @@ void GameUIManager::draw()
 			}
 		}
 	}
-
-
 }
 
 void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble, SPRITE_DATA* a_pPlayerSprData, bool a_isRefect)
@@ -572,8 +602,9 @@ void GameUIManager::showScrollMode()
 	}
 }
 
-void GameUIManager::showStageSelected(int a_stageNO, bool a_doReset)
+void GameUIManager::showStageSelected(int a_selectedStageNO, bool a_doReset)
 {
+	m_selectedStageNO = a_selectedStageNO;
 	if (a_doReset)
 	{
 		m_ppGameUI[STAGE_SELECTED]->m_pos = m_ppGameUI[STAGE_SELECTED]->m_initPos;
@@ -582,7 +613,7 @@ void GameUIManager::showStageSelected(int a_stageNO, bool a_doReset)
 	}
 	m_ppGameUI[STAGE_SELECTED]->m_isVisible = true;
 	m_ppGameUI[STAGE_SELECTED]->m_alpha += 10;
-	if (a_stageNO % 12 < 6) {
+	if (a_selectedStageNO % 12 < 6) {
 		m_ppGameUI[STAGE_SELECTED]->m_custom.reflectX = true;
 		m_ppGameUI[STAGE_SELECTED]->m_setPos.x = m_ppGameUI[STAGE_SELECTED]->m_initPos.x;
 	}
@@ -591,12 +622,13 @@ void GameUIManager::showStageSelected(int a_stageNO, bool a_doReset)
 		m_ppGameUI[STAGE_SELECTED]->m_setPos.x = m_ppGameUI[STAGE_SELECTED]->m_initPos.x + SCREEN_WIDTH / 2.0f;
 	}
 
-	if (a_stageNO % 6 < 3){
-		m_ppGameUI[STAGE_SELECTED]->m_setPos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + a_stageNO % 6 * 60.0f;
+	if (a_selectedStageNO % 6 < 3){
+		m_ppGameUI[STAGE_SELECTED]->m_setPos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + a_selectedStageNO % 6 * 59.0f;
 	}
 	else {
-		m_ppGameUI[STAGE_SELECTED]->m_setPos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + (a_stageNO % 6 - 1) * 60.0f + 205.0f;
+		m_ppGameUI[STAGE_SELECTED]->m_setPos.y = m_ppGameUI[STAGE_SELECTED]->m_initPos.y + (a_selectedStageNO % 6 - 1) * 59.0f + 205.0f;
 	}
+
 	if (m_ppGameUI[STAGE_SELECTED]->m_pos.x < m_ppGameUI[STAGE_SELECTED]->m_setPos.x){
 		m_ppGameUI[STAGE_SELECTED]->m_pos.x += (m_ppGameUI[STAGE_SELECTED]->m_setPos.x - m_ppGameUI[STAGE_SELECTED]->m_pos.x) / 5;
 		if (m_ppGameUI[STAGE_SELECTED]->m_pos.x > m_ppGameUI[STAGE_SELECTED]->m_setPos.x) {

@@ -5,6 +5,7 @@
 #include "player.h"
 #include "paper.h"
 
+#include "game_ui.h"
 
 Paper::Paper(int a_paperNO, int a_pageWidth, int a_pageHeight, int a_paperDepth, UINTCOLOR a_materialColor)
 	:m_paperNO(a_paperNO), m_width(a_pageWidth), m_height(a_pageHeight), m_depth(a_paperDepth), m_materialColor(a_materialColor)
@@ -254,6 +255,9 @@ void Paper::drawFront()
 				m_pCurtainFront->m_alpha = m_pCurtainFront->m_setAlpha;
 			}
 		}
+
+		pGameUIManager->drawStageClearedMark(m_paginationFront);
+
 		m_pCurtainFront->draw();
 
 #ifdef DEBUG
@@ -309,6 +313,9 @@ void Paper::drawBack()
 				m_pCurtainBack->m_alpha = m_pCurtainBack->m_setAlpha;
 			}
 		}
+
+		pGameUIManager->drawStageClearedMark(m_paginationBack);
+
 		m_pCurtainBack->draw();
 
 #ifdef DEBUG
