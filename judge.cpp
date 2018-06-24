@@ -175,6 +175,7 @@ void judgeAll()
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_setPos = it.m_pos;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_initPos = it.m_initPos;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_isHitAble = false;
+							//pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_pos = it.m_pos;
 							it.m_isHitAble = false;
 							it.m_concentration = P_CONCENTRATION_MAX;
 							if (pPlayer->m_keyCounter == STAGE_KEY_NUM) {
