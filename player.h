@@ -12,7 +12,7 @@
 
 #define GRIVATY				(0.20f)
 #define P_SPEED_Y_MAX		(10)
-#define P_JUMP_POWER		(-2)
+#define P_JUMP_POWER		(-1)
 
 #define P_JUMP_MAX_NUM	(1)
 
