@@ -12,7 +12,7 @@ private:
 	int m_selectedStageNO;
 
 	bool m_isPlayerOnLeftPage = true;
-	bool m_stageClearFlag[30];
+	bool m_stageClearFlag[STAGE_LIMITTED_NUM];
 	bool m_isPaused = false;
 	int m_selectionNO;
 	

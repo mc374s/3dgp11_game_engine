@@ -146,6 +146,7 @@ int e_initLife[] = {
 
 const int STAGE_SELECT_MAX_NUM = 2;
 
+// Be sure that STAGE_MAX_NUM is lowwer than STAGE_LIMITTED_NUM
 const int STAGE_MAX_NUM = ARRAYSIZE(e_startPagination)/*sizeof(e_startPagination) / sizeof(int)*/;
 
 

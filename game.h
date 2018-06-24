@@ -28,6 +28,7 @@
 #define P_CONCENTRATION_MAX				(10.0f)
 #define P_TRANSFER_CONCENTRATION_MAX	(1.0f)
 
+#define STAGE_LIMITTED_NUM	(30)
 extern const int STAGE_SELECT_MAX_NUM;
 extern int START_PAGINATION;
 extern int STAGE_HEIGHT;
