@@ -54,7 +54,7 @@ STAGE_DATA stage06_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(PW / 2,545,1),		true, v3(11,305,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(155,850,1),		true, v3(11,189,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(465,850,1),		true, v3(11,189,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::RECOVERY,				    M_DRAW::UP,		v3(570,850 - 64,0),	true, v3(64,64,0), 2),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::RECOVERY,				    M_DRAW::UP,		v3(570,850 - 64,0),	true, v3(71,64,0), 2),
 
 
 

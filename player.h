@@ -89,6 +89,7 @@ public:
 	void normalMove();
 	void restartMove();
 	void syncKeyPos();
+	void setScrollKeys(Vector3 a_speed);
 
 };
 

@@ -23,8 +23,6 @@ enum TEX_NO {
 	TEX_COVER_FRONT,
 	TEX_COVER_BACK,
 
-	TEX_KEY,
-	TEX_DOOR,
 	TEX_BORDER_INNER,
 	TEX_PASSABLE,
 	TEX_RECOVERY,
@@ -114,8 +112,6 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_COVER_FRONT,				"./DATA/Images/Book/cover_front.png" },
 	{ TEX_COVER_BACK,				"./DATA/Images/Book/cover_back.png" },
 
-	{ TEX_KEY,						"./DATA/Images/Map/key.png" },
-	{ TEX_DOOR,						"./DATA/Images/Map/door.png" },
 	{ TEX_BORDER_INNER,				"./DATA/Images/Map/border_inner.png" },
 	{ TEX_PASSABLE,					"./DATA/Images/Map/passable.png" },
 	{ TEX_RECOVERY,					"./DATA/Images/Map/recovery.png" },
@@ -335,18 +331,12 @@ SPRITE_LEFTTOP e_pAnimeRecovery[] =
 };
 
 
-//SPRITE_LEFTTOP e_sprDoor = SPRITE_LEFTTOP(TEX_DOOR, 0, 0, 70, 76);// M_TYPE::DOOR_1_1
-//SPRITE_LEFTTOP e_sprKey = SPRITE_LEFTTOP(TEX_KEY, 0, 0, 70, 58);// M_TYPE::KEY_1_1
-SPRITE_LEFTTOP e_sprDoor= SPRITE_LEFTTOP(TEX_GOAL_SET, 0, 0, 124, 111);// M_TYPE::DOOR_1_1
-SPRITE_LEFTTOP e_sprKey	= SPRITE_LEFTTOP(TEX_GOAL_SET, 0, 111, 124, 111);// M_TYPE::KEY_1_1
-
-
 SPRITE_LEFTTOP e_pSprItem[] =
 {
 	SPRITE_LEFTTOP(TEX_BORDER_INNER, 0, 0, 125, 17),	// M_TYPE::BORDER_INNER
 	e_pAnimeRecovery[0],								// M_TYPE::PASSABLE_UP
 	e_pAnimeRecovery[0],								// M_TYPE::PASSABLE_DOWN
-	SPRITE_LEFTTOP(TEX_RECOVERY,	 0, 0,	64, 64),	// M_TYPE::RECOVERY
+	SPRITE_LEFTTOP(TEX_RECOVERY,	 0, 0,	71, 64),	// M_TYPE::RECOVERY
 
 	SPRITE_LEFTTOP(TEX_GOAL_SET, 100, 0, 111, 99),		// M_TYPE::KEY_1_1:
 	SPRITE_LEFTTOP(TEX_GOAL_SET, 100, 99, 111, 99),		// M_TYPE::DOOR_1_1:

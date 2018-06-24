@@ -164,7 +164,7 @@ int e_stageKeyNum[] = {
 	1,//STAGE 3-3
 
 	1,//まえがきダミー
-	1,//STAGE 4-1
+	5,//STAGE 4-1
 	1,//STAGE 4-2
 	1,//STAGE 4-3
 
@@ -259,7 +259,7 @@ STAGE_DATA stage00_setData[] = {
 														 
 	//ページ２											 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 0] + 1, 0, M_TYPE::BORDER_INNER,			M_DRAW::UP,		v3(0,PH / 2,1),		true, v3(PW ,11,0), 10),
-	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1] + 1, 0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(100,PH / 2 - 64,0),	true, v3(64,64,0), 2),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1] + 1, 0, M_TYPE::RECOVERY,				M_DRAW::UP,		v3(100,PH / 2 - 64,0),	true, v3(71,64,0), 2),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 0] + 1, 0, M_TYPE::DOOR_1_1,					M_DRAW::UP,		v3(100,PH / 2 - 99,0),	true, v3(111, 99, 0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 0] + 1, 0, M_TYPE::KEY_2_1,					M_DRAW::UP,		v3(250,PH / 2 - 131,0),	true, v3(117,131,0), 10),

@@ -399,5 +399,4 @@ void Paper::setScroll(Vector3 a_speed, int a_scrollNO, bool a_isRestart)
 			it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
 		}
 	}
-
 }
