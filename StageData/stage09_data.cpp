@@ -27,6 +27,10 @@ STAGE_DATA stage09_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(50,480 - 99,0),	true, v3(111,99,0), 10),
 
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(100,1500 - 99,0),	true, v3(111, 99, 0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::DOOR_2_1,					M_DRAW::UP,		v3(250,1500 - 131,0),	true, v3(117,131,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::KEY_3_1,						M_DRAW::UP,		v3(400,1500 - 133,0),	true, v3(101,133,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::DOOR_3_2,					M_DRAW::UP,		v3(550,1500 - 133,0),	true, v3(101,133,0), 10),
 
 
 
@@ -53,6 +57,13 @@ STAGE_DATA stage09_setData[] = {
 
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1,0,M_TYPE::DOOR_1_1,					M_DRAW::UP,		v3(550,1500 - 99,0),	true, v3(111,99,0), 8),
+
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::DOOR_1_1,				M_DRAW::UP,		v3(100,1500 - 99,0),	true, v3(111, 99, 0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::KEY_2_1,					M_DRAW::UP,		v3(250,1500 - 131,0),	true, v3(117,131,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::DOOR_3_1,				M_DRAW::UP,		v3(400,1500 - 133,0),	true, v3(101,133,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::KEY_3_2,					M_DRAW::UP,		v3(550,1500 - 133,0),	true, v3(101,133,0), 10),
+
+
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1,0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(PW/2,850,0),		true, v3(PW/2 ,550,0), 3),
 

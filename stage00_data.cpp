@@ -164,7 +164,7 @@ int e_stageKeyNum[] = {
 	1,//STAGE 3-3
 
 	1,//まえがきダミー
-	1,//STAGE 4-1
+	5,//STAGE 4-1
 	1,//STAGE 4-2
 	1,//STAGE 4-3
 

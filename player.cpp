@@ -100,6 +100,7 @@ void Player::restart()
 	{
 		m_pKeyObj[m_keyCounter - 1].m_alpha = 0;
 		m_pKeyObj[m_keyCounter - 1].m_pos = m_pKeyObj[m_keyCounter - 1].m_setPos = m_pos;
+		m_pKeyObj[m_keyCounter - 1].m_liveInPagination = m_liveInPagination;
 	}
 	m_speed = { 0,-0.1f,0 };
 	m_speedAcc = { P_SPEED_AX,P_JUMP_POWER,0 };
@@ -666,6 +667,26 @@ void Player::syncKeyPos()
 		}
 	}
 
+}
+
+void Player::setScrollKeys(Vector3 a_speed)
+{
+	for (OBJ2D &it : pPlayerManager->m_pPlayer->m_pKeyObj)
+	{
+		if (!it.m_isHitAble)
+		{
+			it.m_pos.y -= a_speed.y;
+			if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y)
+			{
+				it.m_pos.y = it.m_initPos.y;
+			}
+			if (a_speed.y > 0 && it.m_pos.y < it.m_initPos.y - STAGE_HEIGHT)
+			{
+				it.m_pos.y = it.m_initPos.y - STAGE_HEIGHT;
+			}
+			it.m_setPos.y = it.m_pos.y;
+		}
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////
