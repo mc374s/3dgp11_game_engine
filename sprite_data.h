@@ -25,8 +25,6 @@ extern SPRITE_BOTTOM e_pAnimePlayerJump[];
 extern SPRITE_BOTTOM e_sprEyes;
 
 // マップ関係、アイテム
-extern SPRITE_LEFTTOP e_sprKey;
-extern SPRITE_LEFTTOP e_sprDoor;
 extern SPRITE_LEFTTOP e_pSprItem[];
 extern SPRITE_LEFTTOP e_pAnimeRecovery[];
 

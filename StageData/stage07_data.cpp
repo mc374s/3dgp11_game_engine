@@ -11,7 +11,7 @@ STAGE_DATA stage07_setData[] = {
 
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 7], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(0,3500 - 8,1),		true, v3(PW,11,0), 0, recoveryControl),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 7], 0, M_TYPE::RECOVERY,				    M_DRAW::UP,		v3(50,2500 - 64,0),	true, v3(64,64,0), 2),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 7], 0, M_TYPE::RECOVERY,				    M_DRAW::UP,		v3(50,2500 - 64,0),	true, v3(71,64,0), 2),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 7],0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(0,0,0),		true, v3(PW ,3500,0), 3),
 
