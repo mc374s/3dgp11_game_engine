@@ -155,7 +155,7 @@ void SceneMain::update()
 				if (m_selectedStageNO < (m_selectedStageNO + 1) / 6 * 6) {
 					m_selectedStageNO = (m_selectedStageNO + 1) / 6 * 6 + 5;
 				}
-				if (m_selectedStageNO % 11 == 0 && m_stageNO > 0) {
+				/*f (m_selectedStageNO % 11 == 0 && m_stageNO > 0) {
 					--m_stageNO;
 					pStageManager->init(m_stageNO); 
 					pBook->m_pfMove = &Book::turnPages;
@@ -163,7 +163,7 @@ void SceneMain::update()
 					pBook->initStartPaper(START_PAGINATION / 2);
 					m_timer = 0;
 					break;
-				}
+				}*/
 			}
 			if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) {
 				++m_selectedStageNO;
@@ -178,7 +178,7 @@ void SceneMain::update()
 					m_step = STEP::INIT + 3;
 					break;*/
 				}
-				if (m_selectedStageNO != 0 && m_selectedStageNO % 12 == 0 && m_stageNO < STAGE_SELECT_MAX_NUM) {
+				/*if (m_selectedStageNO != 0 && m_selectedStageNO % 12 == 0 && m_stageNO < STAGE_SELECT_MAX_NUM) {
 					++m_stageNO;
 					pStageManager->init(m_stageNO);
 					pBook->m_pfMove = &Book::turnPages;
@@ -186,7 +186,7 @@ void SceneMain::update()
 					pBook->initStartPaper(START_PAGINATION / 2);
 					m_timer = 0;
 					break;
-				}
+				}*/
 			}
 			if (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED) {
 				if (m_selectedStageNO < 12) {
