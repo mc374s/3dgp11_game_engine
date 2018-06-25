@@ -91,4 +91,8 @@ extern SPRITE_BOTTOM e_sprEffStampShadow;
 
 extern SPRITE_BOTTOM e_pAnimeEffStar[];
 extern SPRITE_CENTER e_pAnimeEffCloseBook[];
+
+extern SPRITE_CENTER e_pAnimeEffGageOnBlurArea[];
+
+
 #endif // !_SPRDATA_H_

@@ -461,15 +461,53 @@ void effectOnBlurArea(Effect* a_pObj)
 	switch (a_pObj->m_step)
 	{
 	case STEP::INIT:
-		a_pObj->m_pAnimeData = e_pAnimeEffOnBlurArea;
-		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
+		//a_pObj->m_pAnimeData = e_pAnimeEffOnBlurArea;
+		a_pObj->m_pSprData = &e_pAnimeEffOnBlurArea[0];
 		a_pObj->m_pfMove = effectOnBlurArea;
+		a_pObj->m_custom.centRotate = false;
+		a_pObj->m_custom.centY = a_pObj->m_pos.y - 45.0f;
+		a_pObj->m_custom.centX = a_pObj->m_pos.x;
+		a_pObj->m_custom.scaleMode = SCALE_MODE::CENTER;
 		a_pObj->m_timer = 0;
-		a_pObj->m_alpha = 60;
+		a_pObj->m_alpha = 255;
+		//a_pObj->m_pos.y += 45.0f;
 		a_pObj->m_initPos = a_pObj->m_pos;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
+		a_pObj->m_alpha -= 2;
+		a_pObj->m_custom.angle -= 3;
+		//a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY += 0.04;
+		if (a_pObj->m_alpha <= 0) {
+			a_pObj->clear();
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		break;
+	default:
+		break;
+	}
+}
+
+void effectGageOnBlurArea(Effect* a_pObj) 
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pAnimeData = e_pAnimeEffGageOnBlurArea;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
+		a_pObj->m_pfMove = effectGageOnBlurArea;
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		//a_pObj->m_alpha = 180;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		a_pObj->m_alpha -= 2;
 		if (a_pObj->m_animeCounter > 0) {
 			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
@@ -729,6 +767,10 @@ void effectStar(Effect* a_pObj)
 		a_pObj->m_pfMove = effectStar;
 		a_pObj->m_timer = 0;
 		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX =/* rand() % 30 / 100.0f +*/ 0.4f;
+		a_pObj->m_custom.scaleMode = SCALE_MODE::CENTER;
+		a_pObj->m_custom.centRotate = false;
+		a_pObj->m_custom.centX = a_pObj->m_pos.x;
+		a_pObj->m_custom.centY = a_pObj->m_pos.y - 55.0f;
 		a_pObj->m_initPos = a_pObj->m_pos;
 		a_pObj->m_speedAcc.x = rand() % 10 / 100.0f - 0.05;
 		a_pObj->m_speedAcc.y = -rand() % 10 / 100.0f;
@@ -737,6 +779,7 @@ void effectStar(Effect* a_pObj)
 	case STEP::BEGIN:
 		//a_pObj->m_speed += a_pObj->m_speedAcc;
 		//a_pObj->m_pos += a_pObj->m_speed;
+		//a_pObj->m_custom.angle += 4;
 		if (a_pObj->m_animeCounter > 0) {
 			a_pObj->clear();
 			a_pObj->m_step = STEP::END;

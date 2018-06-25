@@ -234,8 +234,8 @@ void SceneMain::update()
 		}
 
 		// 強制正規化
-		if (m_selectedStageNO > STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4) {
-			m_selectedStageNO = STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4;
+		if (m_selectedStageNO > STAGE_MAX_NUM-1 - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4) {
+			m_selectedStageNO = STAGE_MAX_NUM - 1 - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4;
 		}
 		m_selectedStageNO = (pBook->m_currentPaperNO - 1) * 12 + m_selectedStageNO % 12;
 		turnPagesController();

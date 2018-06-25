@@ -62,6 +62,7 @@ enum TEX_NO {
 	TEX_EFF_STAMP_AND_SHADOW,
 	TEX_EFF_STAR,
 	TEX_EFF_CLOSE_BOOK,
+	TEX_EFF_GAGE_ON_BLUR_AREA,
 
 	TEX_GAME_RULE_LEFT,
 	TEX_GAME_RULE_RIGHT,
@@ -151,6 +152,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_EFF_STAMP_AND_SHADOW,		"./DATA/Images/Effect/stamp_and_shadow.png" },
 	{ TEX_EFF_STAR,					"./DATA/Images/Effect/star.png" },
 	{ TEX_EFF_CLOSE_BOOK,			"./DATA/Images/Effect/close_book.png" },
+	{ TEX_EFF_GAGE_ON_BLUR_AREA,	"./DATA/Images/Effect/gage_effect.png" },
 
 	{ TEX_GAME_RULE_LEFT,			"./DATA/Images/Book/game_rule_left.png" },
 	{ TEX_GAME_RULE_RIGHT,			"./DATA/Images/Book/game_rule_right.png" },
@@ -575,10 +577,10 @@ SPRITE_BOTTOM e_pAnimeEffRunning[] = {
 };
 
 SPRITE_BOTTOM e_pAnimeEffOnBlurArea[] = {
-	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 85 * 0, 0, 85, 80, 4),
-	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 85 * 1, 0, 85, 80, 4),
-	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 85 * 2, 0, 85, 80, 4),
-	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 85 * 3, 0, 85, 80, 4),
+	SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 0, 0, 28, 6),
+	//SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 85 * 1, 0, 85, 80, 4),
+	//SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 85 * 2, 0, 85, 80, 4),
+	//SPRITE_BOTTOM(TEX_EFF_ON_BLUR_AREA, 85 * 3, 0, 85, 80, 4),
 	SPRITE_BOTTOM(-1, 0, 0, 0, 0),
 };
 
@@ -601,5 +603,14 @@ SPRITE_CENTER e_pAnimeEffCloseBook[] = {
 	SPRITE_CENTER(-1, 0, 0, 0, 0),
 };
 
+
+SPRITE_CENTER e_pAnimeEffGageOnBlurArea[] = {
+	SPRITE_CENTER(TEX_EFF_GAGE_ON_BLUR_AREA, 382 * 0, 0, 382, 68, 6),
+	SPRITE_CENTER(TEX_EFF_GAGE_ON_BLUR_AREA, 382 * 1, 0, 382, 68, 8),
+	SPRITE_CENTER(TEX_EFF_GAGE_ON_BLUR_AREA, 382 * 2, 0, 382, 68, 10),
+	SPRITE_CENTER(TEX_EFF_GAGE_ON_BLUR_AREA, 382 * 3, 0, 382, 68, 8),
+	SPRITE_CENTER(TEX_EFF_GAGE_ON_BLUR_AREA, 382 * 4, 0, 382, 68, 6),
+	SPRITE_CENTER(-1, 0, 0, 0, 0),
+};
 
 //******************************************************************************

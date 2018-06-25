@@ -85,6 +85,8 @@ void effectStampShadowMove(Effect* a_pObj);
 void effectStar(Effect* a_pObj);
 void effectCloseBook(Effect* a_pObj);
 
+void effectGageOnBlurArea(Effect* a_pObj);
+
 //void effectCurtain(Effect* a_pObj);
 
 #endif // !_EFFECT_H_

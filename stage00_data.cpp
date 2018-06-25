@@ -66,7 +66,7 @@ int e_startPagination[] = {
 	91,//5章まえがき
 	97,//STAGE 5-1
 	103,//STAGE 5-2
-	109,//STAGE 5-3
+	//109,//STAGE 5-3
 
 	//129-4,
 	//135-4,
@@ -224,7 +224,7 @@ STAGE_DATA* stageSetData[] = {
 	stage_intro05_setData,
 	stage12_setData,//STAGE 5-1
 	stage13_setData,//STAGE 5-2
-	stage14_setData,//STAGE 5-3
+	//stage14_setData,//STAGE 5-3
 	//stage15_setData,
 	//stage16_setData,
 	//stage17_setData,
