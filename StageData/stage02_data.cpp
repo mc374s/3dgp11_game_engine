@@ -25,11 +25,11 @@ STAGE_DATA stage02_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2], 0, M_TYPE::FOREST_8,				M_DRAW::UP,		v3(430,840 - 128,0),	false, v3(115,128,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2],0, M_TYPE::FOREST_1,				M_DRAW::UP,		v3(450,840 - 36,0),	false, v3(44,113,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2],0, M_TYPE::FOREST_8,				M_DRAW::UP,		v3(470,840 - 128,0),	false, v3(44,113,0), 10),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2],0, M_TYPE::FOREST_8,				M_DRAW::UP,		v3(470,840 - 128,0),	false, v3(44,113,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2],0, M_TYPE::FOREST_9,				M_DRAW::UP,		v3(350,250 - 113,0),	false, v3(44,113,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2],0, M_TYPE::FOREST_10,				M_DRAW::UP,		v3(250,250 - 113,0),	false, v3(44,113,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2],0, M_TYPE::FOREST_11,				M_DRAW::UP,		v3(480,250 - 113,0),	false, v3(44,113,0), 10),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 1 + 2],0, M_TYPE::FOREST_11,				M_DRAW::UP,		v3(480,250 - 113,0),	false, v3(44,113,0), 10),
 
 
 	//ページ２

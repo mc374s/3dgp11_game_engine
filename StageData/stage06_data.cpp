@@ -35,7 +35,7 @@ STAGE_DATA stage06_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6], 0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(470,230,0),		true, v3(145,210,0), 3),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6], 0, M_TYPE::HIGH_CONCENTRATION,		M_DRAW::UP,		v3(PW / 2,850,0),		true, v3(PW / 2,189,0), 3),
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6], 0, M_TYPE::KEY_3_1,					M_DRAW::UP,		v3(20,200 - 133,0),	true, v3(101, 133,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6], 0, M_TYPE::KEY_3_1,					M_DRAW::UP,		v3(20,180 - 99,0),	true, v3(101, 133,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] , 0, M_TYPE::GRAVE_10,				M_DRAW::MIRROR,		v3(250,440 - 84,0),	false, v3(76,84,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] , 0, M_TYPE::GRAVE_11,				M_DRAW::UP,		v3(80,660 - 153,0),	false, v3(261,153,0), 10),
@@ -54,7 +54,7 @@ STAGE_DATA stage06_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(PW / 2,545,1),		true, v3(11,305,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(155,850,1),		true, v3(11,189,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(465,850,1),		true, v3(11,189,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::RECOVERY,				    M_DRAW::UP,		v3(570,850 - 64,0),	true, v3(71,64,0), 2),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 3 + 6] + 1, 0, M_TYPE::RECOVERY,				    M_DRAW::UP,		v3(550,850 - 64,0),	true, v3(71,64,0), 2),
 
 
 
