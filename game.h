@@ -38,6 +38,8 @@ extern int P_LIFE_MAX;
 
 extern int STAGE_KEY_NUM;
 
+extern int STAGE_LOCKED;
+
 // TODO : Systemly Learn how Header.h and Source.cpp work
 
 

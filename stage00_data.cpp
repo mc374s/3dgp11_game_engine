@@ -66,7 +66,7 @@ int e_startPagination[] = {
 	91,//5章まえがき
 	97,//STAGE 5-1
 	103,//STAGE 5-2
-	//109,//STAGE 5-3
+	109,//STAGE 5-3
 
 	//129-4,
 	//135-4,
@@ -182,8 +182,11 @@ int e_stageKeyNum[] = {
 
 const int STAGE_SELECT_MAX_NUM = 2;
 
+int STAGE_LOCKED = 0;
+
 // Be sure that STAGE_MAX_NUM is lowwer than STAGE_LIMITTED_NUM
-const int STAGE_MAX_NUM = ARRAYSIZE(e_startPagination)/*sizeof(e_startPagination) / sizeof(int)*/;
+const int STAGE_MAX_NUM = ARRAYSIZE(e_startPagination)/*sizeof(e_startPagination) / sizeof(int)*/ - STAGE_LOCKED;
+
 
 
 int START_PAGINATION = e_startPagination[0];
@@ -224,7 +227,7 @@ STAGE_DATA* stageSetData[] = {
 	stage_intro05_setData,
 	stage12_setData,//STAGE 5-1
 	stage13_setData,//STAGE 5-2
-	//stage14_setData,//STAGE 5-3
+	stage14_setData,//STAGE 5-3
 	//stage15_setData,
 	//stage16_setData,
 	//stage17_setData,
