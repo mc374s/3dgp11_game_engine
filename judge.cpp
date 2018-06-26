@@ -91,7 +91,7 @@ void judgeAll()
 						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
 						MFAudioPlay(SE_SPLASH);
 					}
-					else if (pPlayer->m_pos.y - pPlayer->m_speed.y < it.m_pos.y) {
+					else if (pPlayer->m_pos.y - pPlayer->m_speed.y < it.m_pos.y + 0.1f) {
 						it.hitAdjust(pPlayer);
 
 					}

@@ -638,6 +638,7 @@ void SceneMain::turnPagesController()
 
 void SceneMain::viewMode()
 {
+
 	m_timer++;
 	if (m_timer > 20)
 	{
@@ -691,6 +692,7 @@ void SceneMain::viewMode()
 
 void SceneMain::endViewMode()
 {
+	judgeAll();
 	if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y)
 	{
 		pBook->setScroll(Vector3(0, 30, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);
