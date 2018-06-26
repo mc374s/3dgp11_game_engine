@@ -101,6 +101,12 @@ void SceneMain::update()
 		{
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(0.0f, 0.0f, 0.0f), 1, effectCircleMove);
 		}
+
+		if (m_timer % 300 == 1)
+		{/*
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(0.0f, 0.0f, 0.0f), 1, effectBookAura)->m_custom3d.position
+				= XMFLOAT3(pBook->m_coverWidth / 2, pBook->m_coverHeight / 2, 0.0f);*/
+		}
 		pBook->update();
 		pStageManager->update();
 		if (KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
@@ -691,6 +697,7 @@ void SceneMain::viewMode()
 
 void SceneMain::endViewMode()
 {
+	judgeAll();
 	if (pPlayerManager->m_pPlayer->m_pos.y > pPlayerManager->m_pPlayer->m_setPos.y)
 	{
 		pBook->setScroll(Vector3(0, 30, 0), pPlayerManager->m_pPlayer->m_liveInPagination, true);

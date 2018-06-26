@@ -94,5 +94,7 @@ extern SPRITE_CENTER e_pAnimeEffCloseBook[];
 
 extern SPRITE_CENTER e_pAnimeEffGageOnBlurArea[];
 
+extern SPRITE_CENTER e_sprEffBookAura;
+
 
 #endif // !_SPRDATA_H_

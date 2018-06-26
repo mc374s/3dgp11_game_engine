@@ -87,6 +87,8 @@ void effectCloseBook(Effect* a_pObj);
 
 void effectGageOnBlurArea(Effect* a_pObj);
 
+void effectBookAura(Effect* a_pObj);
+
 //void effectCurtain(Effect* a_pObj);
 
 #endif // !_EFFECT_H_

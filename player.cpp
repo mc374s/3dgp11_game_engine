@@ -474,9 +474,10 @@ void Player::restartMove()
 				m_scrolledDistance.y = 0;
 				--m_life;
 				if (m_life >= 0) {
+					m_pos = INIT_POS;
 					//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
-					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectStampShadowMove);
-					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectStampMove);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, START_PAGINATION, effectStampShadowMove);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, START_PAGINATION, effectStampMove);
 				}
 				else {
 					m_mode = P_MODE::DEAD;
@@ -489,7 +490,7 @@ void Player::restartMove()
 	case STEP::END:
 		if (pEffectManager->isStampDown) {
 			restart();
-
+			pEffectManager->isStampDown = false;
 			//m_speed.y = 0;
 			//m_isOnScrollArea = false;
 
@@ -529,7 +530,7 @@ void Player::blur()
 		m_hitObj.m_pos = m_pos - randAdjust;
 		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
 		m_hitObj.m_custom.angle = rand() % 180;
-		m_hitObj.m_alpha = rand() % 5 + 10;
+		m_hitObj.m_alpha = rand() % 5 + 20;
 		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
