@@ -93,7 +93,6 @@ void judgeAll()
 					}
 					else if (pPlayer->m_pos.y - pPlayer->m_speed.y < it.m_pos.y + 0.1f) {
 						it.hitAdjust(pPlayer);
-
 					}
 				}
 
@@ -110,7 +109,6 @@ void judgeAll()
 					}
 					else if ((pPlayer->m_pos.y - pPlayer->m_size.y - pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)) {
 						it.hitAdjust(pPlayer);
-
 					}
 				}
 

@@ -101,6 +101,12 @@ void SceneMain::update()
 		{
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(0.0f, 0.0f, 0.0f), 1, effectCircleMove);
 		}
+
+		if (m_timer % 300 == 1)
+		{/*
+			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(0.0f, 0.0f, 0.0f), 1, effectBookAura)->m_custom3d.position
+				= XMFLOAT3(pBook->m_coverWidth / 2, pBook->m_coverHeight / 2, 0.0f);*/
+		}
 		pBook->update();
 		pStageManager->update();
 		if (KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED)
@@ -234,8 +240,8 @@ void SceneMain::update()
 		}
 
 		// 強制正規化
-		if (m_selectedStageNO > STAGE_MAX_NUM-1 - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4) {
-			m_selectedStageNO = STAGE_MAX_NUM - 1 - STAGE_SELECT_MAX_NUM - 1 - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4;
+		if (m_selectedStageNO > STAGE_MAX_NUM-1 - STAGE_SELECT_MAX_NUM - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4) {
+			m_selectedStageNO = STAGE_MAX_NUM - 1 - STAGE_SELECT_MAX_NUM - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4;
 		}
 		m_selectedStageNO = (pBook->m_currentPaperNO - 1) * 12 + m_selectedStageNO % 12;
 		turnPagesController();

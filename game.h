@@ -9,7 +9,7 @@
 #include "./3dgp/template.h"
 #include "./3dgp/scene.h"
 
-//#define DEBUG
+#define DEBUG
 
 #include <vector>
 
@@ -37,6 +37,8 @@ extern const int STAGE_MAX_NUM;
 extern int P_LIFE_MAX;
 
 extern int STAGE_KEY_NUM;
+
+extern int STAGE_LOCKED;
 
 // TODO : Systemly Learn how Header.h and Source.cpp work
 

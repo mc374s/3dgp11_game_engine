@@ -63,6 +63,7 @@ enum TEX_NO {
 	TEX_EFF_STAR,
 	TEX_EFF_CLOSE_BOOK,
 	TEX_EFF_GAGE_ON_BLUR_AREA,
+	TEX_EFF_BOOK_AURA,
 
 	TEX_GAME_RULE_LEFT,
 	TEX_GAME_RULE_RIGHT,
@@ -153,6 +154,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_EFF_STAR,					"./DATA/Images/Effect/star.png" },
 	{ TEX_EFF_CLOSE_BOOK,			"./DATA/Images/Effect/close_book.png" },
 	{ TEX_EFF_GAGE_ON_BLUR_AREA,	"./DATA/Images/Effect/gage_effect.png" },
+	{ TEX_EFF_BOOK_AURA,			"./DATA/Images/Effect/book_aura.png", true },
 
 	{ TEX_GAME_RULE_LEFT,			"./DATA/Images/Book/game_rule_left.png" },
 	{ TEX_GAME_RULE_RIGHT,			"./DATA/Images/Book/game_rule_right.png" },
@@ -612,5 +614,7 @@ SPRITE_CENTER e_pAnimeEffGageOnBlurArea[] = {
 	SPRITE_CENTER(TEX_EFF_GAGE_ON_BLUR_AREA, 382 * 4, 0, 382, 68, 6),
 	SPRITE_CENTER(-1, 0, 0, 0, 0),
 };
+
+SPRITE_CENTER e_sprEffBookAura = SPRITE_CENTER(TEX_EFF_BOOK_AURA, 0, 0, 686, 766);
 
 //******************************************************************************
