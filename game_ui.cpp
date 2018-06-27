@@ -151,13 +151,13 @@ void GameUIManager::init()
 	m_ppGameUI[A_LEFT_PLAYER]->m_isVisibleAlways = false;
 	m_ppGameUI[A_LEFT_PLAYER]->m_isVisible = false;
 	m_ppGameUI[A_LEFT_PLAYER]->m_pos = { SCREEN_WIDTH / 2 - 350,SCREEN_HEIGHT / 2 + 200,1 };
-	m_ppGameUI[A_LEFT_PLAYER]->m_size = { m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->width,m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->height,0 };
+	//m_ppGameUI[A_LEFT_PLAYER]->m_size = { m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->width,m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->height,0 };
 	m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleMode = SCALE_MODE::BOTTOMCENTER;
-	m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleX = m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleY = 2.0f;
+	m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleX = m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleY = 1.2f;
 
 	*m_ppGameUI[A_RIGHT_PLAYER] = *m_ppGameUI[A_LEFT_PLAYER];
 	m_ppGameUI[A_RIGHT_PLAYER]->m_pos.x = SCREEN_WIDTH / 2 + 350;
-	m_ppGameUI[A_RIGHT_PLAYER]->m_size= { m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->width,m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->height,0 };
+	//m_ppGameUI[A_RIGHT_PLAYER]->m_size= { m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->width,m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->height,0 };
 	m_ppGameUI[A_LEFT_PLAYER]->m_custom.reflectX = true;
 
 	// UI for Player Concentration Gage
@@ -369,6 +369,8 @@ void GameUIManager::draw()
 
 void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble, SPRITE_DATA* a_pPlayerSprData, bool a_isRefect)
 {
+	static SPRITE_DATA* pPlayerSprData = nullptr;
+
 	if (m_ppGameUI[A_LEFT_DIVISION])
 	{
 
@@ -381,9 +383,25 @@ void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_tra
 
 		m_ppGameUI[A_LEFT_PLAYER]->m_isVisible = true;
 		m_ppGameUI[A_RIGHT_PLAYER]->m_isVisible = true;
-		if (a_pPlayerSprData){
-			m_ppGameUI[A_LEFT_PLAYER]->m_pSprData = m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData = a_pPlayerSprData;
-			m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleX = m_ppGameUI[A_RIGHT_PLAYER]->m_custom.scaleX = m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleY = m_ppGameUI[A_RIGHT_PLAYER]->m_custom.scaleY = 6.0f;
+		if (a_pPlayerSprData && pPlayerSprData!= a_pPlayerSprData){
+			//*(m_ppGameUI[A_LEFT_PLAYER]->m_pSprData) = *(m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData) = (*a_pPlayerSprData);
+			pPlayerSprData = a_pPlayerSprData;
+			//m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->texNum = 8;
+			m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->height	= a_pPlayerSprData->height * 6;
+			m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->width	= a_pPlayerSprData->width * 6;
+			m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->top		= a_pPlayerSprData->top * 6;
+			m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->left		= a_pPlayerSprData->left * 6;
+			m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->ofsX		= a_pPlayerSprData->ofsX * 6;
+			m_ppGameUI[A_LEFT_PLAYER]->m_pSprData->ofsY		= a_pPlayerSprData->ofsY * 6; 
+			//m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->texNum = 8;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->height = a_pPlayerSprData->height * 6;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->width = a_pPlayerSprData->width * 6;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->top = a_pPlayerSprData->top * 6;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->left = a_pPlayerSprData->left * 6;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->ofsX = a_pPlayerSprData->ofsX * 6;
+			m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->ofsY = a_pPlayerSprData->ofsY * 6;
+			//*(m_ppGameUI[A_LEFT_PLAYER]->m_pSprData) = *(m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData);
+			//m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleX = m_ppGameUI[A_RIGHT_PLAYER]->m_custom.scaleX = m_ppGameUI[A_LEFT_PLAYER]->m_custom.scaleY = m_ppGameUI[A_RIGHT_PLAYER]->m_custom.scaleY = 6.0f;
 		}
 		else {
 
@@ -500,7 +518,8 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
 		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[PAUSE_PANEL]->m_initPos.x - 208;
 		m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_PANEL]->m_initPos.x - 208;
-		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 52 + a_slelectedNO * 90.0f;
+		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 52 + a_slelectedNO * 90.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 74 + a_slelectedNO * 60.0f;
 	}
 
 	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
@@ -569,11 +588,13 @@ void GameUIManager::showRetryPanel(int a_slelectedNO)
 	}
 }
 
-void GameUIManager::showHelpButton()
+void GameUIManager::showHelpButton(bool a_showHelp)
 {
-	m_ppGameUI[HELP]->m_isVisible = false;
-	m_ppGameUI[HELP_BUTTON]->m_isVisible = true;
-	if (KEY_BOARD.Q || GAME_PAD.IsLeftShoulderPressed()) {
+	if (a_showHelp) {
+		m_ppGameUI[HELP]->m_isVisible = false;
+		m_ppGameUI[HELP_BUTTON]->m_isVisible = true;
+	}
+	if ((KEY_BOARD.Q || GAME_PAD.IsLeftShoulderPressed()) || a_showHelp) {
 		m_ppGameUI[HELP]->m_isVisible = true;
 		m_ppGameUI[HELP_BUTTON]->m_isVisible = false;
 	}

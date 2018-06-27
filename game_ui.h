@@ -65,6 +65,8 @@ enum NUMS_NO
 enum PAUSED_SELECTION
 {
 	TO_GAME,
+	TO_RETRY_PAUSE,
+	TO_HELP_PAUSE,
 	TO_TITLE_PAUSE,
 	MAX_PAUSED_SELECTION_NUM,
 };
@@ -125,7 +127,7 @@ public:
 	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged = false, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
 	void showRetryPanel(int a_selectedNO = 0);
-	void showHelpButton();
+	void showHelpButton(bool a_showHelp = false);
 	void showXButton();
 	void showScrollMode();
 	void showStageSelected(int a_selectedStageNO = 0, bool a_doReset = false);

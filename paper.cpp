@@ -377,7 +377,7 @@ void Paper::setScroll(Vector3 a_speed, int a_scrollNO, bool a_isRestart)
 	for (auto &it : m_blurAreaList[a_scrollNO])
 	{
 		it.m_pos.y -= a_speed.y;
-		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
+		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y/* && a_isRestart*/)
 		{
 			it.m_pos.y = it.m_initPos.y;
 		}
@@ -390,7 +390,7 @@ void Paper::setScroll(Vector3 a_speed, int a_scrollNO, bool a_isRestart)
 	for (auto &it : m_transcriptionList[a_scrollNO])
 	{
 		it.m_pos.y -= a_speed.y;
-		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y && a_isRestart)
+		if (a_speed.y < 0 && it.m_pos.y > it.m_initPos.y/* && a_isRestart*/)
 		{
 			it.m_pos.y = it.m_initPos.y;
 		}

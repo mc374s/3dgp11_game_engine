@@ -587,22 +587,22 @@ void Player::draw()
 
 	drawRectangle(m_pos.x - 2, m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
 
-	if (m_type == 0)
-	{
-		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
-		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
-	}
-	else
-	{
-		if (m_type == 1)
-		{
-			drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
-		}
-		if (m_type == 2)
-		{
-			drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
-		}
-	} 
+	//if (m_type == 0)
+	//{
+	//	drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
+	//	drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
+	//}
+	//else
+	//{
+	//	if (m_type == 1)
+	//	{
+	//		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
+	//	}
+	//	if (m_type == 2)
+	//	{
+	//		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
+	//	}
+	//} 
 
 #endif // DEBUG
 
@@ -733,6 +733,7 @@ void PlayerManager::init() {
 		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
 		//m_pPlayer->m_mode = P_MODE::RESTART;
 	}
+	m_isTranscriptAble = false;
 }
 
 void PlayerManager::update()
