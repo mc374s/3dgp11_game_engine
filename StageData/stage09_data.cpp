@@ -20,13 +20,21 @@ STAGE_DATA stage09_setData[] = {
 
 
 
-
-
-
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9], 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(400,350 - 99,0),	true, v3(111,99,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9],0,M_TYPE::DOOR_1_1,					M_DRAW::UP,		v3(30,1200 - 99,0),	true, v3(111,99,0), 8),
 
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(30,230,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_1,				M_DRAW::UP,		v3(325,750 - 82,0),	false, v3(87,82,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_1,				M_DRAW::UP,		v3(425,750 - 82,0),	false, v3(87,82,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_1,				M_DRAW::UP,		v3(525,750 - 82,0),	false, v3(87,82,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(400,520,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(500,560,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(340,600,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(350,850,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(500,890,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(200,920,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] , 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(240,950,0),	false, v3(39,38,0), 10),
 
 
 
@@ -44,10 +52,18 @@ STAGE_DATA stage09_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::DOOR_1_1,				M_DRAW::UP,		v3(100,1500 - 99,0),	true, v3(111, 99, 0), 10),
 	
-
-
-
-
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_3,				M_DRAW::UP,		v3(450,440 - 71,0),	false, v3(146,71,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(100,150,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(200,250,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(300,220,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(400,300,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(450,100,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_2,				M_DRAW::MIRROR,		v3(100,950 - 103,0),	false, v3(187,103,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(150,760,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(200,650,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(400,860,0),	false, v3(39,38,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(280,720,0),	false, v3(45,52,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 9] + 1, 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(510,820,0),	false, v3(39,38,0), 10),
 
 	 
 
