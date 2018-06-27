@@ -124,10 +124,10 @@ void Player::normalMove()
 	blurTimer++;
 	if (m_isOnBlurArea) {
 		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
-		if (m_pBorder == nullptr){
+		if (m_pBorder == nullptr && !m_isDamaged && m_mode!=P_MODE::CLEAR){
 			m_pBorder = Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectEnterBlurArea, 0, m_custom.reflectX);
 		}
-		else if (m_pBorder->m_pSprData) {
+		else if (m_pBorder && m_pBorder->m_pSprData) {
 			*(m_pBorder->m_pSprData) = *(m_pSprData);
 			m_pBorder->m_pSprData->texNum = TEX_EFF_PLAYER_BORDER;
 			m_pBorder->m_pos.x = m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
@@ -138,14 +138,14 @@ void Player::normalMove()
 			//m_pBorder->m_pos = m_pos;
 			m_pBorder->m_custom.reflectX = m_custom.reflectX;
 		}
-		if ((blurTimer % 5 == 1) /*&& m_isMoving*/ && !m_isDamaged) {
-			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
-			//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(0.0f, 20.0f, 0.0f), m_liveInPagination, effectOnBlurArea);
-		}
-		if ((blurTimer % 40 == 0) /*&& m_isMoving*/ && !m_isDamaged) {
-			//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
-			//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(270.0f, 50.0f, 0.0f), 1, effectGageOnBlurArea);
-		}
+		//if ((blurTimer % 5 == 1) /*&& m_isMoving*/ && !m_isDamaged) {
+		//	Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
+		//	//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(0.0f, 20.0f, 0.0f), m_liveInPagination, effectOnBlurArea);
+		//}
+		//if ((blurTimer % 40 == 0) /*&& m_isMoving*/ && !m_isDamaged) {
+		//	//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
+		//	//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(270.0f, 50.0f, 0.0f), 1, effectGageOnBlurArea);
+		//}
 	} else {
 		blurTimer = 0;
 		m_blurSpeed = P_BLUR_SPEED;
@@ -358,7 +358,9 @@ void Player::normalMove()
 	{
 		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
 		//MFAudioPlay(SE_DEAD);
-		m_mode = P_MODE::RESTART;
+		if (m_mode==P_MODE::NORMAL){
+			m_mode = P_MODE::RESTART;
+		}
 	}
 
 	if (m_pos.y < m_size.y)

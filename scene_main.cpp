@@ -95,6 +95,12 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
+		if (pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_pBorder)
+		{
+			pPlayerManager->m_pPlayer->m_pBorder->m_step = STEP::INIT;
+			pPlayerManager->m_pPlayer->m_pBorder->m_doReverseMove = true;
+			pPlayerManager->m_pPlayer->m_pBorder = nullptr;
+		}
 		pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
 		m_timer++;
 		if (m_timer % 30 == 0)
@@ -254,6 +260,12 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 3:
 		//Stage 00
+		if (pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_pBorder)
+		{
+			pPlayerManager->m_pPlayer->m_pBorder->m_step = STEP::INIT;
+			pPlayerManager->m_pPlayer->m_pBorder->m_doReverseMove = true;
+			pPlayerManager->m_pPlayer->m_pBorder = nullptr;
+		}
 		m_timer++;
 		if (m_timer > 120)
 		{
@@ -279,6 +291,12 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 4:
 		// Stage 01~??
+		if (pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_pBorder)
+		{
+			pPlayerManager->m_pPlayer->m_pBorder->m_step = STEP::INIT;
+			pPlayerManager->m_pPlayer->m_pBorder->m_doReverseMove = true;
+			pPlayerManager->m_pPlayer->m_pBorder = nullptr;
+		}
 		m_timer = 0;
 		pBook->update();
 		pStageManager->update();
@@ -391,13 +409,19 @@ bool SceneMain::pause()
 			pGameUIManager->showXButton();
 		}
 
-		if ((KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) && !doShowHelp)
+		if ((KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) && !doShowHelp)
 		{
 			m_selectionNO++;
+			/*if (m_selectionNO >= PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM) {
+				m_selectionNO = PAUSED_SELECTION::TO_GAME;
+			}*/
 		}
-		if ((KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) && !doShowHelp)
+		if ((KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) && !doShowHelp)
 		{
 			m_selectionNO--;
+			/*if (m_selectionNO < PAUSED_SELECTION::TO_GAME) {
+				m_selectionNO = PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM - 1;
+			}*/
 		}
 		m_selectionNO = abs(PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM + m_selectionNO) % (int)PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM;
 
@@ -461,13 +485,19 @@ bool SceneMain::pause()
 void SceneMain::retrySelection() 
 {
 	pGameUIManager->showRetryPanel(m_selectionNO);
-	if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED)
+	if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED)
 	{
 		m_selectionNO++;
+		/*if (m_selectionNO >= RETRY_SELECTION::MAX_RETRY_SELECTION_NUM) {
+			m_selectionNO = RETRY_SELECTION::TO_RETRY;
+		}*/
 	}
-	if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED)
+	if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED)
 	{
 		m_selectionNO--;
+		/*if (m_selectionNO < RETRY_SELECTION::TO_RETRY) {
+			m_selectionNO = RETRY_SELECTION::MAX_RETRY_SELECTION_NUM - 1;
+		}*/
 	}
 	m_selectionNO = abs(RETRY_SELECTION::MAX_RETRY_SELECTION_NUM + m_selectionNO) % (int)RETRY_SELECTION::MAX_RETRY_SELECTION_NUM;
 	if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED)

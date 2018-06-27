@@ -227,10 +227,10 @@ struct SPRITE_DATA
 	};
 	void draw(Vector3 &a_pos, CUSTOM *a_pCustom = nullptr, CUSTOM3D *a_pCustom3d = nullptr);
 	void draw(float _x, float _y, CUSTOM *_custom = nullptr);
-	//inline SPRITE_DATA& operator = (const SPRITE_DATA& a_rhv) {
-	//	left = a_rhv.left; top = a_rhv.top; width = a_rhv.width; ofsX = a_rhv.ofsX; ofsY = a_rhv.ofsY; 
-	//	return *this;
-	//};
+	void copy(const SPRITE_DATA& a_rhv) {
+		left = a_rhv.left; top = a_rhv.top; width = a_rhv.width; ofsX = a_rhv.ofsX; ofsY = a_rhv.ofsY; 
+		//return *this;
+	};
 
 };
 
