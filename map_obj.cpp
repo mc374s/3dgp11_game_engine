@@ -197,7 +197,7 @@ void MapObj::hitAdjust(OBJ2DEX* a_pObj)
 	else if (a_pObj->m_pos.y - a_pObj->m_size.y < m_pos.y + m_size.y && a_pObj->m_pos.y>m_pos.y + m_size.y
 		&& fabs(a_pObj->m_pos.x - m_pos.x - m_size.x / 2) < (a_pObj->m_size.x/2 + m_size.x) / 2 && a_pObj->m_speed.y < 0)
 	{
-		a_pObj->m_pos.y = m_pos.y + m_size.y + a_pObj->m_size.y + 0.1f;
+		a_pObj->m_pos.y = m_pos.y + m_size.y + a_pObj->m_size.y + 10.1f;
 		a_pObj->m_speed.y = 0;
 	}
 	// objがthisの左にある(thisを右から進入としてる)
