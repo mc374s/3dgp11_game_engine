@@ -26,7 +26,7 @@ void Player::init()
 	m_setPos = m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
 	m_liveInPagination = START_PAGINATION;
-
+	SCROLL_Y = 0.0f;
 	m_pSprData = &m_pAnimeData[0];
 	m_step = STEP::INIT;
 	m_mode = P_MODE::RESTART;
@@ -84,6 +84,7 @@ void Player::restart()
 	m_pos = INIT_POS;
 	m_setPos = m_initPos = m_pos;
 	m_scrolledDistance = { 0,0,0 };
+	SCROLL_Y = 0.0f;
 	m_liveInPagination = START_PAGINATION;
 
 	m_pSprData = &m_pAnimeData[0];
@@ -127,17 +128,23 @@ void Player::normalMove()
 		if (m_pBorder == nullptr && !m_isDamaged && m_mode!=P_MODE::CLEAR){
 			m_pBorder = Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectEnterBlurArea, 0, m_custom.reflectX);
 		}
-		else if (m_pBorder && m_pBorder->m_pSprData) {
-			*(m_pBorder->m_pSprData) = *(m_pSprData);
-			m_pBorder->m_pSprData->texNum = TEX_EFF_PLAYER_BORDER;
-			m_pBorder->m_pos.x = m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
-			if (m_liveInPagination % 2 == 0) {
-				m_pBorder->m_pos.x += SCREEN_WIDTH / 2;
-			}
-			m_pBorder->m_pos.y = m_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
-			//m_pBorder->m_pos = m_pos;
-			m_pBorder->m_custom.reflectX = m_custom.reflectX;
-		}
+		//else if (m_pBorder && m_pBorder->m_pSprData) {
+		//	// draw 関数に引越し
+		//	m_pBorder->m_pSprData->copy(m_pSprData);
+		//	//m_pBorder->m_pSprData->height	= m_pSprData->height;
+		//	//m_pBorder->m_pSprData->width	= m_pSprData->width;
+		//	//m_pBorder->m_pSprData->top		= m_pSprData->top;
+		//	//m_pBorder->m_pSprData->left		= m_pSprData->left;
+		//	//m_pBorder->m_pSprData->ofsX		= m_pSprData->ofsX;
+		//	//m_pBorder->m_pSprData->ofsY		= m_pSprData->ofsY;
+		//	m_pBorder->m_pos.x = m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
+		//	if (m_liveInPagination % 2 == 0) {
+		//		m_pBorder->m_pos.x += SCREEN_WIDTH / 2;
+		//	}
+		//	m_pBorder->m_pos.y = m_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
+		//	//m_pBorder->m_pos = m_pos;
+		//	m_pBorder->m_custom.reflectX = m_custom.reflectX;
+		//}
 		//if ((blurTimer % 5 == 1) /*&& m_isMoving*/ && !m_isDamaged) {
 		//	Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
 		//	//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(0.0f, 20.0f, 0.0f), m_liveInPagination, effectOnBlurArea);
@@ -341,6 +348,7 @@ void Player::normalMove()
 			m_scrolledDistance.y = STAGE_HEIGHT;
 			//m_speed.y = 0;
 		}
+		SCROLL_Y = m_scrolledDistance.y;
 	}
 
 
@@ -493,7 +501,7 @@ void Player::restartMove()
 		m_isOnScrollArea = true;
 		m_pos.y += m_speed.y;
 		m_scrolledDistance.y += m_speed.y;
-
+		SCROLL_Y = m_scrolledDistance.y;
 		if (m_isOnScrollArea)
 		{
 			if (m_speed.y*m_scrolledDistance.y >= 0)
@@ -501,6 +509,7 @@ void Player::restartMove()
 				//m_speed.y = 0;
 				//m_isOnScrollArea = false;
 				m_scrolledDistance.y = 0;
+				SCROLL_Y = m_scrolledDistance.y;
 				--m_life;
 				if (m_life >= 0) {
 					m_pos = INIT_POS;
@@ -602,12 +611,29 @@ void Player::draw()
 	//	m_pKeyObj[m_keyCounter - 1].draw();
 	//	//m_pKeyObj[m_keyCounter - 1].m_pos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj[m_keyCounter - 1].m_pSprData->width + m_size.x / 2, m_pKeyObj[m_keyCounter - 1].m_pSprData->height, 0);
 	//}
+	if (m_pBorder && m_pBorder->m_pSprData) {
+		m_pBorder->m_pSprData->copy(m_pSprData);
+		//m_pBorder->m_pSprData->height	= m_pSprData->height;
+		//m_pBorder->m_pSprData->width	= m_pSprData->width;
+		//m_pBorder->m_pSprData->top		= m_pSprData->top;
+		//m_pBorder->m_pSprData->left		= m_pSprData->left;
+		//m_pBorder->m_pSprData->ofsX		= m_pSprData->ofsX;
+		//m_pBorder->m_pSprData->ofsY		= m_pSprData->ofsY;
+		m_pBorder->m_pos.x = m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
+		if (m_liveInPagination % 2 == 0) {
+			m_pBorder->m_pos.x += SCREEN_WIDTH / 2;
+		}
+		m_pBorder->m_pos.y = m_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
+		//m_pBorder->m_pos = m_pos;
+		m_pBorder->m_custom.reflectX = m_custom.reflectX;
+	}
 
 	OBJ2DEX::draw();
 	if (m_mode == P_MODE::NORMAL || m_mode == P_MODE::CLEAR)
 	{
-		*(m_eyes.m_pSprData) = *(m_pSprData);
-		m_eyes.m_pSprData->texNum = m_pSprData->texNum + 1;
+		//*(m_eyes.m_pSprData) = *(m_pSprData);
+		m_eyes.m_pSprData->copy(m_pSprData);
+		//m_eyes.m_pSprData->texNum = m_pSprData->texNum + 1;
 		m_eyes.m_pos = m_pos;
 		m_eyes.m_custom = m_custom;
 		m_eyes.draw();
@@ -681,8 +707,13 @@ void Player::syncKeyPos()
 			m_pKeyObj[m_keyCounter - 1].m_setPos.y = 0;
 		}
 	}
+
 	for (int i = 0; i < P_KEY_MAX_NUM; i++)
 	{
+		if (!m_pKeyObj[i].m_isHitAble){
+			m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
+		}
+
 		if (m_pKeyObj[i].m_pos.x < m_pKeyObj[i].m_setPos.x) {
 			m_pKeyObj[i].m_pos.x += (m_pKeyObj[i].m_setPos.x - m_pKeyObj[i].m_pos.x) / 5;
 			if (m_pKeyObj[i].m_pos.x > m_pKeyObj[i].m_setPos.x) {

@@ -14,6 +14,8 @@
 #include "stage_data.h"
 #include "scene_main.h"
 
+float SCROLL_Y = 0;
+
 SceneMain::SceneMain()
 {
 	//init();
@@ -530,12 +532,12 @@ void SceneMain::gameMain()
 	{
 		pPlayerManager->update();
 		pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged);
-		if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
-		{
-			pBook->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
-			pEffectManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
-			pPlayerManager->m_pPlayer->setScrollKeys(pPlayerManager->m_pPlayer->m_speed);
-		}
+		//if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
+		//{
+		//	pBook->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
+		//	pEffectManager->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == //P_MODE::RESTART);
+		//	pPlayerManager->m_pPlayer->setScrollKeys(pPlayerManager->m_pPlayer->m_speed);
+		//}
 
 		if (KEY_TRACKER.pressed.E || PAD_TRACKER.rightShoulder == PAD_TRACKER.PRESSED)
 		{// To Scroll View Mode

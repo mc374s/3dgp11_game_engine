@@ -97,26 +97,26 @@ void judgeAll()
 						if (pPlayer->m_concentration > 10) {
 							pPlayer->m_concentration = 10;
 						}
-						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
+						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_initPos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
 						MFAudioPlay(SE_SPLASH);
 					}
-					else if (pPlayer->m_pos.y - pPlayer->m_speed.y <= it.m_pos.y + GRIVATY) {
+					else if (/*pPlayer->m_pos.y - pPlayer->m_speed.y <= it.m_pos.y + GRIVATY*/pPlayer->m_speed.y > 0.0f) {
 						it.hitAdjust(pPlayer);
 					}
 				}
 
 				if (it.m_type == M_TYPE::PASSABLE_DOWN) {
-					if (pPlayer->m_speed.y > 0 && (pPlayer->m_pos.y - pPlayer->m_size.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)) {
+					if (pPlayer->m_speed.y > 0 && (pPlayer->m_pos.y - pPlayer->m_size.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)/* && (pPlayer->m_pos.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)*/) {
 						//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
 						pPlayer->m_concentration += it.m_concentration;
 						it.m_concentration = 0;
 						if (pPlayer->m_concentration > 10) {
 							pPlayer->m_concentration = 10;
 						}
-						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_pos.y + it.m_size.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 0);
+						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_initPos.y + it.m_size.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 0);
 						MFAudioPlay(SE_SPLASH);
 					}
-					else if ((pPlayer->m_pos.y - pPlayer->m_size.y - pPlayer->m_speed.y > it.m_pos.y + it.m_size.y + GRIVATY)) {
+					else if (pPlayer->m_speed.y < 0.0f) {
 						it.hitAdjust(pPlayer);
 					}
 				}
@@ -181,7 +181,9 @@ void judgeAll()
 							//pPlayer->m_pKeyObj->m_pos = it.m_pos;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_liveInPagination = it.m_liveInPagination;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_setPos = it.m_pos;
+							//pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_setPos.z = it.m_initPos.y - it.m_pos.y;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_initPos = it.m_initPos;
+							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_initPos.z = it.m_pos.y - it.m_initPos.y;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_isHitAble = false;
 							//pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_pos = it.m_pos;
 							it.m_isHitAble = false;
@@ -195,7 +197,7 @@ void judgeAll()
 									pPlayer->m_pBorder = nullptr;
 								}
 							}
-							Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, it.m_pos, pPlayer->m_liveInPagination, effectGoal, it.m_keyType);
+							Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, it.m_initPos, pPlayer->m_liveInPagination, effectGoal, it.m_keyType);
 							MFAudioPlay(SE_DOOR_OPENED);
 						}
 						// Stage Clear Judge

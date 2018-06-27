@@ -83,6 +83,7 @@ void OBJ2D::update()
 	if (m_pfMove){
 		(this->*m_pfMove)();
 	}
+	m_pos.y = m_initPos.y - SCROLL_Y;
 }
 
 void OBJ2D::draw() 
