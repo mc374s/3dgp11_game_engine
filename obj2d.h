@@ -27,7 +27,8 @@ public:
 
 	CUSTOM m_custom;
 	CUSTOM3D m_custom3d;
-	//void(*m_pfMove)(OBJ2D*);
+	//void(*m_pfMove)();
+	void(OBJ2D::*m_pfMove)();
 
 	int m_timer;
 	int m_step;
@@ -46,9 +47,10 @@ public:
 
 	static int searchSet(OBJ2D** a_ppBegin, int a_max);
 
+	void blur();
+
 };
 
-void blur(OBJ2D* a_pObj);
 
 class OBJ2DEX : public OBJ2D
 {

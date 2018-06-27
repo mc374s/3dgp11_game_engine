@@ -13,8 +13,14 @@ void Effect::memberCopy(const Effect& a_inputObj)
 	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
 
 	m_speedAlpha = a_inputObj.m_speedAlpha;
+	m_angle = a_inputObj.m_angle;
 	m_speedAngle = a_inputObj.m_speedAngle;
-
+	m_speedAngleAcc = a_inputObj.m_speedAngleAcc;
+	m_speedAngleMax = a_inputObj.m_speedAngleMax;
+	m_radius = a_inputObj.m_radius;
+	m_speedRadius = a_inputObj.m_speedRadius;
+	m_radiusMax = a_inputObj.m_radiusMax;
+	m_doReverseMove = a_inputObj.m_doReverseMove;
 
 }
 
@@ -42,7 +48,11 @@ void Effect::clear()
 	m_pfMove = nullptr;
 
 	m_speedAlpha = 0;
-	m_speedAngle = { 0.0f,0.0f,0.0f };
+	m_speedAngle = m_angle = m_speedAngleAcc = m_speedAngleMax = { 0.0f,0.0f,0.0f };
+	m_radius = 0.0f;
+	m_speedRadius = 0.0f;
+	m_radiusMax = 0.0f;
+	m_doReverseMove = false;
 }
 
 Effect::Effect()
@@ -84,7 +94,7 @@ void Effect::draw()
 }
 // フルスクリーンの座標系にエフェクトを出すときにa_liveInPaginationを奇数に設定必要がある
 // ページの座標系にエフェクトを出すときにa_liveInPaginationはそのページナンバーを設定必要がある
-Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*), int a_type, bool a_isReflect)
+Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*), int a_type, bool a_isReflect, bool a_doReverseMove)
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
@@ -96,15 +106,17 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a
 		a_ppBegin[i]->init();
 		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
 
-		a_ppBegin[i]->m_pos = a_pos;
+		a_ppBegin[i]->m_pos.z = a_pos.z;
+		a_ppBegin[i]->m_pos.x = a_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
 		if (a_liveInPagination % 2 == 0){
-			a_ppBegin[i]->m_pos.x = SCREEN_WIDTH / 2 + a_ppBegin[i]->m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
+			a_ppBegin[i]->m_pos.x += SCREEN_WIDTH / 2;
 		}
 		a_ppBegin[i]->m_pos.y = a_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
 		a_ppBegin[i]->m_initPos = a_ppBegin[i]->m_setPos = a_ppBegin[i]->m_pos;
 		a_ppBegin[i]->m_type = a_type;
 		a_ppBegin[i]->m_pfMove = a_pfMove;
 		a_ppBegin[i]->m_custom.reflectX = a_isReflect;
+		a_ppBegin[i]->m_doReverseMove = a_doReverseMove;
 		//a_ppBegin[i]->init();
 
 		return a_ppBegin[i];
@@ -941,3 +953,130 @@ void effectBookAura(Effect* a_pObj) {
 //		break;
 //	}
 //}
+
+
+void effectGoal(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_pSprEffGoal[a_pObj->m_type];
+		a_pObj->m_pfMove = effectGoal;
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_alpha = 0;
+		a_pObj->m_speedAlpha = 4;
+		a_pObj->m_custom.scaleMode = SCALE_MODE::CENTER;
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX = 5.0f;
+		a_pObj->m_speedAcc.x = -0.01f;
+		if (a_pObj->m_doReverseMove)
+		{
+			a_pObj->m_alpha = 255;
+			a_pObj->m_speedAlpha = -4;
+			a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX = 1.0f;
+			a_pObj->m_speedAcc.x = 0.01f;
+		}
+
+		a_pObj->m_timer = 0;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		//++a_pObj->m_timer;
+		//if (a_pObj->m_timer % 20 == 0) {
+		//	Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, a_pObj->m_pos, a_pObj->m_liveInPagination, effectGoal, a_pObj->m_type);
+		//}
+		a_pObj->m_speed.x += a_pObj->m_speedAcc.x;
+		a_pObj->m_custom.scaleX += a_pObj->m_speed.x;
+		if (a_pObj->m_doReverseMove)
+		{
+			if (a_pObj->m_custom.scaleX > 5.0f)
+			{
+				a_pObj->m_custom.scaleX = 5.0f;
+				a_pObj->m_step = STEP::END;
+			}
+		}
+		else
+		{
+			if (a_pObj->m_custom.scaleX < 1.0f)
+			{
+				a_pObj->m_custom.scaleX = 1.0f;
+				a_pObj->m_step = STEP::END;
+			}
+		}
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
+		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		a_pObj->clear();
+		break;
+	default:
+		break;
+	}
+}
+
+void effectEnterBlurArea(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprEffPlayerBorder;
+		a_pObj->m_pfMove = effectEnterBlurArea;
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_alpha = 0;
+		a_pObj->m_speedAlpha = 4;
+		a_pObj->m_custom.scaleMode = SCALE_MODE::CENTER;
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX = 5.0f;
+		a_pObj->m_speed.x = 0;
+		a_pObj->m_speedAcc.x = -0.01f;
+		if (a_pObj->m_doReverseMove)
+		{
+			a_pObj->m_alpha = 255;
+			a_pObj->m_speedAlpha = -10;
+			a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX = 1.2f;
+			a_pObj->m_speed.x = 0;
+			a_pObj->m_speedAcc.x = 0.01f;
+		}
+
+		a_pObj->m_timer = 0;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		//++a_pObj->m_timer;
+		//if (a_pObj->m_timer % 20 == 0) {
+		//	Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, a_pObj->m_pos, a_pObj->m_liveInPagination, effectGoal, a_pObj->m_type);
+		//}
+		a_pObj->m_speed.x += a_pObj->m_speedAcc.x;
+		a_pObj->m_custom.scaleX += a_pObj->m_speed.x;
+		if (a_pObj->m_doReverseMove)
+		{
+			if (a_pObj->m_custom.scaleX > 1.5f)
+			{
+				a_pObj->m_custom.scaleX = 1.5f;
+				a_pObj->m_step = STEP::END;
+			}
+		}
+		else
+		{
+			if (a_pObj->m_custom.scaleX < 1.2f)
+			{
+				a_pObj->m_custom.scaleX = 1.2f;
+				//a_pObj->m_step = STEP::END;
+			}
+		}
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
+		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		a_pObj->clear();
+		break;
+	default:
+		break;
+	}
+}

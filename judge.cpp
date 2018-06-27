@@ -53,6 +53,15 @@ void judgeAll()
 	{
 		judgePagination = pPlayer->m_liveInPagination;
 	}
+	else
+	{
+		if (pPlayer->m_pBorder)
+		{
+			pPlayer->m_pBorder->m_step = STEP::INIT;
+			pPlayer->m_pBorder->m_doReverseMove = true;
+			pPlayer->m_pBorder = nullptr;
+		}
+	}
 	if (isBookClosed)
 	{
 		judgePagination = pPlayer->m_liveInPagination + (pPlayer->m_liveInPagination % 2 ? 1 : -1);
@@ -158,6 +167,7 @@ void judgeAll()
 							++pPlayer->m_keyCounter;
 							it.m_isHitAble = false;
 							it.m_concentration = /*LOW_CONCENTRATION*/0;
+							//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, it.m_pos, pPlayer->m_liveInPagination, effectGoal, it.m_keyType, false, true);
 							MFAudioPlay(SE_KEY_GOT);
 						}
 					}
@@ -178,7 +188,14 @@ void judgeAll()
 							it.m_concentration = P_CONCENTRATION_MAX;
 							if (pPlayer->m_keyCounter == STAGE_KEY_NUM) {
 								pPlayer->m_mode = P_MODE::CLEAR;
+								if (pPlayer->m_pBorder)
+								{
+									pPlayer->m_pBorder->m_step = STEP::INIT;
+									pPlayer->m_pBorder->m_doReverseMove = true;
+									pPlayer->m_pBorder = nullptr;
+								}
 							}
+							Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, it.m_pos, pPlayer->m_liveInPagination, effectGoal, it.m_keyType);
 							MFAudioPlay(SE_DOOR_OPENED);
 						}
 						// Stage Clear Judge
@@ -241,7 +258,7 @@ void judgeAll()
 		{
 			for (auto &it : *pBlurList) {
 
-				if (checkObjOpened(pPlayer, &(it)))
+				if (it.m_isHitAble && checkObjOpened(pPlayer, &(it)))
 				{
 					pPlayer->m_isOnBlurArea = true;
 					break;

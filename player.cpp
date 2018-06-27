@@ -20,6 +20,7 @@ Player::Player()
 void Player::init()
 {
 	m_pAnimeData = e_pAnimePlayerYawn;
+	m_pSprData = &m_pAnimeData[0];
 	m_command = 0x0;
 	m_pos = INIT_POS;
 	m_setPos = m_initPos = m_pos;
@@ -62,6 +63,7 @@ void Player::init()
 	m_damageTimer = 0;
 	m_eyes.m_pSprData = &e_sprEyes;
 	m_concentration = P_CONCENTRATION_MAX;
+	m_pBorder = nullptr;
 
 	m_isInit = true;
 
@@ -122,6 +124,20 @@ void Player::normalMove()
 	blurTimer++;
 	if (m_isOnBlurArea) {
 		m_blurSpeed = P_BLUR_SPEED_ON_BLUR_AREA;
+		if (m_pBorder == nullptr){
+			m_pBorder = Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos, m_liveInPagination, effectEnterBlurArea, 0, m_custom.reflectX);
+		}
+		else if (m_pBorder->m_pSprData) {
+			*(m_pBorder->m_pSprData) = *(m_pSprData);
+			m_pBorder->m_pSprData->texNum = TEX_EFF_PLAYER_BORDER;
+			m_pBorder->m_pos.x = m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
+			if (m_liveInPagination % 2 == 0) {
+				m_pBorder->m_pos.x += SCREEN_WIDTH / 2;
+			}
+			m_pBorder->m_pos.y = m_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
+			//m_pBorder->m_pos = m_pos;
+			m_pBorder->m_custom.reflectX = m_custom.reflectX;
+		}
 		if ((blurTimer % 5 == 1) /*&& m_isMoving*/ && !m_isDamaged) {
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(60 * cosf(blurTimer*0.01745f*8), 60 * sinf(blurTimer*0.01745f*8), 0), m_liveInPagination, effectStar, 0, m_custom.reflectX);
 			//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, m_pos + Vector3(0.0f, 20.0f, 0.0f), m_liveInPagination, effectOnBlurArea);
@@ -133,6 +149,12 @@ void Player::normalMove()
 	} else {
 		blurTimer = 0;
 		m_blurSpeed = P_BLUR_SPEED;
+		if (m_pBorder)
+		{
+			m_pBorder->m_step = STEP::INIT;
+			m_pBorder->m_doReverseMove = true;
+			m_pBorder = nullptr;
+		}
 	}
 	// 濃度計算：動いてるときに減っていく
 	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON || fabsf(m_speed.y - 0.0f) > FLT_EPSILON)
@@ -433,6 +455,12 @@ void Player::restartMove()
 	switch (m_step)
 	{
 	case STEP::INIT:
+		if (m_pBorder)
+		{
+			m_pBorder->m_step = STEP::INIT;
+			m_pBorder->m_doReverseMove = true;
+			m_pBorder = nullptr;
+		}
 		if (m_concentration < P_CONCENTRATION_MAX) {
 			Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
 			MFAudioPlay(SE_DEAD);
@@ -447,7 +475,7 @@ void Player::restartMove()
 		m_liveInPagination = START_PAGINATION;
 		m_timer = 0;
 		m_isOnScrollArea = false;
-		m_speed.y = -m_scrolledDistance.y / 10;
+		m_speed.y = -m_scrolledDistance.y / 10.0f;
 		//MFAudioPlay(SE_DEAD);
 		//break;
 	case STEP::BEGIN:
@@ -456,12 +484,11 @@ void Player::restartMove()
 		{
 			m_timer = 0;
 			//m_speed.y = -m_scrolledDistance.y / 10;
-			m_isOnScrollArea = true;
 			m_step = STEP::BEGIN + 1;
 		}
 		break;
 	case STEP::BEGIN+1:
-
+		m_isOnScrollArea = true;
 		m_pos.y += m_speed.y;
 		m_scrolledDistance.y += m_speed.y;
 
@@ -510,15 +537,17 @@ void Player::blur()
 	m_hitObj.m_liveInPagination = m_liveInPagination;
 
 	// プレイヤーが通過したところにランダムで滲む判定用Objを配置
-	Vector3 randAdjust;
-	for (int i = 0, maxInOnce = 4; i < maxInOnce; i++) {
-		randAdjust = { (float)(rand() % (int)(fabsf(m_speed.x) + m_size.x)), (float)(rand() % (int)(fabsf(m_speed.y) + m_size.y)),0 };
+	static Vector3 randAdjust;
+	static Vector3 initSize = m_size / 2.0f;
+	for (int i = 0, maxInOnce = 3; i < maxInOnce; i++) {
+
+		/*randAdjust = { (float)(rand() % (int)(fabsf(m_speed.x) + m_size.x)), (float)(rand() % (int)(fabsf(m_speed.y) + m_size.y)),0 };
 		if (fabsf(m_speed.x - 0.0f) < FLT_EPSILON && !m_isOnGround) {
-			randAdjust.x -= m_size.x / 2;
-			randAdjust.y -= m_size.y / 2;
+			randAdjust.x -= m_size.x / 2 - 10.0f;
+			randAdjust.y -= m_size.y / 2 - 10.0f;
 		}
 		if (m_isOnGround) {
-			randAdjust.x += m_size.x / 2;
+			randAdjust.x += m_size.x / 2 - 10.0f;
 		}
 
 		if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON) {
@@ -526,11 +555,15 @@ void Player::blur()
 		}
 		if (fabsf(m_speed.y - 0.0f) > FLT_EPSILON) {
 			randAdjust.y *= (m_speed.y / fabsf(m_speed.y));
-		}
-		m_hitObj.m_pos = m_pos - randAdjust;
+		}*/
+		randAdjust.x = (float)(rand() % (int)initSize.x - initSize.x / 2.0f);
+		randAdjust.y = -(float)(rand() % (int)initSize.y + initSize.y / 2.0f);
+
+		m_hitObj.m_pos = m_pos + randAdjust;
 		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
 		m_hitObj.m_custom.angle = rand() % 180;
-		m_hitObj.m_alpha = rand() % 5 + 20;
+		m_hitObj.m_alpha = rand() % 5 + 10;
+		m_hitObj.m_pfMove = &OBJ2D::blur;
 		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
@@ -571,7 +604,7 @@ void Player::draw()
 	OBJ2DEX::draw();
 	if (m_mode == P_MODE::NORMAL || m_mode == P_MODE::CLEAR)
 	{
-		*m_eyes.m_pSprData = *m_pSprData;
+		*(m_eyes.m_pSprData) = *(m_pSprData);
 		m_eyes.m_pSprData->texNum = m_pSprData->texNum + 1;
 		m_eyes.m_pos = m_pos;
 		m_eyes.m_custom = m_custom;
@@ -748,14 +781,14 @@ void PlayerManager::draw(int a_liveInPagination)
 {
 	if (m_pPlayer)
 	{
-		if (m_pPlayer->m_liveInPagination == a_liveInPagination){
-			m_pPlayer->draw();
-		}
 		for (int i = 0; i < P_KEY_MAX_NUM; i++)
 		{
 			if (a_liveInPagination == m_pPlayer->m_pKeyObj[i].m_liveInPagination) {
 				m_pPlayer->m_pKeyObj[i].draw();
 			}
+		}
+		if (m_pPlayer->m_liveInPagination == a_liveInPagination){
+			m_pPlayer->draw();
 		}
 	}
 }
@@ -801,7 +834,7 @@ void PlayerManager::manageConcentration()
 		}
 		break;
 	case STEP::BEGIN:
-		transferSpeed += 0.05f;
+		transferSpeed += 0.07f;
 		m_pPlayer->m_transferConcentration -= transferSpeed;
 		if (m_pPlayer->m_transferConcentration < /*P_TRANSFER_CONCENTRATION_MAX*/transferConcentration)
 		{
