@@ -423,7 +423,7 @@ void Book::closeBook()
 		break;
 	case STEP::END+1:
 		m_timer++;
-		if (m_timer > 30)
+		if (m_timer > 20)
 		{
 			m_timer = 0;
 			if (m_isClosed)

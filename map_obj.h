@@ -129,6 +129,15 @@ enum M_DRAW
 	MIRROR,
 };
 
+enum M_KEY_TYPE
+{
+	CHAPTER_1 = 0,
+	CHAPTER_2,
+	CHAPTER_3,
+	CHAPTER_4,
+	CHAPTER_5,
+};
+
 // 基準座標左上
 class MapObj : public OBJ2DEX
 {
@@ -147,6 +156,7 @@ public:
 	bool m_isVisibleAlways;
 	bool m_isVisible;
 	int m_initConcentration;
+	int m_keyType;
 
 	int m_command; //プレイヤーのキー入力
 	int m_drawDirection;

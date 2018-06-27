@@ -21,6 +21,7 @@ public:
 
 	bool m_isVisibleAlways;
 	bool m_isVisible;
+	bool m_doReverseMove;
 
 	int m_speedAlpha;
 	XMFLOAT3 m_angle;
@@ -37,7 +38,7 @@ public:
 	void update();
 	void draw();
 
-	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr, int a_type = 0, bool a_isReflect = false);
+	static Effect* searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a_liveInPagination, void(*a_pfMove)(Effect*) = nullptr, int a_type = 0, bool a_isReflect = false, bool a_doReverseMove = false);
 
 };
 
@@ -89,5 +90,8 @@ void effectGageOnBlurArea(Effect* a_pObj);
 void effectBookAura(Effect* a_pObj);
 
 //void effectCurtain(Effect* a_pObj);
+
+void effectGoal(Effect* a_pObj);
+void effectEnterBlurArea(Effect* a_pObj);
 
 #endif // !_EFFECT_H_

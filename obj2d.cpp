@@ -34,7 +34,7 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 	m_liveInPagination = a_inputObj.m_liveInPagination;
 
 	m_pSprData = a_inputObj.m_pSprData;
-	//m_pfMove = a_inputObj.m_pfMove;
+	m_pfMove = a_inputObj.m_pfMove;
 
 	m_setAlpha = a_inputObj.m_setAlpha;
 	m_isHitAble = a_inputObj.m_isHitAble;
@@ -59,7 +59,7 @@ const OBJ2D& OBJ2D::operator=(const OBJ2D& a_right)
 
 void OBJ2D::clear() 
 {
-	//m_pfMove = nullptr;
+	m_pfMove = nullptr;
 	m_pSprData = nullptr;
 	m_pos = m_initPos = m_setPos = Vector3(0, 0, 0);
 	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
@@ -80,9 +80,9 @@ void OBJ2D::clear()
 
 void OBJ2D::update()
 {
-	//if (m_pfMove){
-	//	m_pfMove(this);
-	//}
+	if (m_pfMove){
+		(this->*m_pfMove)();
+	}
 }
 
 void OBJ2D::draw() 
@@ -114,16 +114,38 @@ int OBJ2D::searchSet(OBJ2D** a_ppBegin, int a_max)
 	return -1;
 }
 
-void blur(OBJ2D* a_pObj)
+void OBJ2D::blur()
 {
-	switch (a_pObj->m_step)
+	switch (m_step)
 	{
 	case STEP::INIT:
-
-		break;
+		m_isHitAble = false;
+		m_timer = 0;
+		m_step = STEP::BEGIN;
+		//m_setAlpha = m_alpha - 15;
+		m_custom.scaleMode = SCALE_MODE::CENTER;
+		m_custom.scaleY = m_custom.scaleX = 0.7f;
+		//m_speed.x = (rand() / (float)RAND_MAX - 0.5f) / 10.0f;
+		//m_speed.y = (rand() / (float)RAND_MAX - 0.5f) / 10.0f;
+		//m_alpha = 0;
+		//break;
 	case STEP::BEGIN:
-		a_pObj->m_timer++;
-		a_pObj->m_alpha -= a_pObj->m_timer / 40;
+		m_timer++;
+		//m_alpha -= 1;
+		//if (m_alpha < m_setAlpha)
+		//{
+		//	m_alpha = m_setAlpha;
+		//}
+		//m_pos += m_speed;
+		m_custom.scaleX += 0.01f;
+		if (m_custom.scaleX > 1.5f) {
+			m_custom.scaleX = 1.5f;
+			m_step = STEP::END;
+		}
+		m_custom.scaleY = m_custom.scaleX;
+		if (m_timer > 30) {
+			m_isHitAble = true;
+		}
 		break;
 	case STEP::END:
 		break;
