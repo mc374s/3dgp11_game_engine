@@ -66,6 +66,7 @@ enum TEX_NO {
 	TEX_X_BUTTON,
 
 	TEX_SCROLL_MODE,
+	TEX_SCROLL_ARROW,
 
 	TEX_STAGE_CLEAR,
 	TEX_GAME_CLEAR,
@@ -158,6 +159,7 @@ extern SPRITE_LEFTTOP e_sprHelpButton;
 extern SPRITE_CENTER e_sprXButton;
 
 extern SPRITE_LEFTTOP e_sprScrollMode;
+extern SPRITE_CENTER e_sprScrollArrow;
 
 extern SPRITE_LEFTTOP e_pSprStageSelection[];
 extern SPRITE_CENTER e_sprStageSelected;
