@@ -113,11 +113,11 @@ void GameUIManager::init()
 	m_ppGameUI[A_LEFT_DIVISION]->m_pSprData = &e_sprGageDivisionAllocation;
 	m_ppGameUI[A_LEFT_DIVISION]->m_isVisibleAlways = false;
 	m_ppGameUI[A_LEFT_DIVISION]->m_isVisible = false;
-	m_ppGameUI[A_LEFT_DIVISION]->m_pos = { SCREEN_WIDTH / 2 - m_ppGameUI[A_LEFT_DIVISION]->m_pSprData->width / 2 - 100,SCREEN_HEIGHT / 2 + 260,0 };
-	m_ppGameUI[A_LEFT_DIVISION]->m_size = { e_sprGageDivisionAllocation.width,e_sprGageDivisionAllocation.height,0 };
+	m_ppGameUI[A_LEFT_DIVISION]->m_pos = { SCREEN_WIDTH / 2 - m_ppGameUI[A_LEFT_DIVISION]->m_pSprData->width / 2 - 100.0f,SCREEN_HEIGHT / 2 + 260.0f,0.0f };
+	m_ppGameUI[A_LEFT_DIVISION]->m_size = { e_sprGageDivisionAllocation.width,e_sprGageDivisionAllocation.height,0.0f };
 
 	*m_ppGameUI[A_RIGHT_DIVISION] = *m_ppGameUI[A_LEFT_DIVISION];
-	m_ppGameUI[A_RIGHT_DIVISION]->m_pos.x = SCREEN_WIDTH / 2 + m_ppGameUI[A_RIGHT_DIVISION]->m_pSprData->width / 2 + 100;
+	m_ppGameUI[A_RIGHT_DIVISION]->m_pos.x = SCREEN_WIDTH / 2 + m_ppGameUI[A_RIGHT_DIVISION]->m_pSprData->width / 2 + 100.0f;
 	m_ppGameUI[A_RIGHT_DIVISION]->m_custom.reflectX = true;
 
 	m_ppGameUI[A_LEFT_GAGE]->m_pSprData = &e_sprGageAllocation;
@@ -216,7 +216,7 @@ void GameUIManager::init()
 
 	// UI for Retry
 	m_ppGameUI[RETRY_PANEL]->m_pSprData = &e_sprRetryPanel;
-	m_ppGameUI[RETRY_PANEL]->m_setPos = m_ppGameUI[RETRY_PANEL]->m_initPos = m_ppGameUI[RETRY_PANEL]->m_pos = { SCREEN_WIDTH / 2, SCREEN_HEIGHT - 120,0.0f };
+	m_ppGameUI[RETRY_PANEL]->m_setPos = m_ppGameUI[RETRY_PANEL]->m_initPos = m_ppGameUI[RETRY_PANEL]->m_pos = { SCREEN_WIDTH / 2, SCREEN_HEIGHT - 220,0.0f };
 	m_ppGameUI[RETRY_PANEL]->m_isVisibleAlways = false;
 	m_ppGameUI[RETRY_PANEL]->m_isVisible = false;
 
@@ -251,13 +251,15 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_initPos = m_ppGameUI[STAGE_CLEAR_BEHIND]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f };
 
 	*m_ppGameUI[GAME_OVER_BEHIND] = *m_ppGameUI[GAME_OVER_FRONT] = *m_ppGameUI[GAME_CLEAR_TEXT] = *m_ppGameUI[STAGE_CLEAR_FRONT] = *m_ppGameUI[STAGE_CLEAR_BEHIND];
-	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY = 1.7;
-	m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY = 1.7;
+	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY = 1.7f;
+	m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY = 1.7f;
 
 	m_ppGameUI[GAME_CLEAR_TEXT]->m_pSprData = &e_sprGameClear;
 	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_pSprData = &e_sprStageClearBehind;
 	m_ppGameUI[STAGE_CLEAR_FRONT]->m_pSprData = &e_sprStageClearFront;
+	m_ppGameUI[GAME_OVER_BEHIND]->m_initPos.y = m_ppGameUI[GAME_OVER_BEHIND]->m_pos.y += -100.0f;
 	m_ppGameUI[GAME_OVER_BEHIND]->m_pSprData = &e_sprGameOverBehind;
+	m_ppGameUI[GAME_OVER_FRONT]->m_initPos.y = m_ppGameUI[GAME_OVER_FRONT]->m_pos.y += -100.0f;
 	m_ppGameUI[GAME_OVER_FRONT]->m_pSprData = &e_sprGameOverFront;
 
 	// UI for Stage Selection
@@ -517,12 +519,13 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 		m_ppGameUI[PAUSE_PANEL]->m_isVisible = true;
 		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
 		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[PAUSE_PANEL]->m_initPos.x - 208;
-		m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_PANEL]->m_initPos.x - 208;
 		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 52 + a_slelectedNO * 90.0f;
-		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 74 + a_slelectedNO * 60.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_PANEL]->m_initPos.x - 208.0f;
+		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 74.0f + a_slelectedNO * 60.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_PANEL]->m_initPos.y - 74.0f + a_slelectedNO * 60.0f;
 	}
 
-	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+	/*if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
 		m_ppGameUI[PAUSE_SELECTED]->m_pos.x += 10.0f;
 		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x > m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
 			m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_SELECTED]->m_setPos.x;
@@ -546,7 +549,7 @@ void GameUIManager::showPausePanel(int a_slelectedNO)
 		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
 			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
 		}
-	}
+	}*/
 }
 
 void GameUIManager::showRetryPanel(int a_slelectedNO)
@@ -557,11 +560,12 @@ void GameUIManager::showRetryPanel(int a_slelectedNO)
 		m_ppGameUI[PAUSE_SELECTED]->m_isVisible = true;
 		
 		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.x = m_ppGameUI[RETRY_PANEL]->m_initPos.x - 208;
-		m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[RETRY_PANEL]->m_initPos.x - 208;
-		m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[RETRY_PANEL]->m_initPos.y - 52 + a_slelectedNO * 90.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[RETRY_PANEL]->m_initPos.x - 208.0f;
+		//m_ppGameUI[PAUSE_SELECTED]->m_setPos.y = m_ppGameUI[RETRY_PANEL]->m_initPos.y - 52.0f + a_slelectedNO * 90.0f;
+		m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[RETRY_PANEL]->m_initPos.y - 52.0f + a_slelectedNO * 90.0f;
 	}
 
-	if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
+	/*if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x < m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
 		m_ppGameUI[PAUSE_SELECTED]->m_pos.x += 10.0f;
 		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.x > m_ppGameUI[PAUSE_SELECTED]->m_setPos.x) {
 			m_ppGameUI[PAUSE_SELECTED]->m_pos.x = m_ppGameUI[PAUSE_SELECTED]->m_setPos.x;
@@ -585,7 +589,7 @@ void GameUIManager::showRetryPanel(int a_slelectedNO)
 		if (m_ppGameUI[PAUSE_SELECTED]->m_pos.y < m_ppGameUI[PAUSE_SELECTED]->m_setPos.y) {
 			m_ppGameUI[PAUSE_SELECTED]->m_pos.y = m_ppGameUI[PAUSE_SELECTED]->m_setPos.y;
 		}
-	}
+	}*/
 }
 
 void GameUIManager::showHelpButton(bool a_showHelp)

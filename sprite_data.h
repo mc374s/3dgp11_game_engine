@@ -54,6 +54,8 @@ enum TEX_NO {
 	TEX_EFF_CLOSE_BOOK,
 	TEX_EFF_GAGE_ON_BLUR_AREA,
 	TEX_EFF_BOOK_AURA,
+	TEX_EFF_GOAL,
+	TEX_EFF_PLAYER_BORDER,
 
 	TEX_GAME_RULE_LEFT,
 	TEX_GAME_RULE_RIGHT,
@@ -189,5 +191,8 @@ extern SPRITE_CENTER e_pAnimeEffGageOnBlurArea[];
 
 extern SPRITE_CENTER e_sprEffBookAura;
 
+extern SPRITE_LEFTTOP e_pSprEffGoal[];
+
+extern SPRITE_BOTTOM e_sprEffPlayerBorder;
 
 #endif // !_SPRDATA_H_

@@ -358,8 +358,8 @@ void SceneMain::draw()
 	if (m_step >= STEP::BEGIN || m_step == STEP::INIT + 1) {
 		//pEffectManager->draw();
 	}
-	pGameUIManager->draw();
 	pEffectManager->draw();
+	pGameUIManager->draw();
 
 
 #ifdef  DEBUG
@@ -399,7 +399,7 @@ bool SceneMain::pause()
 		{
 			m_selectionNO--;
 		}
-		m_selectionNO = abs(m_selectionNO) % (int)PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM;
+		m_selectionNO = abs(PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM + m_selectionNO) % (int)PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM;
 
 		if ((KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED))
 		{
@@ -469,7 +469,7 @@ void SceneMain::retrySelection()
 	{
 		m_selectionNO--;
 	}
-	m_selectionNO = abs(m_selectionNO) % (int)RETRY_SELECTION::MAX_RETRY_SELECTION_NUM;
+	m_selectionNO = abs(RETRY_SELECTION::MAX_RETRY_SELECTION_NUM + m_selectionNO) % (int)RETRY_SELECTION::MAX_RETRY_SELECTION_NUM;
 	if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED)
 	{
 		if (m_selectionNO == RETRY_SELECTION::TO_RETRY) {
@@ -537,7 +537,7 @@ void SceneMain::gameMain()
 			m_stageClearFlag[STAGE_MAX_NUM] &= m_stageClearFlag[i];
 		}
 
-		if (m_timer > 40) {
+		if (m_timer > 80) {
 
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;

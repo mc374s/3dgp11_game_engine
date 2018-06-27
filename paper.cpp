@@ -236,6 +236,13 @@ void Paper::drawFront()
 		}
 		for (OBJ2D &it : m_blurAreaList[0]) {
 			it.draw();
+#ifdef DEBUG
+
+			if (it.m_isHitAble) {
+				//drawRectangle(it.m_pos.x - it.m_size.x / 2, it.m_pos.y - it.m_size.y, it.m_size.x, it.m_size.y, 0, 0xFFFFFF80);
+			}
+
+#endif // DEBUG
 		}
 		for (OBJ2D &it : m_transcriptionList[0]) {
 			it.draw();
@@ -292,6 +299,13 @@ void Paper::drawBack()
 		MyBlending::setMode(framework::s_pDeviceContext, BLEND_ALPHA);
 		for (OBJ2D &it : m_blurAreaList[1]) {
 			it.draw();
+#ifdef DEBUG
+
+			if (it.m_isHitAble) {
+				//drawRectangle(it.m_pos.x - it.m_size.x / 2, it.m_pos.y - it.m_size.y, it.m_size.x, it.m_size.y, 0, 0xFFFFFF80);
+			}
+
+#endif // DEBUG
 		}
 		MyBlending::setMode(framework::s_pDeviceContext, BLEND_ALPHA);
 

@@ -40,6 +40,8 @@ enum P_STATE
 	MOVING,
 };
 
+class Effect;
+
 class Player:public OBJ2DEX
 {
 private:
@@ -64,6 +66,7 @@ public:
 	OBJ2D m_pKeyObj[P_KEY_MAX_NUM];
 	int m_keyCounter;
 	OBJ2D m_eyes;
+	Effect* m_pBorder;
 
 	Vector3 m_scrolledDistance;
 	Vector3 m_scrolledDistanceAdjust;

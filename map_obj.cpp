@@ -19,6 +19,7 @@ void MapObj::memberCopy(const MapObj& a_inputObj)
 
 	m_isVisibleAlways = a_inputObj.m_isVisibleAlways;
 	m_isVisible = a_inputObj.m_isVisible;
+	m_keyType = a_inputObj.m_keyType;
 
 }
 
@@ -57,6 +58,8 @@ void MapObj::clear()
 	m_isHitAble = false;
 	m_isVisibleAlways = true;
 	m_isVisible = true;
+
+	m_keyType = 0;
 }
 
 // stageData による初期化
@@ -66,6 +69,8 @@ void MapObj::init()
 	m_initPos = m_pos;
 	m_pSprData = &e_pSprItem[m_type];
 	m_initConcentration = m_concentration;
+
+	m_repeatDrawSize = { m_pSprData->width,m_pSprData->height,0 };
 
 	switch (m_type)
 	{
@@ -78,28 +83,32 @@ void MapObj::init()
 	case M_TYPE::GAME_RULE_RIGHT:
 
 	case M_TYPE::RECOVERY:
-
+		break;
 	case M_TYPE::KEY_1_1:
 	case M_TYPE::DOOR_1_1:
-	
+		m_keyType = M_KEY_TYPE::CHAPTER_1;
+		break;
 	case M_TYPE::DOOR_2_1:
 	case M_TYPE::KEY_2_1:
-	
+		m_keyType = M_KEY_TYPE::CHAPTER_2;
+		break;
 	case M_TYPE::DOOR_3_1:
 	case M_TYPE::KEY_3_1:
 	case M_TYPE::DOOR_3_2:
 	case M_TYPE::KEY_3_2:
-	
+		m_keyType = M_KEY_TYPE::CHAPTER_3;
+		break;
 	case M_TYPE::DOOR_4_1:
 	case M_TYPE::KEY_4_1:
 	case M_TYPE::DOOR_4_2:
 	case M_TYPE::KEY_4_2:
 	case M_TYPE::DOOR_4_3:
 	case M_TYPE::KEY_4_3:
-	
+		m_keyType = M_KEY_TYPE::CHAPTER_4;
+		break;
 	case M_TYPE::DOOR_5_1:
 	case M_TYPE::KEY_5_1:
-		m_repeatDrawSize = { m_pSprData->width,m_pSprData->height,0 };
+		m_keyType = M_KEY_TYPE::CHAPTER_5;
 		break;
 	case M_TYPE::BORDER_INNER:
 		m_repeatDrawSize = m_size;
