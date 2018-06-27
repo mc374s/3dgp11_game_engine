@@ -691,6 +691,7 @@ void SceneMain::turnPagesController()
 
 void SceneMain::viewMode()
 {
+
 	m_timer++;
 	if (m_timer > 20)
 	{

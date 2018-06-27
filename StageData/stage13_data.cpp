@@ -17,18 +17,15 @@ STAGE_DATA stage13_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(PW / 2,520,1),		true, v3(11,200,0), 10),
 
 
-
-
-
-
-
-
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::KEY_3_1,					M_DRAW::UP,		v3(510,220 - 133,0),	true, v3(101, 133,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::DOOR_3_1,					M_DRAW::UP,		v3(500,720 - 133,0),	true, v3(101, 133,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::KEY_3_2,					M_DRAW::UP,		v3(100,720 - 133,0),	true, v3(101, 133,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::DOOR_3_2,					M_DRAW::UP,		v3(100,1020 - 133,0),	true, v3(101, 133,0), 10),
 
-
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::DESERT_6,				M_DRAW::UP,		v3(230,520 - 47,0),	false, v3(132,47,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::DESERT_8,				M_DRAW::UP,		v3(430,520 - 93,0),	false, v3(185,93,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::DESERT_4,				M_DRAW::UP,		v3(500,1020 - 49,0),	false, v3(59,49,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13], 0, M_TYPE::DESERT_4,				M_DRAW::UP,		v3(440,1020 - 49,0),	false, v3(59,49,0), 10),
 
 
 	//ページ２
@@ -40,7 +37,12 @@ STAGE_DATA stage13_setData[] = {
 
 
 
-
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13] + 1, 0, M_TYPE::DESERT_5,				M_DRAW::MIRROR,		v3(50,370 - 131,0),	false, v3(154,131,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13] + 1, 0, M_TYPE::DESERT_2,				M_DRAW::UP,		v3(110,370 - 32,0),	false, v3(178,32,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13] + 1, 0, M_TYPE::DESERT_7,				M_DRAW::UP,		v3(420,370 - 29,0),	false, v3(146,29,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13] + 1, 0, M_TYPE::DESERT_1,				M_DRAW::MIRROR,		v3(420,1020 - 115,0),	false, v3(163,115,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13] + 1, 0, M_TYPE::DESERT_5,				M_DRAW::UP,		v3(30,1020 - 131,0),	false, v3(154,131,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5 + 13] + 1, 0, M_TYPE::DESERT_4,				M_DRAW::MIRROR,		v3(360,1020 - 49,0),	false, v3(59,49,0), 10),
 
 
 
@@ -50,6 +52,5 @@ STAGE_DATA stage13_setData[] = {
 
 
 	// END
-	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
 	STAGE_DATA(-1,-1, M_TYPE::NONE, M_DRAW::UP, v3(0,0,0),false, v3(0,0,0)),
 };
