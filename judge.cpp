@@ -106,7 +106,7 @@ void judgeAll()
 				}
 
 				if (it.m_type == M_TYPE::PASSABLE_DOWN) {
-					if (pPlayer->m_speed.y > 0 && (pPlayer->m_pos.y - pPlayer->m_size.y < it.m_pos.y + it.m_size.y) && (pPlayer->m_pos.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)) {
+					if (pPlayer->m_speed.y > 0 && (pPlayer->m_pos.y - pPlayer->m_size.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)/* && (pPlayer->m_pos.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)*/) {
 						//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
 						pPlayer->m_concentration += it.m_concentration;
 						it.m_concentration = 0;
