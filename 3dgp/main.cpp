@@ -11,8 +11,13 @@
 
 void loadTextureProgress()
 {
-	pTextureManager->loadTexture(e_loadTexture);		// 2D画像の一括ロード
+	pTextureManager->loadTextures(e_loadTexture);		// 2D画像の一括ロード
 }
+
+//void loadTextureProgressLarge()
+//{
+//	pTextureManager->loadTexture(e_loadTexture,TEX_PLAYER_LARGE);		// 2D画像ロード
+//}
 
 LRESULT CALLBACK fnWndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -54,8 +59,11 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	srand(unsigned int(time(NULL)));
 
 	std::thread loadThread_1(loadTextureProgress);
+	//std::thread loadThread_2(loadTextureProgressLarge);
+	//loadThread_1.join();
 	loadThread_1.detach();
-	//pTextureManager->loadTexture(e_loadTexture);
+	//loadThread_2.detach();
+	//pTextureManager->loadTextures(e_loadTexture);
 
 	// Set the Init Scene
 	framework::changeScene(SCENE_MAIN);

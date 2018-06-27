@@ -34,7 +34,7 @@ void OBJ2D::memberCopy(const OBJ2D& a_inputObj)
 	m_liveInPagination = a_inputObj.m_liveInPagination;
 
 	m_pSprData = a_inputObj.m_pSprData;
-	m_pfMove = a_inputObj.m_pfMove;
+	//m_pfMove = a_inputObj.m_pfMove;
 
 	m_setAlpha = a_inputObj.m_setAlpha;
 	m_isHitAble = a_inputObj.m_isHitAble;
@@ -59,7 +59,7 @@ const OBJ2D& OBJ2D::operator=(const OBJ2D& a_right)
 
 void OBJ2D::clear() 
 {
-	m_pfMove = nullptr;
+	//m_pfMove = nullptr;
 	m_pSprData = nullptr;
 	m_pos = m_initPos = m_setPos = Vector3(0, 0, 0);
 	m_speed = m_speedAcc = m_speedMax = m_size = Vector3(0, 0, 0);
@@ -80,9 +80,9 @@ void OBJ2D::clear()
 
 void OBJ2D::update()
 {
-	if (m_pfMove){
-		m_pfMove(this);
-	}
+	//if (m_pfMove){
+	//	m_pfMove(this);
+	//}
 }
 
 void OBJ2D::draw() 

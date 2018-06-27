@@ -220,7 +220,7 @@ int framework::run()
 
 	while (WM_QUIT != msg.message)
 	{
-		QueryPerformanceFrequency(&m_timeFreq);
+		//QueryPerformanceFrequency(&m_timeFreq);
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -491,7 +491,6 @@ void framework::render(float elapsed_time/*Elapsed seconds from last frame*/)
 
 void framework::release()
 {
-
 	if (m_pBlendState) m_pBlendState->Release();
 
 	if (s_pDepthStencilView)

@@ -28,6 +28,7 @@ public:
 	void draw();
 
 	bool pause();
+	void retrySelection();
 	void gameMain();
 	//void stageSelection();
 	void turnPagesController();

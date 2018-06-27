@@ -474,9 +474,10 @@ void Player::restartMove()
 				m_scrolledDistance.y = 0;
 				--m_life;
 				if (m_life >= 0) {
+					m_pos = INIT_POS;
 					//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectPlayerInit);
-					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectStampShadowMove);
-					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_liveInPagination, effectStampMove);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, START_PAGINATION, effectStampShadowMove);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, START_PAGINATION, effectStampMove);
 				}
 				else {
 					m_mode = P_MODE::DEAD;
@@ -489,7 +490,7 @@ void Player::restartMove()
 	case STEP::END:
 		if (pEffectManager->isStampDown) {
 			restart();
-
+			pEffectManager->isStampDown = false;
 			//m_speed.y = 0;
 			//m_isOnScrollArea = false;
 
@@ -529,7 +530,7 @@ void Player::blur()
 		m_hitObj.m_pos = m_pos - randAdjust;
 		m_hitObj.m_initPos = m_hitObj.m_pos + m_scrolledDistance;
 		m_hitObj.m_custom.angle = rand() % 180;
-		m_hitObj.m_alpha = rand() % 5 + 10;
+		m_hitObj.m_alpha = rand() % 5 + 20;
 		m_newblurAreaList.push_back(m_hitObj);
 	}
 }
@@ -586,22 +587,22 @@ void Player::draw()
 
 	drawRectangle(m_pos.x - 2, m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
 
-	if (m_type == 0)
-	{
-		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
-		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
-	}
-	else
-	{
-		if (m_type == 1)
-		{
-			drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
-		}
-		if (m_type == 2)
-		{
-			drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
-		}
-	} 
+	//if (m_type == 0)
+	//{
+	//	drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFFFFFF40);
+	//	drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0xFFFFFF40);
+	//}
+	//else
+	//{
+	//	if (m_type == 1)
+	//	{
+	//		drawRectangle(0, 0, PAGE_WIDTH, P_SCROLL_Y_TOP, 0, 0xFF000080);
+	//	}
+	//	if (m_type == 2)
+	//	{
+	//		drawRectangle(0, P_SCROLL_Y_BOTTOM, PAGE_WIDTH, PAGE_HEIGHT - P_SCROLL_Y_BOTTOM, 0, 0x0000FF80);
+	//	}
+	//} 
 
 #endif // DEBUG
 
@@ -732,6 +733,7 @@ void PlayerManager::init() {
 		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, INIT_POS, m_pPlayer->m_liveInPagination, effectPlayerInit);
 		//m_pPlayer->m_mode = P_MODE::RESTART;
 	}
+	m_isTranscriptAble = false;
 }
 
 void PlayerManager::update()

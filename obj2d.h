@@ -27,7 +27,7 @@ public:
 
 	CUSTOM m_custom;
 	CUSTOM3D m_custom3d;
-	void(*m_pfMove)(OBJ2D*);
+	//void(*m_pfMove)(OBJ2D*);
 
 	int m_timer;
 	int m_step;

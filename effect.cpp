@@ -71,14 +71,16 @@ void Effect::update()
 
 void Effect::draw()
 {
-	if (m_isVisible)
+
+	OBJ2DEX::draw();
+	/*if (m_isVisible)
 	{
 		OBJ2DEX::draw();
 		if (!m_isVisibleAlways)
 		{
 			m_isVisible = false;
 		}
-	}
+	}*/
 }
 // フルスクリーンの座標系にエフェクトを出すときにa_liveInPaginationを奇数に設定必要がある
 // ページの座標系にエフェクトを出すときにa_liveInPaginationはそのページナンバーを設定必要がある
@@ -86,13 +88,12 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a
 {
 	for (int i = 0; i < a_maxNum; i++)
 	{
-		if (a_ppBegin[i]->m_isInit) {
+		if (a_ppBegin[i] && a_ppBegin[i]->m_isInit) {
 			continue;
 		}
-		else {
-			a_ppBegin[i]->clear();
-			a_ppBegin[i]->init();
-		}
+		
+		a_ppBegin[i]->clear();
+		a_ppBegin[i]->init();
 		a_ppBegin[i]->m_liveInPagination = a_liveInPagination;
 
 		a_ppBegin[i]->m_pos = a_pos;
@@ -100,6 +101,7 @@ Effect* Effect::searchSet(Effect** a_ppBegin, int a_maxNum, Vector3 a_pos, int a
 			a_ppBegin[i]->m_pos.x = SCREEN_WIDTH / 2 + a_ppBegin[i]->m_pos.x / PAGE_WIDTH*(SCREEN_WIDTH / 2);
 		}
 		a_ppBegin[i]->m_pos.y = a_pos.y / PAGE_HEIGHT*SCREEN_HEIGHT;
+		a_ppBegin[i]->m_initPos = a_ppBegin[i]->m_setPos = a_ppBegin[i]->m_pos;
 		a_ppBegin[i]->m_type = a_type;
 		a_ppBegin[i]->m_pfMove = a_pfMove;
 		a_ppBegin[i]->m_custom.reflectX = a_isReflect;
@@ -155,6 +157,26 @@ void EffectManager::init()
 
 void EffectManager::update()
 {
+	// 描画順番を並び替え　pos.z : 小さい順から描画していく 
+	//static Effect *temp = nullptr;
+	//for (int i = 1, j = 0; i < EFF_OBJ_MAX_NUM; i++)
+	//{
+	//	if (m_ppEffect[i - 1] && m_ppEffect[i]/* && (m_ppEffect[i - 1]->m_liveInPagination == m_ppObjs[i]->m_liveInPagination)*/)
+	//	{
+	//		if (m_ppEffect[i - 1]->m_pos.z < m_ppEffect[i]->m_pos.z)
+	//		{
+	//			j = i;
+	//			do
+	//			{
+	//				temp = m_ppEffect[j - 1];
+	//				m_ppEffect[j - 1] = m_ppEffect[j];
+	//				m_ppEffect[j] = temp;
+	//				j--;
+	//			} while (j > 0 && m_ppEffect[j - 1]->m_pos.z < m_ppEffect[j]->m_pos.z);
+	//		}
+	//	}
+	//}
+
 	for (auto &pEff : m_ppEffect)
 	{
 		if (pEff)
@@ -170,17 +192,28 @@ void EffectManager::draw()
 	num = 0;
 	for (auto &pEff : m_ppEffect)
 	{
-		if (pEff && pEff->m_pSprData && pEff->m_isVisible)
+		if (pEff && pEff->m_pSprData/* && pEff->m_isVisible*/)
 		{
+			
+			if (pEff->m_pfMove == effectCircleMove)
+			{
+				MyBlending::setMode(framework::s_pDeviceContext, BLEND_MODE::BLEND_ADD);
+			}
 			pEff->draw();
-			num++;
+			MyBlending::setMode(framework::s_pDeviceContext, BLEND_MODE::BLEND_ALPHA);
 			//drawRectangle(pEff->m_pos.x - 2, pEff->m_pos.y - 4, 4, 4, 0, 0x0000FFFF);
-			if (!pEff->m_isVisibleAlways)
+			
+			/*if (!pEff->m_isVisibleAlways)
 			{
 				pEff->m_isVisible = false;
-			}
+			}*/
+		}
+		if (pEff && pEff->m_isInit)
+		{
+			num++;
 		}
 	}
+
 #ifdef DEBUG
 	static char buf[256];
 	sprintf_s(buf, "Effect obj Num: %d", num);
@@ -195,14 +228,17 @@ void EffectManager::setScroll(Vector3 a_speed, int a_liveInPagination, bool a_is
 {
 	for (auto &it : m_ppEffect)
 	{
-		it->m_pos.y -= a_speed.y;
-		if (a_speed.y < 0 && it->m_pos.y > it->m_initPos.y && a_isRestart)
+		if (it && it->m_isInit && it->m_pfMove!=effectCircleMove)
 		{
-			it->m_pos.y = it->m_initPos.y;
-		}
-		if (a_speed.y > 0 && it->m_pos.y < it->m_initPos.y - STAGE_HEIGHT)
-		{
-			it->m_pos.y = it->m_initPos.y - STAGE_HEIGHT;
+			it->m_pos.y -= a_speed.y;
+			if (a_speed.y < 0 && it->m_pos.y > it->m_initPos.y/* && a_isRestart*/)
+			{
+				it->m_pos.y = it->m_initPos.y;
+			}
+			if (a_speed.y > 0 && it->m_pos.y < it->m_initPos.y - STAGE_HEIGHT/* && a_isRestart*/)
+			{
+				it->m_pos.y = it->m_initPos.y - STAGE_HEIGHT;
+			}
 		}
 	}
 
@@ -259,14 +295,15 @@ void effectJumpUp(Effect *obj) {
 		//break;
 	case STEP::BEGIN:
 		if (obj->m_animeCounter > 0) {
-			obj->clear();
 			obj->m_step = STEP::END;
+			obj->clear();
 		}
 		break;
 	case STEP::END:
 		obj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		obj->clear();
 		break;
 	default:
 		break;
@@ -326,14 +363,15 @@ void effectRecoveryPassed(Effect* a_pObj)
 		//break;
 	case STEP::BEGIN:
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -355,14 +393,15 @@ void effectDisappear(Effect* a_pObj)
 		//break;
 	case STEP::BEGIN:
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -384,14 +423,15 @@ void effectMakeTranscription(Effect* a_pObj)
 		//break;
 	case STEP::BEGIN:
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -413,14 +453,15 @@ void effectDamaging(Effect* a_pObj)
 		//break;
 	case STEP::BEGIN:
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -442,14 +483,15 @@ void effectRunning(Effect* a_pObj)
 		//break;
 	case STEP::BEGIN:
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -479,14 +521,15 @@ void effectOnBlurArea(Effect* a_pObj)
 		a_pObj->m_custom.angle -= 3;
 		//a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY += 0.04;
 		if (a_pObj->m_alpha <= 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -509,14 +552,15 @@ void effectGageOnBlurArea(Effect* a_pObj)
 	case STEP::BEGIN:
 		a_pObj->m_alpha -= 2;
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -531,9 +575,10 @@ void effectCircleMove(Effect* a_pObj)
 		a_pObj->m_pSprData = &e_sprWhiteCircle;
 		a_pObj->m_pfMove = effectCircleMove;
 		a_pObj->m_timer = 0;
-		a_pObj->m_alpha = rand() % 255;
+		a_pObj->m_alpha = rand() % 100;
 		a_pObj->m_speedAlpha = 3;
-		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.0f + rand() / RAND_MAX - 0.2f;
+		a_pObj->m_custom.scaleY = 1.0f + (rand() / (float)RAND_MAX)*0.15f - 0.075f;
+		a_pObj->m_custom.scaleX = 1.0f + (rand() / (float)RAND_MAX)*0.15f - 0.075f;
 
 
 		//a_pObj->m_custom3d.position.x = rand() % (SCREEN_WIDTH + 200) - 100 - PAGE_WIDTH;
@@ -545,15 +590,15 @@ void effectCircleMove(Effect* a_pObj)
 		a_pObj->m_speedAcc.y = rand() / RAND_MAX + 0.3;
 		a_pObj->m_speedAcc.z = (rand() % 10 - 5) / 10.0f;
 
-		a_pObj->m_speedMax.x = rand() % 30 + 3;
-		a_pObj->m_speedMax.y = rand() % 2 + 0.5;
-		a_pObj->m_speedMax.z = rand() % 30 + 3;
+		a_pObj->m_speedMax.x = rand() % 30 + 3.0f;
+		a_pObj->m_speedMax.y = rand() % 2 + 0.5f;
+		a_pObj->m_speedMax.z = rand() % 30 + 3.0f;
 
 		a_pObj->m_speedAngle.y = (rand() % 4 == 0 ? -1 : 1)*(rand() % 5 / 10.0f + 0.1) / 100.0f;
 
-		a_pObj->m_radius = rand() % 400 + 200;
+		a_pObj->m_radius = rand() % 400 + 200.0f;
 		a_pObj->m_speedRadius = 0.15;
-		a_pObj->m_radiusMax = rand() % 300 + PAGE_WIDTH;
+		a_pObj->m_radiusMax = rand() % 300 + (float)PAGE_WIDTH;
 
 		if (a_pObj->m_type == 1){
 			a_pObj->m_speedAcc.x *= 5.0f;
@@ -578,7 +623,7 @@ void effectCircleMove(Effect* a_pObj)
 	case STEP::BEGIN:
 
 		a_pObj->m_alpha += a_pObj->m_speedAlpha;
-		if (a_pObj->m_alpha <= 0 || a_pObj->m_alpha >= 255) {
+		if (a_pObj->m_alpha <= 0 || a_pObj->m_alpha >= 100) {
 			a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
 		}
 
@@ -623,13 +668,14 @@ void effectCircleMove(Effect* a_pObj)
 		if (a_pObj->m_custom3d.position.y > SCREEN_HEIGHT)
 		{
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
-		a_pObj->clear();
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -644,6 +690,7 @@ void effectStampMove(Effect* a_pObj)
 		a_pObj->m_pSprData = &e_sprEffStamp;
 		a_pObj->m_pfMove = effectStampMove;
 		a_pObj->m_timer = 0;
+		a_pObj->m_isVisible = true;
 		a_pObj->m_initPos = a_pObj->m_setPos = a_pObj->m_pos;
 		a_pObj->m_pos.x -= 120.0f;
 		a_pObj->m_pos.y -= 160.0f;
@@ -675,6 +722,7 @@ void effectStampMove(Effect* a_pObj)
 			a_pObj->m_timer = 0;
 			pEffectManager->isStampDown = true;
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::BEGIN + 2:
@@ -685,10 +733,10 @@ void effectStampMove(Effect* a_pObj)
 		}
 		break;
 	case STEP::END:
-		a_pObj->clear();
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -737,6 +785,7 @@ void effectStampShadowMove(Effect* a_pObj)
 			a_pObj->m_timer = 0;
 			//pEffectManager->isStampDown = true;
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::BEGIN + 2:
@@ -747,10 +796,10 @@ void effectStampShadowMove(Effect* a_pObj)
 		}
 		break;
 	case STEP::END:
-		a_pObj->clear();
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -781,14 +830,15 @@ void effectStar(Effect* a_pObj)
 		//a_pObj->m_pos += a_pObj->m_speed;
 		//a_pObj->m_custom.angle += 4;
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;
@@ -810,14 +860,53 @@ void effectCloseBook(Effect* a_pObj)
 		//break;
 	case STEP::BEGIN:
 		if (a_pObj->m_animeCounter > 0) {
-			a_pObj->clear();
 			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
 		//break;
 	case STEP::FINISH:
+		a_pObj->clear();
+		break;
+	default:
+		break;
+	}
+}
+
+void effectBookAura(Effect* a_pObj) {
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprEffBookAura;
+		a_pObj->m_pfMove = effectBookAura;
+
+		a_pObj->m_custom.angle = 180;
+		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.03f;
+
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_alpha = 0;
+		a_pObj->m_speedAlpha = 2;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		if (a_pObj->m_alpha > 255) {
+			a_pObj->m_alpha = 255;
+			a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
+		}
+		if (a_pObj->m_alpha < 0) {
+			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		a_pObj->clear();
 		break;
 	default:
 		break;

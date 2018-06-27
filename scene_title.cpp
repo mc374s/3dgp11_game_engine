@@ -12,7 +12,7 @@
 
 //void loadTextureProgress()
 //{
-//	pTextureManager->loadTexture(e_loadTexture);		// 2D画像の一括ロード
+//	pTextureManager->loadTextures(e_loadTexture);		// 2D画像の一括ロード
 //}
 //void loadAudioProgress()
 //{
@@ -22,7 +22,7 @@
 SceneTitle::SceneTitle()
 {
 	Scene::init();
-	//pTextureManager->loadTexture(e_loadTexture);		// 2D画像の一括ロード
+	//pTextureManager->loadTextures(e_loadTexture);		// 2D画像の一括ロード
 	//std::thread loadThread_1(loadTextureProgress);
 	//loadThread_1.detach();
 	/*std::thread loadThread_2(loadAudioProgress);

@@ -33,7 +33,7 @@ void SPRITE_DATA::draw(Vector3 &a_pos, CUSTOM *a_pCustom, CUSTOM3D *a_pCustom3d)
 	}
 }
 
-void TextureManager::loadTexture(LOAD_TEXTURE _data[])
+void TextureManager::loadTextures(LOAD_TEXTURE _data[])
 {
 	for (int i = _data[0].texNum; _data[i].texNum != -1 || _data[i].fileName != NULL; i++)
 	{
@@ -42,10 +42,18 @@ void TextureManager::loadTexture(LOAD_TEXTURE _data[])
 		
 		size_t temp;
 		mbstowcs_s(&temp, wcFileName, cSize, _data[i].fileName, cSize);*/
-
 		_data[i].img = new Sprite(framework::s_pDevice, _data[i].fileName, _data[i].doProjection);
 		g_load_texture[i] = &_data[i];
 		//delete[] wcFileName;
+	}
+}
+
+void TextureManager::loadTexture(LOAD_TEXTURE _data[], int a_textureNO)
+{
+	if (_data[a_textureNO].texNum != -1 || _data[a_textureNO].fileName != NULL)
+	{
+		_data[a_textureNO].img = new Sprite(framework::s_pDevice, _data[a_textureNO].fileName, _data[a_textureNO].doProjection);
+		g_load_texture[a_textureNO] = &_data[a_textureNO];
 	}
 }
 

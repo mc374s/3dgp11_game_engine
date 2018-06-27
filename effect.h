@@ -4,7 +4,6 @@
 #include "obj2d.h"
 
 #define EFF_OBJ_MAX_NUM	(256)
-#define EFF_STAMP_MAX_NUM (5)
 
 
 class Effect :public OBJ2DEX
@@ -86,6 +85,8 @@ void effectStar(Effect* a_pObj);
 void effectCloseBook(Effect* a_pObj);
 
 void effectGageOnBlurArea(Effect* a_pObj);
+
+void effectBookAura(Effect* a_pObj);
 
 //void effectCurtain(Effect* a_pObj);
 

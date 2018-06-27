@@ -105,7 +105,7 @@ public:
 	OBJ2D m_hitObj;
 	OBJ2D m_transcriptionObj;
 	bool m_isPlayerOnLeft;
-	bool m_isTranscriptAble = true;
+	bool m_isTranscriptAble = false;
 	bool m_isTranscriptCanceled = false;
 
 	void transcriptPlayer(int a_concentration = 1);
