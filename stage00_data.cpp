@@ -136,7 +136,7 @@ int e_initLife[] = {
 	1,//まえがきダミー
 	2,//STAGE 5-1
 	3,//STAGE 5-2
-	3,//STAGE 5-3
+	2,//STAGE 5-3
 
 	//3,
 	//3,
