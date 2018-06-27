@@ -39,7 +39,7 @@ STAGE_DATA stage10_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 10] + 1, 0, M_TYPE::PASSABLE_UP,			M_DRAW::UP,		v3(0,240,1),		true, v3(PW,11,0), 0, recoveryControl),
 	
 
-
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 10] + 1, 0, M_TYPE::KEY_1_1,						M_DRAW::UP,		v3(510,350 - 99,0),	true, v3(111,99,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 10] + 1, 0,M_TYPE::DOOR_1_1,						M_DRAW::UP,		v3(10,350 - 99,0),	true, v3(111,99,0), 8),
 
 
