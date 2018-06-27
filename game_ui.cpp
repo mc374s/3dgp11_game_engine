@@ -245,6 +245,15 @@ void GameUIManager::init()
 	m_ppGameUI[SCROLL_MODE]->m_initPos = m_ppGameUI[SCROLL_MODE]->m_pos = { 0.0f,0.0f,0.0f };
 	m_ppGameUI[SCROLL_MODE]->m_alpha = 40;
 
+	//UI for Scroll Arrow
+	m_ppGameUI[SCROLL_TOP]->m_pSprData = m_ppGameUI[SCROLL_BOTTOM]->m_pSprData = &e_sprScrollArrow;
+	m_ppGameUI[SCROLL_TOP]->m_isVisibleAlways = m_ppGameUI[SCROLL_BOTTOM]->m_isVisibleAlways = false;
+	m_ppGameUI[SCROLL_TOP]->m_isVisible = m_ppGameUI[SCROLL_BOTTOM]->m_isVisible = false;
+	m_ppGameUI[SCROLL_TOP]->m_initPos = m_ppGameUI[SCROLL_TOP]->m_pos = { SCREEN_WIDTH / 2,50.0f,0.0f };
+	m_ppGameUI[SCROLL_BOTTOM]->m_initPos = m_ppGameUI[SCROLL_BOTTOM]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT - 50,0.0f };
+	m_ppGameUI[SCROLL_BOTTOM]->m_custom.angle = 180;
+
+
 	// UI for Game Over & Clear & Stage Clear
 	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_isVisibleAlways = false;
 	m_ppGameUI[STAGE_CLEAR_BEHIND]->m_isVisible = false;
@@ -625,6 +634,8 @@ void GameUIManager::showScrollMode()
 	static int alphaSpeed = 10, timer = 0;
 	timer++;
 	m_ppGameUI[SCROLL_MODE]->m_isVisible = true;
+	m_ppGameUI[SCROLL_TOP]->m_isVisible = true;
+	m_ppGameUI[SCROLL_BOTTOM]->m_isVisible = true;
 	m_ppGameUI[SCROLL_MODE]->m_alpha += alphaSpeed;
 	if (m_ppGameUI[SCROLL_MODE]->m_alpha > 255) {
 		m_ppGameUI[SCROLL_MODE]->m_alpha = 255;

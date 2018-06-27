@@ -77,6 +77,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_X_BUTTON,					"./DATA/Images/UI/x_button.png" },
 	
 	{ TEX_SCROLL_MODE,				"./DATA/Images/UI/scroll_mode.png" },
+	{ TEX_SCROLL_ARROW,				"./DATA/Images/UI/scroll_arrow.png" },
 
 	{ TEX_STAGE_CLEAR,				"./DATA/Images/UI/stage_clear.png" },
 	{ TEX_GAME_CLEAR,				"./DATA/Images/UI/game_clear.png" },
@@ -405,6 +406,7 @@ SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 800, 600);
 //SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 150, 50);
 SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 132, 54);
 SPRITE_LEFTTOP e_sprScrollMode = SPRITE_LEFTTOP(TEX_SCROLL_MODE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+SPRITE_CENTER e_sprScrollArrow = SPRITE_CENTER(TEX_SCROLL_ARROW, 0, 0, 79, 58);
 
 SPRITE_LEFTTOP e_pSprStageSelection[] = {
 	SPRITE_LEFTTOP(TEX_STAGE_SELECT00_LEFT, 0, 0, PAGE_WIDTH, PAGE_HEIGHT),
