@@ -4,7 +4,6 @@
 #include "obj2d.h"
 
 #define EFF_OBJ_MAX_NUM	(256)
-#define EFF_STAMP_MAX_NUM (5)
 
 
 class Effect :public OBJ2DEX

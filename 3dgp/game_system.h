@@ -143,7 +143,7 @@ const int	COLOR_VIOLET	= 0x800080FF;
 extern int e_command;
 
 
-#define TEX_MAX (128)
+#define TEX_MAX (FILE_NUM_MAX)
 
 enum STEP
 {
@@ -252,7 +252,8 @@ public:
 		releaseTexture();
 	};
 
-	void loadTexture(LOAD_TEXTURE _data[]);
+	void loadTextures(LOAD_TEXTURE _data[]);
+	void loadTexture(LOAD_TEXTURE _data[], int a_textureNO);
 
 	void releaseTexture();
 

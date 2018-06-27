@@ -113,8 +113,8 @@ void SceneMain::update()
 		{
 			if (!pBook->m_pfMove)
 			{
-				pBook->initStartPaper(START_PAGINATION / 2);
 				pStageManager->init(m_stageNO);
+				pBook->initStartPaper(START_PAGINATION / 2);
 				pBook->m_pfMove = &Book::turnPages;
 				pBook->m_targetPaperNO = START_PAGINATION / 2;
 				pBook->m_pfMove = &Book::startReading;
@@ -122,8 +122,9 @@ void SceneMain::update()
 		}
 		if (pBook->m_isClosed)
 		{
-			pBook->initStartPaper(START_PAGINATION / 2);
 			pStageManager->init(m_stageNO);
+			pBook->initStartPaper(START_PAGINATION / 2);
+			pPlayerManager->init();
 			pBook->darkenPapers(0);
 		}
 		if (pBook->m_isOpened)
@@ -131,7 +132,7 @@ void SceneMain::update()
 			m_timer = 0;
 			if (m_stageNO >= STAGE_SELECT_MAX_NUM)
 			{
-				m_step = STEP::INIT + 4;	
+				m_step = STEP::INIT + 4;
 			}
 			else
 			{
@@ -319,35 +320,7 @@ void SceneMain::update()
 			pGameUIManager->m_ppGameUI[GAME_OVER_BEHIND]->m_isVisible = true;
 			pGameUIManager->m_ppGameUI[GAME_OVER_FRONT]->m_isVisible = true;
 
-			pGameUIManager->showRetryPanel(m_selectionNO);
-			if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED)
-			{
-				m_selectionNO++;
-			}
-			if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED)
-			{
-				m_selectionNO--;
-			}
-			m_selectionNO = abs(m_selectionNO) % (int)RETRY_SELECTION::MAX_RETRY_SELECTION_NUM;
-			if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED)
-			{
-				if (m_selectionNO == RETRY_SELECTION::TO_RETRY) {
-
-					m_timer = 0;
-					pStageManager->init(m_stageNO);
-					//pBook-
-					pBook->m_pfMove = &Book::closeBook;
-					m_step = STEP::INIT + 1;
-				}
-				if (m_selectionNO == RETRY_SELECTION::TO_TITLE_RETRY) {
-
-					m_stageNO = 0;
-					pStageManager->init(m_stageNO);
-					pBook->m_pfMove = &Book::finishReading;
-					m_selectionNO = RETRY_SELECTION::TO_RETRY;
-					m_step = STEP::INIT + 1;
-				}
-			}
+			retrySelection();
 
 		}
 
@@ -366,10 +339,10 @@ void SceneMain::update()
 			m_step = STEP::INIT + 1;
 		}
 	}
-	if (m_step >= STEP::BEGIN)
+	/*if (m_step >= STEP::BEGIN)
 	{
 		pGameUIManager->showHelpButton();
-	}
+	}*/
 
 
 }
@@ -385,8 +358,8 @@ void SceneMain::draw()
 	if (m_step >= STEP::BEGIN || m_step == STEP::INIT + 1) {
 		//pEffectManager->draw();
 	}
-	pEffectManager->draw();
 	pGameUIManager->draw();
+	pEffectManager->draw();
 
 
 #ifdef  DEBUG
@@ -404,44 +377,118 @@ void SceneMain::draw()
 
 bool SceneMain::pause()
 {
+	static bool doShowHelp = false;
 	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT && m_step != STEP::END && pBook->m_isOpened) {
 		m_isPaused = true;
 	}
 
 	if (m_isPaused)
 	{
-		pGameUIManager->showPausePanel(m_selectionNO);
-		if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED)
+		if (!doShowHelp){
+			pGameUIManager->showPausePanel(m_selectionNO);
+		}
+		else{
+			pGameUIManager->showXButton();
+		}
+
+		if ((KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) && !doShowHelp)
 		{
 			m_selectionNO++;
 		}
-		if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED)
+		if ((KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) && !doShowHelp)
 		{
 			m_selectionNO--;
 		}
 		m_selectionNO = abs(m_selectionNO) % (int)PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM;
-		if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED)
-		{
-			if (m_selectionNO == PAUSED_SELECTION::TO_GAME){
-				m_isPaused = false;
-			}
-			if (m_selectionNO == PAUSED_SELECTION::TO_TITLE_PAUSE){
-				m_isPaused = false;
 
+		if ((KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED))
+		{
+			switch (m_selectionNO)
+			{
+			case PAUSED_SELECTION::TO_GAME:
+				m_isPaused = false;
+				break;
+			case PAUSED_SELECTION::TO_RETRY_PAUSE:
+				m_isPaused = false;
+				m_timer = 0;
+				//pStageManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::closeBook;
+				m_step = STEP::INIT + 1;
+				break;
+			case PAUSED_SELECTION::TO_TITLE_PAUSE:
+				m_isPaused = false;
 				/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
-					m_stageClearFlag[i] = false;
+				m_stageClearFlag[i] = false;
 				}
 				m_stageClearFlag[STAGE_MAX_NUM] = true;*/
 
 				m_stageNO = 0;
-				pStageManager->init(m_stageNO);
+				//pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::finishReading;
 				m_selectionNO = PAUSED_SELECTION::TO_GAME;
 				m_step = STEP::INIT + 1;
+				break;
+			case PAUSED_SELECTION::TO_HELP_PAUSE:
+				m_isPaused = true;
+				doShowHelp = !doShowHelp;
+				break;
+			default:
+				break;
 			}
+			/*if (m_selectionNO == PAUSED_SELECTION::TO_GAME){
+				m_isPaused = false;
+			}
+			if (m_selectionNO == PAUSED_SELECTION::TO_RETRY_PAUSE) {
+				m_isPaused = false;
+				m_timer = 0;
+				pStageManager->init(m_stageNO);
+				pBook->m_pfMove = &Book::closeBook;
+				m_step = STEP::INIT + 1;
+			}
+			if (m_selectionNO == PAUSED_SELECTION::TO_TITLE_PAUSE){
+				
+			}
+			if (m_selectionNO == PAUSED_SELECTION::TO_HELP_PAUSE) {
+				m_isPaused = false;
+			}*/
 		}
 	}
+	pGameUIManager->showHelpButton(doShowHelp);
+
 	return m_isPaused;
+}
+
+void SceneMain::retrySelection() 
+{
+	pGameUIManager->showRetryPanel(m_selectionNO);
+	if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED)
+	{
+		m_selectionNO++;
+	}
+	if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED)
+	{
+		m_selectionNO--;
+	}
+	m_selectionNO = abs(m_selectionNO) % (int)RETRY_SELECTION::MAX_RETRY_SELECTION_NUM;
+	if (KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED)
+	{
+		if (m_selectionNO == RETRY_SELECTION::TO_RETRY) {
+
+			m_timer = 0;
+			//pStageManager->init(m_stageNO);
+			//pBook-
+			pBook->m_pfMove = &Book::closeBook;
+			m_step = STEP::INIT + 1;
+		}
+		if (m_selectionNO == RETRY_SELECTION::TO_TITLE_RETRY) {
+
+			m_stageNO = 0;
+			//pStageManager->init(m_stageNO);
+			pBook->m_pfMove = &Book::finishReading;
+			m_selectionNO = RETRY_SELECTION::TO_RETRY;
+			m_step = STEP::INIT + 1;
+		}
+	}
 }
 
 void SceneMain::gameMain()
@@ -469,8 +516,8 @@ void SceneMain::gameMain()
 		}
 	}
 
-	pStageManager->update();
 	pEffectManager->update();
+	pStageManager->update();
 
 	pGameUIManager->update();
 	judgeAll();
@@ -539,7 +586,7 @@ void SceneMain::gameMain()
 						pBook->m_targetPaperNO = START_PAGINATION / 2;
 						m_step = STEP::INIT + 2;*/
 						m_stageNO = 0;
-						pStageManager->init(m_stageNO);
+						//pStageManager->init(m_stageNO);
 						pBook->m_pfMove = &Book::finishReading;
 						m_step = STEP::INIT + 1;
 					}
