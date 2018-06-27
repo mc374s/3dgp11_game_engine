@@ -64,6 +64,7 @@ public:
 	bool m_isKeyHandled;
 	//OBJ2D* m_pKeyObjOld;
 	OBJ2D m_pKeyObj[P_KEY_MAX_NUM];
+	OBJ2D* m_ppDoorObj[P_KEY_MAX_NUM];
 	int m_keyCounter;
 	OBJ2D m_eyes;
 	Effect* m_pBorder;

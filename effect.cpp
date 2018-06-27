@@ -75,6 +75,9 @@ void Effect::update()
 	if (m_pfMove)
 	{
 		m_pfMove(this);
+		if (m_pfMove == effectRecoveryPassed || m_pfMove == effectGoal/* || m_pfMove == effectStampMove || m_pfMove == effectStampShadowMove*/) {
+			m_pos.y = m_initPos.y - SCROLL_Y;
+		}
 	}
 	animation();
 }

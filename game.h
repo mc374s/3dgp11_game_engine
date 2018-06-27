@@ -40,6 +40,8 @@ extern int STAGE_KEY_NUM;
 
 extern int STAGE_LOCKED;
 
+extern float SCROLL_Y;
+
 // TODO : Systemly Learn how Header.h and Source.cpp work
 
 

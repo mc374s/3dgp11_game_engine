@@ -166,6 +166,7 @@ void MapObj::update()
 		m_pfMove(this);
 	}
 	animation();
+	m_pos.y = m_initPos.y - SCROLL_Y;
 }
 
 void MapObj::safeInit(MapObj& a_objIn, int a_liveInPagination, M_TYPE a_mapObjType, M_DRAW a_drawDirection, Vector3 a_pos, bool a_isHitAble, Vector3 a_size, float a_concentration, void(*a_pfMove)(MapObj*))
@@ -292,7 +293,6 @@ void StageManager::init(int a_stageNO)
 	INIT_POS = e_initPos[m_stageNO];
 	P_LIFE_MAX = e_initLife[m_stageNO];
 	STAGE_KEY_NUM = e_stageKeyNum[m_stageNO];
-
 	//pBook->initStartPaper(START_PAGINATION / 2);
 
 	//static int currentPaperNO;
@@ -328,6 +328,7 @@ void StageManager::update()
 
 			m_pStageData++;
 		}
+		SCROLL_Y = 0.0f;
 	}
 }
 
