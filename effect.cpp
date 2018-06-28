@@ -616,18 +616,18 @@ void effectCircleMove(Effect* a_pObj)
 		a_pObj->m_radiusMax = rand() % 300 + (float)PAGE_WIDTH;
 
 		if (a_pObj->m_type == 1){
-			a_pObj->m_speedAcc.x *= 5.0f;
+			a_pObj->m_speedAcc.x *= 4.0f;
 			a_pObj->m_speedAcc.y *= 2.0f;
-			a_pObj->m_speedAcc.z *= 5.0f;
+			a_pObj->m_speedAcc.z *= 4.0f;
 
-			a_pObj->m_speedMax.x *= 5.0f;
+			a_pObj->m_speedMax.x *= 4.0f;
 			a_pObj->m_speedMax.y *= 2.0f;
-			a_pObj->m_speedMax.z *= 5.0f;
+			a_pObj->m_speedMax.z *= 4.0f;
 
-			a_pObj->m_speedAngle.y *= 5.0f;
+			a_pObj->m_speedAngle.y *= 4.0f;
 
 			//a_pObj->m_radius = rand() % 400 + 200;
-			a_pObj->m_speedRadius *= 2.0f;
+			a_pObj->m_speedRadius *= 1.0f;
 			a_pObj->m_radiusMax *= 0.6f;
 			a_pObj->m_custom.rgba = ((rand() % 0xFF) << 24) | ((rand() % 0xFF) << 16) | ((rand() % 0xFF) << 8);
 		}
@@ -1150,25 +1150,15 @@ void effectClearStar(Effect* a_pObj)
 	switch (a_pObj->m_step)
 	{
 	case STEP::INIT:
-		a_pObj->m_pSprData = &e_sprEffBookAura;
+		a_pObj->m_pAnimeData = e_pAnimeEffClearStar;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
 		a_pObj->m_pfMove = effectClearStar;
-
-		a_pObj->m_custom.angle = 180;
-		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.03f;
-
 		a_pObj->m_timer = 0;
 		a_pObj->m_initPos = a_pObj->m_pos;
-		a_pObj->m_alpha = 0;
-		a_pObj->m_speedAlpha = 2;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;
 	case STEP::BEGIN:
-		a_pObj->m_alpha += a_pObj->m_speedAlpha;
-		if (a_pObj->m_alpha > 255) {
-			a_pObj->m_alpha = 255;
-			a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
-		}
-		if (a_pObj->m_alpha < 0) {
+		if (a_pObj->m_animeCounter > 0) {
 			a_pObj->m_step = STEP::END;
 			a_pObj->clear();
 		}
@@ -1189,25 +1179,18 @@ void effectFirework(Effect* a_pObj)
 	switch (a_pObj->m_step)
 	{
 	case STEP::INIT:
-		a_pObj->m_pSprData = &e_sprEffBookAura;
+		a_pObj->m_pAnimeData = e_pAnimeEffFirework;
+		a_pObj->m_pSprData = &a_pObj->m_pAnimeData[0];
 		a_pObj->m_pfMove = effectFirework;
-
-		a_pObj->m_custom.angle = 180;
-		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.03f;
-
 		a_pObj->m_timer = 0;
 		a_pObj->m_initPos = a_pObj->m_pos;
-		a_pObj->m_alpha = 0;
-		a_pObj->m_speedAlpha = 2;
 		a_pObj->m_step = STEP::BEGIN;
+		if (a_pObj->m_type == 1) {
+			a_pObj->m_custom.rgba = ((rand() % 0x80 + 0x80) << 24) | ((rand() % 0x80 + 0x80) << 16) | ((rand() % 0x80 + 0x80) << 8);
+		}
 		//break;
 	case STEP::BEGIN:
-		a_pObj->m_alpha += a_pObj->m_speedAlpha;
-		if (a_pObj->m_alpha > 255) {
-			a_pObj->m_alpha = 255;
-			a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
-		}
-		if (a_pObj->m_alpha < 0) {
+		if (a_pObj->m_animeCounter > 0) {
 			a_pObj->m_step = STEP::END;
 			a_pObj->clear();
 		}

@@ -160,6 +160,10 @@ void GameUIManager::init()
 	//m_ppGameUI[A_RIGHT_PLAYER]->m_size= { m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->width,m_ppGameUI[A_RIGHT_PLAYER]->m_pSprData->height,0 };
 	m_ppGameUI[A_LEFT_PLAYER]->m_custom.reflectX = true;
 
+	// UI for Error Mark
+	*m_ppGameUI[ERROR_MARK] = *m_ppGameUI[A_LEFT_PLAYER];
+	m_ppGameUI[ERROR_MARK]->m_pSprData = &e_sprErrorMark;
+
 	// UI for Player Concentration Gage
 	m_ppGameUI[C_GAGE_ANIME]->m_isVisibleAlways = false;
 	m_ppGameUI[C_GAGE_ANIME]->m_isVisible = false;
@@ -500,6 +504,14 @@ void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_tra
 
 			m_ppNumbers[LEFT_CONCENTRATION]->m_custom.rgba = 0xFF0000FF;
 			m_ppNumbers[RIGHT_CONCENTRATION]->m_custom.rgba = 0xFF0000FF;
+			if (a_isOnLeftPage){
+				m_ppGameUI[ERROR_MARK]->m_pos.x = m_ppGameUI[A_LEFT_PLAYER]->m_pos.x;
+			}
+			else {
+				m_ppGameUI[ERROR_MARK]->m_pos.x = m_ppGameUI[A_RIGHT_PLAYER]->m_pos.x;
+			}
+			m_ppGameUI[ERROR_MARK]->m_isVisible = true;
+
 		}
 
 	}

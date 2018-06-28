@@ -523,6 +523,10 @@ void Player::restartMove()
 				m_step = STEP::END;
 			}
 		}
+		syncKeyPos();
+		if (m_isKeyHandled) {
+			m_pKeyObj[m_keyCounter - 1].m_alpha = 0;
+		}
 		break;
 	case STEP::END:
 		if (pEffectManager->isStampDown) {
@@ -691,7 +695,7 @@ void Player::syncKeyPos()
 {
 	if (m_isKeyHandled && m_mode != P_MODE::CLEAR && m_pKeyObj[m_keyCounter - 1].m_isHitAble)
 	{
-		m_pKeyObj[m_keyCounter - 1].m_alpha = 200;
+		m_pKeyObj[m_keyCounter - 1].m_alpha = 255;
 		m_pKeyObj[m_keyCounter - 1].m_setPos = m_pos - Vector3(!m_custom.reflectX ? -m_size.x / 2 : m_pKeyObj[m_keyCounter - 1].m_pSprData->width + m_size.x / 2, m_pKeyObj[m_keyCounter - 1].m_pSprData->height, 0);
 		if (m_pKeyObj[m_keyCounter - 1].m_setPos.x > PAGE_WIDTH - m_pKeyObj[m_keyCounter - 1].m_pSprData->width - m_size.x) {
 			m_pKeyObj[m_keyCounter - 1].m_setPos.x = PAGE_WIDTH - m_pKeyObj[m_keyCounter - 1].m_pSprData->width - m_size.x;
@@ -718,7 +722,7 @@ void Player::syncKeyPos()
 				m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
 			}
 			else if(m_pKeyObj[i].m_pSprData){
-				m_pKeyObj[i].m_timer=40;
+				m_pKeyObj[i].m_timer = 40;
 				m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_pos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
 				continue;
 			}
@@ -973,7 +977,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 				m_pPlayer->m_jumpCounter = 1;
 				m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
 				m_pPlayer->m_timer = 0;
-
+				//m_pPlayer->m_montionState = P_STATE::STANDBY;
 			}
 			m_step = STEP::INIT;
 		}

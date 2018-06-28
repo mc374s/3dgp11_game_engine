@@ -208,42 +208,42 @@ void Book::update()
 	}*/
 
 	/*m_angleChangeSpeed.x = m_angleChangeSpeed.y = */m_angleChangeSpeed.z = 0;
-	if (KEY_BOARD.T) {
-		m_angleChangeSpeed.y = 1;
-	}
-	if (KEY_BOARD.G) {
-		m_angleChangeSpeed.y = -1;
-	}
-	/*if (KEY_BOARD.F) {
-		m_angleChangeSpeed.x = 1;
-	}
-	if (KEY_BOARD.H) {
-		m_angleChangeSpeed.x = -1;
-	}*/
-	if (KEY_BOARD.R) {
-		m_angleChangeSpeed.z = 1;
-	}
-	if (KEY_BOARD.Y) {
-		m_angleChangeSpeed.z = -1;
-	}
+	//if (KEY_BOARD.T) {
+	//	m_angleChangeSpeed.y = 1;
+	//}
+	//if (KEY_BOARD.G) {
+	//	m_angleChangeSpeed.y = -1;
+	//}
+	///*if (KEY_BOARD.F) {
+	//	m_angleChangeSpeed.x = 1;
+	//}
+	//if (KEY_BOARD.H) {
+	//	m_angleChangeSpeed.x = -1;
+	//}*/
+	//if (KEY_BOARD.R) {
+	//	m_angleChangeSpeed.z = 1;
+	//}
+	//if (KEY_BOARD.Y) {
+	//	m_angleChangeSpeed.z = -1;
+	//}
 
 
-	if (KEY_TRACKER.pressed.D8){
-		m_currentPaperNO++;
-		if (m_currentPaperNO > PAPER_NO::MAX_PAPER_NO - 1)
-		{
-			m_currentPaperNO = PAPER_NO::MAX_PAPER_NO - 1;
-		}
-		m_position.z -= m_ppPapers[m_currentPaperNO]->m_depth;
-	}
-	if (KEY_TRACKER.pressed.D7){
-		m_position.z += m_ppPapers[m_currentPaperNO]->m_depth;
-		m_currentPaperNO--;
-		if (m_currentPaperNO < 0)
-		{
-			m_currentPaperNO = 0;
-		}
-	}
+	//if (KEY_TRACKER.pressed.D8){
+	//	m_currentPaperNO++;
+	//	if (m_currentPaperNO > PAPER_NO::MAX_PAPER_NO - 1)
+	//	{
+	//		m_currentPaperNO = PAPER_NO::MAX_PAPER_NO - 1;
+	//	}
+	//	m_position.z -= m_ppPapers[m_currentPaperNO]->m_depth;
+	//}
+	//if (KEY_TRACKER.pressed.D7){
+	//	m_position.z += m_ppPapers[m_currentPaperNO]->m_depth;
+	//	m_currentPaperNO--;
+	//	if (m_currentPaperNO < 0)
+	//	{
+	//		m_currentPaperNO = 0;
+	//	}
+	//}
 	/*if (KEY_BOARD.Home){
 		m_pfMove = &Book::startReading;
 	}
