@@ -613,7 +613,7 @@ void SceneMain::gameMain()
 		//	pPlayerManager->m_pPlayer->setScrollKeys(pPlayerManager->m_pPlayer->m_speed);
 		//}
 
-		if (KEY_TRACKER.pressed.E || PAD_TRACKER.rightShoulder == PAD_TRACKER.PRESSED)
+		if ((KEY_TRACKER.pressed.E || PAD_TRACKER.rightShoulder == PAD_TRACKER.PRESSED) && pPlayerManager->m_pPlayer->m_mode != P_MODE::CLEAR)
 		{// To Scroll View Mode
 			m_step = STEP::BEGIN + 1;
 			m_timer = 0;

@@ -197,7 +197,7 @@ void Player::normalMove()
 		m_damageTimer = 0;
 		m_custom.rgba = 0xFFFFFFFF;
 	}
-	if (m_concentration < 0)
+	if (m_concentration < 0.0f)
 	{
 		if (m_mode != P_MODE::CLEAR)
 		{
@@ -205,6 +205,10 @@ void Player::normalMove()
 			//MFAudioPlay(SE_DEAD);
 			m_mode = P_MODE::RESTART;
 		}
+		else{
+			m_concentration = 0.0f;
+		}
+
 	}
 	m_alpha = 255 * (m_concentration) / P_CONCENTRATION_MAX + 20;
 
@@ -364,12 +368,15 @@ void Player::normalMove()
 		m_pos.x = m_size.x / 2;
 	}
 
-	if (m_pos.y > PAGE_HEIGHT + m_size.y)
+	if (m_pos.y > PAGE_HEIGHT + m_size.y + 100.0f)
 	{
 		//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(m_pos.x, m_pos.y - m_size.y / 2, 0), m_liveInPagination, effectDisappear);
 		//MFAudioPlay(SE_DEAD);
-		if (m_mode==P_MODE::NORMAL){
+		if (m_mode == P_MODE::NORMAL) {
 			m_mode = P_MODE::RESTART;
+		}
+		if (m_mode == P_MODE::CLEAR) {
+			m_pos.y = PAGE_HEIGHT + m_size.y + 100.0f;
 		}
 	}
 
