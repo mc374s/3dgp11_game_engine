@@ -53,6 +53,8 @@ enum UI_NO
 
 	STAGE_CLEARED,
 
+	ERROR_MARK,
+
 	MAX_UI_NO,
 };
 

@@ -100,7 +100,7 @@ void judgeAll()
 						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_initPos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
 						MFAudioPlay(SE_SPLASH);
 					}
-					else if (/*pPlayer->m_pos.y - pPlayer->m_speed.y <= it.m_pos.y + GRIVATY*/pPlayer->m_speed.y > 0.0f) {
+					else if (/*pPlayer->m_pos.y - pPlayer->m_speed.y <= it.m_pos.y + GRIVATY*/pPlayer->m_speed.y >= 0.0f || pPlayer->m_pos.y - pPlayer->m_speed.y < it.m_pos.y) {
 						it.hitAdjust(pPlayer);
 					}
 				}
@@ -147,6 +147,7 @@ void judgeAll()
 						it.m_concentration -= (P_CONCENTRATION_MAX - pPlayer->m_concentration);
 						pPlayer->m_concentration = 10.0f;
 					}*/
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, pPlayer->m_pos.y - pPlayer->m_size.y / 2, 0.0f), pPlayer->m_liveInPagination, effectMakeTranscription);
 					MFAudioPlay(SE_START);
 					pPlayer->m_concentration = 10.0f;
 					it.clear();

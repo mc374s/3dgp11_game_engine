@@ -31,6 +31,8 @@ SceneMain::SceneMain()
 			m_stageClearFlag[i] = false;
 		}
 	}
+	//m_stageClearFlag[STAGE_SELECT_MAX_NUM + 1] = false;
+	//m_stageClearFlag[STAGE_MAX_NUM - 2] = false;
 	//m_stageClearFlag[STAGE_MAX_NUM - 1] = false;
 
 	m_stageClearFlag[STAGE_MAX_NUM] = true;
@@ -39,6 +41,8 @@ SceneMain::SceneMain()
 	//pMapObjManager->init(0);
 
 	//pGameUIManager->init();
+	pEffectManager->init();
+	pGameUIManager->init();
 
 }
 
@@ -82,8 +86,8 @@ void SceneMain::update()
 			m_stageNO = 0;
 			m_timer = 0;
 			pStageManager->init(m_stageNO);
-			pEffectManager->init();
-			pGameUIManager->init();
+			//pEffectManager->init();
+			//pGameUIManager->init();
 			for (int i = STAGE_SELECT_MAX_NUM, real = 0; i < STAGE_MAX_NUM; ++i, real = i - STAGE_SELECT_MAX_NUM) {
 				pGameUIManager->m_stageSecectionPagination[i] = e_startPagination[real / 16] + (real) / 8 % 2;
 			}
@@ -93,7 +97,9 @@ void SceneMain::update()
 			m_stageClearFlag[STAGE_MAX_NUM] = true;*/
 			m_timer = 0;
 			m_step = STEP::INIT + 1;
+			pStageManager->update();
 		}
+		//pGameUIManager->m_ppGameUI[?]->
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
@@ -406,6 +412,7 @@ bool SceneMain::pause()
 	static bool doShowHelp = false;
 	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT && m_step != STEP::END && pBook->m_isOpened) {
 		m_isPaused = true;
+		pBook->darkenPapers(80);
 	}
 
 	if (m_isPaused)
@@ -438,16 +445,20 @@ bool SceneMain::pause()
 			switch (m_selectionNO)
 			{
 			case PAUSED_SELECTION::TO_GAME:
+				pBook->darkenPapers(0);
 				m_isPaused = false;
 				break;
 			case PAUSED_SELECTION::TO_RETRY_PAUSE:
+				pBook->darkenPapers(0);
 				m_isPaused = false;
 				m_timer = 0;
 				//pStageManager->init(m_stageNO);
 				pBook->m_pfMove = &Book::closeBook;
+				m_selectionNO = PAUSED_SELECTION::TO_GAME;
 				m_step = STEP::INIT + 1;
 				break;
 			case PAUSED_SELECTION::TO_TITLE_PAUSE:
+				pBook->darkenPapers(0);
 				m_isPaused = false;
 				/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
 				m_stageClearFlag[i] = false;
@@ -463,6 +474,7 @@ bool SceneMain::pause()
 			case PAUSED_SELECTION::TO_HELP_PAUSE:
 				m_isPaused = true;
 				doShowHelp = !doShowHelp;
+				pBook->darkenPapers(doShowHelp ? 120 : 80);
 				break;
 			default:
 				break;
@@ -486,7 +498,6 @@ bool SceneMain::pause()
 		}
 	}
 	pGameUIManager->showHelpButton(doShowHelp);
-
 	return m_isPaused;
 }
 
@@ -575,13 +586,19 @@ void SceneMain::gameMain()
 			m_stageClearFlag[STAGE_MAX_NUM] &= m_stageClearFlag[i];
 		}
 
+		
 		if (m_timer > 80) {
 
 			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
 				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
-				if (m_timer % 5 == 0)
+				if (m_timer % 10 == 0)
 				{
 					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(-PAGE_WIDTH / 4, 0.0f, 0.0f), 1, effectCircleMove, 1);
+				}
+				if (m_timer % 30 == 0)
+				{
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(SCREEN_WIDTH / 2 + (rand() % 10 - 5) * 100, SCREEN_HEIGHT - (rand() % 20 * 35), 0.0f), 1, effectFirework, 1);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(SCREEN_WIDTH / 2 + (rand() % 10 - 5) * 100, SCREEN_HEIGHT - (rand() % 20 * 35), 0.0f), 1, effectFirework);
 				}
 			}
 			else {
@@ -598,7 +615,11 @@ void SceneMain::gameMain()
 							pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY = 1.0;
 						}
 					}
-
+				}
+				if (m_timer % 60 == 0)
+				{
+					//Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(SCREEN_WIDTH / 2 + (rand() % 10 - 5) * 100, SCREEN_HEIGHT - (rand() % 20 * 35), 0.0f), 1, effectFirework, 1);
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(SCREEN_WIDTH / 2 + (rand() % 10 - 5) * 100, SCREEN_HEIGHT - (rand() % 20 * 35), 0.0f), 1, effectFirework);
 				}
 
 				//pGameUIManager->m_ppGameUI[STAGE_CLEAR_TEXT]->m_isVisible = true;
@@ -614,9 +635,9 @@ void SceneMain::gameMain()
 						m_stageNO = /*STAGE_SELECT_MAX_NUM*/0;
 					}
 					if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
-						for (int i = 1; i < STAGE_MAX_NUM; i++) {
-							m_stageClearFlag[i] = false;
-						}
+						//for (int i = 1; i < STAGE_MAX_NUM; i++) {
+						//	m_stageClearFlag[i] = false;
+						//}
 						m_stageClearFlag[STAGE_MAX_NUM + 1] = true;
 						/*m_selectedStageNO = 0;
 						pStageManager->init(m_selectedStageNO);

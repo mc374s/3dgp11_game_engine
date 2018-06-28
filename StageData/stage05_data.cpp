@@ -16,8 +16,8 @@ STAGE_DATA stage05_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 5], 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,		v3(PW / 2,0,1),		true, v3(11,300,0), 10),
 
 
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 5], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(155,300 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
-	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(0,850 - 8,1),		true, v3(155,11,0), 0, recoveryControl),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 5], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(155,300 - 8,1),		true, v3(155,11,0), 0),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 6], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(0,850 - 8,1),		true, v3(155,11,0), 0),
 
 
 
@@ -46,8 +46,8 @@ STAGE_DATA stage05_setData[] = {
 
 
 
-	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 6] + 1, 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(PW / 2,220 - 8,1),		true, v3(160,11,0), 3, recoveryControl),
-	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 6] + 1, 0, M_TYPE::PASSABLE_UP,				M_DRAW::UP,		v3(500,540,1),		true, v3(120,11,0), 3, recoveryControl),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 6] + 1, 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(PW / 2,220 - 8,1),		true, v3(160,11,0), 3),
+	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 6] + 1, 0, M_TYPE::PASSABLE_UP,				M_DRAW::UP,		v3(500,540,1),		true, v3(120,11,0), 3),
 
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 5] + 1,0, M_TYPE::DOOR_2_1,					M_DRAW::UP,		v3(480,470 - 131,0),	true, v3(117, 131,0), 8),

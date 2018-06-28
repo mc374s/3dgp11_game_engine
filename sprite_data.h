@@ -80,6 +80,7 @@ enum TEX_NO {
 	TEX_GAME_OVER_BEHIND,
 	TEX_GAME_OVER_FRONT,
 	TEX_CLEAR_MARK,
+	TEX_ERROR_MARK,
 
 	TEX_STAGE_SELECT00_LEFT,
 	TEX_STAGE_SELECT00_RIGHT,
@@ -171,6 +172,7 @@ extern SPRITE_LEFTTOP e_pSprStageSelection[];
 extern SPRITE_CENTER e_sprStageSelected;
 
 extern SPRITE_CENTER e_sprClearMark;
+extern SPRITE_BOTTOM e_sprErrorMark;
 
 // Effect関係
 extern SPRITE_CENTER e_sprWhiteCircle;
