@@ -179,6 +179,14 @@ void Book::update()
 	if (m_pfMove)
 	{
 		(this->*m_pfMove)();
+		if (m_position.y > m_initPos.y)
+		{
+			m_position.y -= 0.5f;
+			if (m_position.y < m_initPos.y) {
+				m_position.y = m_initPos.y;
+			}
+		}
+
 	}
 	////////////////////////////////////////////////////////////////////////////////
 	// For Pages update
@@ -939,19 +947,11 @@ void Book::turnPages()
 
 void Book::floating()
 {
-	//static float speed = 0.6f, speedAcc = -0.01f;
-	//speed += speedAcc;
-	//m_position.y += speed;
-	//if (m_position.y < m_initPos.y) {
-	//	m_position.y = m_initPos.y;
-	//	speed = 0.6f;
-	//}
-	//if (m_pfMove == &Book::startReading) {
-	//	m_position.y = m_initPos.y;
-	//	//m_position.y -= 0.5f;
-	//	//if (m_position.y < m_initPos.y)
-	//	//{
-	//	//	m_position.y = m_initPos.y;
-	//	//}
-	//}
+	static float speed = 0.6f, speedAcc = -0.01f;
+	speed += speedAcc;
+	m_position.y += speed;
+	if (m_position.y < m_initPos.y) {
+		m_position.y = m_initPos.y;
+		speed = 0.6f;
+	}
 }
