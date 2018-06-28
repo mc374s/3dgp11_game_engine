@@ -35,6 +35,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_MAP_OBJ_DESERT,			"./DATA/Images/Map/map_obj_5.png" },
 	{ TEX_TUTORIAL,					"./DATA/Images/Map/moji.png"},
 	{ TEX_GOAL_SET,					"./DATA/Images/Map/goal_set.png" },
+	{ TEX_PASSABLE_ARROW,			"./DATA/Images/Map/passable_arrow.png" },
+
 
 	{ TEX_SMOKE,					"./DATA/Images/particle-smoke5.png" },
 	{ TEX_LIFE_STAMP,				"./DATA/Images/UI/stamp.png"},
@@ -107,6 +109,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_STAGE_INTRO04_RIGHT,			"./DATA/Images/UI/stage_intro04_right.png" },
 	{ TEX_STAGE_INTRO05_LEFT,			"./DATA/Images/UI/stage_intro05_left.png" },
 	{ TEX_STAGE_INTRO05_RIGHT,			"./DATA/Images/UI/stage_intro05_right.png" },
+
 
 
 	{ TEX_STAGE_SELECTED,			"./DATA/Images/UI/stage_selected.png" },
@@ -366,7 +369,7 @@ SPRITE_LEFTTOP e_pSprItem[] =
 	SPRITE_LEFTTOP(TEX_TUTORIAL, 0, 245, 310, 63),	// M_TYPE::TUTORIAL_7
 	SPRITE_LEFTTOP(TEX_TUTORIAL, 0, 308, 335, 61),	// M_TYPE::TUTORIAL_8
 
-
+	SPRITE_LEFTTOP(TEX_PASSABLE_ARROW, 0, 0, 74, 94),	// M_TYPE::PASSABLE_ARROW
 
 	SPRITE_LEFTTOP(-1, 0, 0, 0, 0),
 };
