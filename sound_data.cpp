@@ -21,6 +21,8 @@ RESOURCE_DATA audio_data[] = {
 	{ SE_KEY_GOT,			"./DATA/Sounds/SE/key_got.mp3" },
 	{ SE_DOOR_OPENED,		"./DATA/Sounds/SE/door_opened.mp3" },
 	{ SE_DEAD,				"./DATA/Sounds/SE/dead.mp3" },
+	{ SE_CURSOR,			"./DATA/Sounds/SE/cursor.mp3" },
+
 
 	{ -1, nullptr }
 };
