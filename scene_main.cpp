@@ -107,7 +107,7 @@ void SceneMain::update()
 			MFAudioStop(BGM_MAIN);
 		}
 		if (!isMFAudioPlaying(BGM_TITLE)){
-			MFAudioPlay(BGM_TITLE);
+			MFAudioPlay(BGM_TITLE, true);
 		}
 		pBook->floating();
 		if (pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_pBorder)
@@ -321,7 +321,7 @@ void SceneMain::update()
 				MFAudioStop(BGM_TITLE);
 			}
 			if (!isMFAudioPlaying(BGM_MAIN)) {
-				MFAudioPlay(BGM_MAIN);
+				MFAudioPlay(BGM_MAIN,true);
 			}
 		}
 		//turnPagesController();
@@ -349,7 +349,7 @@ void SceneMain::update()
 				MFAudioStop(BGM_TITLE);
 			}
 			if (!isMFAudioPlaying(BGM_MAIN)) {
-				MFAudioPlay(BGM_MAIN);
+				MFAudioPlay(BGM_MAIN, true);
 			}
 			m_step = STEP::BEGIN;
 		}
