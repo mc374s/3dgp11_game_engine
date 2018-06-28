@@ -720,10 +720,12 @@ void Player::syncKeyPos()
 			++m_pKeyObj[i].m_timer;
 			if (m_pKeyObj[i].m_timer < 20) {
 				m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
+				m_pKeyObj[i].m_setPos.x = m_pKeyObj[i].m_initPos.x;
 			}
 			else if(m_pKeyObj[i].m_pSprData){
 				m_pKeyObj[i].m_timer = 40;
 				m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_pos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
+				m_pKeyObj[i].m_setPos.x = m_pKeyObj[i].m_pos.x = m_pKeyObj[i].m_initPos.x;
 				continue;
 			}
 		}
