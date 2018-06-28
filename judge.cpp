@@ -92,15 +92,15 @@ void judgeAll()
 				if (it.m_type == M_TYPE::PASSABLE_UP) {
 					if (pPlayer->m_speed.y < 0.0f && (pPlayer->m_pos.y + pPlayer->m_speed.y < it.m_pos.y)) {
 						//上方向すり抜けobjの下より、プレイヤーの足元位置のほうが上になったら回復
-						pPlayer->m_concentration += it.m_concentration;
-						it.m_concentration = 0;
-						if (pPlayer->m_concentration > 10) {
-							pPlayer->m_concentration = 10;
-						}
+						//pPlayer->m_concentration += it.m_concentration;
+						//it.m_concentration = 0;
+						//if (pPlayer->m_concentration > 10) {
+						//	pPlayer->m_concentration = 10;
+						//}
 						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_initPos.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 1);
 						MFAudioPlay(SE_SPLASH);
 					}
-					else if (/*pPlayer->m_pos.y - pPlayer->m_speed.y <= it.m_pos.y + GRIVATY*/pPlayer->m_speed.y > 0.0f/* && pPlayer->m_pos.y - pPlayer->m_speed.y <= it.m_pos.y+GRIVATY*/) {
+					else if (/*pPlayer->m_pos.y - pPlayer->m_speed.y <= it.m_pos.y + GRIVATY*/pPlayer->m_speed.y >= GRIVATY && (pPlayer->m_montionState != P_STATE::JUMPING && pPlayer->m_pos.y - pPlayer->m_size.y <= it.m_pos.y - pPlayer->m_size.y/2)) {
 						it.hitAdjust(pPlayer);
 					}
 				}
@@ -108,11 +108,11 @@ void judgeAll()
 				if (it.m_type == M_TYPE::PASSABLE_DOWN) {
 					if (pPlayer->m_speed.y > 0 && (pPlayer->m_pos.y - pPlayer->m_size.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)/* && (pPlayer->m_pos.y + pPlayer->m_speed.y > it.m_pos.y + it.m_size.y)*/) {
 						//下方向すり抜けobjの上より、プレイヤーの頭上位置のほうが下になったら回復
-						pPlayer->m_concentration += it.m_concentration;
-						it.m_concentration = 0;
-						if (pPlayer->m_concentration > 10) {
-							pPlayer->m_concentration = 10;
-						}
+						//pPlayer->m_concentration += it.m_concentration;
+						//it.m_concentration = 0;
+						//if (pPlayer->m_concentration > 10) {
+						//	pPlayer->m_concentration = 10;
+						//}
 						Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, Vector3(pPlayer->m_pos.x, it.m_initPos.y + it.m_size.y, 0.0f), pPlayer->m_liveInPagination, effectRecoveryPassed, 0);
 						MFAudioPlay(SE_SPLASH);
 					}

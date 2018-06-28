@@ -172,10 +172,12 @@ void SceneMain::update()
 		{
 			if (m_selectedStageNO < 12){
 				//pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
-				pGameUIManager->m_ppGameUI[RT_BUTTON]->m_isVisible = true;
+				//pGameUIManager->m_ppGameUI[RT_BUTTON]->m_isVisible = true;
+				pGameUIManager->showButton(RT_BUTTON);
 			}
 			else{
-				pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
+				//pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
+				pGameUIManager->showButton(LT_BUTTON);
 			}
 			pGameUIManager->showStageSelected(m_selectedStageNO);
 

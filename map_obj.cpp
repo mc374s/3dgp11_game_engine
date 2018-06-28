@@ -118,6 +118,7 @@ void MapObj::init()
 		m_repeatDrawSize = m_size;
 		break;
 	case M_TYPE::PASSABLE_UP:
+		m_size.y = 1;
 	case M_TYPE::PASSABLE_DOWN:
 		m_repeatDrawSize = m_size;
 		m_repeatDrawSize.y = m_pSprData->height;

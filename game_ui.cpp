@@ -671,6 +671,22 @@ void GameUIManager::showXButton()
 	m_ppGameUI[X_BUTTON]->m_custom.scaleY = m_ppGameUI[X_BUTTON]->m_custom.scaleX;
 }
 
+void GameUIManager::showButton(int a_UINO)
+{
+	static float scaleSpeed = 0.003f;
+	m_ppGameUI[a_UINO]->m_isVisible = true;
+	m_ppGameUI[a_UINO]->m_custom.scaleX += scaleSpeed;
+	if (m_ppGameUI[a_UINO]->m_custom.scaleX > 1.1f) {
+		m_ppGameUI[a_UINO]->m_custom.scaleX = 1.1f;
+		scaleSpeed = -scaleSpeed;
+	}
+	if (m_ppGameUI[a_UINO]->m_custom.scaleX < 1.0f) {
+		m_ppGameUI[a_UINO]->m_custom.scaleX = 1.0f;
+		scaleSpeed = -scaleSpeed;
+	}
+	m_ppGameUI[a_UINO]->m_custom.scaleY = m_ppGameUI[a_UINO]->m_custom.scaleX;
+}
+
 void GameUIManager::showScrollMode()
 {
 	static int alphaSpeed = 10, timer = 0;

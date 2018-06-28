@@ -116,6 +116,9 @@
     <ClInclude Include="paper.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp">
@@ -311,5 +314,11 @@
     <FxCompile Include="3dgp\sprite3d_vs.hlsl">
       <Filter>3dgp\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="3dgp11_game_engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="DATA\Images\app_icon.ico" />
   </ItemGroup>
 </Project>
