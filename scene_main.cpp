@@ -103,6 +103,12 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
+		if (isMFAudioPlaying(BGM_MAIN)){
+			MFAudioStop(BGM_MAIN);
+		}
+		if (!isMFAudioPlaying(BGM_TITLE)){
+			MFAudioPlay(BGM_TITLE);
+		}
 		pBook->floating();
 		if (pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_pBorder)
 		{
@@ -147,6 +153,7 @@ void SceneMain::update()
 			m_timer = 0;
 			if (m_stageNO >= STAGE_SELECT_MAX_NUM)
 			{
+				MFAudioStop(BGM_TITLE);
 				m_step = STEP::INIT + 4;
 			}
 			else
@@ -308,6 +315,15 @@ void SceneMain::update()
 		pBook->update();
 		pStageManager->update();
 		pEffectManager->update();
+		if (pBook->m_step == STEP::FINISH) {
+			pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = false;
+			if (isMFAudioPlaying(BGM_TITLE)) {
+				MFAudioStop(BGM_TITLE);
+			}
+			if (!isMFAudioPlaying(BGM_MAIN)) {
+				MFAudioPlay(BGM_MAIN);
+			}
+		}
 		//turnPagesController();
 		//m_step = STEP::INIT + 4;
 		break;
@@ -329,6 +345,12 @@ void SceneMain::update()
 			//pEffectManager->init();
 			pPlayerManager->init();
 			pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = false;
+			if (isMFAudioPlaying(BGM_TITLE)) {
+				MFAudioStop(BGM_TITLE);
+			}
+			if (!isMFAudioPlaying(BGM_MAIN)) {
+				MFAudioPlay(BGM_MAIN);
+			}
 			m_step = STEP::BEGIN;
 		}
 		break;
