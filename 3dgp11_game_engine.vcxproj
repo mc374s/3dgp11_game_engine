@@ -150,6 +150,7 @@
     <ClInclude Include="paper.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="scene_main.h" />
     <ClInclude Include="scene_title.h" />
     <ClInclude Include="sound_data.h" />
@@ -246,10 +247,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="3dgp11_game_engine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="DATA\Images\app_icon.ico" />
+    <ResourceCompile Include="3dgp11_game_engine1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

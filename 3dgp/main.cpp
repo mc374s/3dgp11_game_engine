@@ -57,11 +57,12 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	framework f(hwnd);
 
 	srand(unsigned int(time(NULL)));
+	pTextureManager->loadTextures(e_loadTexture);		// 2D画像の一括ロード
 
-	std::thread loadThread_1(loadTextureProgress);
+	//std::thread loadThread_1(loadTextureProgress);
 	//std::thread loadThread_2(loadTextureProgressLarge);
 	//loadThread_1.join();
-	loadThread_1.detach();
+	//loadThread_1.detach();
 	//loadThread_2.detach();
 	//pTextureManager->loadTextures(e_loadTexture);
 	//pMFAudioManager->loadAudios(audio_data);

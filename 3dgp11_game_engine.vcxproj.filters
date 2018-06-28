@@ -119,6 +119,9 @@
     <ClInclude Include="resource.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3dgp\blend.cpp">
@@ -316,9 +319,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="3dgp11_game_engine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="DATA\Images\app_icon.ico" />
+    <ResourceCompile Include="3dgp11_game_engine1.rc" />
   </ItemGroup>
 </Project>
