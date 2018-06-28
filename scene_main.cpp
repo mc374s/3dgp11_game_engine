@@ -334,16 +334,22 @@ void SceneMain::update()
 		break;
 	case STEP::END:
 		m_timer++;
-		if (m_timer > 30)
-		{
+		if (m_timer > 30){
 			//pGameUIManager->showXButton();
 			pGameUIManager->m_ppGameUI[GAME_OVER_BEHIND]->m_isVisible = true;
 			pGameUIManager->m_ppGameUI[GAME_OVER_FRONT]->m_isVisible = true;
 
 			retrySelection();
-
+			if (m_timer % 30 == 1) {
+				if (rand()%2==0){
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, pGameUIManager->m_ppGameUI[GAME_OVER_BEHIND]->m_pos + Vector3((rand() % 5 * 10.0f + 300.0f)*(rand() % 64 < 32 ? -1 : 1), (rand() % 8 - 4.0f)*20.0f, 0.0f), 1, effectSpiral);
+				}
+				else {
+					Effect::searchSet(pEffectManager->m_ppEffect, EFF_OBJ_MAX_NUM, pGameUIManager->m_ppGameUI[GAME_OVER_BEHIND]->m_pos + Vector3((rand() % 34 - 17.0f)*20.0f, (rand() % 5 * 10.0f + 120.0f)*(rand() % 64 < 32 ? -1 : 1), 0.0f), 1, effectSpiral);
+				}
+			}
 		}
-
+		pEffectManager->update();
 		break;
 	default:
 		break;
@@ -378,8 +384,8 @@ void SceneMain::draw()
 	if (m_step >= STEP::BEGIN || m_step == STEP::INIT + 1) {
 		//pEffectManager->draw();
 	}
-	pEffectManager->draw();
 	pGameUIManager->draw();
+	pEffectManager->draw();
 
 
 #ifdef  DEBUG
@@ -585,7 +591,7 @@ void SceneMain::gameMain()
 				if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX < 1.0f)
 				{
 					pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_BEHIND]->m_custom.scaleY = 1.0;
-					if (m_timer > 80) {
+					if (m_timer > 120) {
 						pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_isVisible = true;
 						pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX = pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleY -= 0.04;
 						if (pGameUIManager->m_ppGameUI[STAGE_CLEAR_FRONT]->m_custom.scaleX < 1.0f) {

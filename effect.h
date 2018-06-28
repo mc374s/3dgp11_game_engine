@@ -94,4 +94,8 @@ void effectBookAura(Effect* a_pObj);
 void effectGoal(Effect* a_pObj);
 void effectEnterBlurArea(Effect* a_pObj);
 
+void effectSpiral(Effect* a_pObj);
+void effectClearStar(Effect* a_pObj);
+void effectFirework(Effect* a_pObj);
+
 #endif // !_EFFECT_H_

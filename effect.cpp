@@ -1044,6 +1044,7 @@ void effectEnterBlurArea(Effect* a_pObj)
 			a_pObj->m_speedAcc.x = 0.01f;
 		}
 
+		//a_pObj->m_custom.rgba = 0xFCAD8AFF;
 		a_pObj->m_timer = 0;
 		a_pObj->m_step = STEP::BEGIN;
 		//break;
@@ -1072,6 +1073,144 @@ void effectEnterBlurArea(Effect* a_pObj)
 		}
 		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
 		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		if (a_pObj->m_alpha>160)
+		{
+			a_pObj->m_alpha = 160;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		a_pObj->clear();
+		break;
+	default:
+		break;
+	}
+}
+
+void effectSpiral(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_pSprEffSpirals[rand() % 5];
+		a_pObj->m_pfMove = effectSpiral;
+
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX = 0.5f;
+
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_alpha = 60;
+		a_pObj->m_speedAlpha = 4;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		if (a_pObj->m_timer > 0){
+			++a_pObj->m_timer;
+			if (a_pObj->m_timer == 60) {
+				//a_pObj->m_alpha = 255;
+				a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
+			}
+			if (a_pObj->m_timer > 60) {
+				a_pObj->m_custom.scaleX -= 0.01f;
+			}
+		}
+		else
+		{
+			a_pObj->m_custom.scaleX += 0.02f;
+		}
+		a_pObj->m_custom.angle += 2;
+		if (a_pObj->m_custom.scaleX > 1.0f) {
+			a_pObj->m_custom.scaleX = 1.0f;
+		}
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
+		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		if (a_pObj->m_alpha > 255) {
+			a_pObj->m_alpha = 255;
+			++a_pObj->m_timer;
+		}
+		if (a_pObj->m_alpha < 0) {
+			a_pObj->m_step = STEP::END;
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		a_pObj->clear();
+		break;
+	default:
+		break;
+	}
+}
+
+void effectClearStar(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprEffBookAura;
+		a_pObj->m_pfMove = effectClearStar;
+
+		a_pObj->m_custom.angle = 180;
+		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.03f;
+
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_alpha = 0;
+		a_pObj->m_speedAlpha = 2;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		if (a_pObj->m_alpha > 255) {
+			a_pObj->m_alpha = 255;
+			a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
+		}
+		if (a_pObj->m_alpha < 0) {
+			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
+		}
+		break;
+	case STEP::END:
+		a_pObj->m_step = STEP::FINISH;
+		//break;
+	case STEP::FINISH:
+		a_pObj->clear();
+		break;
+	default:
+		break;
+	}
+}
+
+void effectFirework(Effect* a_pObj)
+{
+	switch (a_pObj->m_step)
+	{
+	case STEP::INIT:
+		a_pObj->m_pSprData = &e_sprEffBookAura;
+		a_pObj->m_pfMove = effectFirework;
+
+		a_pObj->m_custom.angle = 180;
+		a_pObj->m_custom.scaleX = a_pObj->m_custom.scaleY = 1.03f;
+
+		a_pObj->m_timer = 0;
+		a_pObj->m_initPos = a_pObj->m_pos;
+		a_pObj->m_alpha = 0;
+		a_pObj->m_speedAlpha = 2;
+		a_pObj->m_step = STEP::BEGIN;
+		//break;
+	case STEP::BEGIN:
+		a_pObj->m_alpha += a_pObj->m_speedAlpha;
+		if (a_pObj->m_alpha > 255) {
+			a_pObj->m_alpha = 255;
+			a_pObj->m_speedAlpha = -a_pObj->m_speedAlpha;
+		}
+		if (a_pObj->m_alpha < 0) {
+			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
+		}
 		break;
 	case STEP::END:
 		a_pObj->m_step = STEP::FINISH;
