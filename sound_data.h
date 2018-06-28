@@ -14,6 +14,7 @@ enum AUDIO_NO
 	SE_KEY_GOT,
 	SE_DOOR_OPENED,
 	SE_DEAD,
+	SE_CURSOR,
 };
 
 extern RESOURCE_DATA audio_data[];
