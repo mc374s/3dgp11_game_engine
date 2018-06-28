@@ -242,8 +242,18 @@ void GameUIManager::init()
 	m_ppGameUI[X_BUTTON]->m_isVisibleAlways = false;
 	m_ppGameUI[X_BUTTON]->m_isVisible = false;
 	m_ppGameUI[X_BUTTON]->m_pSprData = &e_sprXButton;
-	m_ppGameUI[X_BUTTON]->m_initPos = m_ppGameUI[X_BUTTON]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT - 100,0.0f };
+	m_ppGameUI[X_BUTTON]->m_initPos = m_ppGameUI[X_BUTTON]->m_pos = { SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4,SCREEN_HEIGHT / 2,0.0f };
 	m_ppGameUI[X_BUTTON]->m_alpha = 255;
+
+	// UI for LT RT button
+	m_ppGameUI[LT_BUTTON]->m_isVisibleAlways = false;
+	m_ppGameUI[LT_BUTTON]->m_isVisible = false;
+	m_ppGameUI[LT_BUTTON]->m_alpha = 200;
+	m_ppGameUI[LT_BUTTON]->m_pSprData = &e_sprLTButton;
+	m_ppGameUI[LT_BUTTON]->m_initPos = m_ppGameUI[LT_BUTTON]->m_pos = { m_ppGameUI[LT_BUTTON]->m_pSprData->width / 2.0f + 10.0f,SCREEN_HEIGHT - m_ppGameUI[LT_BUTTON]->m_pSprData->height / 2.0f - 5.0f,0.0f };
+	*m_ppGameUI[RT_BUTTON] = *m_ppGameUI[LT_BUTTON];
+	m_ppGameUI[RT_BUTTON]->m_pSprData = &e_sprRTButton;
+	m_ppGameUI[RT_BUTTON]->m_initPos.x = m_ppGameUI[RT_BUTTON]->m_pos.x = SCREEN_WIDTH - m_ppGameUI[RT_BUTTON]->m_pSprData->width / 2.0f - 10.0f;
 
 	// UI for Scroll Mode
 	m_ppGameUI[SCROLL_MODE]->m_pSprData = &e_sprScrollMode;
@@ -647,11 +657,11 @@ void GameUIManager::showHelpButton(bool a_showHelp)
 
 void GameUIManager::showXButton()
 {
-	static float scaleSpeed = 0.008f;
+	static float scaleSpeed = 0.004f;
 	m_ppGameUI[X_BUTTON]->m_isVisible = true;
 	m_ppGameUI[X_BUTTON]->m_custom.scaleX += scaleSpeed;
-	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX > 1.5f) {
-		m_ppGameUI[X_BUTTON]->m_custom.scaleX = 1.5f;
+	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX > 1.3f) {
+		m_ppGameUI[X_BUTTON]->m_custom.scaleX = 1.3f;
 		scaleSpeed = -scaleSpeed;
 	}
 	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX < 1.0f) {
@@ -659,6 +669,22 @@ void GameUIManager::showXButton()
 		scaleSpeed = -scaleSpeed;
 	}
 	m_ppGameUI[X_BUTTON]->m_custom.scaleY = m_ppGameUI[X_BUTTON]->m_custom.scaleX;
+}
+
+void GameUIManager::showButton(int a_UINO)
+{
+	static float scaleSpeed = 0.003f;
+	m_ppGameUI[a_UINO]->m_isVisible = true;
+	m_ppGameUI[a_UINO]->m_custom.scaleX += scaleSpeed;
+	if (m_ppGameUI[a_UINO]->m_custom.scaleX > 1.1f) {
+		m_ppGameUI[a_UINO]->m_custom.scaleX = 1.1f;
+		scaleSpeed = -scaleSpeed;
+	}
+	if (m_ppGameUI[a_UINO]->m_custom.scaleX < 1.0f) {
+		m_ppGameUI[a_UINO]->m_custom.scaleX = 1.0f;
+		scaleSpeed = -scaleSpeed;
+	}
+	m_ppGameUI[a_UINO]->m_custom.scaleY = m_ppGameUI[a_UINO]->m_custom.scaleX;
 }
 
 void GameUIManager::showScrollMode()

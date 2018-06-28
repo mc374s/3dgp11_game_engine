@@ -170,6 +170,15 @@ void SceneMain::update()
 
 		if (pBook->m_isOpened && pBook->m_step==STEP::FINISH)
 		{
+			if (m_selectedStageNO < 12){
+				//pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
+				//pGameUIManager->m_ppGameUI[RT_BUTTON]->m_isVisible = true;
+				pGameUIManager->showButton(RT_BUTTON);
+			}
+			else{
+				//pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
+				pGameUIManager->showButton(LT_BUTTON);
+			}
 			pGameUIManager->showStageSelected(m_selectedStageNO);
 
 			if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) {
@@ -396,7 +405,10 @@ void SceneMain::draw()
 		//pEffectManager->draw();
 	}
 	pGameUIManager->draw();
-	pEffectManager->draw();
+	if (!m_isPaused)
+	{
+		pEffectManager->draw();
+	}
 
 
 #ifdef  DEBUG
@@ -415,6 +427,7 @@ void SceneMain::draw()
 bool SceneMain::pause()
 {
 	static bool doShowHelp = false;
+	static int pressTimer = 0;
 	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT + 2 && m_step != STEP::END && pBook->m_isOpened) {
 		m_isPaused = true;
 		pBook->darkenPapers(80);
@@ -422,11 +435,12 @@ bool SceneMain::pause()
 
 	if (m_isPaused)
 	{
+		pressTimer++;
 		if (!doShowHelp){
 			pGameUIManager->showPausePanel(m_selectionNO);
 		}
 		else{
-			pGameUIManager->showXButton();
+			//pGameUIManager->showXButton();
 		}
 
 		if ((KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) && !doShowHelp)
@@ -449,6 +463,7 @@ bool SceneMain::pause()
 
 		if ((KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED))
 		{
+			pressTimer = 0;
 			switch (m_selectionNO)
 			{
 			case PAUSED_SELECTION::TO_GAME:
@@ -456,6 +471,7 @@ bool SceneMain::pause()
 				m_isPaused = false;
 				break;
 			case PAUSED_SELECTION::TO_RETRY_PAUSE:
+				pEffectManager->init();
 				pBook->darkenPapers(0);
 				m_isPaused = false;
 				m_timer = 0;
@@ -465,6 +481,7 @@ bool SceneMain::pause()
 				m_step = STEP::INIT + 1;
 				break;
 			case PAUSED_SELECTION::TO_TITLE_PAUSE:
+				pEffectManager->init();
 				pBook->darkenPapers(0);
 				m_isPaused = false;
 				/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
@@ -502,6 +519,14 @@ bool SceneMain::pause()
 			if (m_selectionNO == PAUSED_SELECTION::TO_HELP_PAUSE) {
 				m_isPaused = false;
 			}*/
+		}
+		if (pressTimer > 15 && (KEY_TRACKER.pressed.Space || PAD_TRACKER.start == PAD_TRACKER.PRESSED))
+		{
+			m_selectionNO = PAUSED_SELECTION::TO_GAME;
+			doShowHelp = false;
+			pBook->darkenPapers(0);
+			pressTimer = 0;
+			m_isPaused = false;
 		}
 	}
 	pGameUIManager->showHelpButton(doShowHelp);
@@ -546,6 +571,7 @@ void SceneMain::retrySelection()
 			m_selectionNO = RETRY_SELECTION::TO_RETRY;
 			m_step = STEP::INIT + 1;
 		}
+		pEffectManager->init();
 	}
 }
 

@@ -70,6 +70,8 @@ enum TEX_NO {
 	TEX_HELP_BUTTON,
 
 	TEX_X_BUTTON,
+	TEX_LT_BUTTON,
+	TEX_RT_BUTTON,
 
 	TEX_SCROLL_MODE,
 	TEX_SCROLL_ARROW,
@@ -167,6 +169,8 @@ extern SPRITE_CENTER e_sprGameOverFront;
 extern SPRITE_CENTER e_sprHelp;
 extern SPRITE_LEFTTOP e_sprHelpButton;
 extern SPRITE_CENTER e_sprXButton;
+extern SPRITE_CENTER e_sprLTButton;
+extern SPRITE_CENTER e_sprRTButton;
 
 extern SPRITE_LEFTTOP e_sprScrollMode;
 extern SPRITE_CENTER e_sprScrollArrow;

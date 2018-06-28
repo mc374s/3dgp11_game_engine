@@ -149,6 +149,7 @@
     <ClInclude Include="obj2d.h" />
     <ClInclude Include="paper.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="scene_main.h" />
     <ClInclude Include="scene_title.h" />
     <ClInclude Include="sound_data.h" />
@@ -243,6 +244,12 @@
     <FxCompile Include="3dgp\sprite_vs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="3dgp11_game_engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="DATA\Images\app_icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,6 +35,8 @@ enum UI_NO
 	HELP_BUTTON,
 
 	X_BUTTON,
+	LT_BUTTON,
+	RT_BUTTON,
 
 	SCROLL_MODE,
 	SCROLL_TOP,
@@ -136,6 +138,7 @@ public:
 	void showRetryPanel(int a_selectedNO = 0);
 	void showHelpButton(bool a_showHelp = false);
 	void showXButton();
+	void showButton(int a_UINO);
 	void showScrollMode();
 	void showStageSelected(int a_selectedStageNO = 0, bool a_doReset = false);
 	void drawStageClearedMark(int a_pagination = 0);

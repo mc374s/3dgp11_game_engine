@@ -82,6 +82,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_HELP_BUTTON,				"./DATA/Images/UI/help_button.png" },
 
 	{ TEX_X_BUTTON,					"./DATA/Images/UI/x_button.png" },
+	{ TEX_LT_BUTTON,				"./DATA/Images/UI/lt_button.png" },
+	{ TEX_RT_BUTTON,				"./DATA/Images/UI/rt_button.png" },
 	
 	{ TEX_SCROLL_MODE,				"./DATA/Images/UI/scroll_mode.png" },
 	{ TEX_SCROLL_ARROW,				"./DATA/Images/UI/scroll_arrow.png" },
@@ -422,6 +424,8 @@ SPRITE_CENTER e_sprGameOverBehind = SPRITE_CENTER(TEX_GAME_OVER_BEHIND, 0, 0, 10
 SPRITE_CENTER e_sprGameOverFront = SPRITE_CENTER(TEX_GAME_OVER_FRONT, 0, 0, 1009, 360);
 
 SPRITE_CENTER e_sprXButton = SPRITE_CENTER(TEX_X_BUTTON, 0, 0, 48, 48);
+SPRITE_CENTER e_sprLTButton = SPRITE_CENTER(TEX_LT_BUTTON, 0, 0, 115, 87);
+SPRITE_CENTER e_sprRTButton = SPRITE_CENTER(TEX_RT_BUTTON, 0, 0, 115, 87);
 
 SPRITE_CENTER e_sprHelp = SPRITE_CENTER(TEX_HELP, 0, 0, 800, 600);
 //SPRITE_LEFTTOP e_sprHelpButton = SPRITE_LEFTTOP(TEX_HELP_BUTTON, 0, 0, 150, 50);
