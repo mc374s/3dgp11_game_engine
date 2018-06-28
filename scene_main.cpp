@@ -448,6 +448,7 @@ bool SceneMain::pause()
 
 		if ((KEY_TRACKER.released.C || PAD_TRACKER.x == PAD_TRACKER.RELEASED))
 		{
+			pressTimer = 0;
 			switch (m_selectionNO)
 			{
 			case PAUSED_SELECTION::TO_GAME:
@@ -502,7 +503,7 @@ bool SceneMain::pause()
 				m_isPaused = false;
 			}*/
 		}
-		if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.start == PAD_TRACKER.PRESSED) && pressTimer > 10)
+		if (pressTimer > 15 && (KEY_TRACKER.pressed.Space || PAD_TRACKER.start == PAD_TRACKER.PRESSED))
 		{
 			m_selectionNO = PAUSED_SELECTION::TO_GAME;
 			doShowHelp = false;

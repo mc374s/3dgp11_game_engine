@@ -64,7 +64,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE prev_instance, LPWSTR cmd_line
 	loadThread_1.detach();
 	//loadThread_2.detach();
 	//pTextureManager->loadTextures(e_loadTexture);
-
+	//pMFAudioManager->loadAudios(audio_data);
 	// Set the Init Scene
 	framework::changeScene(SCENE_MAIN);
 

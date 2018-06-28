@@ -82,6 +82,8 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_HELP_BUTTON,				"./DATA/Images/UI/help_button.png" },
 
 	{ TEX_X_BUTTON,					"./DATA/Images/UI/x_button.png" },
+	{ TEX_LT_BUTTON,				"./DATA/Images/UI/lt_button.png" },
+	{ TEX_RT_BUTTON,				"./DATA/Images/UI/rt_button.png" },
 	
 	{ TEX_SCROLL_MODE,				"./DATA/Images/UI/scroll_mode.png" },
 	{ TEX_SCROLL_ARROW,				"./DATA/Images/UI/scroll_arrow.png" },
