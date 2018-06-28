@@ -977,7 +977,7 @@ void PlayerManager::transcriptPlayer(int a_concentration)
 				m_pPlayer->m_jumpCounter = 1;
 				m_pPlayer->m_custom.reflectX = !m_pPlayer->m_custom.reflectX;
 				m_pPlayer->m_timer = 0;
-
+				//m_pPlayer->m_montionState = P_STATE::STANDBY;
 			}
 			m_step = STEP::INIT;
 		}
