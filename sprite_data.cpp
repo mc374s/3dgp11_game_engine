@@ -49,6 +49,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 
 	{ TEX_GAGE_DIVISION_ALLOCATION,	"./DATA/Images/UI/gage_division_allocation.png" },
 	{ TEX_GAGE_DIVISION,			"./DATA/Images/UI/gage_division.png" },
+	{ TEX_GAGE_DIVISION_WHITE,		"./DATA/Images/UI/gage_division_white.png" },
 	{ TEX_ANIME_GAGE,				"./DATA/Images/UI/gage_ink_white.png" },
 	{ TEX_PLAYER_FACE,				"./DATA/Images/UI/player_face.png" },
 
@@ -89,7 +90,7 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_STAGE_CLEAR_FRONT,		"./DATA/Images/UI/stage_clear_front.png" },
 	{ TEX_GAME_OVER_BEHIND,			"./DATA/Images/UI/game_over_behind.png" },
 	{ TEX_GAME_OVER_FRONT,			"./DATA/Images/UI/game_over_front.png" },
-
+	{ TEX_CLEAR_MARK,				"./DATA/Images/UI/clear_mark.png" },
 
 	{ TEX_STAGE_SELECT00_LEFT,			"./DATA/Images/UI/stage_select00_left.png" },
 	{ TEX_STAGE_SELECT00_RIGHT,			"./DATA/Images/UI/stage_select00_right.png" },
@@ -380,6 +381,7 @@ SPRITE_CENTER e_sprGageAllocation = SPRITE_CENTER(TEX_WHITE, 0, 0, 34 * 10, 30);
 
 
 SPRITE_LEFTTOP e_sprGageDivision = SPRITE_LEFTTOP(TEX_GAGE_DIVISION, 0, 0, 456, 128);
+SPRITE_LEFTTOP e_sprGageDivisionWhite = SPRITE_LEFTTOP(TEX_GAGE_DIVISION_WHITE, 0, 0, 456, 128);
 SPRITE_LEFTTOP e_sprGage = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 34 * 10 - 5, 30);
 SPRITE_LEFTTOP e_sprGageUnder = SPRITE_LEFTTOP(TEX_WHITE, 0, 0, 34 * 10, 30);
 SPRITE_LEFTTOP e_pAnimeGage[] = {
@@ -430,6 +432,8 @@ SPRITE_LEFTTOP e_pSprStageSelection[] = {
 };
 
 SPRITE_CENTER e_sprStageSelected = SPRITE_CENTER(TEX_STAGE_SELECTED, 0, 0, 128, 17);
+
+SPRITE_CENTER e_sprClearMark = SPRITE_CENTER(TEX_CLEAR_MARK, 0, 0, 57, 32);
 
 // Effect関係
 SPRITE_CENTER e_sprWhiteCircle = SPRITE_CENTER(TEX_WHITE_CIRCLE, 0, 0, 32, 32);

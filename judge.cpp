@@ -183,8 +183,8 @@ void judgeAll()
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_setPos = it.m_pos;
 							//pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_setPos.z = it.m_initPos.y - it.m_pos.y;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_initPos = it.m_initPos;
-							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_initPos.z = it.m_pos.y - it.m_initPos.y;
 							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_isHitAble = false;
+							pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_timer = 0;
 							//pPlayer->m_pKeyObj[pPlayer->m_keyCounter - 1].m_pos = it.m_pos;
 							it.m_isHitAble = false;
 							it.m_concentration = P_CONCENTRATION_MAX;
