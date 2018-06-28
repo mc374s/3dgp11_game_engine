@@ -736,15 +736,19 @@ void effectStampMove(Effect* a_pObj)
 		if (a_pObj->m_timer > 60) {
 			a_pObj->m_timer = 0;
 			pEffectManager->isStampDown = true;
-			a_pObj->m_step = STEP::END;
-			a_pObj->clear();
+			a_pObj->m_step = STEP::BEGIN+2;
+			a_pObj->m_speed = Vector3(3, 4, 0);
+			//a_pObj->clear();
 		}
 		break;
 	case STEP::BEGIN + 2:
-		a_pObj->m_timer++;
-		if (a_pObj->m_timer>30) {
-			a_pObj->m_timer = 0;
-			a_pObj->m_step = STEP::BEGIN + 2;
+		a_pObj->m_custom.scaleX += 0.03f;
+		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
+		a_pObj->m_pos -= a_pObj->m_speed;
+		a_pObj->m_alpha -= 20;
+		if (a_pObj->m_alpha <= 0) {
+			a_pObj->m_step = STEP::END;
+			a_pObj->clear();
 		}
 		break;
 	case STEP::END:
