@@ -122,7 +122,7 @@ void judgeAll()
 				}
 
 				if (it.m_type != M_TYPE::HIGH_CONCENTRATION && it.m_type != M_TYPE::NONE
-					&& (it.m_type < M_TYPE::DOOR_1_1 || it.m_type > M_TYPE::KEY_5_1)&& it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN
+					&& (it.m_type < M_TYPE::DOOR_1_1 || it.m_type > M_TYPE::KEY_5_3)&& it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN
 					&& (pPlayer->m_concentration <= it.m_concentration/*it.m_concentration > LOW_CONCENTRATION || pPlayer->m_concentration > LOW_CONCENTRATION*/))
 				{
 					it.hitAdjust(pPlayer);
@@ -154,7 +154,7 @@ void judgeAll()
 
 
 				// 鍵関係
-				if (it.m_type >= M_TYPE::DOOR_1_1 && it.m_type <= M_TYPE::KEY_5_1)
+				if (it.m_type >= M_TYPE::DOOR_1_1 && it.m_type <= M_TYPE::KEY_5_3)
 				{
 					if (it.m_type % 2 != 0) {
 						// KEY
@@ -213,7 +213,7 @@ void judgeAll()
 				//if ((pPlayer->m_concentration < it.m_concentration || pPlayer->m_concentration < LOW_CONCENTRATION) && it.m_concentration > LOW_CONCENTRATION)
 				// プレイヤーの濃度より高いObjは転写できない
 				if (pPlayer->m_concentration <= it.m_concentration && 
-					((it.m_type < M_TYPE::DOOR_1_1 || it.m_type > M_TYPE::KEY_5_1) && it.m_type != M_TYPE::HIGH_CONCENTRATION &&
+					((it.m_type < M_TYPE::DOOR_1_1 || it.m_type > M_TYPE::KEY_5_3) && it.m_type != M_TYPE::HIGH_CONCENTRATION &&
 						it.m_type != M_TYPE::PASSABLE_UP && it.m_type != M_TYPE::PASSABLE_DOWN && it.m_type !=M_TYPE::RECOVERY))
 				{
 					pPlayerManager->m_isTranscriptAble = false;
