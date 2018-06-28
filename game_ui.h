@@ -53,6 +53,8 @@ enum UI_NO
 
 	STAGE_CLEARED,
 
+	TITLE_STAMP,
+
 	MAX_UI_NO,
 };
 
@@ -135,6 +137,8 @@ public:
 	void showScrollMode();
 	void showStageSelected(int a_selectedStageNO = 0, bool a_doReset = false);
 	void drawStageClearedMark(int a_pagination = 0);
+	void drawTitleStamp(int a_pagination = 0);
+
 };
 
 #define pGameUIManager	(GameUIManager::getInstance())

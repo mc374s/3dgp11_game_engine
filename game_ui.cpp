@@ -289,6 +289,11 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
 	m_ppGameUI[STAGE_CLEARED]->m_setPos = m_ppGameUI[STAGE_CLEARED]->m_initPos = m_ppGameUI[STAGE_CLEARED]->m_pos = { PAGE_WIDTH / 2 + 50,150.0f,0.0f };
 
+	// UI for Title
+	m_ppGameUI[TITLE_STAMP]->m_pSprData = &e_sprTitleStamp;
+	m_ppGameUI[TITLE_STAMP]->m_isVisibleAlways = false;
+	m_ppGameUI[TITLE_STAMP]->m_isVisible = false;
+	m_ppGameUI[TITLE_STAMP]->m_setPos = m_ppGameUI[TITLE_STAMP]->m_initPos = m_ppGameUI[TITLE_STAMP]->m_pos = { 100.0f,100.0f,0.0f };
 
 	////////////////////////////////////////////////////////////////////////////////
 	// Initialize m_ppNumbers
@@ -349,6 +354,16 @@ void GameUIManager::drawStageClearedMark(int a_pagination)
 	}
 }
 
+void GameUIManager::drawTitleStamp(int a_pagination) {
+	if (m_ppGameUI[TITLE_STAMP] && m_ppGameUI[TITLE_STAMP]->m_isVisible)
+	{
+		if (a_pagination == 0) {
+			m_ppGameUI[TITLE_STAMP]->draw();
+		}
+	}
+}
+
+
 void GameUIManager::draw()
 {
 	//drawStageClearedMark();
@@ -358,7 +373,7 @@ void GameUIManager::draw()
 	
 	for (auto &pObj : m_ppGameUI)
 	{
-		if (pObj && pObj->m_pSprData && pObj->m_isVisible && pObj != m_ppGameUI[STAGE_CLEARED])
+		if (pObj && pObj->m_pSprData && pObj->m_isVisible && pObj != m_ppGameUI[STAGE_CLEARED] && pObj != m_ppGameUI[TITLE_STAMP])
 		{
 			pObj->draw();
 			if (!pObj->m_isVisibleAlways)

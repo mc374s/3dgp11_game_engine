@@ -5,6 +5,7 @@
 enum TEX_NO {
 	TEX_COVER_FRONT,
 	TEX_COVER_BACK,
+	TEX_TITLE_STAMP,
 	TEX_PAGE,
 
 	TEX_WHITE,
@@ -111,6 +112,7 @@ extern SPRITE_LEFTTOP e_sprMainBG;
 // Book texture
 extern SPRITE_LEFTTOP e_sprCoverFront;
 extern SPRITE_LEFTTOP e_sprCoverBack;
+extern SPRITE_LEFTTOP e_sprTitleStamp;
 extern SPRITE_LEFTTOP e_sprPage;
 
 // キャラなど

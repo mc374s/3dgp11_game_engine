@@ -16,6 +16,7 @@
 LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_COVER_FRONT,				"./DATA/Images/Book/cover_front.png" },
 	{ TEX_COVER_BACK,				"./DATA/Images/Book/cover_back.png" },
+	{ TEX_TITLE_STAMP,				"./DATA/Images/UI/title_stamp.png" },
 	{ TEX_PAGE,						"./DATA/Images/Book/page.png" },
 
 	{ TEX_WHITE,					"./DATA/Images/white.png"},
@@ -128,6 +129,7 @@ SPRITE_LEFTTOP e_sprPage = SPRITE_LEFTTOP(TEX_PAGE, 0, 0, PAGE_WIDTH, PAGE_HEIGH
 
 SPRITE_LEFTTOP e_sprCoverFront = SPRITE_LEFTTOP(TEX_COVER_FRONT, 0, 0, PAGE_WIDTH + 0 + 20, PAGE_HEIGHT + 10 + 10);
 SPRITE_LEFTTOP e_sprCoverBack = SPRITE_LEFTTOP(TEX_COVER_BACK, 0, 0, PAGE_WIDTH + 0 + 20, PAGE_HEIGHT + 10 + 10);
+SPRITE_LEFTTOP e_sprTitleStamp = SPRITE_LEFTTOP(TEX_TITLE_STAMP, 0, 0, 146, 126);
 
 // キャラなど
 

@@ -264,6 +264,7 @@ void Paper::drawFront()
 		}
 
 		pGameUIManager->drawStageClearedMark(m_paginationFront);
+		//pGameUIManager->drawTitleStamp(m_paginationFront);
 
 		m_pCurtainFront->draw();
 
@@ -329,6 +330,8 @@ void Paper::drawBack()
 		}
 
 		pGameUIManager->drawStageClearedMark(m_paginationBack);
+		//pGameUIManager->drawTitleStamp(m_paginationBack);
+
 
 		m_pCurtainBack->draw();
 
