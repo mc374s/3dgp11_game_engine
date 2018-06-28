@@ -67,6 +67,9 @@ LOAD_TEXTURE e_loadTexture[] = {
 	{ TEX_EFF_BOOK_AURA,			"./DATA/Images/Effect/book_aura.png", true },
 	{ TEX_EFF_GOAL,					"./DATA/Images/Effect/goal_effect.png" },
 	{ TEX_EFF_PLAYER_BORDER,		"./DATA/Images/Effect/player_border.png" },
+	{ TEX_EFF_SPIRALS,				"./DATA/Images/Effect/spirals.png" },
+	{ TEX_EFF_CLEAR_STAR,			"./DATA/Images/Effect/clear_star.png" },
+	{ TEX_EFF_FIREWORK,				"./DATA/Images/Effect/firework.png" },
 
 	{ TEX_GAME_RULE_LEFT,			"./DATA/Images/Book/game_rule_left.png" },
 	{ TEX_GAME_RULE_RIGHT,			"./DATA/Images/Book/game_rule_right.png" },
@@ -540,5 +543,37 @@ SPRITE_LEFTTOP e_pSprEffGoal[] = {
 };
 
 SPRITE_BOTTOM e_sprEffPlayerBorder = SPRITE_BOTTOM(TEX_EFF_PLAYER_BORDER, 0, 0, 0, 0);
+
+SPRITE_CENTER e_pSprEffSpirals[] = {
+	SPRITE_CENTER(TEX_EFF_SPIRALS, 0, 80 * 0, 80, 80),
+	SPRITE_CENTER(TEX_EFF_SPIRALS, 0, 80 * 1, 80, 80),
+	SPRITE_CENTER(TEX_EFF_SPIRALS, 0, 80 * 2, 80, 80),
+	SPRITE_CENTER(TEX_EFF_SPIRALS, 0, 80 * 3, 80, 80),
+	SPRITE_CENTER(-1, 0, 0, 0, 0),
+};
+
+SPRITE_CENTER e_pAnimeEffClearStar[] = {
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 200 * 0, 0, 200, 189, 6),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 200 * 1, 0, 200, 189, 6),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 200 * 2, 0, 200, 189, 6),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 200 * 3, 0, 200, 189, 6),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 200 * 4, 0, 200, 189, 6),
+	SPRITE_CENTER(-1, 0, 0, 0, 0),
+};
+
+SPRITE_CENTER e_pAnimeEffFirework[] = {
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 0, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 1, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 2, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 3, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 4, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 5, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 6, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 7, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 8, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 9, 0, 486, 645, 4),
+	SPRITE_CENTER(TEX_EFF_CLEAR_STAR, 486 * 10, 0, 486, 645, 4),
+	SPRITE_CENTER(-1, 0, 0, 0, 0),
+};
 
 //******************************************************************************

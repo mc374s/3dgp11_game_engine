@@ -56,6 +56,9 @@ enum TEX_NO {
 	TEX_EFF_BOOK_AURA,
 	TEX_EFF_GOAL,
 	TEX_EFF_PLAYER_BORDER,
+	TEX_EFF_SPIRALS,
+	TEX_EFF_CLEAR_STAR,
+	TEX_EFF_FIREWORK,
 
 	TEX_GAME_RULE_LEFT,
 	TEX_GAME_RULE_RIGHT,
@@ -196,5 +199,9 @@ extern SPRITE_CENTER e_sprEffBookAura;
 extern SPRITE_LEFTTOP e_pSprEffGoal[];
 
 extern SPRITE_BOTTOM e_sprEffPlayerBorder;
+
+extern SPRITE_CENTER e_pSprEffSpirals[];
+extern SPRITE_CENTER e_pAnimeEffClearStar[];
+extern SPRITE_CENTER e_pAnimeEffFirework[];
 
 #endif // !_SPRDATA_H_
