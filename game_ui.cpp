@@ -242,7 +242,7 @@ void GameUIManager::init()
 	m_ppGameUI[X_BUTTON]->m_isVisibleAlways = false;
 	m_ppGameUI[X_BUTTON]->m_isVisible = false;
 	m_ppGameUI[X_BUTTON]->m_pSprData = &e_sprXButton;
-	m_ppGameUI[X_BUTTON]->m_initPos = m_ppGameUI[X_BUTTON]->m_pos = { SCREEN_WIDTH / 2,SCREEN_HEIGHT - 100,0.0f };
+	m_ppGameUI[X_BUTTON]->m_initPos = m_ppGameUI[X_BUTTON]->m_pos = { SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4,SCREEN_HEIGHT / 2,0.0f };
 	m_ppGameUI[X_BUTTON]->m_alpha = 255;
 
 	// UI for Scroll Mode
@@ -647,11 +647,11 @@ void GameUIManager::showHelpButton(bool a_showHelp)
 
 void GameUIManager::showXButton()
 {
-	static float scaleSpeed = 0.008f;
+	static float scaleSpeed = 0.004f;
 	m_ppGameUI[X_BUTTON]->m_isVisible = true;
 	m_ppGameUI[X_BUTTON]->m_custom.scaleX += scaleSpeed;
-	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX > 1.5f) {
-		m_ppGameUI[X_BUTTON]->m_custom.scaleX = 1.5f;
+	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX > 1.3f) {
+		m_ppGameUI[X_BUTTON]->m_custom.scaleX = 1.3f;
 		scaleSpeed = -scaleSpeed;
 	}
 	if (m_ppGameUI[X_BUTTON]->m_custom.scaleX < 1.0f) {

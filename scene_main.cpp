@@ -392,7 +392,10 @@ void SceneMain::draw()
 		//pEffectManager->draw();
 	}
 	pGameUIManager->draw();
-	pEffectManager->draw();
+	if (!m_isPaused)
+	{
+		pEffectManager->draw();
+	}
 
 
 #ifdef  DEBUG
@@ -411,6 +414,7 @@ void SceneMain::draw()
 bool SceneMain::pause()
 {
 	static bool doShowHelp = false;
+	static int pressTimer = 0;
 	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT + 2 && m_step != STEP::END && pBook->m_isOpened) {
 		m_isPaused = true;
 		pBook->darkenPapers(80);
@@ -418,11 +422,12 @@ bool SceneMain::pause()
 
 	if (m_isPaused)
 	{
+		pressTimer++;
 		if (!doShowHelp){
 			pGameUIManager->showPausePanel(m_selectionNO);
 		}
 		else{
-			pGameUIManager->showXButton();
+			//pGameUIManager->showXButton();
 		}
 
 		if ((KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) && !doShowHelp)
@@ -496,6 +501,14 @@ bool SceneMain::pause()
 			if (m_selectionNO == PAUSED_SELECTION::TO_HELP_PAUSE) {
 				m_isPaused = false;
 			}*/
+		}
+		if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.start == PAD_TRACKER.PRESSED) && pressTimer > 10)
+		{
+			m_selectionNO = PAUSED_SELECTION::TO_GAME;
+			doShowHelp = false;
+			pBook->darkenPapers(0);
+			pressTimer = 0;
+			m_isPaused = false;
 		}
 	}
 	pGameUIManager->showHelpButton(doShowHelp);
