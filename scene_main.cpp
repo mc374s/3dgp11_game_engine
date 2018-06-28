@@ -182,6 +182,7 @@ void SceneMain::update()
 			pGameUIManager->showStageSelected(m_selectedStageNO);
 
 			if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) {
+				MFAudioPlay(SE_CURSOR);
 				--m_selectedStageNO;
 				if (m_selectedStageNO < (m_selectedStageNO + 1) / 6 * 6) {
 					m_selectedStageNO = (m_selectedStageNO + 1) / 6 * 6 + 5;
@@ -197,6 +198,7 @@ void SceneMain::update()
 				}*/
 			}
 			if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) {
+				MFAudioPlay(SE_CURSOR);
 				++m_selectedStageNO;
 				if (m_selectedStageNO > (m_selectedStageNO - 1) / 6 * 6 + 5) {
 					//m_selectedStageNO = STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM - 1;
@@ -220,12 +222,14 @@ void SceneMain::update()
 				}*/
 			}
 			if (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED) {
+				MFAudioPlay(SE_CURSOR);
 				if (m_selectedStageNO < 12) {
 					m_selectedStageNO += 6;
 					m_selectedStageNO %= 12; 
 				}
 			}
 			if (KEY_TRACKER.pressed.D || PAD_TRACKER.leftStickRight == PAD_TRACKER.PRESSED) {
+				MFAudioPlay(SE_CURSOR);
 				if (m_selectedStageNO < 12){
 					m_selectedStageNO += 6;
 					m_selectedStageNO %= 12;
@@ -441,6 +445,7 @@ bool SceneMain::pause()
 
 		if ((KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) && !doShowHelp)
 		{
+			MFAudioPlay(SE_CURSOR);
 			m_selectionNO++;
 			/*if (m_selectionNO >= PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM) {
 				m_selectionNO = PAUSED_SELECTION::TO_GAME;
@@ -448,6 +453,7 @@ bool SceneMain::pause()
 		}
 		if ((KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) && !doShowHelp)
 		{
+			MFAudioPlay(SE_CURSOR);
 			m_selectionNO--;
 			/*if (m_selectionNO < PAUSED_SELECTION::TO_GAME) {
 				m_selectionNO = PAUSED_SELECTION::MAX_PAUSED_SELECTION_NUM - 1;
@@ -532,6 +538,7 @@ void SceneMain::retrySelection()
 	pGameUIManager->showRetryPanel(m_selectionNO);
 	if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED)
 	{
+		MFAudioPlay(SE_CURSOR);
 		m_selectionNO++;
 		/*if (m_selectionNO >= RETRY_SELECTION::MAX_RETRY_SELECTION_NUM) {
 			m_selectionNO = RETRY_SELECTION::TO_RETRY;
@@ -539,6 +546,7 @@ void SceneMain::retrySelection()
 	}
 	if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED)
 	{
+		MFAudioPlay(SE_CURSOR);
 		m_selectionNO--;
 		/*if (m_selectionNO < RETRY_SELECTION::TO_RETRY) {
 			m_selectionNO = RETRY_SELECTION::MAX_RETRY_SELECTION_NUM - 1;
