@@ -3,6 +3,7 @@
 
 enum AUDIO_NO
 {
+	BGM_TITLE,
 	BGM_MAIN,
 	SE_START,
 	SE_FALL,

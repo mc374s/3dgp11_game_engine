@@ -10,7 +10,9 @@
 #include "sound_data.h"
 
 RESOURCE_DATA audio_data[] = {
-	{ BGM_MAIN,		"./DATA/Sounds/BGM/main_bgm.mp3" },
+	{ BGM_TITLE,		"./DATA/Sounds/BGM/title.mp3" },
+	{ BGM_MAIN,		"./DATA/Sounds/BGM/main.mp3" },
+
 	{ SE_START,		"./DATA/Sounds/SE/start.wav" },
 	{ SE_FALL,		"./DATA/Sounds/SE/fall.mp3" },
 	{ SE_OPEN,		"./DATA/Sounds/SE/book_open.mp3" },
