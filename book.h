@@ -84,6 +84,8 @@ public:
 	void turnPages();
 	void startReading();
 	void finishReading();
+
+	void floating();
 };
 
 #define pBook (Book::getInstance())

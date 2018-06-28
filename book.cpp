@@ -135,7 +135,7 @@ void Book::init()
 
 	m_isReadyed = true;
 
-
+	m_initPos.y = m_position.y;
 
 	m_posLookedByCamera = { 0.0f, 0.0f, 200.0f };
 	m_cameraAdjust = { m_coverWidth / 2, m_coverHeight / 2, -CAMERA_BEST_DISTANCE_PX };
@@ -935,4 +935,23 @@ void Book::turnPages()
 	default:
 		break;
 	}
+}
+
+void Book::floating()
+{
+	//static float speed = 0.6f, speedAcc = -0.01f;
+	//speed += speedAcc;
+	//m_position.y += speed;
+	//if (m_position.y < m_initPos.y) {
+	//	m_position.y = m_initPos.y;
+	//	speed = 0.6f;
+	//}
+	//if (m_pfMove == &Book::startReading) {
+	//	m_position.y = m_initPos.y;
+	//	//m_position.y -= 0.5f;
+	//	//if (m_position.y < m_initPos.y)
+	//	//{
+	//	//	m_position.y = m_initPos.y;
+	//	//}
+	//}
 }

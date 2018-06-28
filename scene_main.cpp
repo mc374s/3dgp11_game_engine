@@ -103,6 +103,7 @@ void SceneMain::update()
 		break;
 	case STEP::INIT + 1:
 		// Title Scene
+		pBook->floating();
 		if (pPlayerManager->m_pPlayer && pPlayerManager->m_pPlayer->m_pBorder)
 		{
 			pPlayerManager->m_pPlayer->m_pBorder->m_step = STEP::INIT;
