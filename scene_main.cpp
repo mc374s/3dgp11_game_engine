@@ -171,7 +171,7 @@ void SceneMain::update()
 		if (pBook->m_isOpened && pBook->m_step==STEP::FINISH)
 		{
 			if (m_selectedStageNO < 12){
-				pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
+				//pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
 				pGameUIManager->m_ppGameUI[RT_BUTTON]->m_isVisible = true;
 			}
 			else{
