@@ -20,6 +20,8 @@ STAGE_DATA stage04_setData[] = {
 
 	//STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 5], 0, M_TYPE::PASSABLE_DOWN,			M_DRAW::DOWN,	v3(465,680-8,1),		true, v3(155,11,0), 0),
 
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4], 0, M_TYPE::TUTORIAL_5,				M_DRAW::UP,		v3(100,300,1),		false, v3(334,24,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4], 0, M_TYPE::TUTORIAL_7,				M_DRAW::UP,		v3(40,720,1),		false, v3(310,63,0), 10),
 
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 4], 0, M_TYPE::BORDER_INNER,				M_DRAW::UP,		v3(0,900,1),		true, v3(PW,11,0), 10),
