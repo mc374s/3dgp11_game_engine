@@ -170,6 +170,13 @@ void SceneMain::update()
 
 		if (pBook->m_isOpened && pBook->m_step==STEP::FINISH)
 		{
+			if (m_selectedStageNO < 12){
+				pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
+				pGameUIManager->m_ppGameUI[RT_BUTTON]->m_isVisible = true;
+			}
+			else{
+				pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
+			}
 			pGameUIManager->showStageSelected(m_selectedStageNO);
 
 			if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) {
@@ -456,6 +463,7 @@ bool SceneMain::pause()
 				m_isPaused = false;
 				break;
 			case PAUSED_SELECTION::TO_RETRY_PAUSE:
+				pEffectManager->init();
 				pBook->darkenPapers(0);
 				m_isPaused = false;
 				m_timer = 0;
@@ -465,6 +473,7 @@ bool SceneMain::pause()
 				m_step = STEP::INIT + 1;
 				break;
 			case PAUSED_SELECTION::TO_TITLE_PAUSE:
+				pEffectManager->init();
 				pBook->darkenPapers(0);
 				m_isPaused = false;
 				/*for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
@@ -552,6 +561,7 @@ void SceneMain::retrySelection()
 			m_selectionNO = RETRY_SELECTION::TO_RETRY;
 			m_step = STEP::INIT + 1;
 		}
+		pEffectManager->init();
 	}
 }
 

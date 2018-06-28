@@ -245,6 +245,16 @@ void GameUIManager::init()
 	m_ppGameUI[X_BUTTON]->m_initPos = m_ppGameUI[X_BUTTON]->m_pos = { SCREEN_WIDTH / 2 + SCREEN_WIDTH / 4,SCREEN_HEIGHT / 2,0.0f };
 	m_ppGameUI[X_BUTTON]->m_alpha = 255;
 
+	// UI for LT RT button
+	m_ppGameUI[LT_BUTTON]->m_isVisibleAlways = false;
+	m_ppGameUI[LT_BUTTON]->m_isVisible = false;
+	m_ppGameUI[LT_BUTTON]->m_alpha = 200;
+	m_ppGameUI[LT_BUTTON]->m_pSprData = &e_sprLTButton;
+	m_ppGameUI[LT_BUTTON]->m_initPos = m_ppGameUI[LT_BUTTON]->m_pos = { m_ppGameUI[LT_BUTTON]->m_pSprData->width / 2.0f + 10.0f,SCREEN_HEIGHT - m_ppGameUI[LT_BUTTON]->m_pSprData->height / 2.0f - 5.0f,0.0f };
+	*m_ppGameUI[RT_BUTTON] = *m_ppGameUI[LT_BUTTON];
+	m_ppGameUI[RT_BUTTON]->m_pSprData = &e_sprRTButton;
+	m_ppGameUI[RT_BUTTON]->m_initPos.x = m_ppGameUI[RT_BUTTON]->m_pos.x = SCREEN_WIDTH - m_ppGameUI[RT_BUTTON]->m_pSprData->width / 2.0f - 10.0f;
+
 	// UI for Scroll Mode
 	m_ppGameUI[SCROLL_MODE]->m_pSprData = &e_sprScrollMode;
 	m_ppGameUI[SCROLL_MODE]->m_isVisibleAlways = false;
