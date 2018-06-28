@@ -108,6 +108,10 @@ void MapObj::init()
 		break;
 	case M_TYPE::DOOR_5_1:
 	case M_TYPE::KEY_5_1:
+	case M_TYPE::DOOR_5_2:
+	case M_TYPE::KEY_5_2:
+	case M_TYPE::DOOR_5_3:
+	case M_TYPE::KEY_5_3:
 		m_keyType = M_KEY_TYPE::CHAPTER_5;
 		break;
 	case M_TYPE::BORDER_INNER:
