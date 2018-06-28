@@ -278,7 +278,7 @@ void SceneMain::update()
 		m_timer++;
 		if (m_timer > 120)
 		{
-			pGameUIManager->showXButton();
+			//pGameUIManager->showXButton();
 		}
 		if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED || m_timer > 240) && pBook->m_step == STEP::FINISH)
 		{
@@ -295,7 +295,7 @@ void SceneMain::update()
 		pBook->update();
 		pStageManager->update();
 		pEffectManager->update();
-		turnPagesController();
+		//turnPagesController();
 		//m_step = STEP::INIT + 4;
 		break;
 	case STEP::INIT + 4:
@@ -411,7 +411,7 @@ void SceneMain::draw()
 bool SceneMain::pause()
 {
 	static bool doShowHelp = false;
-	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT && m_step != STEP::END && pBook->m_isOpened) {
+	if ((KEY_TRACKER.pressed.Space || PAD_TRACKER.menu == PAD_TRACKER.PRESSED) && m_step > STEP::INIT + 2 && m_step != STEP::END && pBook->m_isOpened) {
 		m_isPaused = true;
 		pBook->darkenPapers(80);
 	}
@@ -627,7 +627,7 @@ void SceneMain::gameMain()
 			}
 			if (m_timer > 120)
 			{
-				pGameUIManager->showXButton();
+				//pGameUIManager->showXButton();
 				if ((KEY_TRACKER.pressed.C || PAD_TRACKER.x == PAD_TRACKER.PRESSED) || (m_timer > 360 && !m_stageClearFlag[STAGE_MAX_NUM]))
 				{
 					m_stageNO++;
