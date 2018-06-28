@@ -168,7 +168,10 @@ void GameUIManager::init()
 
 	m_ppGameUI[C_DIVISION]->m_pSprData = &e_sprGageDivision;
 	m_ppGameUI[C_DIVISION]->m_pos = m_ppGameUI[C_DIVISION]->m_initPos = { 0,0,0 };
-	
+	*m_ppGameUI[C_DIVISION_WHITE] = *m_ppGameUI[C_DIVISION];
+	m_ppGameUI[C_DIVISION_WHITE]->m_pSprData = &e_sprGageDivisionWhite;
+	m_ppGameUI[C_DIVISION_WHITE]->m_alpha = 180;
+
 	m_ppGameUI[C_GAGE]->m_pSprData = &e_sprGage;
 	m_ppGameUI[C_GAGE]->m_custom.scaleMode = SCALE_MODE::LEFTCENTER;
 	m_ppGameUI[C_GAGE]->m_custom.rgba = 0x000000FF;
@@ -279,8 +282,8 @@ void GameUIManager::init()
 	m_ppGameUI[STAGE_SELECTED]->m_alpha = 0;
 
 	// UI for Stage Cleared
-	m_ppGameUI[STAGE_CLEARED]->m_pSprData = &e_sprStageClearFront;
-	m_ppGameUI[STAGE_CLEARED]->m_custom.scaleX = m_ppGameUI[STAGE_CLEARED]->m_custom.scaleY = 0.15f;
+	m_ppGameUI[STAGE_CLEARED]->m_pSprData = &e_sprClearMark;
+	//m_ppGameUI[STAGE_CLEARED]->m_custom.scaleX = m_ppGameUI[STAGE_CLEARED]->m_custom.scaleY = 0.15f;
 	m_ppGameUI[STAGE_CLEARED]->m_alpha = 160;
 	m_ppGameUI[STAGE_CLEARED]->m_isVisibleAlways = true;
 	m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
@@ -487,10 +490,9 @@ void GameUIManager::showInkTransferGage(float a_playerConcentration, float a_tra
 	}
 }
 
-void GameUIManager::showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged, Vector3 a_pos)
+void GameUIManager::showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged, bool a_isOnBlurArea, Vector3 a_pos)
 {
 	m_ppGameUI[C_DIVISION]->m_isVisible = m_ppGameUI[C_GAGE]->m_isVisible = m_ppGameUI[C_GAGE_ANIME]->m_isVisible = m_ppGameUI[C_PLAYER_FACE]->m_isVisible /*= m_ppGameUI[C_GAGE_UNDER]->m_isVisible*/ = true;
-
 	m_ppGameUI[C_GAGE]->m_custom.scaleX = a_playerConcentration / (float)P_CONCENTRATION_MAX;
 	if (a_isDamaged)
 	{
@@ -501,6 +503,9 @@ void GameUIManager::showPlayerConcentration(float a_playerConcentration, int a_p
 	{
 		m_ppGameUI[C_GAGE]->m_custom.rgba = 0x735E60FF;
 		m_ppGameUI[C_PLAYER_FACE]->m_pSprData = &e_pSprPlayerFace[1];
+		if (a_isOnBlurArea){
+			m_ppGameUI[C_DIVISION_WHITE]->m_isVisible = true;
+		}
 	}
 
 	m_ppGameUI[C_GAGE_ANIME]->m_pos.x = m_ppGameUI[C_GAGE]->m_pos.x + m_ppGameUI[C_GAGE]->m_custom.scaleX*m_ppGameUI[C_GAGE]->m_pSprData->width;

@@ -1060,7 +1060,7 @@ void effectEnterBlurArea(Effect* a_pObj)
 			if (a_pObj->m_custom.scaleX > 1.5f)
 			{
 				a_pObj->m_custom.scaleX = 1.5f;
-				a_pObj->m_step = STEP::END;
+				a_pObj->m_step = STEP::FINISH;
 			}
 		}
 		else
@@ -1068,7 +1068,7 @@ void effectEnterBlurArea(Effect* a_pObj)
 			if (a_pObj->m_custom.scaleX < 1.2f)
 			{
 				a_pObj->m_custom.scaleX = 1.2f;
-				//a_pObj->m_step = STEP::END;
+				a_pObj->m_step = STEP::END;
 			}
 		}
 		a_pObj->m_custom.scaleY = a_pObj->m_custom.scaleX;
@@ -1079,8 +1079,8 @@ void effectEnterBlurArea(Effect* a_pObj)
 		}
 		break;
 	case STEP::END:
-		a_pObj->m_step = STEP::FINISH;
-		//break;
+		//a_pObj->m_step = STEP::FINISH;
+		break;
 	case STEP::FINISH:
 		a_pObj->clear();
 		break;

@@ -537,7 +537,7 @@ void SceneMain::gameMain()
 	if (pBook->m_isOpened)
 	{
 		pPlayerManager->update();
-		pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged);
+		pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged, pPlayerManager->m_pPlayer->m_pBorder ? pPlayerManager->m_pPlayer->m_pBorder->m_step == STEP::END : false);
 		//if (pPlayerManager->m_pPlayer->m_isOnScrollArea)
 		//{
 		//	pBook->setScroll(pPlayerManager->m_pPlayer->m_speed, pPlayerManager->m_pPlayer->m_liveInPagination, pPlayerManager->m_pPlayer->m_mode == P_MODE::RESTART);
@@ -771,7 +771,7 @@ void SceneMain::viewMode()
 	pEffectManager->update();
 	pGameUIManager->showScrollMode();
 	pGameUIManager->update();
-	pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged);
+	pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged, pPlayerManager->m_pPlayer->m_pBorder ? pPlayerManager->m_pPlayer->m_pBorder->m_step == STEP::END : false);
 
 	if (KEY_TRACKER.pressed.E || PAD_TRACKER.rightShoulder == PAD_TRACKER.PRESSED)
 	{
@@ -824,6 +824,6 @@ void SceneMain::endViewMode()
 		return;
 	}
 	pGameUIManager->showScrollMode();
-	pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged);
+	pGameUIManager->showPlayerConcentration(pPlayerManager->m_pPlayer->m_concentration, pPlayerManager->m_pPlayer->getLife(), pPlayerManager->m_pPlayer->m_isDamaged, pPlayerManager->m_pPlayer->m_pBorder ? pPlayerManager->m_pPlayer->m_pBorder->m_step == STEP::END : false);
 
 }

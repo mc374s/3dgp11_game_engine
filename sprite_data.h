@@ -38,6 +38,7 @@ enum TEX_NO {
 
 	TEX_GAGE_DIVISION_ALLOCATION,
 	TEX_GAGE_DIVISION,
+	TEX_GAGE_DIVISION_WHITE,
 	TEX_ANIME_GAGE,
 	TEX_PLAYER_FACE,
 
@@ -78,6 +79,7 @@ enum TEX_NO {
 	TEX_STAGE_CLEAR_FRONT,
 	TEX_GAME_OVER_BEHIND,
 	TEX_GAME_OVER_FRONT,
+	TEX_CLEAR_MARK,
 
 	TEX_STAGE_SELECT00_LEFT,
 	TEX_STAGE_SELECT00_RIGHT,
@@ -137,6 +139,7 @@ extern SPRITE_BOTTOM e_sprLargePlayer;
 
 extern SPRITE_LEFTTOP e_pSprPlayerFace[];
 extern SPRITE_LEFTTOP e_sprGageDivision;
+extern SPRITE_LEFTTOP e_sprGageDivisionWhite;
 extern SPRITE_LEFTTOP e_sprGageUnder;
 extern SPRITE_LEFTTOP e_sprGage;
 extern SPRITE_LEFTTOP e_pAnimeGage[];
@@ -167,6 +170,7 @@ extern SPRITE_CENTER e_sprScrollArrow;
 extern SPRITE_LEFTTOP e_pSprStageSelection[];
 extern SPRITE_CENTER e_sprStageSelected;
 
+extern SPRITE_CENTER e_sprClearMark;
 
 // Effect関係
 extern SPRITE_CENTER e_sprWhiteCircle;

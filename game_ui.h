@@ -21,6 +21,7 @@ enum UI_NO
 	C_GAGE,				//C::Concentration
 	C_PLAYER_FACE,		//C::Concentration
 	C_DIVISION,			//C::Concentration
+	C_DIVISION_WHITE,	//C::Concentration
 
 	STAMP,
 	STAMP_MAX = STAMP + UI_STAMP_MAX_NUM,
@@ -126,7 +127,7 @@ public:
 	void draw();
 
 	void showInkTransferGage(float a_playerConcentration, float a_transferConcentration, bool a_isOnLeftPage, bool a_isTranscriptAble, SPRITE_DATA* a_pPlayerSprData = nullptr, bool a_isRefect = true);
-	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged = false, Vector3 a_pos = Vector3(0, 0, 0));
+	void showPlayerConcentration(float a_playerConcentration, int a_playerLife, bool a_isDamaged = false, bool a_isOnBlurArea = false, Vector3 a_pos = Vector3(0, 0, 0));
 	void showPausePanel(int a_selectedNO = 0);
 	void showRetryPanel(int a_selectedNO = 0);
 	void showHelpButton(bool a_showHelp = false);

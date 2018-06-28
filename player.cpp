@@ -120,6 +120,8 @@ void Player::normalMove()
 {
 	// input
 	m_command = getInputKey();
+
+	syncKeyPos();
 	// 滲む範囲でのスピード入れ替え
 	static int blurTimer = 0;
 	blurTimer++;
@@ -383,9 +385,6 @@ void Player::normalMove()
 	{
 		syncKeyPos();
 	}*/
-
-	syncKeyPos();
-
 
 	// アニメーションデータ
 	if (fabsf(m_speed.x - 0.0f) > FLT_EPSILON && m_isOnGround && m_pAnimeData != e_pAnimePlayerRun)
@@ -710,8 +709,19 @@ void Player::syncKeyPos()
 
 	for (int i = 0; i < P_KEY_MAX_NUM; i++)
 	{
-		if (!m_pKeyObj[i].m_isHitAble){
-			m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
+		if (!m_pKeyObj[i].m_isHitAble && m_pKeyObj[i].m_pSprData){
+			//m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_pos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
+			//m_pKeyObj[i].m_setPos.x = m_pKeyObj[i].m_pos.x = m_pKeyObj[i].m_initPos.x;
+			//continue;
+			++m_pKeyObj[i].m_timer;
+			if (m_pKeyObj[i].m_timer < 20) {
+				m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
+			}
+			else if(m_pKeyObj[i].m_pSprData){
+				m_pKeyObj[i].m_timer=40;
+				m_pKeyObj[i].m_setPos.y = m_pKeyObj[i].m_pos.y = m_pKeyObj[i].m_initPos.y - SCROLL_Y/* - m_pKeyObj[i].m_initPos.z*/;
+				continue;
+			}
 		}
 
 		if (m_pKeyObj[i].m_pos.x < m_pKeyObj[i].m_setPos.x) {
