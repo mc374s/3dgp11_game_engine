@@ -36,6 +36,7 @@ STAGE_DATA stage03_setData[] = {
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 3] + 1, 0, M_TYPE::BORDER_INNER,				M_DRAW::LEFT,	v3(PW / 2,231,1),		true, v3(11,449,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 3] + 1,	 0,	M_TYPE::DOOR_2_1,						M_DRAW::UP,		v3(100,680 - 131,0),	true, v3(117, 131,0), 8),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 3] + 1, 0, M_TYPE::TUTORIAL_6,				M_DRAW::UP,		v3(50,50,0),	false, v3(327,60,0), 10),
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 3] + 1, 0, M_TYPE::BIRD_2,				M_DRAW::UP,		v3(300,220 - 137,0),	false, v3(138,137,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 2 + 3] + 1, 0, M_TYPE::BIRD_3,				M_DRAW::UP,		v3(420,220 - 91,0),	false, v3(190,91,0), 10),
