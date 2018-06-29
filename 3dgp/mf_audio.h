@@ -2,7 +2,9 @@
 #define _MFAUDIO_H_
 /*************Media Foundation Audio SpacePlayer*******************/
 
+#pragma comment(lib,"Mfplat")
 #pragma comment(lib,"mfplay")
+#include <mfapi.h>
 #include <mfplay.h>
 
 #define AUDIO_MAX_NUM (64)

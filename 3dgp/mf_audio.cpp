@@ -7,7 +7,7 @@ bool MFAudioManager::isLoaded = false;
 
 MFAudioManager::MFAudioManager()
 {
-
+	
 }
 
 MFAudioManager::~MFAudioManager()
@@ -17,6 +17,11 @@ MFAudioManager::~MFAudioManager()
 
 void MFAudioManager::loadAudios(const RESOURCE_DATA a_pData[])
 {
+	LRESULT hr = MFStartup(MF_VERSION);
+	if (FAILED(hr)) {
+		MessageBox(0, L"MF_VERSION NOT SUPPORTTED.", L"mf_audio", MB_OK);
+		exit(-1);
+	}
 	if (!MFAudioManager::isLoaded)
 	{
 		for (int i = 0; i < AUDIO_MAX_NUM; i++) {
@@ -39,6 +44,7 @@ void MFAudiosRelease()
 		}
 	}
 	//ZeroMemory(data, sizeof(AUDIO_DATA)*AUDIO_MAX_NUM);
+	MFShutdown();
 }
 
 void MFAudioCheckLoops()
@@ -66,7 +72,7 @@ void MFAudioLoad(const int a_fileNO, const char* a_pFileName)
 	HRESULT hr = MFPCreateMediaPlayer(wcFileName, FALSE, 0, NULL,/* m_hWnd*/NULL, &MFAudioManager::pMFPlayer[a_fileNO]);
 	delete[] wcFileName;
 	if (FAILED(hr)){
-		MessageBox(0, L"MFPCreateMediaPlayer Failed.", L"framework", MB_OK);
+		MessageBox(0, L"MFPCreateMediaPlayer Failed.", L"mf_audio", MB_OK);
 		exit(-1);
 	}
 }
