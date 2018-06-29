@@ -15,7 +15,7 @@ STAGE_DATA stage10_setData[] = {
 
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 10] , 0, M_TYPE::SNOW_7,				M_DRAW::UP,		v3(230,100,0),	false, v3(39,38,0), 10),
 	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 10] , 0, M_TYPE::SNOW_6,				M_DRAW::UP,		v3(300,150,0),	false, v3(45,52,0), 10),
-	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 10] , 0, M_TYPE::SNOW_8,				M_DRAW::MIRROR,		v3(480,230 - 141,0),	false, v3(119,141,0), 10),
+	STAGE_DATA(e_startPagination[STAGE_SELECT_MAX_NUM + 4 + 10] , 0, M_TYPE::SNOW_8,				M_DRAW::MIRROR,		v3(480,240 - 141,0),	false, v3(119,141,0), 10),
 
 
 
