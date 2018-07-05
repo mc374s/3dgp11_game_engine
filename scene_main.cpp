@@ -28,11 +28,11 @@ SceneMain::SceneMain()
 			m_stageClearFlag[i] = true;
 		}
 		else {
-			m_stageClearFlag[i] = true;
+			m_stageClearFlag[i] = false;
 		}
 	}
 	m_stageClearFlag[STAGE_MAX_NUM] = false;
-	m_stageClearFlag[STAGE_MAX_NUM - 2] = false;
+	//m_stageClearFlag[STAGE_MAX_NUM - 2] = false;
 	m_stageClearFlag[STAGE_MAX_NUM + 1] = true;
 	//pObjManager->init();
 	//pPlayerManager->init();
@@ -93,12 +93,12 @@ void SceneMain::update()
 				m_stageClearFlag[i] = false;
 			}
 			m_stageClearFlag[STAGE_MAX_NUM] = true;*/
-			m_timer = 0;
 			m_step = STEP::INIT + 1;
 			pStageManager->update();
 		}
 		break;
 	case STEP::INIT + 1:
+	
 		if (m_stageClearFlag[STAGE_MAX_NUM]) {
 			m_stageClearFlag[STAGE_MAX_NUM + 1] = false;
 		}
@@ -178,6 +178,25 @@ void SceneMain::update()
 
 		if (pBook->m_isOpened && pBook->m_step==STEP::FINISH)
 		{
+			m_timer++;
+			if (m_timer> 900 || KEY_BOARD.Enter){
+				m_timer = 0;
+				m_stageNO = 0;
+				pBook->m_pfMove = &Book::finishReading;
+				m_step = STEP::INIT + 1;
+
+				for (int i = STAGE_SELECT_MAX_NUM; i < STAGE_MAX_NUM; i++) {
+					if ((i - STAGE_SELECT_MAX_NUM) % 4 == 0) {
+						m_stageClearFlag[i] = true;
+					}
+					else {
+						m_stageClearFlag[i] = false;
+					}
+				}
+				m_stageClearFlag[STAGE_MAX_NUM] = false;
+				m_stageClearFlag[STAGE_MAX_NUM + 1] = true;
+				memcpy(pGameUIManager->m_stageClearFlag, m_stageClearFlag, STAGE_LIMITTED_NUM);
+			}
 			if (m_selectedStageNO < 12){
 				//pGameUIManager->m_ppGameUI[LT_BUTTON]->m_isVisible = true;
 				//pGameUIManager->m_ppGameUI[RT_BUTTON]->m_isVisible = true;
@@ -190,6 +209,7 @@ void SceneMain::update()
 			pGameUIManager->showStageSelected(m_selectedStageNO);
 
 			if (KEY_TRACKER.pressed.W || PAD_TRACKER.leftStickUp == PAD_TRACKER.PRESSED) {
+				m_timer = 0;
 				MFAudioPlay(SE_CURSOR);
 				--m_selectedStageNO;
 				if (m_selectedStageNO < (m_selectedStageNO + 1) / 6 * 6) {
@@ -206,6 +226,7 @@ void SceneMain::update()
 				}*/
 			}
 			if (KEY_TRACKER.pressed.S || PAD_TRACKER.leftStickDown == PAD_TRACKER.PRESSED) {
+				m_timer = 0;
 				MFAudioPlay(SE_CURSOR);
 				++m_selectedStageNO;
 				if (m_selectedStageNO > (m_selectedStageNO - 1) / 6 * 6 + 5) {
@@ -230,6 +251,7 @@ void SceneMain::update()
 				}*/
 			}
 			if (KEY_TRACKER.pressed.A || PAD_TRACKER.leftStickLeft == PAD_TRACKER.PRESSED) {
+				m_timer = 0;
 				MFAudioPlay(SE_CURSOR);
 				if (m_selectedStageNO < 12) {
 					m_selectedStageNO += 6;
@@ -237,6 +259,7 @@ void SceneMain::update()
 				}
 			}
 			if (KEY_TRACKER.pressed.D || PAD_TRACKER.leftStickRight == PAD_TRACKER.PRESSED) {
+				m_timer = 0;
 				MFAudioPlay(SE_CURSOR);
 				if (m_selectedStageNO < 12){
 					m_selectedStageNO += 6;
@@ -274,6 +297,7 @@ void SceneMain::update()
 		else{
 			m_selectedStageNO = m_selectedStageNO / 12 * 12;
 			pGameUIManager->showStageSelected(m_selectedStageNO, true);
+			m_timer = 0;
 		}
 
 
@@ -399,22 +423,6 @@ void SceneMain::update()
 	default:
 		break;
 	}
-
-	if (KEY_TRACKER.pressed.Enter)
-	{
-		if (pBook->m_step > STEP::END)
-		{
-			m_stageNO = 0;
-			pStageManager->init(m_stageNO);
-			pBook->m_pfMove = &Book::finishReading;
-			m_step = STEP::INIT + 1;
-		}
-	}
-	/*if (m_step >= STEP::BEGIN)
-	{
-		pGameUIManager->showHelpButton();
-	}*/
-
 
 }
 
