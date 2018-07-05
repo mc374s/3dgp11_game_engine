@@ -30,7 +30,6 @@
 #define SCREEN_WIDTH (1280)
 #define SCREEN_HEIGHT (720)
 
-
 using namespace DirectX;
 
 struct CUSTOM3D
@@ -84,6 +83,8 @@ extern DirectX::Keyboard::KeyboardStateTracker KEY_TRACKER;
 extern std::unique_ptr<DirectX::GamePad> e_pGamePad;
 extern DirectX::GamePad::State GAME_PAD;
 extern DirectX::GamePad::ButtonStateTracker PAD_TRACKER;
+
+extern bool e_isAnyKeyDown;
 
 inline void setCamera(const CameraData &a_cameraData)
 {

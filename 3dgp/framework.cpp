@@ -16,6 +16,8 @@ std::unique_ptr<DirectX::GamePad> e_pGamePad = std::make_unique<GamePad>();
 DirectX::GamePad::State GAME_PAD = GamePad::State();
 DirectX::GamePad::ButtonStateTracker PAD_TRACKER = DirectX::GamePad::ButtonStateTracker();
 
+bool e_isAnyKeyDown = false;
+
 Scene* framework::s_pScene = nullptr;
 
 ID3D11Device*           framework::s_pDevice = NULL;
@@ -221,6 +223,7 @@ int framework::run()
 	while (WM_QUIT != msg.message)
 	{
 		//QueryPerformanceFrequency(&m_timeFreq);
+		e_isAnyKeyDown = false;
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -312,6 +315,7 @@ LRESULT CALLBACK framework::handle_message(HWND hwnd, UINT msg, WPARAM wparam, L
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		Keyboard::ProcessMessage(msg, wparam, lparam);
+		e_isAnyKeyDown = true;
 		break;
 	case WM_DESTROY:
 		e_pGamePad->Suspend();

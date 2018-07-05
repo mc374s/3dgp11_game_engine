@@ -28,14 +28,12 @@ SceneMain::SceneMain()
 			m_stageClearFlag[i] = true;
 		}
 		else {
-			m_stageClearFlag[i] = false;
+			m_stageClearFlag[i] = true;
 		}
 	}
-	//m_stageClearFlag[STAGE_SELECT_MAX_NUM + 1] = false;
-	//m_stageClearFlag[STAGE_MAX_NUM - 2] = false;
-	//m_stageClearFlag[STAGE_MAX_NUM - 1] = false;
-
-	m_stageClearFlag[STAGE_MAX_NUM] = true;
+	m_stageClearFlag[STAGE_MAX_NUM] = false;
+	m_stageClearFlag[STAGE_MAX_NUM - 2] = false;
+	m_stageClearFlag[STAGE_MAX_NUM + 1] = true;
 	//pObjManager->init();
 	//pPlayerManager->init();
 	//pMapObjManager->init(0);
@@ -99,9 +97,11 @@ void SceneMain::update()
 			m_step = STEP::INIT + 1;
 			pStageManager->update();
 		}
-		//pGameUIManager->m_ppGameUI[?]->
 		break;
 	case STEP::INIT + 1:
+		if (m_stageClearFlag[STAGE_MAX_NUM]) {
+			m_stageClearFlag[STAGE_MAX_NUM + 1] = false;
+		}
 		// Title Scene
 		if (isMFAudioPlaying(BGM_MAIN)){
 			MFAudioStop(BGM_MAIN);
@@ -172,6 +172,7 @@ void SceneMain::update()
 		pEffectManager->update();
 		break;
 	case STEP::INIT + 2:
+		
 		// Stage Select
 		pGameUIManager->m_ppGameUI[STAGE_CLEARED]->m_isVisible = true;
 
@@ -275,6 +276,7 @@ void SceneMain::update()
 			pGameUIManager->showStageSelected(m_selectedStageNO, true);
 		}
 
+
 		// 強制正規化
 		if (m_selectedStageNO > STAGE_MAX_NUM-1 - STAGE_SELECT_MAX_NUM - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4) {
 			m_selectedStageNO = STAGE_MAX_NUM - 1 - STAGE_SELECT_MAX_NUM - (STAGE_MAX_NUM - STAGE_SELECT_MAX_NUM) / 4;
@@ -285,6 +287,7 @@ void SceneMain::update()
 		pBook->update();
 		pStageManager->update();
 		pEffectManager->update();
+
 
 		break;
 	case STEP::INIT + 3:
@@ -634,7 +637,7 @@ void SceneMain::gameMain()
 		m_stageClearFlag[m_stageNO] = true;
 
 		// ステージクリア情報をUIManagerに渡す
-		if (!m_stageClearFlag[STAGE_MAX_NUM + 1]) {
+		if (m_stageClearFlag[STAGE_MAX_NUM + 1]) {
 			memcpy(pGameUIManager->m_stageClearFlag, m_stageClearFlag, STAGE_LIMITTED_NUM);
 		}
 
@@ -646,7 +649,7 @@ void SceneMain::gameMain()
 		
 		if (m_timer > 80) {
 
-			if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
+			if (m_stageClearFlag[STAGE_MAX_NUM] && m_stageClearFlag[STAGE_MAX_NUM + 1]) {
 				pGameUIManager->m_ppGameUI[GAME_CLEAR_TEXT]->m_isVisible = true;
 				if (m_timer % 10 == 0)
 				{
@@ -691,11 +694,11 @@ void SceneMain::gameMain()
 					{
 						m_stageNO = /*STAGE_SELECT_MAX_NUM*/0;
 					}
-					if (m_stageClearFlag[STAGE_MAX_NUM] == true) {
+					if (m_stageClearFlag[STAGE_MAX_NUM] && m_stageClearFlag[STAGE_MAX_NUM + 1]) {
 						//for (int i = 1; i < STAGE_MAX_NUM; i++) {
 						//	m_stageClearFlag[i] = false;
 						//}
-						m_stageClearFlag[STAGE_MAX_NUM + 1] = true;
+						//m_stageClearFlag[STAGE_MAX_NUM + 1] = true;
 						/*m_selectedStageNO = 0;
 						pStageManager->init(m_selectedStageNO);
 						pBook->m_pfMove = &Book::turnPages;
