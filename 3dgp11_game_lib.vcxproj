@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4C8863A7-0A6F-4764-AEEB-4B983EC5FDBB}</ProjectGuid>
-    <RootNamespace>My3dgp11_game_engine</RootNamespace>
+    <RootNamespace>My3dgp11_game_lib</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>3dgp11_game_lib</ProjectName>
   </PropertyGroup>
@@ -288,7 +288,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="3dgp11_game_engine1.rc" />
+    <ResourceCompile Include="3dgp11_game_lib1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

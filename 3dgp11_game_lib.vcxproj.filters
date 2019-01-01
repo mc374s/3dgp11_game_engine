@@ -319,6 +319,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="3dgp11_game_engine1.rc" />
+    <ResourceCompile Include="3dgp11_game_lib1.rc" />
   </ItemGroup>
 </Project>
