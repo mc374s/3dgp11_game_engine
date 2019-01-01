@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # Shader Output Files
 *.cod
+*.cso
